@@ -1,0 +1,156 @@
+# start tidal: C-c C-s
+
+# to get ableton link-sync:
+# start carabiner, then in tidal:
+#  tidal> sock <- carabiner tidal 4 (-0.14)
+#  tidal> sendMsg sock "bpm 155"
+
+# to start midi
+# in SC
+# MIDIClient.init;
+# to get you a list of devices
+# then you need to create
+# ~midiOut = MIDIOut.newByName("nameof device", "as copied from above command");
+#  and map
+# ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
+# to map to a device named midi in tidal
+
+d1 $ stack [
+  n "22 15 23 34 12 2 2 30",
+  ccv "20 20 40 40 30 80 60 50" # ccn 1,
+  ccv "10 10 10 20 40 30 64 5" # ccn 2
+  ]
+  # s "midi"
+  -- # midichan 2
+
+d2 $ ccv "60 40 [60 80 27]" # ccn 1 # s "midi" # midichan 2
+
+# to run 1 line of code C-c C-c
+# to run a whole block C-c C-e
+
+
+d1 $ s "bd sd bd sd "
+
+hush
+
+
+d1 $ s " 1 0.5 0 -0.3"
+
+d1 $ s "drum" |+| n "1 2 4 3" |+| n "3 4"
+  # lpf "500 1000 1500"
+  # lpq 0.2
+
+
+d1 $ s "drum" |+| n "1 2 3" |+| n "1 3 4"
+
+d2 $ s "~ bd bd ~ bd"
+
+d1 $ s "sd  [sd ~ ~ sd]  ~ [sd sd]  ~ "
+
+d1 $ s "wobble"
+
+
+--eerie drone
+d2 $ slow 5 $ s "indust" <| n (run 10)
+  # lpf "500 250 1000"
+  # lpq "0.1"
+
+
+d1 $ fast 2 $ fastcat [degradeBy 0.75 (s "indust" <| n (run 10))]
+
+
+
+$ "2 3" |+| "34 4"
+
+d1 $ fast 2 $ s "gabba:0 gabba:0 gabba:0 gabba:0"
+
+d1 $ silence
+
+d1 $ s "procshort" <| n (run 8)
+
+d1 $ s "[bd(2,8),  [ sd:1(3,8) | gabba:3(2,8)]  ]"
+
+d1 $ s "[bd*4, hh*5, [~ cp]*2, bass*6]"
+
+d2 $ silence
+
+d2 $ s "bd ~ ~ hh*4"
+
+d2 $ slow 6 $ s "rave:5"
+
+d1 $ s ""
+
+d2 $ s "[sd:1 sd:2 sd:1] ~ bd ~ bd ~ bd ~"
+
+d2 $ s "cp(7,16)"
+
+d2 $ s "{bd*2, hh*4, bd hh 808:4}"
+
+
+-- polyrhythms
+d1 $ s "{bd hh 808:4}%8"
+
+d2 $ s "{bd cp 808:5}%2" # speed 0.5
+-- end polyrhythms
+
+hush
+
+d1 $ sound "bd*8" # pan (slow 4 cosine) # speed (fast 2 $ range 0.5 5 sine + 0.5)
+
+d1 $ sound "bd*8" # pan (cat [square, sine])
+
+d1 $ sound "drum*8"  # n (irand 8)
+
+d1 $ s "bass:5*8?0.1" # lpf (fast 4 $ range 200 5000 $ sine)
+
+
+drawLine "a b*2 d"
+
+once $ s "trump"
+
+d1 $ n "4 65 76 4 5 2 7 8"
+  # s "midi"
+  # midichan "1 2 1 1 1 6"
+
+
+
+hush
+
+panic
+
+d1 $ n (slow 2 $ fmap (*7) $ run 8)
+  # s "supergong"
+  # decay "[1 0.2]/4"
+  # voice "[0.5 0]/8"
+
+
+
+
+
+
+
+
+d3 $ n (slow 2 $ fmap (*7) $ run 8)
+
+d3 $ s "supergong ~  supertron"
+  # octave 3
+  # accelerate 0.2
+
+
+d4 $ note "c e [d c] e/2 d ~"
+  # sound "superpiano"
+
+
+
+d1 $ n "c [[e c]|a]  f [e a]"
+  # sound "supermandolin"
+
+
+hush
+
+let harm = pF "harm"
+let timbre = pF "timbre"
+let morph = pF "morph"
+let engine = pI "engine"
+
+d1 $ slow 2 $ n "{0, 3 7 3 <0 7>}(5,8)" |-24 # sustain 0.1 # s "plaits" # engine (irand 15) # room 0.4 # gain 0.75

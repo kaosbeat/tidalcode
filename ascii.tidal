@@ -1,0 +1,48 @@
+let target = Target {oName = "ascii",
+                     oAddress = "printpi.local",
+                     oPort = 8000,
+                     oLatency = 0.2,
+                     oWindow = Nothing,
+                     oSchedule = Live,
+                     oHandshake = False,
+                     oBusPort = Nothing
+                    }
+    formats = [OSC "/{asccolour}/speed"  $ ArgList [("ascspeed", Nothing)],
+               OSC "/{asccolour}/mode"   $ ArgList [("ascmode", Nothing)],
+               OSC "/{asccolour}/offset" $ ArgList [("ascoffset", Nothing)],
+               OSC "/{asccolour}/scale"  $ ArgList [("ascscale", Nothing)],
+               OSC "/shape/sides" $ ArgList [("ascsides", Nothing)],
+               OSC "/shape/size"  $ ArgList [("ascsize", Nothing)],
+               OSC "/shape/xinc"  $ ArgList [("ascxinc", Nothing)],
+               OSC "/shape/yinc"  $ ArgList [("ascyinc", Nothing)]
+              ]
+    ascspeed  = pI "ascspeed"
+    ascmode   = pI "ascmode"
+    ascoffset = pI "ascoffset"
+    ascscale  = pI "ascscale"
+    ascsides  = pI "ascsides"
+    ascsize   = pI "ascsize"
+    ascxinc   = pI "ascxinc"
+    ascyinc   = pI "ascyinc"
+    asccolour = pS "asccolour"
+    oscmap = [(target, formats)]
+
+stream <- startStream defaultConfig oscmap
+
+streamReplace stream 1 $ asccolour "blue green red"
+  # ascspeed "138 5"
+  # ascsides 3
+  # ascoffset 1
+  # ascxinc 1
+  # ascyinc 10
+  # ascmode 1
+  # ascsize 3
+
+
+
+
+
+let a1 = streamReplace stream 1
+    a2 = streamReplace stream 2
+    a3 = streamReplace stream 3
+    a4 = streamReplace stream 4

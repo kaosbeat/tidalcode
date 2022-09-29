@@ -1,0 +1,240 @@
+--eerie drone
+setcps 0.5
+
+d1 $ slow 1  $ vizscene "invertedcat*6"
+  # vizcommand "fill none noise invert none"
+  # vizsize "1"
+  # vizspeed "1"
+
+
+hush
+
+d4 $ slow 4 $ s "indust" <| n (run 10)
+  # lpf "400 350 550 650"
+  # lpq "0.8"
+  # pan (slow 4 saw)
+  # room "0.9" # size "0.9"
+  # gain "0.6"
+  -- # ring "10" # ringf "550" # gain "0.8"
+
+d4 silence
+
+hush
+
+d1 $ slow "1" $ n "6 6 4 6"  # s "hardkick" # speed "0.6 0.7 <0.7 0.6> 0.4"
+  # squiz "<0 1.2>"
+  # room 0.8
+  # size 0.5
+  # gain 0.8
+  # pan "[0 0.5 0.8 0.3]"
+
+d1 $ word "I need space in my head"
+  # speed 234
+
+d1 $ slow "1" $ n "1 1 1 1"  # s "hardkick" # speed "1 2 <2 4> 4"
+  # pan "0.125 0.375 0.625 0.875"
+
+d2 $ slow "1" $ n "2 1 3 1"  # s "invaders:1" <| "2 1 3 4"
+  # shape "<0 0.4 2 0.7>"
+  # gain "0.5"
+
+
+d1 silence
+
+d2 $ slow "0.5" $ n "2 1 3 1 5 6 4 4"  # s "industrial"  -- #  <| "2 1 3 4"
+  # squiz "<1 2 0 1>"
+  # pan "<0.375 0.125 0.5 0.75>"
+
+
+d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"
+  # pan 0.125
+
+
+d3 silence
+
+
+d7 $ slow 1 $ n "12 _ 13 [14 ~ 13 ~ 14 ~ 13 ~]" # s "midi" # midichan 0     -- # antiGBM2
+
+
+d7 $ slow 4 $ n "8 ~ ~ 12" # s "midi" # midichan 0     -- # antiGBM2
+
+
+d7 $ slow 8 $ n "8 _ 12 14 _ 12 16 14" # s "midi"  # midichan 0     -- # antiGBM2
+
+d7 silence
+
+x1 $ slow 0.5 $ s "notes" # intensity "8 _ 12 14 _ 12 16 14"
+
+
+
+
+hush
+
+-- ## fill44
+setcps 0.6
+
+d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
+  # gain 1.3
+  # pan 0.125
+
+d7 $ slow 0.5 $ n " 14 12 12 _ " # s "midi" # midichan 1
+
+
+d3 $ slice 16 "16 2 13 <4 8 1> 4 <11 5> [3 7 14] 6" $ sound "indust:3"
+  # pan 0.125
+  # channel "[2,3]"
+
+d2 $ n "4 <5 5 4> <5 4> 4 "  # s "kick"
+  # room 0.3
+  # distort 0.1
+  # gain "<0.9 0.8>"
+  # pan 0.5
+  # channel "[0 1 2 3, 0]"
+
+
+d5 $ slow 4 $ n "42 35 37 40" # s "rash"
+
+d5 $ slow 4 $ n "[42 40 42 . 40*2] 37 35 _ 37 _ 40 _" # s "rash"
+ # pan 0.125
+
+d5 $ slow 4 $ n "42 35 37 40 35 37 _ 40 " # s "made:5"
+  # speed "0.5 0.6 0.4 0.4"
+  # room 0.8
+  # gain 0.8
+  # pan 0.125
+
+d6 $ n "42 [64*8] 20 64 [23*12] 12 [14*12] 12" # s "snare:1"
+  # speed "0.5 0.6 0.4 0.4"
+  # squiz 0.8
+  # lpf 700
+  # gain 0.9
+  # pan 0.5
+
+d4 $ silence
+
+hush
+
+setcps 0.6
+
+-- next one
+d1 $ s "kick [sd sd:2 ~ clap] kick [sd:3 ~ sd?0.5 ~]" # speed "<5 1 2 8>"
+  # squiz "5"
+  # distort "1"
+  # lpf "200"
+  # room "0.6"
+  # pan 0
+  -- # channel 0
+
+d1 $ s " kick ~ [kick:2 ~ ~ kick:3] ~ kick ~  kick ~"
+  # room 0.5
+  # distort 0.2
+  # speed "0.6 0.9 0.6 0.6"
+  # lpf "200 300 400 400"
+  # lpq "0.2"
+
+d2 $ s "{~ snare}*4"
+  # lpf "300"
+  # lpq 0.3
+
+d3 $ s "indust:6(3,8)"
+  # hpf 5600
+  # hpq 0.6
+  # room 0.6
+
+d1 $ s "gabba*4"
+  # room 0.1
+  # shape 0.4
+  # squiz 1
+
+
+hush
+
+d1 $ fast "2" $ sound "kick:2 kick "
+
+d1 $ n "1 1 1 [4 1]" # s "kick"
+  # distort "2"
+
+d5 $ n  "~ 2 ~ 3 ~ 1 ~ <2 [2 3 1]> " # s "808oh"
+  # distort "1"
+  # gain 0.7
+
+d2 $ n "1 2 1 2" # s "808sd"
+
+hush
+
+d1  $ s "{cpu:0 ~ ~ ~ ~ ~ ~ ~ ~ ~ cpu:0 ~ ~ ~ cpu:0 ~ cpu:0 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ cpu:0 ~ , ~ ~ ~ ~ cpu:1 ~ ~ ~ ~ ~ ~ ~ cpu:1 ~ ~ ~ ~ ~ ~ ~ cpu:1 ~ ~ ~ ~ ~ ~ ~ cpu:1 ~ ~ ~}"
+
+  # s "kick"
+
+d2 $ fast 2 $ s "kick kick ~ kick"
+  # squiz "<1 9 2 0.4 >"
+
+d1 $ s "bd bd [hardkick:1 hardkick:2] ~"
+
+d2 $ s "~ sd ~ sd ~ sd ~ sd "
+
+hush
+
+d1 $ fast 2 $ n "<[0 ~!9 0 ~!3 0 ~] [0 ~!13 0 ~]>" # s "cpu"
+
+d2 $ fast 2 $ n "~!4 b c~!7 b ~!3" # s "hh"
+
+
+d2  $ n "~ ~ ~ ~ 1 ~ ~ ~ ~ ~ ~ ~ 1 ~ ~ ~ ~ ~ ~ ~ 1 ~ ~ ~ ~ ~ ~ ~ 1 ~ ~ ~ "
+  # s "hh"
+
+drawLine $ "<a ~!9 a ~!3 a ~>"
+
+drawLine $ "<[a ~!9 a ~!3 a ~] [a ~!13 a ~]>"
+
+drawLine $ "[~!4 b ~!7 b ~!3]"
+
+d2 $ fast 2 $ n "~ 2 ~ 2" # s "808sd"
+
+d3 $ n "~ ~ 5 ~ ~ ~ 5 ~ ~ ~ ~ ~ ~ ~ ~ ~" # s "industrial"
+  # gain 0.6
+  -- # distort 0.7
+  # shape 0.9
+
+d3 $ speed "1*2 2*4 4*6?0.3 4" # sound "jungbass:3" # gain "0.7"
+
+
+d1 $ silence
+
+d4 $ silence
+
+d4 $ slow 4 $ n ""
+
+d4 $ fast "0.5" $ n "5 e 3 2" # s "gabba" "
+  # pan 0.25
+
+
+
+
+# quadro_run
+
+d1 $ s "hardkick:2 hardkick hardkick hardkick"
+  -- # orbit "0 1 1 1"
+  -- # orbit "1 0 3 2"
+  # pan "0 0.5 0.75 "
+  # speed "0.9 0.6 1.2 0.8"
+  -- # pan 0
+  # pan "[0.125 0.25 0.5 0.75]"
+  # squiz (slow 5 saw)
+
+d2 $ s "[~ sd ~ ]*4"
+  # gain 0.9
+  # pan (fast 1 saw)
+
+
+d1 $ s "kick kick kick kick "
+  # pan 0.5
+
+d2 $ s "sd sd sd sd "
+ # pan (slow 2 "[0.75 1 0.25 0]")
+
+ # s " ~ ~ sd ~ "
+
+
+
+hush

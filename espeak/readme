@@ -1,0 +1,12 @@
+ run this file
+
+use 
+
+d1 $ word " something to say"
+  # language "check espeak --voices"
+  # speed "float"
+  # pitch "float"
+
+
+
+
