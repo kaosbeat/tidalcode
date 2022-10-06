@@ -13,7 +13,8 @@ d4 $ slow 4 $ s "indust" <| n (run 10)
   # gain "0.6"
   -- # ring "10" # ringf "550" # gain "0.8"
 
-d1 silence
+d4 silence
+
 d8 silence
 
 
@@ -61,3 +62,23 @@ d5 $ slow 4 $ n "42 35 37 40 35 37 _ 40 " # s "made:5"
   # room 0.8
   # gain 0.8
   # pan 0.125
+
+
+d1 $ slow 2 $ loopAt 1 $ striate 16 $ s "indust:3 indust:4"
+
+
+
+d8 $ vizscene "signal*6 rtext*2"
+  # vizcommand "cube*3 clear"
+  # vizoption "clear*3 banner3-D"
+  # vizword1 "data*3 [data study]"
+  # vizword2 "intersect [intersect x]"
+
+
+d8 $ vizscene "text*8"
+  # vizcommand "none*7 clear"
+  # vizoption "epic*4"
+  # vizword1 "expo atelier_faar ~  21_oktober"
+  # vizword2 "[x show] deurne x x"
+  # vizx "10*3 20"
+  # vizy " 60 40 30 20"

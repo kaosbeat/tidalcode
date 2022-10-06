@@ -3,11 +3,11 @@ d7 $ slow 1  $ vizscene "boot"
   # vizsize "0.5"
 
 
-d7 $ slow 4 $ vizscene "signal*64"
-  # vizcommand "circles*8"
+d7 $ slow 4 $ vizscene "signal*4"
+  # vizcommand "circles"
   # vizoption "clear"
-  # vizamount "1 2 3 4"
-  # vizspeed  (range 1 8 saw)
+  # vizamount "1"
+  # vizspeed  (range 1 4 saw)
 
 d7 $ slow 1  $ vizscene "invertedcat*4"
   # vizcommand (slow 8 "n n n n n n n [next n n n ]")
@@ -16,19 +16,37 @@ d7 $ slow 1  $ vizscene "invertedcat*4"
   # vizspeed "0.4"
 
 
-d7 $ vizscene "text*4"
-  # vizword1 "data intersect study ~"
+d4 $ slow "1" $ n "~ 1 1 1 ~ ~ 1 _"  # s "hardkick" # speed "1 2 <2 4> 4"
+  # pan "0.125 0.375 0.625 0.875"
 
 
-d7 $ vizscene "data signal*4"
-  # vizcommand "perspsq*8"
+
+d8 $ slow 1 $ vizscene "text*8"
+  # vizcommand "none none none none none clear _ _"
+  # vizoption "banner3-D epic"
+  # vizword1  "x data intersect study ~ ~ 21_oktober _   "
+  # vizword2 "x x x [Faar Deurne]"
+  # vizx "10 10 10 10"
+  # vizy "100 60 50 40 ~ ~ 20 _"
+
+
+d7 $ vizscene "signal*4"
+  # vizcommand "cube*8 "
   # vizoption "clear*8"
 
-d7 $ vizscene "intersect*2"
+d7 $ slow 1 $ vizscene "intersect*3 ~"
   # vizsize "24"
   # vizframewait "0.01"
 
+d8 silence
+d7 silence
+d4 silence
 
-d7 $ vizscene "circle*64"
-  # vizspeed (sine)   -- sets the noisestep offset
+d8 $ vizscene "~ ~ ~ [circle*64]"
+  # vizspeed (slow 8 sine)   -- sets the noisestep offset
   # vizamount "21413 335 892 11111" -- sets the seed
+  # vizamount  (range 1 10000 saw)
+
+d8 $ slow 1 $ vizscene "circle*64"
+  # vizspeed (slow 8 sine)   -- sets the noisestep offset
+  # vizamount 1122
