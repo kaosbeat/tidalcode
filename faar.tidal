@@ -1,10 +1,32 @@
 --eerie drone
 setcps 0.5
 
-d1 $ slow 1  $ vizscene "invertedcat*6"
-  # vizcommand "fill none noise invert none"
-  # vizsize "1"
-  # vizspeed "1"
+d7 $ slow 1  $ vizscene "boot"
+  # vizcommand (slow 4 "noise wait")
+  # vizsize "0.5"
+
+
+d7 $ slow 4 $ vizscene "signal*64"
+  # vizcommand "[squares*8]*8"
+  # vizoption "clear"
+  # vizspeed  (range 1 8 saw)
+
+d7 $ slow 1  $ vizscene "invertedcat*4"
+  # vizcommand (slow 8 "n n n n n n n [next n n n ]")
+  # vizoption "none fill noise invert"
+  # vizsize (slow 4 saw)
+  # vizspeed "0.4"
+
+
+d7 $ vizscene "text*4"
+  # vizword1 "data intersect study ~"
+
+
+d7 $ vizscene "data signal*4"
+  # vizcommand "perspsq*8"
+  # vizoption "clear*8"
+
+
 
 
 hush

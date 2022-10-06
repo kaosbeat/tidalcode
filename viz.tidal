@@ -1,0 +1,34 @@
+d7 $ slow 1  $ vizscene "boot"
+  # vizcommand (slow 4 "noise wait")
+  # vizsize "0.5"
+
+
+d7 $ slow 4 $ vizscene "signal*64"
+  # vizcommand "circles*8"
+  # vizoption "clear"
+  # vizamount "1 2 3 4"
+  # vizspeed  (range 1 8 saw)
+
+d7 $ slow 1  $ vizscene "invertedcat*4"
+  # vizcommand (slow 8 "n n n n n n n [next n n n ]")
+  # vizoption "none fill noise invert"
+  # vizsize (slow 4 saw)
+  # vizspeed "0.4"
+
+
+d7 $ vizscene "text*4"
+  # vizword1 "data intersect study ~"
+
+
+d7 $ vizscene "data signal*4"
+  # vizcommand "perspsq*8"
+  # vizoption "clear*8"
+
+d7 $ vizscene "intersect*2"
+  # vizsize "24"
+  # vizframewait "0.01"
+
+
+d7 $ vizscene "circle*64"
+  # vizspeed (sine)   -- sets the noisestep offset
+  # vizamount "21413 335 892 11111" -- sets the seed

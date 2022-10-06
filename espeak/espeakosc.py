@@ -15,6 +15,7 @@ e = ESpeakNG()
 
 def espeak_callback(path, args):
     word, e.voice, e.pitch, e.speed = args
+    e.volume = 30
     print(word)
     e.say(word)
 
