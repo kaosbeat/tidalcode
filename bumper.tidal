@@ -64,8 +64,12 @@ d5 $ slow 4 $ n "42 35 37 40 35 37 _ 40 " # s "made:5"
   # pan 0.125
 
 
-d1 $ slow 2 $ loopAt 1 $ striate 16 $ s "indust:3 indust:4"
-
+d1 $ slow 2 $ loopAt 1 $ striate 4 $ s "indust:3 indust:4"
+  # pan 0.125
+  # comb 0.5
+  # hpf 1300
+  # hpq 0.2
+  # gain 1
 
 
 d8 $ vizscene "signal*6 rtext*2"

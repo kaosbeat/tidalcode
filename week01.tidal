@@ -125,6 +125,7 @@ d2 $ sound "rs rs rs"
 -- .. but with ","" you can put them both in the same pattern. This sounds
 -- the same as the two above patterns playing at once:
 d1 $ sound "[bd sd, rs rs rs]"
+
 hush
 -- The subsequences line up to fill the same cycle.
 -- So "[a b, c d e]" lines up like this:
