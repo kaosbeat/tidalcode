@@ -1,10 +1,11 @@
 // Quarks.install("crucial-library");
 
 
-// MIDIClient.init;
+MIDIClient.init;
 
 ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
+~midiOut.latency = 0.2;  /// optional latency
 // ~midiOut.latency = 0.45;  /// optional latency
 
 

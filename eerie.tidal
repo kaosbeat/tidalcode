@@ -3,26 +3,42 @@ hush
 d1 $ sound "indust:7*4" # legato 0.6  # shape (slow 2 saw)
   # room "0.8"
   # sz (range 0.4 1 $ slow 6 perlin)
+  # gain 0.9
   # pan "0.125 0.625"
 
 
-d2 $ striate 4 $ s "break:2*8" # legato 2
-  # pan 0.124
+
+d2 $ striate 12 $ s "break:2*4" # legato 2
+  # pan 0.25
 
 
 
-
-
-d2 $ s "bskick!3 bskick:3"
+d2 $ s "bskick!3 bskick:2 . <bssnare:3 bssnare:4> ~ [bskick:3 <bskick:4 bskick:5>] ~"
   -- # orbit "1"
   # pan "0.25  0.75"
-  # gain 2
+  # shape 0.6
+
+  # gain 1.2
 
 
-d3 $ slow 1 $ n " ~ 14 12 17 ~ 12 13 ~ " # legato 2 # s "midi"
-  # pan 0.5
+d4 $ n (slow 8 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
+  # gain 0.5
+  # pan 0.125
 
-  # sz 2
+d4 silence
+
+
+d3 $ slow 2 $ n " ~ <14 12 17> ~ ~ ~ ~ 13 ~ " # legato "1.5 0.5" # s "midi"
+
+d3 $ slow 2 $ n " ~ 14 12 17 ~ 12 13 ~ " # legato 0.2 # s "midi"
+
+d3 $ slow 1 $ n " ~ 14 12 17 ~ 12 13 ~ " # legato 1 # s "midi"
+
+d3 $ slow 2 $ n " ~ 14 12 17 ~ 12 ~ 13 " # legato 0.5 # s "midi"
+
+d3 silence
+
+
 
 
 d1 $ s "kick:3 ~ kick:3 [kick:3*2] ~ kick:4 ~ ~ "
@@ -30,10 +46,10 @@ d1 $ s "kick:3 ~ kick:3 [kick:3*2] ~ kick:4 ~ ~ "
   # lpq 0.2
 
 
-d2 $ n "1*4 3*4" # s "snare"
+d2 $ n "1 3 _ 3" # s "snare"
   # pan 0.125
   # distort 1
-  # squiz 1
+  # squiz 0
 
 
 d2 silence
