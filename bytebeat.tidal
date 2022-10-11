@@ -1,7 +1,7 @@
 setcps 0.7
 
 d1 $ s "bytebeats" <| n "2 3 6 7"
-  # legato 0.5
+  # legato 1.5
 
 
 d3 $ s "kick:3!2 kick!2"
@@ -33,8 +33,8 @@ d5 $slow 4  $ word "berslet fectly sible ificat"
 d2 $ s "indbits" <| n "2 1 3 4"
 
 
-d4 $ slow 0.25 $ n " 1 2 3 ~ 1 1 ~ 3"  # s "snare:7"
-  # gain 0.8
+d4 $ slow 0.5 $ n " 1 2 3 ~ 1 1 ~ 3"  # s "snare:3"
+  # gain 0.9
   # room 0.5
 
 hush

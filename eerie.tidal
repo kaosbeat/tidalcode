@@ -22,7 +22,7 @@ d2 $ s "bskick!3 bskick:2 . <bssnare:3 bssnare:4> ~ [bskick:3 <bskick:4 bskick:5
 
 
 d4 $ n (slow 8 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
-  # gain 0.5
+  # gain 1.5
   # pan 0.125
 
 d4 silence
