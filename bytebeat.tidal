@@ -1,18 +1,22 @@
 setcps 0.7
 
 d1 $ s "bytebeats" <| n "2 3 6 7"
-  # legato 1.5
+  # legato 0.5
 
 
 d3 $ s "kick:3!2 kick!2"
+  # legato  0.3
+  # gain 0.9
+
+  # slow 2 (#legato "<0.1 0.6>")
 
 
 d1 $ (slow 2 $ segment 4 $ range 0 32 $ sine) # s "bytebeats:6"
-  # legato 0.8
+  # legato 0.32
 
 
 d1 $ s "bytebeats" <| n "12 3 6 ~ 7  ~ 23 21 "
-  # legato 1.4
+  # legato 0.4
 
 d4 $ s "[~ snare:6]!4"
   #gain 1.2
@@ -24,6 +28,7 @@ d1 $ fast 2 $ s "bytebeats" <| n "1 1 1 1 1 1 1 1 "
   # legato 0.2
   # vowel "a e a e i o o i"
   # distort "1 0"
+  # gain 0.8
 
 d5 $slow 4  $ word "berslet fectly sible ificat"
   # language  "en"
@@ -45,7 +50,7 @@ do
     # distort 1
     # lpf 520
     # lpq 0.5
-  d3 $ s "hardkick:3!3 hardkick:3 "
+  d3 $ s "hardkick:3!3 hardkick:2 "
     # pan 0.125
     # gain 1.5
   d4 silence
