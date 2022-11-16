@@ -44,7 +44,7 @@ d3 $ slice 16 "16 2 13 <4 8 1> 4 <11 5> [3 7 14] 6" $ sound "indust:3"
 
 
 
-d2 $ n "4 <5 5 4> <5 4> 4 "  # s "kick"
+d1 $ n "4 <5 5 4> <5 4> 4 "  # s "kick"
   # room 0.3
   # distort 0.1
   # gain "<0.9 0.8>"

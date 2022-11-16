@@ -1,0 +1,36 @@
+d1 $ euclid 5 8 $ s "snare"
+
+d2 $ euclid 3 8 $ s "kick"
+  # room 0.8
+  # gain 1.2
+
+d2 $ s "kick!4"
+  # room 6
+  # leslie 17
+  # lrate 7
+
+
+once $ s "indust:2"
+  # gain 0.5
+
+d3 silence
+
+d3 $ sound "snare(5,8)" # nTake "1 2 3" [0 ..]
+
+d4 $ slow 4 $ euclid 5 8 $ s "indust:4"
+  # room 0.4
+  # shape 0.3
+
+d5 silence
+
+d5 $ n (off 0.125 (|+ 12)  "<c*2 a(3,8) d(3,8,2) f(5,8)>")
+  # sound "acid309"
+  # sustain 1
+  # gain 1
+
+d6 $ jux rev $ arp "[pinky down thumbup pinkyup]" $ n "<c*16 a*8 f*4 e*2>"
+  # sound "arpy"
+  # sustain 2 # room 0.3 # sz 0.9
+  # gain 1
+
+d6 silence

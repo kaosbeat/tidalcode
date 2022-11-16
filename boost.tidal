@@ -1,0 +1,42 @@
+d1 $ s "bssnare:6!4" <| speed "1 0.8 1.2 0.6"
+  # gain 1.5
+
+
+d2 $ s "hardkick:1!4"
+  # size 0.5
+  # room 6
+  # gain 0.8
+
+d2 $ s "hardkick:1!2"
+  # size 0.8
+  # room 6
+  # gain 0.8
+
+d3 $ s "bytebeats" <| n "2 3 2 4"
+  # gain 1.1
+
+
+d3 $ s "bytebeats" <| n "3*3 3 5*3 4"
+ # gain 1.1
+
+
+
+d3 $ s "bytebeats:11" <| speed "0.2 0.4 2!2"
+  # gain 1.8
+
+
+d4$  s "break"
+  # gain 1
+
+
+d5 $ s "dsynth" <| n ("3 6 7 [8 8 7 8]" |+ "0 12" )
+  # gain 1.2
+
+
+hush
+
+d2 silence
+
+d3 silence
+
+d4 silence

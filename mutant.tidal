@@ -1,0 +1,98 @@
+setcps 0.7
+
+hush
+
+d1 $ n "1 <1 2> 3 4" # s "bssnare"
+
+d1 $ n "1 [2 2] 3 [4 4 4 4]" # s "bssnare"
+
+d2 $ n "5 ~ 5 2" # s "kick"
+
+d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "kick"
+
+
+do
+  let wl = 10
+  d2 $ s "kick:5(4,8)"
+    # waveloss wl
+  d3 $ s "kick:2(3,8)"
+    # waveloss wl
+
+d3 silence
+
+
+
+d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
+  # s "plaits"
+  # legato 4
+
+  # cloudspos 0.7
+  # cloudspitch 0.9
+  # cloudspos 0.5
+  # cloudssize 0.5
+  # cloudsdens 0.7
+  # cloudstex 0.8
+
+  # pF "timbre" 0.1
+  # pF "harm" 0.6
+  # pI "engine" 2
+  # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+  # room 0.6 #sz 0.9
+
+d1 $ s "sn*16"
+  # ringsbright tri
+  # ringsfreq 30
+  # slow 2 (ringspos saw)
+  # ringsmodel 1 # ringsstruct 0.75 # ringsdamp 0.4
+
+  --plaits
+d1 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
+  # sustain 0.1
+  # s "plaits"
+  # engine 6
+  # room 0.7
+  # gain 0.75
+  # harm (range 0.8 1.0 $ perlin)
+  # timbre (range 0.45 0.5 $ perlin)
+  # slow 8 (morph (range 1.0 0.9 $ square))
+
+-- rings
+d2 $ sometimesBy 0.4 (# ringseasteregg 1)
+  $ s "hh*16"
+  # ringsbright perlin
+  # ringsfreq 3
+  # slow 2 (ringspos saw)
+  # slow 2 (ringsmodel (run 4))
+  # ringsstruct 0.75
+  # ringsdamp 0.4
+  # gain (range 0.9 5 rand)
+
+
+  hush
+
+
+d2 $ s "kick*4"
+
+
+d1 $ n "22 61 33 40" # s "rings2"
+
+
+  # pF "freq" 440
+
+  # voice 2
+  # pF "ratio2" 2
+
+
+  # mod1 2 "0 1 0.5"
+
+  # mod1 3 "1 0 0.5"
+# mod1 4 "0 1"
+# mod1 5 "0 1 0"
+
+
+d1 $ s "superzow*4"
+
+
+  # octave 3
+  # accelerate "0.2"

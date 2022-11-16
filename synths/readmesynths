@@ -1,0 +1,5 @@
+# DX7 -- not working
+1. make sure sc-plugins is installed
+2. git clone https://github.com/everythingwillbetakenaway/DX7-Supercollider.git
+3. open supercollider
+
