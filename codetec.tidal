@@ -4,9 +4,13 @@ d1 $ s "bskick!4"
 d2 $ jux rev $ (# note (run 8)) $ euclid 5 8 $ s "bssnare"
 
 
+d3 $ (euclid 5 8 $ s "bass") # note (run 8)
+  # pan 0.125
+  # squiz 5.6
+
+
+
 d3 $ struct "t(3,8)" $ note "1 2 3 1 2 3 8 8" # s "bass"
   # pan 0.125
   # size 0.8
   # shape 0.7
-
-d
