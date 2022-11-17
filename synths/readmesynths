@@ -1,3 +1,7 @@
+# Mutable Instruments
+1. https://tidalcycles.org/docs/reference/mi-ugens/ 
+
+
 # DX7 -- not working
 1. make sure sc-plugins is installed
 2. git clone https://github.com/everythingwillbetakenaway/DX7-Supercollider.git

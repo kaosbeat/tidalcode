@@ -25,14 +25,12 @@ d3 silence
 d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # s "plaits"
   # legato 4
-
   # cloudspos 0.7
   # cloudspitch 0.9
   # cloudspos 0.5
   # cloudssize 0.5
   # cloudsdens 0.7
   # cloudstex 0.8
-
   # pF "timbre" 0.1
   # pF "harm" 0.6
   # pI "engine" 2
@@ -40,28 +38,30 @@ d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # vowel "a e i o"
   # room 0.6 #sz 0.9
 
-d1 $ s "sn*16"
+d3 $ s "sn*16"
   # ringsbright tri
   # ringsfreq 30
   # slow 2 (ringspos saw)
   # ringsmodel 1 # ringsstruct 0.75 # ringsdamp 0.4
 
-  --plaits
-d1 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
-  # sustain 0.1
+
+
+  --plaits straight from tidalclub
+d7 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
+  # sustain 0.05
   # s "plaits"
-  # engine 6
+  # engine 2
   # room 0.7
-  # gain 0.75
+  # gain 0.95
   # harm (range 0.8 1.0 $ perlin)
   # timbre (range 0.45 0.5 $ perlin)
   # slow 8 (morph (range 1.0 0.9 $ square))
 
 -- rings
-d2 $ sometimesBy 0.4 (# ringseasteregg 1)
-  $ s "hh*16"
+d6 $ sometimesBy 0.1 (# ringseasteregg 1)
+  $ s "hh:3*8"
   # ringsbright perlin
-  # ringsfreq 3
+  # ringsfreq 1
   # slow 2 (ringspos saw)
   # slow 2 (ringsmodel (run 4))
   # ringsstruct 0.75
