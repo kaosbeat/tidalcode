@@ -12,7 +12,7 @@ d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "kick"
 
 
 do
-  let wl = 10
+  let wl = 50
   d2 $ s "kick:5(4,8)"
     # waveloss wl
   d3 $ s "kick:2(3,8)"
@@ -25,18 +25,19 @@ d3 silence
 d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # s "plaits"
   # legato 4
-  # cloudspos 0.7
-  # cloudspitch 0.9
-  # cloudspos 0.5
-  # cloudssize 0.5
-  # cloudsdens 0.7
-  # cloudstex 0.8
   # pF "timbre" 0.1
   # pF "harm" 0.6
-  # pI "engine" 2
+  # pI "engine" 4
   # pF "morph" "<0.9 0 0.4 0.1>"
   # vowel "a e i o"
-  # room 0.6 #sz 0.9
+--  # room 0.6 #sz 0.9
+  # cloudspos 0.9
+  # cloudspitch 10
+  # cloudspos 0.5
+  # cloudssize 0.8
+  # cloudsdens 0.1
+  # cloudstex 0.8
+  # gain 1
 
 d3 $ s "sn*16"
   # ringsbright tri
@@ -54,7 +55,8 @@ d7 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
   # room 0.7
   # gain 0.95
   # harm (range 0.8 1.0 $ perlin)
-  # timbre (range 0.45 0.5 $ perlin)
+  # timbre (range
+            0.45 0.5 $ perlin)
   # slow 8 (morph (range 1.0 0.9 $ square))
 
 -- rings
