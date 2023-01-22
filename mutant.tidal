@@ -12,13 +12,13 @@ d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "kick"
 
 
 do
-  let wl = 50
+  let wl = 0
   d2 $ s "kick:5(4,8)"
     # waveloss wl
   d3 $ s "kick:2(3,8)"
     # waveloss wl
 
-d3 silence
+d5 silence
 
 
 
@@ -30,7 +30,8 @@ d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # pI "engine" 4
   # pF "morph" "<0.9 0 0.4 0.1>"
   # vowel "a e i o"
---  # room 0.6 #sz 0.9
+  # room 0.6 #sz 0.9
+
   # cloudspos 0.9
   # cloudspitch 10
   # cloudspos 0.5
@@ -39,7 +40,7 @@ d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # cloudstex 0.8
   # gain 1
 
-d3 $ s "sn*16"
+d4 $ s "sn*16"
   # ringsbright tri
   # ringsfreq 30
   # slow 2 (ringspos saw)
@@ -48,16 +49,17 @@ d3 $ s "sn*16"
 
 
   --plaits straight from tidalclub
-d7 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
+d4 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
   # sustain 0.05
   # s "plaits"
   # engine 2
   # room 0.7
   # gain 0.95
   # harm (range 0.8 1.0 $ perlin)
-  # timbre (range
-            0.45 0.5 $ perlin)
+  # timbre (range 0.45 0.5 $ perlin)
   # slow 8 (morph (range 1.0 0.9 $ square))
+
+d7 silence
 
 -- rings
 d6 $ sometimesBy 0.1 (# ringseasteregg 1)

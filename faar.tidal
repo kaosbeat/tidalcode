@@ -153,8 +153,8 @@ setcps 0.6
 
 -- next one
 d1 $ s "kick [sd sd:2 ~ clap] kick [sd:3 ~ sd?0.5 ~]" # speed "<5 1 2 8>"
-  # squiz "5"
-  # distort "1"
+  # squiz "0"
+  # distort "0"
   # lpf "200"
   # room "0.6"
   # pan 0
@@ -168,7 +168,7 @@ d1 $ s " kick ~ [kick:2 ~ ~ kick:3] ~ kick ~  kick ~"
   # lpq "0.2"
 
 d2 $ s "{~ snare}*4"
-  # lpf "300"
+  # lpf "200"
   # lpq 0.3
 
 d3 $ s "indust:6(3,8)"
@@ -240,8 +240,8 @@ d4 $ silence
 
 d4 $ slow 4 $ n ""
 
-d4 $ fast "0.5" $ n "5 e 3 2" # s "gabba" "
-  # pan 0.25
+d4 $ fast "0.5" $ n "5 1 3 2" # s "gabba"
+  # pan 0.5
 
 
 
