@@ -1,0 +1,23 @@
+hush
+
+d1 $ juxBy 0.9 rev $ s "kick:3(<2,3>,8)"
+  # room 0.1
+  # gain 0.7
+
+d2 $ s "kick:3*2"
+  # room (slow 4 (range 0 1 (sine)))
+  # gain 0.7
+
+d4 $ juxBy 0.3 rev $ n (off  "<0.75 0.5>" (|+24)  "a4 <f4 c3> c4 <~ e4 c3 e4 c4>" )
+  # legato 4
+  # s "plaits"
+  # engine "[3 3]"
+  # pF "timbre" (slow 8 (range 0.5 0.9 (saw)))
+  # pF "harm" (slow 8 (range 0 0.5 (sine)))
+  # pan 0.5
+
+
+d5 $ juxBy 0.3 rev $ n (off  "<0.75 0.25>" (|+12)  "a4 <f4 c3> c4 <~ e4 c3 e4 c4>" )
+  # legato 0.5
+  # s "indbits"
+  # gain 0.9
