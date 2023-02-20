@@ -1,15 +1,18 @@
 hush
 
-d1 $ sound "indust:7*4" # legato 0.6  # shape (slow 2 saw)
+d1 $ sound "indust:7*4"
+  # shape (slow 2 saw)
   # room "0.8"
+  # legato 0.6
   # sz (range 0.4 1 $ slow 6 perlin)
-  # gain 0.9
+  # gain 1
   # pan "0.125 0.625"
 
 
 
 d2 $ striate 12 $ s "break:2*4" # legato 2
-  # pan 0.25
+  # pan 0.5
+  # gain 1.2
 
 
 
@@ -21,7 +24,7 @@ d2 $ s "bskick!3 bskick:2 . <bssnare:3 bssnare:4> ~ [bskick:3 <bskick:4 bskick:5
   # gain 1.2
 
 
-d4 $ n (slow 8 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
+d4 $ n (slow 4 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
   # gain 1.5
   # pan 0.125
 
@@ -38,7 +41,7 @@ d3 $ slow 2 $ n " ~ 14 12 17 ~ 12 ~ 13 " # legato 0.5 # s "midi"
 
 d3 silence
 
-
+setcps 0.7
 
 
 d1 $ s "kick:3 ~ kick:3 [kick:3*2] ~ kick:4 ~ ~ "

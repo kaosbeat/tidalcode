@@ -55,7 +55,7 @@ d4 $ slow "1" $ n "~ 1 1 1 ~ ~ 1 _"  # s "hardkick" # speed "1 2 <2 4> 4"
 
 
 
-d8 $ slow 1 $ vizscene "text*8"
+d7 $ slow 1 $ vizscene "text*8"
   # vizcommand "clear "
   # vizoption "banner3-D"
   # vizword1  " livecoding x  "
@@ -87,3 +87,18 @@ d8 $ vizscene "~ ~ ~ [circle*64]"
 d8 $ slow 0.5 $ vizscene "circle*8"
   # vizspeed (slow 8 sine)   -- sets the noisestep offset
   # vizamount 12
+
+hush
+
+
+d7 $ slow 1 $vizscene "rtext*4"
+  #vizcommand "clear"
+  # vizoption "big"
+  #vizword1 "kaotec"
+  #vizword2 "making beats"
+
+
+d7 $ vizscene "data*16"
+  # vizoption "big"
+  #vizword1 "algorave"
+  #vizword2 "algorave"

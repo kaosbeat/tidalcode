@@ -1,4 +1,6 @@
-setcps 0.7
+setcps 0.6
+
+hush
 
 d1 $ s "bytebeats" <| n "2 3 6 7"
   # legato 0.5
@@ -19,16 +21,24 @@ d1 $ s "bytebeats" <| n "12 3 6 ~ 7  ~ 23 21 "
   # legato 0.4
 
 d4 $ s "[~ snare]!6 [snare snare]!2" # n (irand 4)
-  #gain 1.2
+  #gain 1
+
 
 d1 $ s "bytebeats" <| n "12 12 15 ~ [ 2 2 8 2 2]   ~ 23 21 "
   # legato 0.8
+  # distort (range 0.5 1 $ perlin)
+
+
 
 d1 $ fast 2 $ s "bytebeats" <| n "1 1 1 1 1 1 1 1 "
   # legato 0.9
   # vowel "a e a e i o o i"
   # distort (range 2 8 $ perlin)
+  # slow 8 (lpf (400 + (200*sine)))
+  # lpq 0.9
   # gain (range 0.7 0.9 rand)
+
+
 
 d5 $ slow 0.5  $ word "berslet fectly sible ificat"
   # language  "de en"
@@ -43,6 +53,18 @@ d4 $ slow 0.5 $ n " 1 2 3 ~ 1 1 ~ 3"  # s "snare:3"
   # gain 0.9
   # room 0.5
 
+
+d1 $ fast 2 $ s "bytebeats" <| n "1 1 1 1 1 1 1 1 "
+  # legato 0.9
+  # vowel "a e a e i o o i"
+  -- # distort (range 2 8 $ perlin)
+  # slow 16 (lpf (300 + (200*sine)))
+  # lpq 0.8
+  # gain (range 0.7 0.9 rand)
+
+
+
+
 hush
 
 do
@@ -52,21 +74,22 @@ do
     # lpf 520
     # lpq 0.5
   d3 $ s "hardkick:3!3 hardkick:2 "
-    # pan 0.125
-    # gain 1.5
+    # pan 0.5
+    # gain 1.2
   d4 silence
   d5 silence
 
+d1 silence
 
-d4 $ n (slow 2 $ segment 16 $ range 0 32 $ sine) # s "amencutup"
-  # gain 1.5
-  # pan 0.125
+d4 $ n (slow 4 $ segment 32 $ range 0 16 $ rand) # s "amencutup"
+  # gain 1.3
+
 
 
 
 d3 $ s "hardkick:4!2 hardkick:2!2 "
- # pan 0.125
- #gain 1.4
+ # pan 0.5
+ # gain 1.2
 
 
 d1 $ silence
@@ -74,15 +97,15 @@ d1 $ silence
 
 d5
 
-d6 $ slow 2 $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
+d6 $ slow 0.5 $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
 
 d6 $ slow 0.5 $ n "a5 ~ a3 ~ c5 _ c3 ~" # s "pbass"
-  # legato 8
-  # gain 2
+  # legato 3
+  # gain 1
 
 do
   hush
   d5 $ slow 2$ word "data maximum cyborg setting"
 
 
-hush
+  hush
