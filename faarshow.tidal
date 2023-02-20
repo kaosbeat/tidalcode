@@ -28,7 +28,7 @@ d8 $ slow 1 $ vizscene "text*8"
   # vizword1  "data _ inter _ sect _ study ~"
   # vizword2 "x"
   # vizx "0 0 40 30"
-  # vizy "100 89 20 10"
+  # vizy "40 50 20 10"
 
 
 hush
