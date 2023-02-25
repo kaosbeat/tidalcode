@@ -26,6 +26,7 @@ setcps 0.6
 do
   d6 $ slow 0.5 $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
     # gain 0.8
+
   d7 $ slow 1 $ vizscene "text*4"
     # vizcommand "clear*4"
     # vizoption "banner3-D*2 alligator2*2"
@@ -43,6 +44,7 @@ do
   d3 $ s "kick:2(3,8)"
     # waveloss wl
     # gain 1
+
   d7 $ slow 1 $ vizscene "intersect*4"
     # vizsize "8"
     # vizframewait "0.05"
@@ -86,6 +88,7 @@ do
   d4 $ n (slow 1 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
     # gain 1.5
     # pan 0.5
+
   d7 $ slow 1 $ vizscene "signal*32"
     #vizcommand "lines!16 perspsq!16"
     #vizoption "clear*2"

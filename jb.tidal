@@ -1,0 +1,38 @@
+setcps 0.75
+
+
+hush
+
+d1  $ smash 1 [1,2]  $ s "jb jb:3"
+
+d1 $ fast 2 $  randslice 32 $ sound "bev:2"
+  # room 0.4
+  # hpf 800
+
+
+d3 $ "kick:4!4"
+
+d4 $ "snare(3,8)"
+
+d1 $ slow 2 $ jux rev $ chop 16 $ s "jb:3"
+
+d1 $ chop "<16 32 48>" $ s "arpy ~ feel*2 newnotes"
+
+d2 $ s "gabba:3!2 hardkick:1!2"
+  #room 0.4
+
+d1 silence
+
+
+d3 $ chew  4 "0 1*2 2*2 [~ 3]" $ n "0 .. 7" # s "jb"
+
+
+d3 $ loopAt 4 $ s "jb:2"
+
+d1 $ loopAt 2 $ s "jb:2"
+
+d2 $ loopAt 1 $ s "jb:2"
+
+
+
+d4 $ s " kick:2 ~ ~ ~ kick:2 ~ ~ ~ snare ~ hh ~ kick:2 hh snare oh"
