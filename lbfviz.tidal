@@ -1,0 +1,93 @@
+-- broken up logo, slowly reconstructing
+do
+  hush
+  d8 $ (slow 5) $vizscene "banner banner*2 rtext rtext "
+    #vizcommand "banner [logo lbf3] clear clear"
+    #vizword1 "s welkom welcome "
+    #vizword2 "x x x x"
+    #vizsize  "2"
+    #vizx "1"
+    #vizy "1"
+    # vizspeed (slow 8 sine)   -- sets the noisestep offset
+    # vizamount 114  -- sets the seed
+    #vizoption "broadway*8"
+  d1 $ slow 8 $ s "indust" <| n (run "17")
+    # lpf "400 200 260 180"
+    # lpq (slow 4 $ range 0.1 0.2 sine)
+    # pan (slow 4 saw )
+    # room "0.9" # size "0.9"
+    # ring "1" # ringf "550"
+    # gain 0.9
+
+
+
+
+  d2 $slow 1 $  n "[1|3 2|4 3 7]"
+    # s "indust"
+    # legato 1
+    # lpf (slow 4 "[246 293|440 493|246 440]")
+    # lpq (slow 8 $ range 0.1 0.8 sine)
+    # verb 0.9 0.8 0.2 0.1
+    # gain 0.9
+
+
+
+
+hush
+
+d8 $(slow 4) $vizscene "rtext*8"
+  #vizcommand "clear*8"
+  #vizoption "broadway"
+  #vizword1 "welcome welkom"
+  #vizword2 "x"
+
+
+
+
+
+
+-- keynote 1
+do
+  once $vizscene "boot"
+    # vizcommand "keynote1"
+    #vizframewait "2"
+  d8 $ vizscene "boot"
+    #vizcommand "noise"
+
+
+-- keynote1 done
+
+do
+  hush
+  d5 $ slow 4 $ n (off "<0.125>" (|+ 12) "42 35 37 40 35 37 _ 40 ")
+    # s "made:5"
+    # speed "0.5 0.6 0.4 0.4"
+    # room 0.8
+    # sz 0.1
+    # gain 0.8
+    # pan 0.5
+  d8 $(slow )1 $ vizscene "signal rtext"
+    # vizcommand "cube clear!3"
+    # vizoption "clear xbrite!3"
+    # vizword1 "data [on_campus|hybrid_virtual_classroom|instructional_design|blurring_the_lines]!3"
+    # vizword2 "x"
+
+d1 $ slow 2 $ loopAt 1 $ striate 4 $ s "indust:3 indust:4"
+  # pan 0.125
+  # comb 0.5
+  # hpf 1300
+  # hpq 0.2
+  # gain 1
+
+
+-- coffee
+
+-- keynote 1
+do
+  d8 $vizscene "boot*64"
+    # vizcommand "coffee"
+    # vizframewait "0.05"
+    # vizspeed (slow 8 sine)   -- sets the noisestep offset
+
+  d8 $ vizscene "boot"
+    #vizcommand "noise"
