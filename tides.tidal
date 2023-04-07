@@ -19,11 +19,11 @@ d8 silence
 d9 silence
 
 
-p "midiclock" $ midicmd "midiClock*192" # s "midi"
+p "midiclock" $ midicmd "midiClock*192" # s "pfm2"
 
-once $ midicmd "stop" # s "midi"
+once $ midicmd "stop" # s "midi, pfm2"
 
-p "midictl" $ midicmd "start/4" # s "midi"
+p "midictl" $ midicmd "start/4" # s "pfm2"
 
 p "midictl" $ silence
 

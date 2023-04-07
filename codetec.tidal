@@ -44,3 +44,12 @@ d2 $juxBy 0.5 rev $ chunk 4 ((+ speed (1 + sine)) . ply 8) $ note "3(3,8)" # s "
 
 
 hush
+
+setcps 0.1
+
+d1 $ s "opz" |+| n "50" # midichan 3
+
+d2 $ s "clap*4"
+
+
+d3 $ s "pfm2" |+| n "20"
