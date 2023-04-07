@@ -1,0 +1,59 @@
+d1 $ juxBy 0.8 rev $ striate 2 $ s "fosse:2*2"
+    # legato 0.6
+    # speed (saw |+| 1)
+
+d1 $ slow 2 $ s "kick:4 ! 4"
+    # speed (saw |+| 2)
+    # gain 2
+
+d1 silence
+
+d1 $ slow 4 $ n " 12 23 12 ~ " # s "opz" # midichan 0
+
+d1 $ slow 4 $ n " 22 <24 21> [21 24 ] 21 " # s "opz" # midichan 0
+
+d2 $ slow 2 $ n "  ~ 44  ~ 42 ~ 44 40 42" # s "opz"  #midichan 1
+
+d2 $ slow 2 $ n "  ~ [40 44]  ~ 42 ~ 44 [40 44] 42" # s "opz"  #midichan 1
+
+d3 $ slow 1 $ n " 22 34 22 21" # s "opz" # midichan 2
+
+d1 $ slow "<2 1>" $ n " 12 23 [23 24 ] 21 " # s "opz" # midichan 0
+
+
+d5 $ slow "2" $ n (off 0.25 (|+ 8) " ~ c <a f> [a e f e5]" )# s "mono" # midichan 0
+    # legato 0.1
+
+d5 $ slow "2" $ n (off 0.125 (|+ 12) " ~ c <a f> [a e f e5]" )# s "mono" # midichan 0
+    #legato 0.3
+
+
+d5 $ ccv 127 # ccn 123 # s "opz" # midichan 13
+
+
+d1 $ s "mono"
+
+hush
+
+d6 $ slow 2 $ n (off 0.125 (|+ 12) "[ a e [f  e] c]") # s "pfm2" # midichan  0
+    #legato 0.5
+
+d6 $ slow 2 $ n (off 0.125 (|+ 12) "[ a e [f  e] c, [e f] a [b a] a ]") # s "pfm2" # midichan 0
+
+
+d5 $ slow 4 $ n (off 0 (|+ 0) "[ a e [f  e] c, [e f] a [b a] a ]") # s "pfm2" # midichan 1
+
+-- send all notes off (CC#123)
+d5 $ ccv 127 # ccn 123 # s "pfm2" # midichan 1
+
+####
+
+d5 $ slow 4 $ n (off 0 (|+ 0) "[ a e [f  e] c, [e f] a [b a] a ]") # s "dx7" # midichan 1
+
+
+
+d7 silence
+
+d7 $slow 2 $ juxBy 0.9 rev $ s "kick:3(3,8)"
+  # room 0.3
+  # gain 1

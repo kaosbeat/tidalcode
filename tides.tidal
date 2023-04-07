@@ -19,11 +19,13 @@ d8 silence
 d9 silence
 
 
-p "midiclock" $ midicmd "midiClock*192" # s "midi"
+p "midiclock" $ midicmd "midiClock*96" # s "mono"
 
-once $ midicmd "stop" # s "midi"
+once $ midicmd "stop" # s "mono"
 
-p "midictl" $ midicmd "start/4" # s "midi"
+once $ midicmd "start/4" # s "mono"
+
+p "midictl" $ midicmd "start/4" # s "mono"
 
 p "midictl" $ silence
 
