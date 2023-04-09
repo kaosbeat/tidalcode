@@ -25,6 +25,14 @@ once $ midicmd "stop" # s "midi, pfm2"
 
 p "midictl" $ midicmd "start/4" # s "pfm2"
 
+p "midiclock" $ midicmd "midiClock*96" # s "mono"
+
+once $ midicmd "stop" # s "mono"
+
+once $ midicmd "start/4" # s "mono"
+
+p "midictl" $ midicmd "start/4" # s "mono"
+
 p "midictl" $ silence
 
 let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16]

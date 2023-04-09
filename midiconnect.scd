@@ -10,9 +10,12 @@ MIDIClient.init;
 ~pfm2Out = MIDIOut.newByName("PreenFM mk2", "PreenFM mk2 MIDI 1");
 ~pfm2Out.latency = 0.042;  /// optional latency
 ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+~dx7Out = MIDIOut.newByName("SuperCollider", "in0");
+
 ~dirt.soundLibrary.addMIDI(\pfm2, ~pfm2Out);
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
 ~dirt.soundLibrary.addMIDI(\opz, ~opzOut);
+~dirt.soundLibrary.addMIDI(\dx7, ~dx7Out);
 // ~midiOut.latency = 0.2;  /// optional latency
 // ~midiOut.latency = 0.45;  /// optional latency
 

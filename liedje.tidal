@@ -1,0 +1,18 @@
+hush
+
+setcps 0.367041666666
+
+
+setcps 0.5
+
+hush
+
+
+
+d1 $ s "[cp snare ] !4" # nudge 0.0
+  # gain
+
+d1 silence
+
+
+d2 $ s "[kick snare] snare kick kick  "
