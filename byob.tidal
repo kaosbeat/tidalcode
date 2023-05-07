@@ -53,7 +53,7 @@ d1 $ n "1 <1 2> 3 4" # s "bssnare"
   # shape "<0.4 0.3>"
   # gain 1.1
 
-d6 $ juxBy 0.4 rev $ slow "<1 2>" $ n  (off "< 0.25 0.5 0.125>" (|+ 12)  "a5 ~ a3 ~ c5 _ c3 ~")
+d6 $ juxBy 0.4 rev $ slow "<2>" $ n  (off "<0.125>" (|+ 12)  "a5 ~ a3 ~ c5 _ c3 ~")
   # s "acid309"
   # legato (slow 4 "<2>")
   # gain 0.6
@@ -85,8 +85,8 @@ d1 $ sound "indust:7*4"
 
 
 do
-  d4 $ n (slow 1 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
-    # gain 1.5
+  d4 $ n (slow 1 $ segment 8 $ range 0 32 $ rand) # s "amencutup"
+    # gain 1.2
     # pan 0.5
 
   d7 $ slow 1 $ vizscene "signal*32"
@@ -209,6 +209,8 @@ d3 $slow 2 $ "hardkick:2!4"
 
 
 hush
+
+
 
 {-
 

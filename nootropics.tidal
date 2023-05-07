@@ -1,0 +1,102 @@
+-- phone bytebeat > VCA >
+
+hush
+
+
+d1 $ n "[<60  60  64> ]*4"
+  # s "onc"
+  # midichan 0  -- picoL-7 [--- ***]
+
+d2 $ n "[~ <~ 30 ~ <30 [30 30]>>]*4"
+  # s "onc"
+  #midichan 1 -- picoL-12 [--* *--]
+
+d3 $ n "1 ~ 1 ~ 1 1 1 ~ "
+  #s "onc"
+  #midichan 2 --picoR-51 [**- -**]
+
+
+
+d5 $ slow 4 $ n   (off "0.125" (|+ 12)  "[a4*<4 2 8>]  c4  [e4 a4 c4 a4]*[2 4]  ~ ")
+  # s "opz"
+  # midichan 4
+
+
+d9 $ slow 4 $ n "e [f e]  a [ d e ] "
+  # legato 3
+  # s "pfm2" --eth voice
+  # midichan 0
+
+
+
+
+d6 $ slow 2 $ n (off "<0.125> " (|+12)  "e a c a")
+  # s "acid309"
+  # gain 0.8
+
+d6 silence
+
+
+
+d7 $ slow 4  $ chop 2 $ s "turbo" # n "<2 1> ~ 3 ~ "
+  # room 0.6
+  # sz 0.9
+  # gain 0.8
+
+
+d7 $ slow 2 $ rev $ chop 16 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
+  # room 0.6
+  # sz 0.9
+  # gain 0.8
+
+
+
+
+do
+  d7 silence
+  d6 silence
+  d5 silence
+  d2 silence
+  d9 silence
+
+
+
+
+
+d4 $ n "[1!4,  [~ 3]  ~  ~]" -- picoR - 5 [--- *-*]
+  # s "onc"
+  # midichan 3
+
+
+
+d5 $ slow 2 $ n "e4 e4 [a5 f5] g6 _ _ <f6 _> _"
+  # legato 2
+  # s "opz"
+  # midichan 7
+
+
+d7 $ slow 2 $ degradeBy 0.6 $ rev $ n "2 3 6 _"
+  # legato 1
+  # s "indust"
+  # gain 0.9
+  # speed 0.5
+
+
+
+
+d1 silence
+
+
+
+d1 $ n "50 <<~ 50> [~ 50]> 50 50"
+  # s "onc"
+  # midichan 0  -- picoL-7 [--- ***]
+
+
+
+d5 $ n "e3 e5 c3 e4"
+  # s "pfm2"
+  # midichan 1
+
+
+hush

@@ -1,36 +1,42 @@
 // Quarks.install("crucial-library");
-
-(
+// Quarks.gui;
 MIDIClient.init;
-// ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+(
+// MIDIClient.init;
+
+// ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
+~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
+// ~midiOut.latency = 0.35;  /// optional latency
+
 
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
 ~opzOut = MIDIOut.newByName("OP-Z", "OP-Z MIDI 1");
-~opzOut.latency = 0.042;  /// optional latency
-~pfm2Out = MIDIOut.newByName("PreenFM mk2", "PreenFM mk2 MIDI 1");
-~pfm2Out.latency = 0.042;  /// optional latency
-~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
-~dx7Out = MIDIOut.newByName("SuperCollider", "in0");
-
-~dirt.soundLibrary.addMIDI(\pfm2, ~pfm2Out);
-~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
 ~dirt.soundLibrary.addMIDI(\opz, ~opzOut);
-~dirt.soundLibrary.addMIDI(\dx7, ~dx7Out);
-// ~midiOut.latency = 0.2;  /// optional latency
-// ~midiOut.latency = 0.45;  /// optional latency
+// ~opzOut.latency = 0.35;  /// optional latency
+//
+// ~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
+// ~dirt.soundLibrary.addMIDI(\mono, ~monoOut);
+
+~ocOut = MIDIOut.newByName("Teensy MIDI", "Teensy MIDI MIDI 1");
+~dirt.soundLibrary.addMIDI(\onc, ~ocOut);
+// ~ocOut.latency = 0.45;  /// optional latency
+
+// ~dexOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+// ~dirt.soundLibrary.addMIDI(\dx7, ~dexOut);
 
 
-~lc = LinkClock.new.latency_(Server.default.latency);
-~lc.numPeers; '0 means no connection, 1 means connection
-
-~ltmc = LinkToMidiClock(~pfm2Out, ~lc);
+~pfm2Out = MIDIOut.newByName("PreenFM mk2", "PreenFM mk2 MIDI 1");
+~dirt.soundLibrary.addMIDI(\pfm2, ~pfm2Out);
 
 
+// ~monOut = MIDIOut.newByName("Protokol", "Protokol")
+// ~dirt.soundLibrary.addMIDI(\mon, ~monOut);
+
+// ~midiOut.latency = 0;  /// optional latency
 
 
-// ~mc = MIDIClockOut("PreenFM mk2", "PreenFM mk2 MIDI 1", ~lc);
-// ~mc = MIDIClockOut("Midi Through", "Midi Through Port-0", ~lc);
-
+// ~lc = LinkClock.new.latency_(Server.default.latency);
 // ~mc = MIDIClockOut("Axoloti Core", "Axoloti Core Axoloti Core", ~lc);
 // ~mc = MIDIClockOut("Protokol", "Protokol", ~lc);
 // ~mc.play;
