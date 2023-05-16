@@ -3,28 +3,42 @@ setcps 0.75
 
 hush
 
-d1  $ smash 1 [1,2]  $ s "jb jb:3"
+d2 $ slow 4 $ smash 1 [1,2]  $ s "jb jb:3"
 
-d1 $ fast 2 $  randslice 32 $ sound "bev:2"
+d2 silence
+
+d1 $ slow 8  $ s "bev:1"
+
+d1 $ fast 4 $  randslice 32 $ sound "bev:2"
   # room 0.4
-  # hpf 800
+  # hpf 1800
 
+
+d3 $ n "1 2 3 4"
+  # s "onc"
+  # midichan 0
 
 d3 $ "kick:4!4"
 
 d4 $ "snare(3,8)"
 
+
+d4 $ s "onc(5,8)" # n "8*8"
+  #midichan 1
+
 d1 $ slow 2 $ jux rev $ chop 16 $ s "jb:3"
 
 d1 $ chop "<16 32 48>" $ s "arpy ~ feel*2 newnotes"
 
-d2 $ s "gabba:3!2 hardkick:1!2"
+d2 $ s "gabba:3!0 hardkick:1!4"
+  #gain 0.9
   #room 0.4
 
 d1 silence
 
 
 d3 $ chew  4 "0 1*2 2*2 [~ 3]" $ n "0 .. 7" # s "jb"
+ #  gain 0.8
 
 
 d3 $ loopAt 4 $ s "jb:2"

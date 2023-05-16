@@ -81,7 +81,7 @@ d1  $ s "[[bd sd], linnhats*8]"
 
 
 
-d1  $ s "[[bd sd], linnhats*8]"
+d6  $ s "[[bd sd], linnhats*8]"
     # elementsstrength "0.9"
     # elementspitch (slow 1 sine)
     # elementsblowlevel 0.6
@@ -100,7 +100,7 @@ d1  $ s "[[bd sd], linnhats*8]"
     # elementsspace 0.9
 
 
-d1  $ s "[[bd sd kick kick], linnhats*8]"
+d6  $ s "[[bd sd kick kick], linnhats*8]"
   # lpf 300
   # lpq 0.5
   # rings (slow 16 "[20 30 20 10]") rand 0.7 (slow 3 sine) 0.9

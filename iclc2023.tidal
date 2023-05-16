@@ -17,10 +17,10 @@ d4 $ n "60 61 60 62"
   # s "opz"
   # midichan 0
 
-d5 $slow 4 $ n (off "<0.0625 0.25>"  (|+ 12)  "c a [ a e f [ e c e e] ] ~ " )
-  # s "pfm2"
 
 
 
-
-hush
+do
+  hush
+  d5 $slow 4 $ n (off "<0.0625 0.25>"  (|+ 12)  "c a [ a e f [ e c e e] ] ~ " )
+    # s "pfm2"

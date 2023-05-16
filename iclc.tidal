@@ -35,9 +35,10 @@ d3 $ s "opz(<3 5 7>,8)" # n "<64 62 [61 62 64]>" # midichan 2
 hush
 
 
-d2   $ s "onc(7,8)" # n "[60 ~]*4" # midichan 0
+d2   $ s "onc(5,8,[2 3])" # n "[60 ~]*4" # midichan 0  --picoL-4  "--- *--"
 
-d3   $ s "onc(5,8)" # n "60" # midichan 1
+d3   $ s "onc(<5,3>,8)" # n "60" # midichan 1 --picoL-10 "--* -*-"
+
 
 
 
@@ -48,6 +49,9 @@ d3   $ s "onc(5,8)" # n "60" # midichan 1
 
 
 -- preenFM I1 minimoog
+
+
+
 d4 $ slow 4 $ s "pfm2*8" |+| n "a4 c4" #midichan 2
 
 d4 $ slow 4 $ s "pfm2*8" |+| n "<a5 a4 a4> <c4 e4> "
@@ -61,6 +65,9 @@ d4 $ slow 4 $ s "pfm2*32" |+|
   -- n "a4 <a5 e4> [c4 c5 a4 a3] a4"
   #midichan 2
 
+
+
+
 hush
 
 d4 silence
@@ -70,9 +77,9 @@ d5 silence
 
 
 d5 $ s "bytebeats" |+| n "[[3 4] 5 ~ < 6 [6 3 4] >] "
-  # legato 0.5
-  # room 0.8
-  # gain 0.7
+  # legato 1
+  # room 0.6
+  # gain 0.8
   # lpf "<800  300 1200 2400>"
 
 
@@ -87,7 +94,7 @@ d2 $ s "opz" |+| n "~ 62 60 [60 58]" # midichan 2
 
 -- pfm2 I2 Mahogany
 d6 $ slow 8 $  s "pfm2" |+| n "[a4 c4 [ a4 c4]  a4,  a2]" # midichan 1
-  # gain 0.8
+  # gain 0.7
 
 
 
@@ -103,7 +110,7 @@ hush
 
 
 
-d6 $  chop "8" $ s "turbo:0"
+d6 $  chop "2" $ s "turbo:0"
   # octer "<0 0.5 1>"
   # djf (sine)
   # gain 1
@@ -142,7 +149,7 @@ d1 silence
 
 do
   d3 $ slow 1
-   $ midichan " [2 2] 2 <~ 1> [3*<16 8 4 2 >] "
+   $ midichan " [0 1] 2*<0 16> <~ 1> [3*<16 8 4 2 >] "
    # s "onc" # n " 0 "
 
   d4 $ slow 1
@@ -150,16 +157,15 @@ do
     # s "onc" # n "1"
 
 
-
 d4 silence
 
 d6 silence
 
-d5 $ sometimesBy 0.7 (# gain 0)  $ s "ldmchh*16"
+d5 $ sometimesBy 0.4 (# gain 0)  $ s "ldmchh*16"
   # room 0.5
   # sz 0.5
 
-d4 $ s "onc*8" # midichan "1 2 <~ 2> [~ 3]"
+d4 $ s "onc*8" # midichan "1 2 <~ 2> [~ 3]" # n "1"
 
 ###################
 ###prepare for gabba
@@ -170,22 +176,29 @@ d4 $ s "onc*8" # midichan "1 2 <~ 2> [~ 3]"
 
 d5 silence
 
-d5 $ n "[c3 , [c a e f]]"
+do
+ hush
+ d5 $ n "[c3 , [c a e f]]"
   # legato 2
   # s "plaits"
   # pF "harm" 0.1
 
 
-d6 $ s "gabba*4"
-  # gain 1.2
+d6 $ s "gabba gabba gabba gabba "
+  # gain 1
   # crush 16  -- 1
 
 
+d4 $ slow 1
+  $ midichan "0 0 [0 1] <[0 2] 0> "
+  # s "onc" # n "1"
 
-d7 silence
+
+d6 silence
 
 d7 $ slow 4 $ s "pfm2!2 [pfm2*4] pfm2 " # n " c e [ e f e a] a"
-  # legato 1
+  # legato 0.5
+  # midichan 2
 
 
 -- dexed 26 wobble
@@ -218,23 +231,27 @@ hush
 
 -- bytebeats
 do
+  hush 
   d1 $ slow 1 $ n "4 ~ 6 [2 6 <4 3 6 6>]  "
-    # legato 0.5
+    # legato (slow 4 sine)
     # s "bytebeats"
-    # lpf 500
+    # lpf "440"
     # room 0.5
-    # sz 0.4
+    # sz 0.7
     # lpq 0.6
-    # gain 1.2
+    # gain 1
 
 d2 $ striate "[2 <1 4>]" $ s "amencutup*<4>" # n "<4 >"
   # gain 1.5
 
-d3 $ n "60 61 60 61 "
+d3 $ n "1 2 3 4"
   # s "opz"
+  # midichan 1
+
+d4 $ S "kick!4"
 
 
-d3 $ s "kick(4,8,<1 3 6>)" # n "4 2 2 4"
+d3 $ s "kick(5,8)" # n "4 2 2 4"
   # gain 1.3
 
 
@@ -249,7 +266,7 @@ d1 $ fast 8 $ juxBy 0.6 (|* speed "2") $ loopAt "<4 6 4 <2 3>>" $ chop 32 $ s "l
 
 d1 $ whenmod 2 3 (striate 3) $ stack [
   sound "bd bd*2",
-  sound "hh*2 [sn cp] cp future*4",
+  sound "hh*2 [sn cp] Cp future*4",
   sound "arpy" +| n "0 .. 15"
  ] # speed "[[1 0.8], [1.5 2]*2]/3"
 
@@ -283,19 +300,18 @@ d1 $ smash 3 [2,3,4] $ sound "ho ho:2 ho:3 hc"
 ---- cheese
 hush
 
-setcps 0.6
+setcps 0.55
 
-
-d1 $ slow 2 $ n (off "0.125" (|+ "<12 24 24 12>")  "[2 6 _ 4 6 _ 2 [4 8]]")
-    # s "acid"
+do
+  hush
+  d1 $ slow 2 $ n (off "0.125" (|+ "<12 24 24 12>")  "[2 6 _ 4 6 _ 2 [4 8]]")
+    # s "acid309"
     # octave "<4 3>"
     # legato 0.3
     # mode "<2>"
     # shift 2
-
     # tidesshape 2
-
-# tidessmooth (range 0.2 1 $ slow 8 sine)
+    # tidessmooth (range 0.2 1 $ slow 8 sine)
     # slope (slow 3 sine)
 
 
@@ -303,11 +319,15 @@ do
   once $ "ldm*3 ~ ldm ~"
 
 
-d2 $ "ldm ~ ldm ldmclap"
+d2 $ s "ldm ~ ldm ldmclap"
 
 
-d2 $ "ldm(3,8)"
+d2 $ s "ldm(3,8)"
 
 hush
 
-d1 $ n "<2 ~> < 2 ~ 2> [2 ~] [2 3]" # sound "ldmclap" # speed 1.5
+d3 $ n "<2 ~> < 2 ~ 2> [2 ~] [2 3]" # sound "ldmclap" # speed 1.5
+
+
+d6 $ slow 4  $ n "0 1 2 3 "
+  # s "turbo*4"
