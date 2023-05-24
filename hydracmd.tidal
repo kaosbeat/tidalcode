@@ -1,0 +1,12 @@
+hush
+
+once $ hycmd "imgset"
+  # hyset "cyborg "
+
+
+once $ hycmd "preset"
+  # hyset "strobe"
+
+
+x2 $ hycmd "newimg*8"
+  # hybeat (sine * 1000 + 1)
