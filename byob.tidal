@@ -49,14 +49,14 @@ do
     # vizsize "8"
     # vizframewait "0.05"
 
-d1 $ n "1 <1 2> 3 4" # s "bssnare"
+d1 $ n "1 <1 2>c 3 4" # s "bssnare"
   # shape "<0.4 0.3>"
   # gain 1.1
 
-d6 $ juxBy 0.4 rev $ slow "<2>" $ n  (off "<0.125>" (|+ 12)  "a5 ~ a3 ~ c5 _ c3 ~")
+d6 $ juxBy 0.4 rev $ slow "<2>" $ n  (off "<0.125 0.25>" (|+ 12)  "a6 ~ a4 ~ c5 _ c3 ~")
   # s "acid309"
   # legato (slow 4 "<2 1 0.5>")
-  # gain 0.6
+  # gain 0.75
   # delay 0.5
   # lock 1
   # delayt 0.25
@@ -71,7 +71,7 @@ d8 $ slow 1 $ vizscene "text*8"
     # vizy "70"
 
 
-d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "[kick, onc]"
+d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "[kick, opz]"
   #midichan 0
   # room 0.8 # sz 0.4
   # delay 0
@@ -85,8 +85,8 @@ d1 $ sound "indust:7*4"
   # pan "0.125 0.625"
 
 
-d2 $ n "1 1 1 1"
-  # s "onc"
+d2 $ n "3*1 2*4 3*1 2*2"
+  # s "opz"
   # midichan 0
 
 do
@@ -140,7 +140,7 @@ d3 $ s "kick:3!3 kick!1"
   # slow 4 (legato "<0.9 0.6>")
   # squiz 0.9
 
-d4 $ s "[~ snare]!6 [snare snare]!2" # n (irand 4)
+d4 $ fast 2$ s "[~ snare]!6 [snare snare]!2" # n (irand 8)
   #gain 0.9
 
 
@@ -156,7 +156,7 @@ d1 $ s "bytebeats" <| n (off 0.125 (|+ "3 ") "12 3 6 ~ 7  ~ 23 21 ")
   # gain 0.9
 
 
-d3 $ s "gabba:1!4"
+d2 $ s "gabba:1!4"
   # gain 2
 
 setcps 0.75
@@ -198,7 +198,7 @@ do
     # distort (range 2 8 $ perlin)
     # slow 8 (lpf (400 + (200*sine)))
     # lpq 0.9
-    # gain (range 0.7 0.9 rand)
+    # gain (range 0.6 0.7 rand)
   d8 $ slow 1 $ vizscene "circle*4"
     # vizspeed (slow 8 sine)
     # vizamount (irand 8)
@@ -213,7 +213,7 @@ do
     # pan 0.5
 
 
-d3 $slow  $ "hardkick:2!4"
+d3 $slow 1 $ "hardkick:4!4"
   # gain 1.2
   # room 0.3 # sz 0.9
 
@@ -241,11 +241,11 @@ do
     # lpq 0.5
 
 
-d4 $ n (slow 4 $ segment 32 $ range 0 4 $ rand) # s "amencutup"
+d4 $ n (slow 2 $ segment 16 $ range 0 16 $ rand) # s "amencutup:<2 4>"
   # gain 1.1
 
 
-d3 $ s "hardkick:4!2 hardkick:2!2 "
+d3 $ s "hardkick*4" # n "4 4 <4 2> <4 2>"
  # pan 0.5
  # gain 1
 
@@ -426,19 +426,18 @@ d8 $ slow 1 $ vizscene "circle*64"
   # vizamount 1122
 
 
-
-d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.5>" (|+ 8) "~ f4 e5 a4")
+d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
   # s "plaits"
   # legato 4
   # pF "timbre" (slow 16 (range 0 0.3 (sine)))
-  # pF "harm" 2
-  # pI "engine" 4
+  # pF "harm" 4
+  # pI "engine" 3
   # pF "morph" "<0.9 0 0.4 0.1>"
-
   # vowel "a e i o"
   # room 0.6 #sz 0.5
-  # gain 0.8
+  # gain 0.5
 
+hush
 
 do
   let wl = 8

@@ -1,34 +1,39 @@
 -- https://tidalcycles.org/docs/reference/mi-ugens/
 
-setcps 0.7
+setcps 0.7  -- or 0.5
 
 hush
 
 d1 $ n "1 <1 2> 3 4" # s "bssnare"
 
-d1 $ n "1 [2 2] 3 [4 4 4 4]" # s "bssnare"
+d1 $ n "1 [2 2] 3 [4 4 4 4]" # s "[bssnare,onc]"
+  #midichan 1
 
-d2 $ n "5 ~ 5 2" # s "kick"
+d2 $ n "5 5 5 2" # s "[kick, onc]"
+  #midichan 0
+  # gain 1
 
-d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "kick"
+d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "[kick,onc]"
+  # midichan 0
+  # gain 1
 
 
 do
-  let wl = 0
+  let wl = 2
   d2 $ s "kick:5(4,8)"
     # waveloss wl
   d3 $ s "kick:2(3,8)"
     # waveloss wl
 
-d5 silence
+d4 silence
 
 
 
 d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # s "plaits"
   # legato 4
-  # pF "timbre" 0.1
-  # pF "harm" 0.6
+  # pF "timbre" 0.3
+  # pF "harm" "<0.6 0.7!3 0.5>"
   # pI "engine" 4
   # pF "morph" "<0.9 0 0.4 0.1>"
   # vowel "a e i o"
@@ -37,8 +42,8 @@ d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
   # cloudsmode 2
   # gain 0.7
   # cloudspos 9
-  # cloudspitch 10
-  # cloudspos 10
+  # cloudspitch 1
+  # cloudspos 0.5
   # cloudssize 0.8
   # cloudsdens 0.6
   # cloudstex 0.8
@@ -67,13 +72,13 @@ d7 silence
 
 -- rings
 d6 $ sometimesBy 0.1 (# ringseasteregg 1)
-  $ s "hh:3*8"
+  $ s "hh:3*4 hh:2*4"
   # ringsbright perlin
   # ringsfreq 1
   # slow 2 (ringspos saw)
   # slow 2 (ringsmodel (run 4))
-  # ringsstruct 0.75
-  # ringsdamp 0.4
+  # ringsstruct 0.5
+  # ringsdamp 0.2
   # gain (range 0.9 5 rand)
 
 

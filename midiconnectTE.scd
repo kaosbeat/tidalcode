@@ -15,9 +15,9 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\opz, ~opzOut);
 ~opzOut.latency = 0.05;  /// optional latency
 
-~opzOut = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
+~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
 ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
-~opzOut.latency = 0.05;  /// optional latency
+~op1Out.latency = 0.05;  /// optional latency
 //
 // ~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
 // ~dirt.soundLibrary.addMIDI(\mono, ~monoOut);

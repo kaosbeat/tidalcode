@@ -19,7 +19,7 @@ d4 $ slow 4 $ s "indust" <| n (run 10)
 d7 $ slow 1 $ vizscene "circle*64"
   # vizsize "1"
   # vizspeed (slow 8 sine)   -- sets the noisestep offset
-  # vizamo  unt 112
+  # vizamount 112
 
 
 d8 $ slow 1 $ vizscene "text*8"

@@ -1,0 +1,266 @@
+hush
+
+d1 $ slow 4 $ s "indust" <| n (run 3)
+  # lpf "400 350 550 650"
+  # lpq "0.9"
+  # pan (slow 4 saw )
+  # room "0.5" # size "0.9"
+  # gain "0.6"
+  # ring "6" # ringf "440"
+  # gain "0.4"
+
+
+x1 $ slow 1 $ vizscene "circle*64"
+  # vizcommand "clear"
+  # vizsize "1"
+  # vizspeed (slow 8 sine)   -- sets the noisestep offset
+  # vizamount 112
+
+
+x1 $ slow 1 $ vizscene "text*8"
+  # vizcommand "none!7 clear "
+  # vizoption "banner3-D"
+  # vizword1  "kaotec _ nbcode _ 0110010  _ soundz  ~"
+  # vizword2 "x"
+  # vizx "0 0 40 30"
+  # vizy "40 30 20 10"
+
+
+
+
+d2 $ slow 1 $ s "kick(5,8)"
+
+d3 silence
+
+d3 $ "hardkick(5,8,3)"
+
+
+
+d1 $ slow "1" $ n "6 6 4 6"  # s "hardkick" # speed "0.6 0.7 <0.7 0.6> 0.4"
+  # squiz "<0 1.2>"
+  # room 0.8
+  # size 0.5
+  # gain 0.8
+  # pan "[0 0.5 0.8 0.3]"
+
+
+
+
+d2 $ slow "1" $ n "2 1 3 1"  # s "invaders" <| "2 1 3 4"
+  # shape "<0 6 2 0.7>"
+  # gain "0.8"
+
+
+
+d1 $ slow "1" $ n "1 1 1 1"  # s "hardkick" # speed "1 2 <2 4> 4"
+  # pan "0.125 0.375 0.625 0.875"
+
+
+
+d7 $ slow 1 $ n "12 _ 13 [14 ~ 13 ~ 14 ~ 13 ~]" # s "pfm2" # midichan 0     -- # Dexed OB genVivY
+
+
+d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
+  # gain 1.3
+  # pan (slow 4 (saw ))
+
+
+
+d3 $ slice 16 "16 2 13 <4 8 1> 4 <11 5> [3 7 14] 6" $ sound "indust:3"
+  # pan "<0.125 0.675>"
+  # gain 1.2
+
+
+
+
+
+d2 $ n "4 <5 5 4> <5 4> 4 "  # s "kick"
+  # room 0.3
+  # distort 0.1
+  # gain "<0.9 0 .8>"
+  # pan 0.5
+  # channel "[0 1 2 3, 0]"
+
+
+d3 $ speed "1*2 2*4 4*6?0.3 4" # sound "jungbass:3" # gain "0.7"
+
+
+
+# turbo
+
+
+d6 $  chop "8" $ s "turbo" <| "1"
+  # octer "<0 0.5 1>"
+  # djf (sine)
+  # gain 1
+
+
+d1 $ slow 1 $ n "<4*[<4 8> 4]> <5 [5*4] 4 [3*<4 2>]> [2 3] <~ 4>"
+  # s "ldm"
+  # legato 1
+  # speed "1 0.6 0.6 1"
+  # squiz "<[6 1] [2 1]>"
+  # gain 1.2
+  # lpf "<2400 1400 <1800> 1400>"
+  # lpq 0.6
+  # gain 0.7
+
+
+do
+  let wl = 0.9
+  d2 $ s "kick:5(5,8)"
+    # waveloss wl
+  d3 $ s "ldmtom:2(<4 3 5>,8)"
+    # waveloss wl
+  d7 silence
+
+
+d1 $ slow 2 $juxBy 0.5 rev $ n (off "0.125" (|+ 12)  "e  [e  g ]")
+ # s "dx7" --minimoog"
+ # midichan 0
+ # legato 0.8
+ # gain 1
+
+
+d5 $ sometimesBy 0.4 (# gain 0)  $ s "ldmchh*16"
+  # room 0.5
+  # sz 0.5
+  # gain 0.8
+
+
+
+d4 $ s "opz*8" # midichan "1 2 <~ 2> [~ 3]" # n "1*8"
+
+
+setcps 0.6
+
+do
+ hush
+ d5 $ n "[c3 , [c a e f]]"
+  # legato 2
+  # s "plaits"
+  # pF "harm" 0.4
+
+
+
+do
+  once $ hycmd "imgset"
+    # hyset "masks"
+  once $ hycmd "preset"  -- out1, out2, out3, ou4, all
+    # hyset "out2"
+  d6 $ s "gabba:4 gabba gabba gabba "
+    # gain 1
+    # crush 4  -- 1
+  x2 $ hycmd "newimg*4"
+    # hybeat "1 2 3 4"
+
+
+
+
+
+
+
+-- bytebeats
+do
+  hush
+  d1 $ slow 1 $ n "4 ~ 6 [2 6 <4 3 6 6>]  "
+    # legato (slow 4 sine)
+    # s "bytebeats"
+    # lpf (slow 4 (saw * "540") + 1200)
+    # room 0.5
+    # sz 0.7
+    # lpq 0.2
+    # gain 0.9
+
+d2 $ fast 4 $ striate "[2 <8 4>]" $ s "amencutup*<4 2>" # n "<2 1 2  1>"
+  # gain 1.2
+
+
+
+
+-- cheese
+
+
+let pat1 = "[2 6 _ 4 6 _ 2 [4 8]]"
+
+
+do
+  -- hush
+  d1 $ slow 2 $ n (off "0.125" (|+ "<24 12>") pat1)
+    # s "acid309"
+    # octave "<4 3>"
+    # legato 1
+    # mode "<2>"
+    # shift 3
+    # tidesshape 2
+    # tidessmooth (range 0.2 1 $ slow 8 sine)
+    # slope (slow 3 sine)
+    # gain 0.8
+  once $ hycmd "preset"
+    #hyset "out3"
+  x1 $ slow 1 $ vizscene "signal*16" |+ pat1
+    # vizcommand "lines!2 <perspsq!5 cube> lines!3"
+    # vizoption "clr!7 clear"
+    # vizamount "1"
+    # vizspeed  (range 1 4 saw)
+
+
+d2 $ s "ldm ~ ldm ldmclap"
+
+d3 $ s "ldmtom!4"
+  # gain 1.2
+
+
+d4 $ fast "<8 4>" $ randslice 2 $ sound "amencutup"
+  #gain 1.5
+
+do
+  -- hush
+  d1 $ s "ldm:5*4"
+    # gain 0.8
+
+
+d6 $ slow 4  $ n "0 ~ 0 ~ "
+  # s "turbo*4"
+  # squiz "1 1 4 1"
+  # room "0 0.5"
+
+d2 $ s "ldmtom(5,8)"
+  # djf 0.5
+
+
+
+-- frau
+
+
+
+do
+  hush
+  d6 $ slow 0.5 $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
+    # gain 0.8
+  once $hycmd "preset"
+    #hyset "out4"
+
+
+  do
+  let wl = 0.1
+  d2 $ s "kick:5(<7 3>,8)"
+    # waveloss (slow 4 "<55 95 5 5>" )
+    # room 0.8 #sz 0.6
+  d3 $ s "kick:2(3,8)"
+    # waveloss wl
+    # gain 1
+
+
+d1 $ n "1 <1 2> 3 4" # s "bssnare"
+  # shape "<0.4 0.3>"
+  # gain 1.1
+
+d6 $ juxBy 0.4 rev $ slow "<2>" $ n  (off "<0.125 >" (|+ 12)  "a6 ~ a4 ~ c5 _ c3 ~")
+  # s "acid309"
+  # legato (slow 4 "<2 1 0.5>")
+  # gain 0.75
+  # delay 0.5
+  # lock 1
+  # delayt 0.25
+  # delayfb 0.5

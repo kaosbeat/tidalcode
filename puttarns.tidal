@@ -1,4 +1,21 @@
+hush
+
+
+setcps 0.2
+
 d1 $ s "<kick:3 [kick:3 kick:2 ~ ~ ~ ~ hardkick ~  ]> kick!3"
 
 
-d2 $ s "[~ snare ~]!4"
+d2 $ s "[snare ~]!4"
+
+
+d1 $slow 4 $ s "[kick ] * 4"
+
+
+
+d4 $ slow 2 $  n  (off "0.125" (|+24) "c [a f] [c c e a a e] e")
+  # s "[pfm2, onc]"
+  # midichan "[0,1]"
+
+
+d4 silence

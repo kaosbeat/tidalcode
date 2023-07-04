@@ -5,7 +5,7 @@ do
   d2 $ jux rev $ (# note (run 8)) $ euclid 5 8 $ s "bssnare"
 
 
-d3 $ (euclid 5 8 $ s "bass") # note (run 8)
+d3 $ (euclid "<3 5>" 8 $ s "bass") # note (run 8)
   # pan 0.5
   # squiz 5.6
 

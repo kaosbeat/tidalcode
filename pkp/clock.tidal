@@ -1,0 +1,9 @@
+hush
+
+p "midiclock" $ midicmd "midiClock*192" # s "[pfm2, onc, mono, opz]"
+
+once $ midicmd "stop" # s "[pfm2, onc, mono, opz ]"
+
+once $ midicmd "start/4"
+
+p "midictl" $ midicmd "start/4" # s "[pfm2, onc, mono, opz ]"

@@ -18,9 +18,11 @@ d7 $ slow 1  $ vizscene "invertedcat*4"
   # vizspeed "0.4"
 
 
-d7 $ vizscene "text*4"
-  # vizword1 "data intersect study ~"
+hush
 
+d7 $ vizscene "text*4"
+  # vizoption "big"
+  # vizword1 "data intersect study ~"
 
 d7 $ vizscene "data signal*4"
   # vizcommand "perspsq*8"
@@ -112,7 +114,7 @@ d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
   # gain 1.3
   # pan 0.125
 
-d7 $ slow 0.5 $ n " 14 12 12 _ " # s "midi" # midichan 1
+d7 $ slow 0.5 $ n " 14 12 12 _ " # s "opz" # midichan 1
 
 
 d3 $ slice 16 "16 2 13 <4 8 1> 4 <11 5> [3 7 14] 6" $ sound "indust:3"
@@ -138,7 +140,7 @@ d5 $ slow 4 $ n "42 35 37 40 35 37 _ 40 " # s "made:5"
   # gain 0.8
   # pan 0.125
 
-d6 $ n "42 [64*8] 20 64 [23*12] 12 [14*12] 12" # s "snare:1"
+d7 $ n "42 [64*8] 20 64 [23*12] 12 [14*12] 12" # s "snare:1"
   # speed "0.5 0.6 0.4 0.4"
   # squiz 0.8
   # lpf 700
@@ -202,7 +204,7 @@ d1  $ s "{cpu:0 ~ ~ ~ ~ ~ ~ ~ ~ ~ cpu:0 ~ ~ ~ cpu:0 ~ cpu:0 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
   # s "kick"
 
 d2 $ fast 2 $ s "kick kick ~ kick"
-  # squiz "<1 9 2 0.4 >"
+  # squiz "<1 9 2 0.4 3 >"
 
 d1 $ s "bd bd [hardkick:1 hardkick:2] ~"
 
