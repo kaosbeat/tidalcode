@@ -1,3 +1,5 @@
+setcps 0.7
+
 do
   hush
   d1 $ s "bskick!4"
@@ -21,7 +23,7 @@ d3 $ struct "t(<5 7>,<8 16>)" $ note (off "0.125" (|+ 8) "1 3 3 1 2 3 8 8")
 
 
 d4 $ jux' [id,(# djf 0.3),(# speed 2)] $ every 2 ("<0.25 0.125>" <~) $ slow 4 $ (off 0.125 (|+ 0.2) (speed "~ 1.4 [1 1.2 1.4 1.2] 0.1"))
-  # s "dsynth:1"
+  # s "<dsynth:1 dsynth:3 dsynth:5>"
 
 
 
@@ -47,7 +49,7 @@ hush
 
 setcps 0.1
 
-d1 $ s "opz" |+| n "50" # midichan 3
+d1 $ s "opz" |+| n "[12 11] [39 12] [12 29] 24" # midichan 3
 
 d2 $ s "clap*4"
 

@@ -13,8 +13,8 @@ x1 $ vizscene "data signal*4"
 x1$slow 8 $ vizscene "rtext*4"
   #vizcommand "clear*8"
   # vizoption "slant"
-  # vizword1 "algorave quendera guido livecoding"
-  #vizword2 "lisbon ndr0n_ fichman kaotec"
+  # vizword1 "algorave livecoding"
+  #vizword2 " kaotec"
 
 x1 $ slow 1 $ vizscene "circle*64"
   # vizspeed (slow 16 sine)   -- sets the noisestep offset
@@ -32,10 +32,10 @@ x1 $ slow 4 $vizscene "rtext*4"
 x1 $ slow 1 $ vizscene "text*4"
     # vizcommand "clear*4"
     # vizoption "banner3-D*2 alligator2*2"
-    # vizword1 "ONDERSTROOM*2 ALGORAVE"
-    # vizword2 "ONDER STROOM"
+    # vizword1 "HALLE*2 ALGORAVE"
+    # vizword2 "RAVE RAVE"
     # vizx "5 4"
-    # vizy "60 40"
+    # vizy "50 40"
 
 x1 $ slow 1 $ vizscene "intersect*4"
     # vizsize "8"
@@ -46,13 +46,13 @@ x1 $ slow 1 $ vizscene "intersect*4"
 
 x1 $ slow 1  $ vizscene "invertedcat*4"
   # vizcommand (slow 8 "n n n n n n n [next n n n ]")
-  # vizoption "none fill noise invert"
+  # vizoption "invert fill noise invert"
   # vizsize (slow 4 saw)
-  # vizspeed "0.4"
+  # vizspeed "0.1"
 
 
 
-x1 $ vizscene "signal*16"
+x1 $ vizscene "signal*8"
   # vizcommand "cube!3 circles!3  perspsq!2"
   # vizoption "clear*7 clear"
 

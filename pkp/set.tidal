@@ -1,1 +1,364 @@
 -- mutant.tidal
+
+{-
+                 _              _
+                | |            | |
+ _ __ ___  _   _| |_ __ _ _ __ | |_
+| '_ ` _ \| | | | __/ _` | '_ \| __|
+| | | | | | |_| | || (_| | | | | |_
+|_| |_| |_|\__,_|\__\__,_|_| |_|\__|
+
+-}
+
+hush
+
+setcps 0.7
+
+do
+  d6 $ slow "<1 0.5>" $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
+    # gain 0.8
+  once $ hycmd "preset"
+    # hyset "out1"
+    #hybeat 2
+  a1 $ slow 1 $ vizscene "text*4"
+    # vizcommand "clear*4"
+    # vizoption "banner3-D*2 alligator2*2"
+    # vizword1 "kaotec*2 ALGORAVE"
+    # vizword2 "algorave pandhalle"
+    # vizx "5 10"
+    # vizy "30 40"
+
+
+do
+  let wl = 40
+  d2 $ s "kick:5(<7 3>,8)"
+    # waveloss (slow 4 "<55 95 5 5>" )
+    # room 0.8 #sz 0.6
+    #gain 0.8
+  d3 $ s "kick:2(4,8)"
+    # waveloss wl
+    # gain 1
+
+
+
+d1 $ n "1 <1 2> 3 4" # s "bssnare"
+  # shape "<0.4 0.3>"
+  # gain 1
+
+do
+  d6 $ juxBy 0.4 rev $ slow "<2>" $ n  (off "<0.125 0.25>" (|+ 12)  "a6 ~ a4 ~ c5 _ c3 ~")
+    # s "pfm2"  --SpaceAcid or --acid309
+    # legato (slow 4 "<2 1 0.5>")
+    # gain 0.75
+  a1 $ slow 1 $ vizscene "intersect*4"
+    # vizsize "8"
+    # vizframewait "0.05"
+
+
+
+do
+  d2 $ n "5 <~ 1> 5 <2 2 2 ~>"
+    # s "[opz]"
+    # midichan 0
+    # room 0.8 # sz 0.4
+    # delay 0
+  a1 $ slow 1 $ vizscene "text*8"
+    # vizcommand "none"
+    # vizoption "alligator2"
+    # vizword1 "all  ~ cats   ~  are   ~ bonkers  ~"
+    # vizword2 "x"
+    # vizx "5 4"
+    # vizy "40"
+
+
+
+d1 $ sound "indust:7*4"
+  # shape (slow 2 saw)
+  # room "0.8"
+  # legato 0.6
+  # sz (range 0.4 1 $ slow 6 perlin)
+  # gain 1
+  # pan "0.125 0.625"
+
+
+d2 $ n "3*1 2*4 3*1 2*2"
+  # s "opz"
+  # midichan 1
+
+do
+  once $ hycmd "preset"
+    # hyset "out1"
+    #hybeat 1
+  d4 $ n (slow 1 $ segment 8 $ range 0 32 $ rand) # s "amencutup"
+    # gain 1.2
+    # pan 0.5
+  a1 $ slow 1 $ vizscene "signal*32"
+    #vizcommand "lines!16 perspsq!16"
+    #vizoption "clear*2"
+    # triode 0.8
+
+do
+  d8 silence
+  d6 silence
+  once $hycmd "imgset"
+    #hyset "cyborg"
+  once $ hycmd "preset"
+    # hyset "out3"
+    # hybeat 2
+  x1 $ hycmd "newimg*4"
+    # hybeat (irand 164) |+ 1
+  d1 $ n "1 1 1 1"
+    # s "onc"
+
+
+-- frau.tidal
+
+
+setF "fraucount" 0
+
+
+do
+  d5 $ slow 4 $ s "frau" # nCount "fraucount"
+    # distort 0.2
+    # krush 5
+    # room 0.3
+    # sz 0.4
+    # gain 1
+  a1 $ vizscene "rtext*4"
+    # vizcommand "clear*4"
+    # vizoption "alligator2"
+    # vizword1 "<CYBORG  LATENT>"
+    # vizword2 "<FRAU  SPACE>"
+  once $ hycmd "preset"
+    #hyset "out1"
+
+
+
+
+do
+  d6  $ slow 2$  n  ((|+ 12) " ~ ~ ~ [<c2 c4> c4 d6 d6 ds6 <e6 d6> <ds6 a5  a5>  _ ]  ")
+    # s "acid309"
+    # legato 1.2
+    # distort 2
+    # gain 0.8
+    # squiz "<0 2 4>"
+    # ringsbright tri
+    # ringsfreq 30
+  once $ hycmd "preset"
+    # hyset "out3"
+  a1 $ slow 2 $ vizscene "signal*64"
+    # vizcommand "~ ~ ~ ~ ~ ~ cube*7 ~"
+    # vizoption "clear!3 [clear*8]"
+
+
+
+d4 $ slow 2  $ n " 4 4 4 4 "
+  # legato 4
+  # s "bytebeats"
+  # speed "1 2 0.5 0.5"
+  # krush 0
+  # lpf 1200
+  # gain 1
+
+
+
+do
+  let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
+  d1 $ n pat1
+    # s "kick"
+    # room 0.6
+    # s "onc" -- "-** *-*"
+    # midichan 0
+  once $hycmd "preset"
+    # hyset "out3"
+  once $hycmd "imgset"
+    #hyset "frau"
+  x3 $ hycmd "newimg*8"
+    # hybeat  (irand 24) |+ pat1
+
+
+
+d2 $ n "1 < ~ 2>"
+  # s "snare"
+  # s "onc" -- "--* ***"
+  #midichan 2
+
+d3 $ n "1 2 4 5"
+  # s "ldmtom"
+  # squiz 2
+  # s "onc" -- "--* ***"
+  #midichan 1
+
+d5 $ chop 32 $ slow 4
+  $ s "frau" # nCount "fraucount"
+  # gain 1.2
+
+do
+  d6 $ n "a <c a> f [e e]"
+    # s "[opz, pfm2 ]" -- s3.1
+    -- # s "supersaw"
+    # legato 0.3
+    # midichan 1
+  once $ hycmd "imgset"
+    # hyset "masks"
+  once $ hycmd "preset"
+    #hyset "out3"
+    #hybeat 24
+  a1 $ vizscene "signal*8"
+    #vizcommand "cube!3 [cube cube]"
+
+
+
+-- ascii viz
+
+do
+  once $ hycmd "preset"
+    # hyset "out1"
+    #hybeat 1
+  d3 $slow 1 $ "hardkick:4!4"
+    # gain 1.2
+    # room 0.3 # sz0.9
+  a1 $ vizscene "signal!4"
+    # vizcommand "circles"
+    #vizoption "clr"
+
+
+do
+  hush
+  a1 $ slow 1 $ vizscene "signal*4"
+    #vizcommand "cube!32"
+    #vizoption "clear*2"
+  d1 $ s "bytebeats" <| n "12 12 15 13 [2 2 4 5 6 7 8] 7 23 21"
+    # legato 0.3
+    # distort 0
+    # lpf "<520 800 1200 1400>"
+    # lpq 0.5
+
+
+do
+  let pat0 =  "4 4 <4 2> <4 4 >"
+  a1 $ slow 1 $ vizscene "signal*4"
+    #vizcommand "cube!2 circles cube"
+    #vizoption "clear"
+  d3 $ s "hardkick*4" # n pat0
+    # pan 0.5
+    # gain 1
+
+
+
+---- turb0
+
+d6 $  chop "4" $ striate 32 $ juxBy 0.8 rev $ s "turbo:2"
+  # octer "<0 0.5 1>"
+  # speed 0.5
+  # djf (slow 4 sine)
+  # gain 1
+
+-- doppler?
+
+
+d1 $ slow 1 $ n "5 <5 5 5 3> [5 3] <~ 4>"
+  # s "ldm"
+  # legato 1
+  # speed "1 0.6 0.6 1"
+  # squiz 1
+  # gain 1
+  # lpf "<2400 1400 <1800> 1400>"
+  # lpq 0.6
+
+
+do
+  let wl = 0.1
+  d2 $ s "kick:5(5,8)"
+    # waveloss wl
+  d3 $ s "ldmtom:2(<4 3 5>,8)"
+    # waveloss wl
+  d1 silence
+
+
+d1 $ slow 2 $juxBy 0.5 rev $ n (off "0.25" (|+ 12)  "e  [e  g ]")
+ # s "pfm2" --minimoog"
+ # midichan 2
+ # legato 1
+ # gain 1
+
+
+do
+  d3 $ slow 1
+   $ midichan " [0 1] 2*<0 16> <~ 1> [3*<16 8 4 2 >] "
+   # s "onc" # n " 0 "
+  d4 $ slow 1
+    $ midichan "0 0 [0 1] 0 "
+    # s "onc" # n "1"
+  d5 $ sometimesBy 0.4 (# gain 0)  $ s "ldmchh*16"
+    # room 0.5
+    # sz 0.5
+    # gain 0.8
+
+
+
+-- 4ever
+ _           _       _                _
+| |__  _   _| |_ ___| |__   ___  __ _| |_ ___
+| '_ \| | | | __/ _ \ '_ \ / _ \/ _` | __/ __|
+| |_) | |_| | ||  __/ |_) |  __/ (_| | |_\__ \
+|_.__/ \__, |\__\___|_.__/ \___|\__,_|\__|___/
+       |___/
+
+
+-- bytebeats
+do
+  hush
+  d1 $ slow 1 $ n "4 ~ 6 [2 6 <4 3 6 6>]  "
+    # legato (slow 4 sine)
+    # s "bytebeats"
+    # lpf (slow 4 (saw * "240") + 1800)
+    # room 0.5
+    # sz 0.7
+    # lpq 0.2
+    # gain 1
+
+d2 $ striate "[<1 8 2> <1 4>]" $ s "amencutup*<4>" # n "<4 >"
+  # gain 1.1
+
+
+d6 $ s "gabba gabba gabba gabba "
+  # gain 0.9
+  # crush 16  -- 1
+
+
+d1 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" $ sound "turbo:3"
+# legato 2
+
+
+d1 $ fast "<[16] 8>" $ randslice 4 $ sound "amencutup:2"
+
+-- nootropicsTE.tidal
+
+
+
+
+
+d5 $ n (off 0.125 (|+ 12)  "<c*8 a(3,8) d(3,8,2) f(5,8)>")
+  # sound "pfm2"
+  # sustain 0.6
+  # gain 1
+  # midichan 2
+
+d6 $slow 4 $ n (off 0.125 (|+12)  "c5 e5 c5 _ ")
+  # s "mono"
+  # midichan 0
+
+d7 $slow 2 $ n (off 0.250 (|+12)  "c5 [e5*4] c5 _ ")
+  # s "mono"
+  # midichan 1
+
+
+
+
+d1 $ n  "1 1_ 1"
+ # s"onc"
+
+d5 silence
+
+-- alogo.tidal (needs some work)

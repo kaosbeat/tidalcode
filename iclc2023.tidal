@@ -3,8 +3,8 @@ d1 $ s "hardkick!4"
 
 d3 $ s "amencutup*8" # n (irand 8)
 
-d2 $ (mask "0 1 0 1 0 0 0 1 ")  $ s "hh!32"
-  # gain (rand + 1)
+d2 $ (mask "0 1 1 0 0 1 0 1 ")  $ s "hh!32"
+  # gain (rand + 0.7)
 
 
 

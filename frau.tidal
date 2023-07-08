@@ -11,11 +11,11 @@ do
     # room 0.3
     # sz 0.4
     # gain 1
-  x1 $ vizscene "rtext*4"
+  a1 $ vizscene "rtext*4"
     # vizcommand "clear*4"
     # vizoption "alligator2"
-    # vizword1 "<CYBORG FRAU LATENTEN_RAUM>"
-    # vizword2 "x"
+    # vizword1 "<CYBORG  LATENT>"
+    # vizword2 "<FRAU  SPACE>"
   once $ hycmd "preset"
     #hyset "out1"
 
@@ -33,11 +33,9 @@ do
     # squiz "<0 2 4>"
     # ringsbright tri
     # ringsfreq 30
-  x2 $ slow 2 $ vizscene "signal*64"
-    # vizcommand "~ ~ ~ ~ [cube*7 ~]"
-    # vizoption "clr!3 [clear*8]"
-
-
+  a1 $ slow 2 $ vizscene "signal*64"
+    # vizcommand "~ ~ ~ ~ [cube*7 ~] "
+    # vizoption "clear!3 [clear*8]"
 
 
 
@@ -45,8 +43,8 @@ d4 $ slow 2  $ n " 4 4 4 4 "
   # legato 4
   # s "bytebeats"
   # speed "1 2 0.5 0.5"
-  # krush 1
-  # lpf 500
+  # krush 0
+  # lpf 1200
   # gain 1
 
 
@@ -57,9 +55,9 @@ do
   d1 $ n pat1
     # s "kick"
     # room 0.6
---    # s "onc"
+    # s "onc"
   once $hycmd "preset"
-    # hyset "out2"
+    # hyset "out3"
   once $hycmd "imgset"
     #hyset "frau"
   x3 $ hycmd "newimg*8"
@@ -68,32 +66,31 @@ do
 
 
 
-d2 $ n "1 2"
+d2 $ n "1 < ~ 2>"
   # s "snare"
-
   # s "onc" -- "--* ***"
   #midichan 2
 
 d3 $ n "1 2 4 5"
   # s "ldmtom"
   # squiz 2
-
   # s "onc" -- "--* ***"
   #midichan 1
 
 
-
-d5 $ n "a <c a> f [e e]"
---  # s "opz" -- s3.1
-  # s "supersaw"
-  # legato 0.3
-  # midichan 5
-
-
-
-
-
-
+do
+  d5 $ n "a <c a> f [e e]"
+    # s "[opz, pfm2 ]" -- s3.1
+    -- # s "supersaw"
+    # legato 0.3
+    # midichan 1
+  once $ hycmd "imgset"
+    # hyset "masks"
+  once $hycmd "preset"
+    #hyset "out3"
+    #hybeat 24
+  a1 $ vizscene "signal*8"
+    #vizcommand "cube!3 [cube cube]"
 
 
 

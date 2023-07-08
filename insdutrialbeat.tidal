@@ -24,6 +24,8 @@ d1 $ s "[sd bd sd sd]*1.5 bd sd sd "
 d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
 
 
+d5 silence
+
 
 d1 $ sound "indust:7*3" # legato 1  # shape (slow 2 saw)
   # room "0.8"

@@ -10,17 +10,17 @@ d1 $ slow 4 $ s "indust" <| n (run 3)
   # gain "0.4"
 
 
-x1 $ slow 1 $ vizscene "circle*64"
+a1 $ slow 1 $ vizscene "circle*64"
   # vizcommand "clear"
   # vizsize "1"
   # vizspeed (slow 8 sine)   -- sets the noisestep offset
-  # vizamount 112
+  # vizamount "<112 1111>"
 
 
-x1 $ slow 1 $ vizscene "text*8"
+a1 $ slow 1 $ vizscene "text*8"
   # vizcommand "none!7 clear "
   # vizoption "banner3-D"
-  # vizword1  "kaotec _ nbcode _ 0110010  _ soundz  ~"
+  # vizword1  "lets _ [do some]  _ algorave  _ soundz  ~"
   # vizword2 "x"
   # vizx "0 0 40 30"
   # vizy "40 30 20 10"
@@ -29,15 +29,16 @@ x1 $ slow 1 $ vizscene "text*8"
 
 
 d2 $ slow 1 $ s "kick(5,8)"
+  # gain 0.7
 
 d3 silence
 
-d3 $ "hardkick(5,8,3)"
-
+d3 $ "hardkick(5,8,<3>)"
+  # gain 0.7
 
 
 d1 $ slow "1" $ n "6 6 4 6"  # s "hardkick" # speed "0.6 0.7 <0.7 0.6> 0.4"
-  # squiz "<0 1.2>"
+  # squiz "<0 0.2>"
   # room 0.8
   # size 0.5
   # gain 0.8
@@ -57,7 +58,7 @@ d1 $ slow "1" $ n "1 1 1 1"  # s "hardkick" # speed "1 2 <2 4> 4"
 
 
 
-d7 $ slow 1 $ n "12 _ 13 [14 ~ 13 ~ 14 ~ 13 ~]" # s "pfm2" # midichan 0     -- # Dexed OB genVivY
+d7 $ slow 1 $ n "12 _ 13 [14 ~ 13 ~ 14 ~ 13 ~]" # s "midi" # midichan 0     -- # Dexed OB genVivY
 
 
 d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
@@ -89,7 +90,8 @@ d3 $ speed "1*2 2*4 4*6?0.3 4" # sound "jungbass:3" # gain "0.7"
 # turbo
 
 
-d6 $  chop "8" $ s "turbo" <| "1"
+d6 $ chop "8" $ s "turbo" <| "1 2 3 4"
+  # legato 2
   # octer "<0 0.5 1>"
   # djf (sine)
   # gain 1
@@ -106,20 +108,24 @@ d1 $ slow 1 $ n "<4*[<4 8> 4]> <5 [5*4] 4 [3*<4 2>]> [2 3] <~ 4>"
   # gain 0.7
 
 
+d5 $ slow 1 $ s "kick:3*4"
+  # gain 1
+
 do
   let wl = 0.9
   d2 $ s "kick:5(5,8)"
     # waveloss wl
   d3 $ s "ldmtom:2(<4 3 5>,8)"
     # waveloss wl
-  d7 silence
 
+
+hush
 
 d1 $ slow 2 $juxBy 0.5 rev $ n (off "0.125" (|+ 12)  "e  [e  g ]")
- # s "dx7" --minimoog"
+ # s "bskick:11" --minimoog"
  # midichan 0
  # legato 0.8
- # gain 1
+ # gain 1.5
 
 
 d5 $ sometimesBy 0.4 (# gain 0)  $ s "ldmchh*16"
@@ -147,7 +153,7 @@ do
   once $ hycmd "imgset"
     # hyset "masks"
   once $ hycmd "preset"  -- out1, out2, out3, ou4, all
-    # hyset "out2"
+    # hyset "all"
   d6 $ s "gabba:4 gabba gabba gabba "
     # gain 1
     # crush 4  -- 1
@@ -163,7 +169,7 @@ do
 -- bytebeats
 do
   hush
-  d1 $ slow 1 $ n "4 ~ 6 [2 6 <4 3 6 6>]  "
+  d1 $ slow 1 $ n "4 ~ 6 [2 6 7 <4 3 6 6>]  "
     # legato (slow 4 sine)
     # s "bytebeats"
     # lpf (slow 4 (saw * "540") + 1200)
@@ -172,8 +178,8 @@ do
     # lpq 0.2
     # gain 0.9
 
-d2 $ fast 4 $ striate "[2 <8 4>]" $ s "amencutup*<4 2>" # n "<2 1 2  1>"
-  # gain 1.2
+d2 $ fast 4 $ striate "[1 <2 4>]" $ s "amencutup*<1 2>" # n "<2 1 2  1>"
+  # gain 1
 
 
 

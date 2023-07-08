@@ -4,6 +4,13 @@
 (
 MIDIClient.init;
 
+
+// ~pdOut = MIDIOut.newByName("Pure Data", "Pure Data Midi-In 1");
+// ~dirt.soundLibrary.addMIDI(\pdclock, ~pdOut);
+// ~pdOut.latency = 0.0;  /// optional latency
+
+
+
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
 ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);

@@ -19,8 +19,10 @@ d4 $ slow 4 $ s "indust" <| n (run 10)
 d7 $ slow 1 $ vizscene "circle*64"
   # vizsize "1"
   # vizspeed (slow 8 sine)   -- sets the noisestep offset
-  # vizamount 112
+  # vizamount 12
 
+
+d8 silence
 
 d8 $ slow 1 $ vizscene "text*8"
   # vizcommand "none!7 clear "
@@ -51,7 +53,7 @@ d7 $ vizscene "boot"
 -- add noise : pumpkinmaster, space coms, phone
 
 
-d7 $ slow 8 $ vizscene "signal*8"
+d7 $ slow 4 $ vizscene "signal*8"
   # vizcommand "wlines!4"
   # vizoption "clr!7 clear"
   # vizamount "1"

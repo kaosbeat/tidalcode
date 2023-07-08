@@ -1,7 +1,7 @@
 hush
 
 
-setcps 0.2
+setcps 0.6
 
 d1 $ s "<kick:3 [kick:3 kick:2 ~ ~ ~ ~ hardkick ~  ]> kick!3"
 

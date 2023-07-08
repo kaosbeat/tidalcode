@@ -69,11 +69,11 @@ hush
 
 do
   d1 $ s "bytebeats" <| n "12 12 15 13 [2 2 4 5 6 7 8] 7 23 21"
-    # legato 0.8
-    # distort 0.3
-    # lpf 1200
-    # lpq 0.2
-  d3 $ s "hardkick:3!<2 3 4> [hardkick:1  hardkick:<6 5 4>] "
+    # legato 1
+    # distort 0
+    # lpf 5200
+    # lpq 0.1
+  d3 $ s "hardkick:3  hardkick:3!3 "
     # pan 0.5
     # gain 1.2
   d4 silence

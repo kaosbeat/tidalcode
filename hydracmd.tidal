@@ -6,13 +6,15 @@ once $ hycmd "imgset"
 
 once $ hycmd "preset"  -- out1, out2, out3, out4, all
   # hyset "out1"
-
+  #hybeat "1"
 
 -- shape size
-x2 $ hycmd "shape*4"
+x1 $ hycmd "shape*4"
+  # hybeat (pat3 |+ 2)
+
  #  hybeat " 3 4 5 6"
 
-
+x2 silence
 
 
 --- synth1 images
@@ -30,6 +32,6 @@ pat1 = " 2 3 3 4"
 
 
 x2 $ hycmd "newimg*8"
-  # hybeat (irand 164 )|+ pat1
+  # hybeat (irand 16 )|+ pat1
 
 x2 silence
