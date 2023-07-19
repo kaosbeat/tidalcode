@@ -1,4 +1,4 @@
-#N canvas 52 8 618 791 12;
+#N canvas 371 8 618 791 12;
 #X msg 440 279 tempo \$1;
 #X msg 254 279 resolution \$1;
 #X msg 350 279 reset \$1 \$2;

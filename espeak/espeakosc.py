@@ -3,6 +3,13 @@
 import liblo, sys, re, datetime, os, time
 from espeakng import ESpeakNG
 
+
+
+import inspect
+
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
+
 #except liblo.ServerError as err:
 #    print(err)
 #    sys.exit()
