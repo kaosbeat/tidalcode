@@ -128,6 +128,7 @@ do
 
 setF "fraucount" 0
 
+setcps 0.7
 
 do
   x1 silence
@@ -174,7 +175,7 @@ d4 $ slow 2  $ n " 4 4 4 4 "
 
 
 do
-  hush
+  -- hush
   let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
   d1 $ n pat1
     # s "[kick, onc]" -- "-** *-*"
@@ -190,7 +191,7 @@ do
 
 setcps 0.7
 
-d2 $ n "1 < ~ 2>"
+d2 $ n "1*[3 4] <2*4 2*2>"
   # s "[snare, onc]" -- "--* ***"
   #midichan 2
 
@@ -199,9 +200,9 @@ d3 $ n "1 2 4 5"
   #midichan 1
   # squiz 2
 
-d5 $ chop 16 $ juxBy 0.5 rev $ slow 4
+d5 $ chop 32 $ juxBy 0.5 rev $ slow 4
   $ s "frau" # nCount "fraucount"
-  # gain 1.3
+  # gain 1
   # room 0.6
 
 do
@@ -249,7 +250,7 @@ do
 
 
 do
-  let pat0 =  "4 4 <4 2> <4 4>"
+  let pat0 =  "2 2 <2 2> <2 2>"
   a1 $ slow 1 $ vizscene "signal*4"
     #vizcommand "cube!2 circles cube"
     #vizoption "clear"
@@ -330,7 +331,7 @@ do
     # lpq 0.2
     # gain 1
 
-d2 $ juxBy 0.3 rev $ striate "[<1 8 2> <1 4>]" $ s "amencutup*<1 4 8>" # n "<2 4>"
+d2 $ juxBy 0.3 rev $ striate "[<16 8 2> <8 4>]" $ s "amencutup*<8 4 8>" # n "<2 4>"
   # gain 1.1
 
 
@@ -597,16 +598,16 @@ d3 $ s "snare:3(<<4 5>,3>,8,2)"
 
 
 do
-  d4 $juxBy "<0.9 0.5 0.1>" rev $ n (off "<0.75>" (|+"<12!3 24>") "a4 <f4> c4 <~>")
+  d4 $juxBy "<0.9 0.5 0.1>" rev $ n (off "<0.75>" (|+"<12!3 24>") "[a5*2 e4*2] <f4*2 a4> <c4 c4*4> <~>")
     # s "plaits"
-    # legato 1
+    # legato 2
     # engine 3
     # pF "timbre" (slow 8 (range 0.8 0.9 (saw)))
     # gain 1
     # pF "harm" (slow 8 (range 0 0.5 (saw)))
   once $hycmd "preset"
     #hyset "out1"
-    #hybeat 1
+    #hybeat 2
   a1 $ slow 1 $ vizscene "signal*64"
     # vizcommand "lines!7 cube"
     # vizoption "clr!7 clear"
