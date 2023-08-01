@@ -1,0 +1,186 @@
+-- https://tidalcycles.org/docs/reference/mi-ugens/
+
+setcps 0.7  -- or 0.5
+
+hush
+
+once $ hycmd "preset"
+  # hyset "out2"
+  # hybeat 1
+
+do
+  hush
+  d1 $ n "1 <2 2> 3 4" # s "bssnare"
+
+
+do
+  d1 $ n "1 [2 2] 3 [4 4 3 4]"
+    # s "[bssnare,opz]"
+    # midichan 1 -- opz seba snares 4.1
+
+d1 silence
+
+do
+  d2 $ n "5 3 5 <5 2>"  # s "[kick, opz]"
+    # midichan 0
+    # gain 1
+  once $ hycmd "preset"
+    # hyset "out2"
+    # hybeat 2
+
+d2 silence
+
+d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "[kick,opz]"
+  # midichan 0
+  # gain 1
+
+
+
+
+
+
+
+
+d5 $ n "a5 c6 f6 a6"
+
+
+
+d5 $ slow 4 $ n (off "<0 0>" (|+ 12) "~ f4 <e5> [a4]")
+
+
+d5 $ n (off "0.25" (|+12 ) "<a5 a7> c6*2 <f6 e6*4> a6")
+  #s "[op1, acid309]"
+  # midichan 0 -- op1 voltage dubby 80s
+  #legato 0.9
+  # gain 0.5
+
+
+d5 silence
+
+do
+  let pat0 = "2 4 2 1"
+  let pat1 = "3 3 3 3"
+  let pat2 = "3 2 _ 2"
+  let pat3 = "1 3 3 1"
+  let pat4 = "3 3 ~ 1"
+  let pat = pat4
+  d6 $ slow 4 $ striate 2 $ juxBy 0.3 rev $ n pat
+    # legato  (slow 3 (range 0.3 1 saw))
+    # s "turbo"
+    # room 0.7
+    # gain 0.8
+  once $ hycmd "preset"
+    # hyset "out2"
+    # hybeat 1
+  x1 $ hycmd "shape*4"
+    # hybeat (pat |+ 2)
+
+
+do
+  d2 silence
+  d2 $ n "1!4"
+    # s "opz"
+    #midichan 0
+
+
+do
+  let wl = 2
+  d2 $ n "5!4"
+    # s "[kick:5(5,8), opz]"
+    # midichan 0
+    # waveloss wl
+  d3 $ s "snare:2(3,8)"
+    # waveloss wl
+
+d3 silence
+
+do
+  d6 $ slow 0.5 $ n "a5 ~ ~ ~ c5 _ ~ ~" # s "acid309"
+    # gain 0.8
+
+
+
+
+
+d6 silence
+
+hush
+
+d1  $ s "bd*4"
+
+
+d6 silence
+
+
+
+
+
+d5 $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ f4 e5 a4")
+  # s "plaits"
+  # legato 4
+  # pF "timbre" 0.3
+  # pF "harm" "<0.6 0.7!3 0.5>"
+  # pI "engine" 4
+  # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+  # room 0.6 #sz 0.9
+  # clouds 0.1 0.5 0.5 0.1
+  # cloudsmode 2
+  # gain 0
+  # cloudspos 9
+  # cloudspitch 1
+  # cloudspos 0.5
+  # cloudssize 0.8
+  # cloudsdens 0.6
+  # cloudstex 0.8
+
+
+d4 $ s "sn*16"
+  # ringsbright tri
+  # ringsfreq (slow 2 "<60 40 30 30>")
+  # slow 4 (ringspos saw)
+  # ringsmodel 1 # ringsstruct 0.75 # ringsdamp 0.4
+
+hush
+
+  --plaits straight from tidalclub
+d4 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
+  # sustain 0.05
+  # s "plaits"
+  # engine 2
+  # room 0.7
+  # gain 0.95
+  # harm (range 0.8 1.0 $ perlin)
+  # timbre (range 0.45 0.5 $ perlin)
+  # slow 8 (morph (range 1.0 0.9 $ square))
+
+d6 silence
+
+-- rings
+d6 $ sometimesBy 0.1 (# ringseasteregg 1)
+  $ s "hh:3*4 hh:2*4"
+  # ringsbright perlin
+  # ringsfreq 1
+  # slow 2 (ringspos saw)
+  # slow 2 (ringsmodel (run 4))
+  # ringsstruct 0.5
+  # ringsdamp 0.2
+  # gain (range 0.9 5 rand)
+
+
+  hush
+
+
+d2 $ s "kick*4"
+
+
+
+
+  # mod1 3 "1 0 0.5"
+# mod1 4 "0 1"
+# mod1 5 "0 1 0"
+
+
+d1 $ s "superzow*4"
+  # octave 3
+  # accelerate "0.2"

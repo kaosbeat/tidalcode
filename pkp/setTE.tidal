@@ -12,14 +12,12 @@
 
 hush
 
-setcps 0.7
+setcps 0.70
 
 
--- oncL p1
--- onc2 p1
 
 do
-  d6 $ slow "<0.5 1>" $ n "[a5*2] ~ ~ ~ <e4 c5> _ ~ ~" # s "acid309"
+  d6 $ slow "<0.5 1>" $ n "[a5*4] ~ ~ ~ <e4 a5> _ ~ ~" # s "acid309"
     # gain 0.8
   once $ hycmd "preset"
     # hyset "out1"
@@ -27,34 +25,31 @@ do
   a1 $ slow 1 $ vizscene "text*4"
     # vizcommand "clear*4"
     # vizoption "banner3-D*2 alligator2*2"
-    # vizword1 "lambdasonic*2 ALGORAVE"
-    # vizword2 "algorave pandhalle"
+    # vizword1 "KAOTEC LIVECODING"
+    # vizword2 "algorave kaotec"
     # vizx "5 10"
     # vizy "30 40"
 
 
 do
   let wl = 40
-  d2 $ s "kick:5(<<5 7> 3>,8)"
-    # s "[onc]"
-    # n " a3 f6 e a"
-    # midichan 0 -- oncL 0/5
+  d1 $ s "kick:5(<<5 7> 3>,8)"
+    # s "[op1, kick]"
+    # midichan 0 --op1 drum acetate
     # waveloss (slow 4 "<55 95 5 5>" )
     # room 0.8 #sz 0.6
-    #gain 0
-  -- d3 $ s "kick:2(4,8)"
+    #gain 0.8
+  d2 $ s "kick:2(4,8)"
     # waveloss wl
     # gain 1
 
 
 
-d5 silence
 
 
-
-d1 $ n "1 <1 2> 3 4"
-  # s "[onc]"
-  # midichan 1
+d3 $ n "1 <1 2> 3 4"
+  # s "[opz, bssnare]"
+  # midichan 1 -- opz seb snares 4.1
   # shape "<0.4 0.3>"
   # gain 1
 
@@ -62,8 +57,9 @@ d1 $ n "1 <1 2> 3 4"
  let pat1 = (off "<0.125 0.25>" (|+ 12)  "a6  ~ [a4 a4] ~ c5 _ c3 ~")
 
 do
-  d6 $ juxBy 0.4 rev $ slow "<2 1>" $ n (off 0.125 (|+12) "a6  ~ a4 ~ c5 _ c3 ~")
-    # s "[acid309]"  --SpaceAcid or --acid309
+  d6 $ juxBy 0.4 rev $ slow "<2 1>" $ n (off "<0.25>" (|+12) "[a6]  ~ a4 ~ c5 _ c3 ~")
+    # s "[acid309, opz]"   --acid309
+    # midichan 4 -- bass - electric (5.3)
     # legato (slow 4 "<2 1 0.5>")
     # gain 0.85
   a1 $ slow 1 $ vizscene "intersect*4"
@@ -73,8 +69,11 @@ do
 
 
 do
-  d2 $ n "4!4"
-    # s "[onc]"
+  once $hycmd "preset"
+    #hyset "out2"
+    #hybeat 1
+  d2 $ midinote "53!3 54"
+    # s "[op1, kick]"
     # gain 0.85
     # midichan 0
     # room 0.8 # sz 0.4
@@ -89,7 +88,8 @@ do
 
 
 
-d1 $ sound "indust:7*4"
+
+d5 $ sound "indust:7*4"
   # shape (slow 2 saw)
   # room "0.8"
   # legato 0.6
@@ -98,16 +98,16 @@ d1 $ sound "indust:7*4"
   # pan "0.125 0.625"
 
 
-d2 $ n "3*1 2*4 3*1 2*2"
-  # s "[onc]"
-  # midichan 1
+d3 $ midinote "62*1 62*4 63*1 62*2"
+  # s "[op1, snare:4]"
+  # midichan 0
 
 do
   once $ hycmd "preset"
     # hyset "out1"
-    #hybeat 2
-  d4 $ n (slow 1 $ segment 16 $ range 0 32 $ rand) # s "amencutup"
-    # gain 1
+    # hybeat 2
+  d5 $ n (slow 0.5 $ segment 8 $ range 0 32 $ rand) # s "amencutup"
+    # gain 1.2
     # pan 0.5
   a1 $ slow 1 $ vizscene "signal*32"
     #vizcommand "lines!16 perspsq!16"
@@ -115,7 +115,7 @@ do
     # triode 0.8
 
 do
-  d8 silence
+  d7 silence
   d6 silence
   once $hycmd "imgset"
     #hyset "cyborg"
@@ -125,7 +125,8 @@ do
   x1 $ hycmd "newimg*4"
     # hybeat (irand 164) |+ 1
   d1 $ n "1 1 1 1"
-    # s "onc"
+    # s "[opz, kick]"
+    # midichan 1
 
 
 -- frau.tidal
@@ -133,13 +134,12 @@ do
 
 setF "fraucount" 0
 
-setcps 0.7
 
 do
   x1 silence
   d5 $ slow 4 $ striate 1 $ s "frau" # nCount "fraucount"
-    # distort 10
-    # krush 5
+    # distort 1
+    # krush 1.2
     # room 0.9
     # sz 0.2
     # gain 1.2
@@ -159,13 +159,13 @@ do
     # s "acid309"
     # legato 1.2
     # distort 2
-    # gain 0.8
+    # gain 1
     # squiz "<0 2 4>"
     # ringsbright tri
     # ringsfreq 30
   once $ hycmd "preset"
     # hyset "out3"
-    #hybeat 3
+    # hybeat 2
   a1 $ slow 2 $ vizscene "signal*64"
     # vizcommand "~ ~ ~ ~ ~ ~ cube*7 ~"
     # vizoption "clear!3 [clear*8]"
@@ -174,60 +174,69 @@ d4 $ slow 2  $ n " 4 4 4 4 "
   # legato 4
   # s "bytebeats"
   # speed "1 2 0.5 0.5"
-  # krush 2
-  # lpf 1400
+  # krush 1
+  # lpf 1600
   # gain 1
 
 
+
+
 do
-  -- hush
   let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
+  hush
   d1 $ n pat1
-    # s "[onc]" -- "-** *-*"
+    # s "[kick, opz]" -- "-** *-*"
     # gain 0.9
     # room 0.6
     # midichan 0
-  once $hycmd "preset"
-    # hyset "out3"
   once $hycmd "imgset"
     #hyset "frau"
   x3 $ hycmd "newimg*8"
-    # hybeat  (irand 24) |+ pat1
+    # hybeat  (irand 24) |+ 1
 
 setcps 0.7
 
-d2 $ slow 2 $ n "1*[3 4] <2*4 2*2>"
-  # s "[ onc]" -- "--* ***"
-  #midichan 2
-
-d3 $ n "1 2 4 5"
-  # s "[ldmtom, onc]" -- "--* ***"
+d2 $ n "1 < ~ 2>"
+  # s "[snare, opz]" -- "--* ***"
   #midichan 1
+
+d3 $ n "1 2 4 5*1"
+  # s "[ldmtom, opz]" -- "--* ***"
+  # midichan 0
   # squiz 2
 
-d5 $ chop 32 $ juxBy 0.9 rev $ slow 4
-  $ s "frau" # nCount "fraucount"
-  # gain 1
-  # room 0.6
+do
+  d5 $ chop 16 $ juxBy 0.4 rev $ slow 2
+    $ s "frau" # nCount "fraucount"
+    # gain 0.9
+    # room 0.6 # sz 0.7
+  once $hycmd "preset"
+    # hyset "out3"
+    #hybeat 3
+
+
 
 do
-  d6 $ n "a <c a> f [e e]"
-    # s "ab2"
-    # legato 1.2
-    # gain 2
-    # s "[opz, pfm2 ]" -- s3.1, pfm2 alogorave
-    # midichan 1
+  let pat2 = "a <c e a> f*4 [e a*2 e]"
+  d6 $ n pat2
+    # s "[opz]" -- opz BASS ch5 s6.2 bow
+    # midichan 5
+  d7 $ n pat2
+    # s "[op1]" -- op1 synth drwave delicatto
+    # midichan 0
+    # legato 1
   once $ hycmd "imgset"
-    # hyset "masks"
+    # hyset "frau"
   once $ hycmd "preset"
     #hyset "out3"
-    #hybeat 24
+    #hybeat 3
   a1 $ vizscene "signal*8"
     #vizcommand "cube!3 [cube cube]"
 
 
 
 -- ascii viz
+
 do
   x1 silence
   once $ hycmd "preset"
@@ -235,14 +244,15 @@ do
     # hybeat 2
   d3 $ slow 1 $ s "hardkick:4!4"
     # gain 1
-    # room 0.3 # sz 0.5
-  a1 $ vizscene "signal!4"
+    # room 0.4 # sz 0.5
+    # krush 0.3
+  a1 $ vizscene "signal!8"
     # vizcommand "circles perspsq"
-    #vizoption "clr"
+    #vizoption "clear"
 
 
 do
-  hush
+  -- hush
   a1 $ slow 1 $ vizscene "signal*4"
     #vizcommand "cube!32"
     #vizoption "clear*2"
@@ -254,12 +264,14 @@ do
 
 
 do
-  let pat0 =  "2 2 <2 2> <2 2>"
+  d1 silence
+  let pat0 =  "4 4 <4 <4 3 6 4>> <4 4>"
   a1 $ slow 1 $ vizscene "signal*4"
     #vizcommand "cube!2 circles cube"
     #vizoption "clear"
   d3 $ s "hardkick*4" # n pat0
     # pan 0.5
+    # room 0.3 # sz 0.5
     # gain 1
   once $ hycmd "preset"
     # hyset "out3"
@@ -268,40 +280,42 @@ do
 
 ---- turb0
 
-d6 $ slow 2 $ chop "16" $ striate 32 $ juxBy 0.8 rev $ s "turbo:1"
-  # octer "<0 0.5 1>"
-  # speed 0.5
-  # djf (slow 4 sine)
-  # gain 1
+do
+  d5 silence
+  d6 $ slow 2 $ chop "16" $ striate 32 $ juxBy 0.8 rev $ s "turbo:1"
+    # octer "<0 0.5 1>"
+    # speed 0.5
+    # djf (slow 4 sine)
+    # gain 1
 
 
 do
   let wl = 0.1
   d2 $ s "kick:5(5,8)"
     # waveloss wl
-  d3 $ s "ldmtom:2(<4 3 5>,8)"
+  d4 $ s "ldmtom:2(<4 3 5>,8)"
     # waveloss wl
   d1 silence
 
 
-d1 $ slow 2 $juxBy 0.5 rev $ n (off "<0.125  0.25> " (|+ 12)  "<e*2 e4  g6*2>  [e  [e g]]")
-  # s "[pfm2]" --minimoog or glass  + wob from tidal
-  # midichan 2
-  # legato 1
-  # gain 1
+d1 $ slow 2 $juxBy 0.5 rev $ n (off "<0> " (|+ 12)  "<e*2 e4  g6*2>  [e  [e g]]")
+  # s "[op1]" -- delicatto   + wob from tidal
+  # midichan 0
+  # legato 2
+  # gain 0.7
 
 
 do
   d3 $ slow 1
    $ midichan " [0 1] 2*<0 16> <~ 1> [3*<16 8 4 2 >] "
-   # s "onc" # n " 0 "
+   # s "opz" # n " 0 "
   d4 $ slow 1
     $ midichan "0 0 [0 1] 0 "
-    # s "onc" # n "1"
+    # s "opz" # n "1"
   d5 $ sometimesBy 0.4 (# gain 0)  $ s "ldmchh*16"
     # room 0.5
     # sz 0.5
-    # gain 1
+    # gain 0.9
 
 
 
@@ -315,9 +329,13 @@ do
 
 hush
 
+
+setcps 0.80
+
+
 -- bytebeats
 do
-  hush
+  -- hush
   once $ hycmd "preset"
     # hyset "out2"
     # hybeat 2
@@ -332,13 +350,13 @@ do
     # lpf (slow 4 (saw * "240") + 1600)
     # room 0.5
     # sz 0.7
-    # lpq 0.2
+    # lpq 0.3
     # gain 1
 
-d2 $ juxBy 0.3 rev $ striate "[<16 8 2> <8 4>]" $ s "amencutup*<8 4 8>" # n "<2 4>"
-  # gain 1.1
+d2 $ juxBy 0.3 rev $ striate "[<1 8 2> <1 4>]" $ s "amencutup*<1 4 8>" # n "<2 4>"
+  # gain 1
 
-
+hush
 
 do
   once $ hycmd "preset"
@@ -348,21 +366,24 @@ do
     #vizcommand "cube"
     #vizoption "clear"
   d6 $ s "gabba gabba gabba gabba "
-    # gain 0.9
+    # gain 0
     # crush 16  -- 1
 
 
-d7 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" $ sound "turbo*4" # n "<4 3 2>"
-# legato 2
+d4 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" $ sound "turbo*4"
+  # n "<4 3 2>"
+  # legato 0.5
 
 
-d4 silence
+d1 $ fast "<[16]>" $ randslice 4 $ sound "amencutup:2"
 
-d1 $ fast "<[16] >" $ randslice 4 $ sound "amencutup:2"
 
 -- nootropicsTE.tidal
 
 --
+
+d6 silence
+
 hush
 
 
@@ -382,16 +403,16 @@ do
     #hybeat 1
 
 d1 $ fast 1 $ n"<2 1>!3 <2 [~ 3] >"
-  # s "[onc, opz]"
-  # midichan 0  -- picoL-7 [--- ***]
+  # s "[op1, opz]"
+  # midichan 0  -- op1 delicatto -- opz z-kicks
 
 
 
-d9 $ slow 4 $ n "e [f e] a [ d e ] "
-  # legato 1.5
+d9 $ slow 4 $ n (off 0.125 (|+12) "e [f e] a [ d <e> ] ")
+  # legato 0.7
   # gain 1
-  # s "pfm2"  -- pfm2 eth. Voice
-  # midichan 0
+  # s "opz"  -- opz chord organ 8.8
+  # midichan 7
 
 
 
@@ -402,18 +423,20 @@ d9 $ slow 4 $ n "e [f e] a [ d e ] "
 
 d2 $ n "[~ <~ 8*<1 4 8> ~ <4 [6 6]*<8 2 4 16> >>]*4"
 
-d2 $ n "[~ <~ 3 ~ <5 [3 4 3 5] >>]*4"
 
-d2 $ n "4 4 4 2"
-  # s "onc"
-  #midichan 1 -- picoL-12 [--* *--]
+
+d2 $ n "<3 4> <4 5 4> 4 2"
+
+d2 $ n "[~ <~ 3 ~ <5 [3 4 3 5] >>]*4"
+  # s "opz"
+  #midichan 1 -- opz seba snares 4.1
 
 
 d3 silence
 
 d3 $ n "1 ~ 1 ~ 1 1 1 ~ "
-  #s "onc"
-  #midichan 2 --picoR-51 [**- -**]
+  #s "opz"
+  #midichan 2 -- opz z-perc 1
 
 
 do
@@ -421,11 +444,12 @@ do
   let pat1 =  "[a4*<4 2 8>]  c4  [e4 a4 c4 a4]*<2 4 8>  ~ "
   let pat2 = "[a4*2]  c4  [e4*<4 2 4 8>]  ~ "
   let pat3 = "a5 c4 e3 ~"
-  let pat = pat1
+  let pat = pat2
+  d1 silence
   d5 $ slow 4 $ n pat
-    # s "opz"
-    # legato 4
-    # midichan 4
+    # s "op1"  -- dubby 80s
+    # legato 1
+    # midichan 0
   once $hycmd "preset"
     #hyset "out3"
     #hybeat 2
@@ -446,10 +470,10 @@ do
 d6 $ slow 2 $ n (off "<0.125 0.25> " (|+ 12)  "e a <c a> c")
 
 
-d6 $ slow 2 $ chop 16 $ n (off "0.125" (|+12) "e [a  <f e> e ~] c [e a]")
+d6 $ slow 2 $ chop 4 $ n (off "<0.25>" (|+ "<12 24>") "e [a  <f e> e ~] c [e a]")
   # s "acid309"
   # legato 2
-  # gain 0.6
+  # gain 0.7
 
 
 d6 silence
@@ -459,36 +483,37 @@ d5 silence
 do
   once $ hycmd "preset"
     # hyset "out3"
-    # hybeat 1
+    # hybeat 3
   once $ hycmd "imgset"
-    # hyset "frau"
+    # hyset "masks"
   x1 $ hycmd "shape*4"
     # hybeat " 3 4"
     #  hybeat " 3 4 5 6"
   x2 $ hycmd "newimg*4"
     # hybeat (irand 160 )|+ 1
   d4 $ s "hardkick:4*4"
+    # gain 1.1
   x2 silence
 
-d7 $ slow 8 $ chop 8 $ n "<1 2 3>  ~ <1 3> ~ "
+d6 $ slow 8 $ chop 8 $ n "<1 2 3>  ~ <1 3> ~ "
   # s "turbo"
   # room 0.3
   # octer 0.8
   # sz 0.9
-  # gain 1
-  # krush 6
+  # gain 0.9
+  # krush 1
   # djf "<0.2 0.6>"
 
 
-d7 $ slow 2 $ rev $ chop 8 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
+d6 $ slow 2 $ rev $ chop 8 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
   # room 0.6
   # sz 0.5
-  # gain 1
+  # gain 0.9
 
 
 
 do
-  d7 silence
+  d6 silence
   d6 silence
   d5 silence
   d2 silence
@@ -517,7 +542,7 @@ d5 $ slow 1 $ n "e4 e4 [a5 f5] g6 _ _ <f6 _> _"
   # midichan 7
 
 
-d7 $ slow 2 $ degradeBy 0.1 $ rev $ n "2 3 6 _"
+d6 $ slow 2 $ degradeBy 0.1 $ rev $ n "2 3 6 _"
   # legato 1
   # s "indust"
   # gain 1.1
@@ -526,28 +551,24 @@ d7 $ slow 2 $ degradeBy 0.1 $ rev $ n "2 3 6 _"
 
 
 
-d1 silence
+d7 silence
 
 
 
 d1 $ slow 2 $ n (off "<0.125>" (|+12) "f4 <<~ g4> [~ f4]> f4 f4")
-  # s "pfm2"
-  # midichan 0  -- OP1 Digital Glenn 3
+  # s "op1"
+  # midichan 0  -- OP1 voltage Dubby 80s
 
 
 
 d5 $ n "e3 e5 c3 <e4 c5>"
-  # s "pfm2"
-  # midichan 1 --Mahogany__MB
+  # s "opz"
+  # midichan 4 -- opz_bass analog 7.1
 
-
-hush
-
-
-
-
-d5 $ n (off "<0>" (|+ 12)  "<<[c*2] [a*4 c*4]> a(3,8) d(3,8,2) f(5,8)>")
-  # sound "[pfm2, donk]"  --donk, or acid309,
+do
+ hush
+ d5 $ n (off "<0>" (|+ 12)  "<<[c*2] [a*4 c*4]> a(3,8) d(3,8,2) f(5,8)>")
+  # sound "[donk]"  --donk, or acid309,
   # sustain 0.6
   # midichan 2
   # gain 1
@@ -558,19 +579,24 @@ d5 $ n (off "<0>" (|+ 12)  "<<[c*2] [a*4 c*4]> a(3,8) d(3,8,2) f(5,8)>")
 
 
 d6 $slow 4 $ n (off 0.125 (|+12)  "c5 e5 c5 _ ")
-  # s "[mono, ultrasaw]"
+  # s "[ultrasaw]"
   # midichan 0
   # gain 0.7
 
-d7 $slow 2 $ n (off 0.250 (|+12)  "c5 [e5*4] c5 _ ")
-  # s "[mono, ultrasaw ]"
+d6 $slow 2 $ n (off 0.250 (|+12)  "c5 [e5*4] c5 _ ")
+  # s "[ ultrasaw ]"
   # midichan 1
   # gain 0.7
 
 
 
-d1 $ n  "1 1 _ 1"
- # s"[onc, kick]"
+d1 $ n "2(5,8)"
+ # s"[opz, kick]"
+ # midichan 0
+
+d2 $ n "3(3,8)"
+ # s "opz"
+ # midichan 1
 
 d7 silence
 
@@ -584,9 +610,12 @@ hush
 
 setcps 0.6
 
-d1 $ juxBy 0.9 rev $ s "kick:3(<5,3>,8)"
-  # room 0.2
-  # gain 0.8
+do
+  hush
+  setcps 0.6
+  d1 $ juxBy 0.9 rev $ s "kick:3(<5,3>,8)"
+   # room 0.2
+   # gain 0.8
 
 do
   d2 $ s "gabba*4"
@@ -604,16 +633,16 @@ d3 $ s "snare:3(<<4 5>,3>,8,2)"
 
 
 do
-  d4 $juxBy "<0.9 0.5 0.1>" rev $ n (off "<0.75>" (|+"<12!3 24>") "[a5*2 e4*2] <f4*2 a4> <c4 c4*4> <~>")
+  d4 $juxBy "<0.9 0.5 0.1>" rev $ n (off "<0.75>" (|+"<12!3 24>") "a4 <f4> c4 <~>")
     # s "plaits"
-    # legato 2
+    # legato 1
     # engine 3
     # pF "timbre" (slow 8 (range 0.8 0.9 (saw)))
     # gain 1
     # pF "harm" (slow 8 (range 0 0.5 (saw)))
   once $hycmd "preset"
     #hyset "out1"
-    #hybeat 2
+    #hybeat 1
   a1 $ slow 1 $ vizscene "signal*64"
     # vizcommand "lines!7 cube"
     # vizoption "clr!7 clear"
@@ -622,16 +651,17 @@ do
 
 
 
+d4 $ slow 2 $ n "<a4> <f4> c4 ~"
+
+d4 $ juxBy 0.8 rev $ n (off  "<0.125 0.5>" (|+24)  "a4 <f4 c3> c4 <~ e4 c3 [e4*4] [c4 c4]>" )
 
 d4 $ juxBy 0.3 rev $ n (off  "<0.75 0.5>" (|+"<12 24>")  "a4 <f4 c3> c4 <~ e4*1 c3*4 e4*8 c4*2>" )
-
-d4 $ juxBy 0.3 rev $ n (off  "<0.75 0.5>" (|+24)  "a4 <f4 c3> c4 <~ e4 c3 [e4*4] [c4 c4]>" )
-  # legato 2
+  # legato 1
   # s "plaits"
   # engine "[3 1]"
   # pF "timbre" (slow 8 (range 0.5 0.9 (saw)))
   # pF "harm" (slow 8 (range 0 0.5 (sine)))
-  # pan 0.5
+  -- # pan 0.5
   # gain 0.9
 
 
@@ -648,8 +678,8 @@ do
   d6 silence
   let pat0 = " 1 1 1 1"
   let pat1 = "1 <~ 1> 1 ~"
-  d6 $n pat0
-    # s "[gabba!4, onc]"
+  d6 $n pat1
+    # s "[gabba!4, opz]"
     # room 0.1
     # gain 1
 
@@ -658,7 +688,8 @@ hush
 d4 $ slow 2 $ n "a4 f4 c4 ~"
 
 d5 $ juxBy 0.3 rev $ n (off  "<0.75 0.25>" (|+12)  "a4 <f4 c3> c4 <~ e4 c3 e4 c4>" )
-  # s "pfm2" -- alogorave
+  # s "opz"
+  # midichan 7 -- opz shade 1.4
 
 
 
@@ -668,7 +699,6 @@ do
   d4 silence
   d5 silence
   d6 silence
-
 
 
 

@@ -16,9 +16,9 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
 ~midiOut.latency = 0.0;  /// optional latency
 
-// ~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
-// ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
-// ~op1Out.latency = 0.05;  /// optional latency
+~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
+~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
+~op1Out.latency = 0.0;  /// optional latency
 
 
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
@@ -26,9 +26,9 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\opz, ~opzOut);
 ~opzOut.latency = 0.0;  /// optional latency
 //
-~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
-~dirt.soundLibrary.addMIDI(\mono, ~monoOut);
-~monoOut.latency = 0.0;  /// optional latency
+// ~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
+// ~dirt.soundLibrary.addMIDI(\mono, ~monoOut);
+// ~monoOut.latency = 0.0;  /// optional latency
 
 
 
