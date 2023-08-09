@@ -10,7 +10,7 @@ x1 $ vizscene "data signal*4"
   # vizoption "clear*8"
 
 
-x1$slow 8 $ vizscene "rtext*4"
+x1$slow 2 $ vizscene "rtext*4"
   #vizcommand "clear*8"
   # vizoption "slant"
   # vizword1 "algorave livecoding"

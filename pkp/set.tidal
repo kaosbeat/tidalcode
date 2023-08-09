@@ -26,11 +26,11 @@ do
     # hybeat 2
   a1 $ slow 1 $ vizscene "text*4"
     # vizcommand "clear*4"
-    # vizoption "banner3-D*2 alligator2*2"
+    # vizoption "slant*2 alligator2*2"
     # vizword1 "lambdasonic*2 ALGORAVE"
-    # vizword2 "algorave pandhalle"
+    # vizword2 "algorave pukkelpop"
     # vizx "5 10"
-    # vizy "30 40"
+    # vizy "20 30"
 
 
 do
@@ -52,9 +52,9 @@ d5 silence
 
 
 
-d1 $ n "1 <1 2> 3 4"
+d1 $ slow 2 $ n "1 <1 2> 3 4"
   # s "[onc]"
-  # midichan 1
+  # midichan 0
   # shape "<0.4 0.3>"
   # gain 1
 
@@ -85,7 +85,7 @@ do
     # vizword1 "all  ~ cats   ~  are   ~ bonkers  ~"
     # vizword2 "x"
     # vizx "5 4"
-    # vizy "40"
+    # vizy "20"
 
 
 
@@ -131,6 +131,8 @@ do
 -- frau.tidal
 
 
+hush
+
 setF "fraucount" 0
 
 setcps 0.7
@@ -138,9 +140,9 @@ setcps 0.7
 do
   x1 silence
   d5 $ slow 4 $ striate 1 $ s "frau" # nCount "fraucount"
-    # distort 10
-    # krush 5
-    # room 0.9
+    # distort 0
+    # krush 0
+    # room 0.1
     # sz 0.2
     # gain 1.2
   a1 $ vizscene "rtext*4"
@@ -150,6 +152,7 @@ do
     # vizword2 "<FRAU  SPACE>"
   once $ hycmd "preset"
     #hyset "out1"
+    #hybeat 2
 
 
 
@@ -158,14 +161,14 @@ do
   d6  $ slow 2$  n  ((|+ 12) " ~ ~ ~ [<c2 c4> c4 d6 d6 ds6 <e6 d6> <ds6 a5  a5>  _ ]  ")
     # s "acid309"
     # legato 1.2
-    # distort 2
+    # distort 0.4
     # gain 0.8
     # squiz "<0 2 4>"
     # ringsbright tri
     # ringsfreq 30
   once $ hycmd "preset"
     # hyset "out3"
-    #hybeat 3
+    #hybeat 2
   a1 $ slow 2 $ vizscene "signal*64"
     # vizcommand "~ ~ ~ ~ ~ ~ cube*7 ~"
     # vizoption "clear!3 [clear*8]"
@@ -178,6 +181,9 @@ d4 $ slow 2  $ n " 4 4 4 4 "
   # lpf 1400
   # gain 1
 
+
+-- oncR p2
+-- oncL p2
 
 do
   -- hush
@@ -197,25 +203,25 @@ do
 setcps 0.7
 
 d2 $ slow 2 $ n "1*[3 4] <2*4 2*2>"
-  # s "[ onc]" -- "--* ***"
+  # s "[ onc]" -- "--* -*-"
   #midichan 2
 
 d3 $ n "1 2 4 5"
-  # s "[ldmtom, onc]" -- "--* ***"
+  # s "[ onc]" -- "*-* ---"
   #midichan 1
   # squiz 2
 
 d5 $ chop 32 $ juxBy 0.9 rev $ slow 4
   $ s "frau" # nCount "fraucount"
-  # gain 1
-  # room 0.6
+  # gain 1.2
+  # room 0
 
 do
   d6 $ n "a <c a> f [e e]"
-    # s "ab2"
+    -- # s "ab2"
     # legato 1.2
-    # gain 2
-    # s "[opz, pfm2 ]" -- s3.1, pfm2 alogorave
+    -- # gain 2
+    # s "[pfm2 ]" -- opz s3.1, pfm2 alogorave
     # midichan 1
   once $ hycmd "imgset"
     # hyset "masks"
@@ -239,7 +245,9 @@ do
   a1 $ vizscene "signal!4"
     # vizcommand "circles perspsq"
     #vizoption "clr"
-
+  d3 $ n "4!4"
+    # s "opz"
+    #midichan 1
 
 do
   hush
@@ -254,16 +262,17 @@ do
 
 
 do
-  let pat0 =  "2 2 <2 2> <2 2>"
+  let pat0 =  "4 4 <4 2> <2 4>"
   a1 $ slow 1 $ vizscene "signal*4"
     #vizcommand "cube!2 circles cube"
     #vizoption "clear"
   d3 $ s "hardkick*4" # n pat0
     # pan 0.5
     # gain 1
+    # room 0.3 #sz 0.5
   once $ hycmd "preset"
     # hyset "out3"
-    #hybeat 3
+    #hybeat 1
 
 
 ---- turb0
@@ -370,7 +379,6 @@ hush
 setcps 0.75
 
 
-
 do
   hush
   let pat0 = "<4 2 2 4 5> ~  [< 4 5 8  >  ] 4 "
@@ -381,14 +389,19 @@ do
     # hyset "out2"
     #hybeat 1
 
+-- picoL - p3
+-- picoR - p3
+-- OP1 polymide
+
+
 d1 $ fast 1 $ n"<2 1>!3 <2 [~ 3] >"
   # s "[onc, opz]"
   # midichan 0  -- picoL-7 [--- ***]
 
 
 
-d9 $ slow 4 $ n "e [f e] a [ d e ] "
-  # legato 1.5
+d9 $ slow 4 $ layer [fast 2 ,rev ]$ n "e [f [e a e c]] a [ d e ] "
+  # legato 0.9
   # gain 1
   # s "pfm2"  -- pfm2 eth. Voice
   # midichan 0
@@ -413,7 +426,7 @@ d3 silence
 
 d3 $ n "1 ~ 1 ~ 1 1 1 ~ "
   #s "onc"
-  #midichan 2 --picoR-51 [**- -**]
+  #midichan 2 --picoR-51 [**- -**]  [--* -*-]
 
 
 do
@@ -421,7 +434,7 @@ do
   let pat1 =  "[a4*<4 2 8>]  c4  [e4 a4 c4 a4]*<2 4 8>  ~ "
   let pat2 = "[a4*2]  c4  [e4*<4 2 4 8>]  ~ "
   let pat3 = "a5 c4 e3 ~"
-  let pat = pat1
+  let pat = pat3
   d5 $ slow 4 $ n pat
     # s "opz"
     # legato 4
@@ -467,20 +480,21 @@ do
     #  hybeat " 3 4 5 6"
   x2 $ hycmd "newimg*4"
     # hybeat (irand 160 )|+ 1
-  d4 $ s "hardkick:4*4"
+  d4 $ midinote "53 53 54 54 "
+    # s "op1"
   x2 silence
 
-d7 $ slow 8 $ chop 8 $ n "<1 2 3>  ~ <1 3> ~ "
+d6 $ slow 8 $ chop 8 $ n "<1 2 3>  ~ <1 3> ~ "
   # s "turbo"
   # room 0.3
   # octer 0.8
   # sz 0.9
-  # gain 1
+  # gain 1.2
   # krush 6
   # djf "<0.2 0.6>"
 
 
-d7 $ slow 2 $ rev $ chop 8 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
+d6 $ slow 2 $ rev $ chop 8 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
   # room 0.6
   # sz 0.5
   # gain 1
@@ -499,14 +513,13 @@ do
 
 
 
-
 d4 $ n "[<2 [2 2*8]>!4,  [~ 5]  ~  ~]" -- picoR - 5 [--- *-*]
 
 
 do
   hush
   d4 $ n "[1!4,  [~ 3]  ~  ~]" -- picoR - 5 [--- *-*]
-    # s "opz"
+    # s "onc"
     # midichan 3
 
 
@@ -531,7 +544,7 @@ d1 silence
 
 
 d1 $ slow 2 $ n (off "<0.125>" (|+12) "f4 <<~ g4> [~ f4]> f4 f4")
-  # s "pfm2"
+  # s "op1"
   # midichan 0  -- OP1 Digital Glenn 3
 
 
@@ -547,7 +560,7 @@ hush
 
 
 d5 $ n (off "<0>" (|+ 12)  "<<[c*2] [a*4 c*4]> a(3,8) d(3,8,2) f(5,8)>")
-  # sound "[pfm2, donk]"  --donk, or acid309,
+  # sound "[donk]"  --donk, or acid309,
   # sustain 0.6
   # midichan 2
   # gain 1
@@ -558,19 +571,19 @@ d5 $ n (off "<0>" (|+ 12)  "<<[c*2] [a*4 c*4]> a(3,8) d(3,8,2) f(5,8)>")
 
 
 d6 $slow 4 $ n (off 0.125 (|+12)  "c5 e5 c5 _ ")
-  # s "[mono, ultrasaw]"
+  # s "[ultrasaw]"
   # midichan 0
   # gain 0.7
 
 d7 $slow 2 $ n (off 0.250 (|+12)  "c5 [e5*4] c5 _ ")
-  # s "[mono, ultrasaw ]"
+  # s "[ultrasaw ]"
   # midichan 1
   # gain 0.7
 
 
 
 d1 $ n  "1 1 _ 1"
- # s"[onc, kick]"
+ # s"[onc]"
 
 d7 silence
 

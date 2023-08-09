@@ -17,14 +17,14 @@ d1 $ midinote  "59 55 <53 54 57>*2  <54 ~>"
   # s "op1"
 
 
-d2 $ midinote "60 60 60 60"
+d2 $ midinote "<61 60*2> 60 61 60"
   # s "opz "
   # midichan 0
 
 
-d3 $ fast "<8 16 8 4>" $ randslice 2 $ sound "amencutup:3"
+d3 $ fast "<16>" $ randslice 2 $ sound "amencutup:4"
   # room 0.3 # sz 0.3
-  # gain 1
+  # gain (rand + 0.3)
 
 
 
@@ -39,12 +39,11 @@ do
   let pat2 = "[~ ~ e4 c4] [~ a3] [~ ~ ~ e4] [e4 e4 ~ f4]"
   let pat5 = "[e4 c4 e4 c4] [a5] [~ ~ ~ e4] [e4 e4 ~ f5]"
   let pat6 = "[a6 a4 a6 a7] e4 e5 a5"
-  d5 $ layer [fast 1]
-    $ slow 2
-    -- $ bite 4 (scramble 4 "3 0 2 1")
+  d5 $ slow 2 $ layer [fast 2,rev]
+    $ bite 4 (scramble 4 "3 0 2 1")
     $stack [
-      n pat6,
-      n pat6
+      n pat1,
+      n pat3
       ]
     # s "onc"
 
@@ -58,15 +57,15 @@ do
   let patc = "[[e4*8] f3*4] ~ f6*8 c5*4"
   let patd = "f3 d3 e3 [e4 c5] "
   let pate = "f4 d4 c5 [e4 e5]"
-  d6 $ slow 8 $ layer [rev, fast "<2>"]
+  d6 $ slow 4 $ layer [rev,  fast "<1>"]
     $ n (off "0.125" (|+12) pata)
-    # s "pfm2" -- spacid
+    # s "acid309" -- spacid
     # midichan 0
 
 
 
 
-d6 $ slow 4 $ n (off "<0.125>" (|+12) "e4 a4 d4 c4")
+d7 $ slow 4 $ n (off "<0.125>" (|+12) "e4 a4 d4 c4")
   # s "pfm2" -- monksynth / OSCRhodesPOR
   # legato 0.5
   # midichan 1

@@ -28,7 +28,7 @@ MIDIClient.init;
 
 ~dexOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
 ~dirt.soundLibrary.addMIDI(\dx7, ~dexOut);
-~dexOut.latency = 0.05;  /// optional latency
+~dexOut.latency = 0.00;  /// optional latency
 
 //
 // ~pfm2Out = MIDIOut.newByName("PreenFM mk2", "PreenFM mk2 MIDI 1");
