@@ -1,0 +1,152 @@
+hush
+
+setcps 0.75
+
+-- acidtec.tidal
+
+once $ hycmd "preset"
+  # hyset "out1"
+  # hybeat 2
+
+
+hush
+
+do
+  let pata = "a f"
+  let patb = "a e f e"
+  let patb2 ="e5  e6"
+  let patc = "[a ~] e f ~ d6 c6 ~ [c d] "
+  d5 $ slow 2
+    $ n (off "0.125" (|- "<0 0 12>") (cat ["a6 f6",
+              "e6 c5",
+              patb,
+              "b6 b5 e6 [a6 f6 e6 e7]" ]))
+    # s "pfm2"  -- eth voice
+    # legato 1.3
+
+
+
+
+do
+  let pata ="54 ~ [53 59 ~ 59] 73"
+  let patb ="54 53 <53 [53 53]> 53"
+  d1 $ slow 2  $ midinote  ( cat
+                            [pata,
+                            patb,
+                            patb,
+                            patb] )
+    # s "op1"
+
+
+
+do
+  let pat0 = "4 4 4 4"
+  let pat1 = "4 [4*4] 2 [4*2]"
+  let pat2 = "4 [2 3 2*2 1] [4*<2 4> 1] [2 4]"
+  let pat3 = "[4 4 4 4] [2 3 2*2 1] [4*<2 4> 1] [2 4]"
+  d2 $ slow 4 $ layer [ fast 1, rev] $ n pat3
+    # s "hardkick"
+    # vowel "a [o e i o] e i"
+
+
+
+
+
+
+d3 $ midinote "61 <62 [61 62]> 52 <62 63> " -- |> midinote ((irand 13) + 55)
+  # s "opz "
+  # midichan 1
+
+
+d4 $ midinote "~ 61*<1 2> ~ 61*<1 1 4> ~ 61 ~ 61"
+  # s "opz "
+  # midichan 2
+
+
+
+
+do
+  let pat0 = "a5 ~ f5 ~"
+  let pat1 = "e [f ~ e ~ c ~ a ~]*<2 1> d [c ~]*4"
+  let pat2 = "e f d c"
+  let pat3 = "a e*2 f [e a f a*4]"
+  d6 $ slow 4 $ layer [fast 1] $ stack [
+    n pat1,
+    n pat2
+    ]
+    # s "onc"
+    # legato 2
+
+
+
+d8 $ fast 0.5 $  midinote "1 ~ [1*4] 1" |>  midinote ((irand 36) + 62)
+  # s "opz"
+  # legato 1
+  #midichan 13
+
+d8 silence
+
+do
+  d6 $ fast 0.5
+    $ bite 4 (scramble 8 "7 6 5 4 3 2 1 0") $ n "5 ~ 4 ~3 4 ~ 2 "
+    # s "onc"
+    #legato (choose [1, 0.4, 0.1])
+
+
+
+-- mutant.tidal
+
+{-
+                 _              _
+                | |            | |
+ _ __ ___  _   _| |_ __ _ _ __ | |_
+| '_ ` _ \| | | | __/ _` | '_ \| __|
+| | | | | | |_| | || (_| | | | | |_
+|_| |_| |_|\__,_|\__\__,_|_| |_|\__|
+
+-}
+
+hush
+
+setcps 0.7
+
+
+-- oncL p1
+-- onc2 p1
+
+do
+  d6 $ slow "<0.5 1>" $ n "[a5*2] ~ ~ ~ <e4 c5> _ ~ ~" # s "acid309"
+    # gain 0.8
+  once $ hycmd "preset"
+    # hyset "out1"
+    # hybeat 2
+  a1 $ slow 1 $ vizscene "text*4"
+    # vizcommand "clear*4"
+    # vizoption "slant*2 alligator2*2"
+    # vizword1 "lambdasonic*2 ALGORAVE"
+    # vizword2 "algorave pukkelpop"
+    # vizx "5 10"
+    # vizy "20 30"
+
+
+do
+  let wl = 40
+  d1 $ s "kick:5(<<5 7> 3>,8)"
+    # s "[onc]"
+    # n "a3 f6 e a"
+    # midichan 0 -- oncL 0/5
+    # waveloss (slow 4 "<55 95 5 5>" )
+    # room 0.8 #sz 0.6
+    #gain 0
+  d2 $ s "kick:2(<4 5>,8)" |< midinote "53"
+    # s "[opz]"
+    # midichan 1
+    # gain 0
+
+
+
+d1 $ slow 2 $ n "1 <1 2> 3 4"
+  # s "[onc]"
+  # midichan 0
+  # shape "<0.4 0.3>"
+  # gain 1
