@@ -6,11 +6,9 @@ await loadScript("images.js")
 
 
 // render black
-solid(0)
-	.out(o0)
+solid(0).out(o0)
 // //render code
-// src(s2)
-// 	.out(o0);
+src(s1).out(o0);
 render(o0)
 
 // /config
@@ -18,8 +16,8 @@ setResolution(1436,844)
 a.show()
 a.setBins(4)
 a.setCutoff(4)
-a.setScale(2)
-
+a.setScale(5)
+a.beat.threshold= 10
 
 //OSC connectors
 _osc = new OSC()
@@ -36,17 +34,20 @@ shapesize = 5
 b = 0;
 t = 4;
 f = 0;
-xs = 50
+xs = 30;
 margin = 100;
-// a.onBeat = () => {
-// 	b += 1;
-// 	xs = Math.round((Math.random() * 1000));
-// }
+speed = 0;
+value = 100;
+par = "speed";
+a.onBeat = () => {
+	b += 1;
+	xs = Math.round((Math.random() * 100)) + 20;
+}
 
 
 // synth0 - ascii art
 s0.initScreen();
-src(s0).scrollX(0.3,0.1).modulateRepeatX(osc(1), 1, ({time}) => Math.sin(time) * 1).out(o0);
+src(s0).out(o0);
 
 // synth1 - tidalcode
 s1.initScreen();
@@ -68,6 +69,9 @@ s3.init({
 	src: p.canvas
 })
 
+src(s3).out(o3);
+
+
 p.draw = () => {
 	f++;
 	if (f > 100) {
@@ -79,8 +83,9 @@ p.draw = () => {
 	p.normalMaterial();
 	p.push();
   	p.translate(-0, 0, -500);
-	p.rotateZ(1 + f / 1000);
-	p.rotateX(1 + f / 1000);
+	p.rotateZ(1 + f / 10000);
+	p.rotateX(1 + f / 10000);
+  	p.rotateY(b)
 	// 	p.rotateX(p.frameCount * 0.01);
 	// 	p.rotateY(p.frameCount * 0.01);
 	p.push();
@@ -130,66 +135,77 @@ _osc.on("/hydra", (m) => {
     case 'shape':
       console.log(m);
       shapesize = m.args[2]
+      break;
+    case 'conf':
+//       console.log(m);
+      par = m.args[1];
+      value = m.args[2];
+      if (par == "speed") {
+      	speed = value
+      }
+      break;
     case 'preset':
       preset =  m.args[1];
       subpreset = m.args[2];
       console.log("setting preset", preset);	
       if (preset == "out1") {
         if (subpreset == 1) {
-			src(s0).scrollX(0.3,0.1).modulateRepeatX(osc(1), 1, ({time}) => Math.sin(time) * 1).out(o0);
+              src(s0).blend(src(s1), 0.8).saturate([0,10]).out(o0)        	
         } else if (subpreset == 2) {
-        	src(s0).posterize(()=> a.fft[0]*32, 1).blend(src(s1)).out(o0);
+			src(s0).scrollX(0.3,0.1).modulateRepeatX(osc(1), 1, ({time}) => Math.sin(time) * 1).blend(src(s1), 0.8).out(o0);
+        } else if (subpreset == 3) {
+        	src(s0).posterize(()=> (2 + a.fft[0]*32), 1).blend(src(s1)).out(o0);
+        } else if (subpreset ==4) {
+          src(s1).kaleid(() => shapesize).colorama(1).rotate(0.001,()=>a.fft[0]*0.000001).modulateRotate(o0,()=>Math.sin(time) * 0.0003).modulate(src(s0), ()=> a.fft[3] *1).scale(2).blend(src(s0)).out(o0)   
+          
         } else {
           src(s0).out(o0);
-		}
+		    }
       	render(o0);
       } else if (preset == "out2") {
         if (subpreset == 1) {
 			src(s1).color(0,1,0).out(o1);
        } else if (subpreset == 2) {
 			src(s1).blend(src(s1).pixelate(()=> a.fft[0]*32, 20)).out(o1)
+       } else if (subpreset == 3) {
+			src(s1).add(src(s1).pixelate(()=> a.fft[0]*32, 20)).out(o1)
         } else {
 			src(s1).out(o1)
         }
       	render(o1);
+      
       } else if (preset == "out3") {
         if (subpreset == 1) {
-			osc(5, 0.9, 0.001)
-              .kaleid(() => shapesize)
-              .color(0.8, 0.7)
-              .colorama(0.1).rotate(0.9,()=>Math.sin(time)* -0.001)
-              .modulateRotate(o0,()=>Math.sin(time) * 0.03)
-              .modulate(src(s0), ()=> a.fft[3] *10)
-              .scale(0.9)
-              .out(o2)
-          src(s0).kaleid(() => shapesize).color(0.8, 0.7).colorama(0.1).rotate(0.2,()=>Math.sin(time)* -0.001).modulateRotate(o0,()=>Math.sin(time) * 0.03).modulate(src(s0), ()=> a.fft[3] *10).scale(0.9).out(o2)   
+
         } else if (subpreset == 2) {
-        	src(s2).blend(solid(0,1,0)).blend(src(s0)).out(o2);
+        	src(s2).blend(solid(0,1,0)).blend(src(s0)).blend(src(s1)).out(o2);
         } else {
           src(s2).blend(src(s0)).out(o2);
 		}
         render(o2);
       } else if (preset == "out4") {
         if (subpreset == 1) {
-			osc(() => (a.fft[1]*0)+2).modulate(src(s1),1).color(1,0.2,0.3).out(o3)
+			osc(() => (a.fft[1]*0)+2).modulate(src(s1),1).color(1,0.2,0.3).add(src(s3)).out(o3)
         } else if (subpreset == 2) {
-        	src(o1).blend(o2).out(o2);
+        	src(s3).blend(o2).out(o3);
         } else {
-          	src(s3).out(o0);
+          	src(s3).out(o3);
 		}
         render(o3);
       } else if (preset == "all") {
         render();
+      } else if (preset == "strobe") {
+        solid(1,1,1).diff(src(s1)).invert([0,1]).out(o0)
+        speed = subpreset;
+        render(o0);
       } else if (preset == "code"){
-        render(o3);
+        render(o1);
         if (subpreset == 1) {
-       		color(-1, 4).out(o3);
+       		noise(10,0.1*(() => a.fft[3])).color(-1, 4).blend(src(s1),0.9).out(o1);
         } else if  (subpreset == 1) {
         	src(s3).blend(src(s1)).out(o2);
         }
       }
-      
-      
     break;
     default:
       console.log(m)
@@ -200,8 +216,7 @@ _osc.on("/hydra", (m) => {
 
 
 
-render(o2);
-
+render();
 
 
 
