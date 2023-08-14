@@ -4,8 +4,8 @@ once $ hycmd "imgset"
   # hyset "masks"
 
 
-once $ hycmd "preset"  -- out1, out2, out3, out4, all
-  # hyset "out2"
+once $ hycmd "preset"  -- out1, out2, out3, out4, all, p5, code, strobe
+  # hyset "code"
   #hybeat "1"
 
 -- shape size
@@ -34,3 +34,24 @@ x2 $ hycmd "newimg*8"
   # hybeat (irand 16 )|+ pat1
 
 x2 silence
+
+
+
+once $ hycmd "conf"
+ # hyset "speed"
+ # hybeat 10
+
+
+
+
+once $ hycmd "preset"
+ # hyset "strobe"
+ # hybeat 100
+
+-- ----------- --
+-- p5 controls --
+-- ----------- --
+
+once $ hycmd "p5"
+ # hyset "cubesize"  
+ # hybeat 0.4  -- 0-1

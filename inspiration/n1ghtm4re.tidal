@@ -1,0 +1,254 @@
+-- n1ghtm4re by maxt
+
+setcps(190/60/4)
+
+hush
+
+do
+  resetCycles
+  xfadeIn 1 8
+    $ s "[ [auto:5 <[bin:1 ~]!3 [808lt:3 808lt:0]*2>],\
+         \ [[~ crow:2 ~ ~] ~ [[crow:2 crow@4 ~ [~ crow:2@3]] ~!3] ~]/8 ]"
+
+d1
+  $ s "[ [auto:5 <[bin:1 clak]!3 [808lt:3 [808lt:0, <~ clak:1>]]*2>],\
+       \ [[~ crow:2 ~ ~] ~ [[crow:2 crow@4 ~ [~ crow:2@3]] ~!3] ~]/8 ]"
+
+d1
+  $ s "[auto:5, <~ bin:1 ~!2>] [<bin!3 [bin, auto:7]>, [808lt:3 808lt:0]*2]"
+
+d2 $ s "sheffield/8" # gain 0.7
+  # silence
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "less" # attack (0.6 - 0.45*(slow 2 sine))
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 1.1,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.96
+            , s "less" # gain 1.1 # attack (0.6 - 0.45*(slow 2 sine))
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 1.1,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.96
+            , s "less" # gain 1.1 # attack (0.6 - 0.45*(slow 2 sine))
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 1.1,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86
+            , s "less" # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 1.1,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86
+            , s "less" # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86 # crush 2.3 # vowel "o" # squiz (4 + (slow 4 $ 4*isaw)) # lpf (200 + 250*(slow 4 saw))
+            , s "less" # gain 0.9 # attack (0.6 - 0.45*(slow 4 sine)) # crush 2.8
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.1
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.9 # crush 4 # vowel "u" # squiz (4 + (slow 4 $ 4*isaw)) # lpf (200 + 250*(slow 4 isaw))
+            , s "less" # gain 0.9 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+        ]
+  ]
+
+do
+  d2 $ s "sheffield/8" # gain 0.8
+  d3 $ fast 2 $ s "less"
+  xfadeIn 1 2
+    $ stack [
+        s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+        s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+        fast 2
+          $ stack [
+              s "808lt" <| n "0 0 3 2" # gain 1.1
+              , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86 # crush 2.3 # vowel "u" # squiz (4 + (slow 4 $ 4*isaw))
+          ]
+    ]
+
+do
+  d2 $ silence
+  xfadeIn 1 18
+    $ stack [
+        s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+        s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+        fast 2
+          $ stack [
+              s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # vowel "i e u <i a>" # gain 1.1
+              , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86 # crush 3
+          ]
+    ]
+
+xfadeIn 1 4
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # vowel "i e u <i a>"
+            , s "808mc" <| n "<3 2> 0 3 0" # gain 0.86 # crush 2 # vowel "u" # gain 0.8
+        ]
+  ]
+
+do
+  d3 $ silence
+  d1
+    $ stack [
+        s "~ sn:14",
+        s "sheffield/8" # gain 0.777,
+        s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+        s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 0.999,
+        fast 2
+          $ stack [
+              s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # vowel "i e u <i a>"
+              , s "less" # gain 0.888
+          ]
+    ]
+
+xfadeIn 1 18
+  $ stack [
+      s "~ sn:14",
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # gain 1.2
+            , s "less" # gain 0.888
+        ]
+  ]
+
+d1
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/2" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # gain 1.2
+            , s "less" # gain 1.2 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+        ]
+  ]
+
+d1
+  $ stack [
+      s "sheffield/8",
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # gain 1.2
+            , s "less" # gain 1.2 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+        ]
+  ]
+
+d2 $ "[~ sn:14]!2"
+
+do
+  d1 $ s "[bass1:9 bass1:5]!4" # lpf (2000*(slow 8 saw))
+  d2 $ silence
+  xfadeIn 2 16 $ s "auto:5 auto:7" # gain 1.1
+
+d1
+  $ stack [
+      s "[bass1:9 bass1:5]!2" # lpf (2000*(slow 8 saw)),
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "less" # gain 0.888 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+            , s "[[crow:2 ~ ~ ~] ~ [[crow:2 crow@4 ~ ~ ~ ~ crow:2@3] ~] ~]/8"
+        ]
+  ]
+
+xfadeIn 1 4
+  $ stack [
+      s "[bass1:9 bass1:5]!4" # lpf (2000*(slow 16 saw)),
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "less" # gain 0.888 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+            , s "[[crow:2 ~ ~ ~] ~ [[crow:2 crow@4 ~ ~ ~ ~ crow:2@3] ~] ~]/8"
+        ]
+  ]
+
+xfadeIn 1 8
+  $ stack [
+      s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+      s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+      fast 2
+        $ stack [
+            s "808lt" <| n "0 0 3 2" # gain 1.13
+            , s "less" # gain 0.888 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+            , s "[[crow:2 ~ ~ ~] ~ [[crow:2 crow@4 ~ ~ ~ ~ crow:2@3] ~] ~]/8"
+        ]
+  ]
+
+do
+  d2 $ s "[~ sn:14]!2"
+  xfadeIn 1 8
+    $ stack [
+        s "[bass1:9 bass1:5]!4" # lpf 1000 # gain 0.8,
+        s "<clak!3 ~> <<clak:1>!3 <clak:1 ~>>",
+        s "[~!3 <~ [ab:11!7 ~]>]/4" # gain 0.999,
+        fast 2
+          $ stack [
+              s "808lt" <| n "0 0 3 2" # crush (1.5*isaw + 4.4) # gain 1.13
+              , s "less" # gain 0.888 # attack (0.6 - 0.45*(slow 2 sine)) # crush 2.8
+              , s "[[crow:2 ~ ~ ~] ~ [[crow:2 crow@4 ~ ~ ~ ~ crow:2@3] ~] ~]/8"
+          ]
+    ]
+
+xfadeIn 1 8 $ silence
+
+xfadeIn 2 4 $ silence

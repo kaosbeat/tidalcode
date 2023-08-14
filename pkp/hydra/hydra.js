@@ -1,9 +1,9 @@
 //Hydravisuals 
 
-// await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
-await loadScript("osc.min.js")
+await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
+// await loadScript("osc.min.js")
 await loadScript("images.js")
-
+cyborg = []
 
 // render black
 solid(0).out(o0)
@@ -32,17 +32,23 @@ seed = 16777215
 shp = 5
 shapesize = 5
 b = 0;
-t = 4;
-f = 0;
+cubesize = 8 ;
+
 xs = 30;
 margin = 100;
 speed = 0;
 value = 100;
 par = "speed";
 a.onBeat = () => {
+  	f = 30;
 	b += 1;
 	xs = Math.round((Math.random() * 100)) + 20;
+  	ys = Math.round((Math.random() * 100)) + 20;
+  	zs = Math.round((Math.random() * 100)) + 20;
+  
 }
+
+
 
 
 // synth0 - ascii art
@@ -71,12 +77,28 @@ s3.init({
 
 src(s3).out(o3);
 
+function createCubes(cubesize) {
+	p.cubes = [];
+  	for (var i = 0; i < cubesize; i++) {
+    	let cube = {"x":Math.random(1000), 
+                    "y":Math.random(1000), 
+                    "z":Math.random(1000),
+                    "xs":Math.random(100), 
+                    "ys":Math.random(100), 
+                    "zs":Math.random(100)
+		}
+		p.cubes.push(cube);
+    }
+	console.log(p.cubes);
+}
+
 
 p.draw = () => {
-	f++;
-	if (f > 100) {
-		f = 0;
+	f--;
+	if (f < 0) {
+		f = 30;
 		b += 1;
+      	createCubes(10)
 	}
 	//   console.log(b)
 	p.background(0);
@@ -90,14 +112,14 @@ p.draw = () => {
 	// 	p.rotateY(p.frameCount * 0.01);
 	p.push();
   	p.translate(-(t * (xs+margin)) / 2, -(t * (xs+margin)) / 2, -(t * (xs+margin)) / 2);
-	for (var x = 0; x < t; x++) {
+	for (var x = 0; x < cubesize; x++) {
 		p.push();
-		for (var y = 0; y < t; y++) {
+		for (var y = 0; y < cubesize; y++) {
 			p.push();
-			for (var z = 0; z < t; z++) {
+			for (var z = 0; z < cubesize; z++) {
 				p.push();
 				p.translate(x * (xs + margin), y * (xs + margin), z * (xs + margin));
-				p.box(xs, xs, xs);
+				p.box(xs+f, ys+f, zs+f);
 				p.pop();
 			}
 			p.pop();
@@ -144,6 +166,14 @@ _osc.on("/hydra", (m) => {
       	speed = value
       }
       break;
+    case 'p5':
+//       console.log(m);
+      par = m.args[1];
+      value = m.args[2];
+      if (par == "cubesize") {
+      	cubesize = int(value * 10)
+      }
+      break;
     case 'preset':
       preset =  m.args[1];
       subpreset = m.args[2];
@@ -187,7 +217,7 @@ _osc.on("/hydra", (m) => {
         if (subpreset == 1) {
 			osc(() => (a.fft[1]*0)+2).modulate(src(s1),1).color(1,0.2,0.3).add(src(s3)).out(o3)
         } else if (subpreset == 2) {
-        	src(s3).blend(o2).out(o3);
+        	src(s3).pixelate(() => a.fft[0]*1000).blend(o2).out(o3);
         } else {
           	src(s3).out(o3);
 		}

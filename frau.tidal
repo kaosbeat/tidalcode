@@ -49,11 +49,12 @@ d4 $ slow 2  $ n " 4 4 4 4 "
 
 
 
-let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
+
 
 do
+  let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
   d1 $ n pat1
-    # s "kick"
+    -- # s "kick"
     # room 0.6
     # s "onc"
   once $hycmd "preset"

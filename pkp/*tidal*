@@ -1,0 +1,74 @@
+GHCi, version 9.0.2: https://www.haskell.org/ghc/  :? for help
+ghci> [TidalCycles version 1.9.2]
+Installed in /home/kaos/.cabal/share/x86_64-linux-ghc-9.0.2/tidal-1.9.2
+Listening for external controls on 0.0.0.0:6010
+Connected to SuperDirt.
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> Error in pattern: Syntax error in sequence:
+  "16>"
+     ^
+unexpected '>'
+expecting "-", "+", digit, "w", "h", "q", "e", "s", "t", "f", "x", rest, "[", "{", "<", "^", ".", "?" or end of input
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:274:8: error:
+    • Couldn't match expected type: Pattern ValueMap
+                  with actual type: Pattern b0 -> Pattern b0
+    • Probable cause: ‘layer’ is applied to too few arguments
+      In the second argument of ‘($)’, namely ‘layer [fast 1, rev]’
+      In the expression: d5 $ layer [fast 1, rev]
+      In an equation for ‘it’: it = d5 $ layer [fast 1, rev]
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:384:6: error:
+    • Non type-variable argument
+        in the constraint: Data.String.IsString (Pattern a)
+      (Use FlexibleContexts to permit this)
+    • When checking the inferred type
+        pat1 :: forall {a}.
+                (Num a, Data.String.IsString (Pattern a)) =>
+                Pattern a
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:686:5: error: parse error on input ‘#’
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:905:5: error: parse error on input ‘#’
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:1233:8: error:
+    • Variable not in scope: mdinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant one of these:
+        ‘midinote’ (imported from Sound.Tidal.Context),
+        ‘minutes’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1251:8: error:
+    • Variable not in scope: mdinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant one of these:
+        ‘midinote’ (imported from Sound.Tidal.Context),
+        ‘minutes’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1269:8: error:
+    • Variable not in scope: mdinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant one of these:
+        ‘midinote’ (imported from Sound.Tidal.Context),
+        ‘minutes’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1287:8: error:
+    • Variable not in scope: mdinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant one of these:
+        ‘midinote’ (imported from Sound.Tidal.Context),
+        ‘minutes’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1305:8: error:
+    • Variable not in scope: midinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant ‘midinote’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1323:8: error:
+    • Variable not in scope: midinotes :: t0 -> Pattern ValueMap
+    • Perhaps you meant ‘midinote’ (imported from Sound.Tidal.Context)
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<>
+<interactive>:1878:31: error:
+    • Variable not in scope:
+        fast2 :: Pattern ValueMap -> Pattern ValueMap
+    • Perhaps you meant ‘fast’ (imported from Sound.Tidal.Context)
+tidal[]<>
+<interactive>:1893:31: error:
+    • Variable not in scope:
+        fast2 :: Pattern ValueMap -> Pattern ValueMap
+    • Perhaps you meant ‘fast’ (imported from Sound.Tidal.Context)
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> skip: 115

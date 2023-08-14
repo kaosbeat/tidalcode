@@ -1,6 +1,6 @@
 hush
 
-setcps 0.7
+setcps 0.66
 
 do
   let pata ="53 ~ [57 59 ~ ~] ~"
