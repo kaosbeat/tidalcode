@@ -89,44 +89,92 @@ function createCubes(cubesize) {
 		}
 		p.cubes.push(cube);
     }
-	console.log(p.cubes);
+	// console.log(p.cubes);
 }
 
+function createStandardCubes(cubesize, size, margin) {
+	p.cubes = [];
+  	for (var x = 0; x < cubesize; x++) {
+      for (var y = 0; y < cubesize; y++) {
+        for (var z = 0; z < cubesize; z++) {
+    	let cube = {"x":x*(size+margin), 
+                    "y":y*(size+margin), 
+                    "z":z*(size+margin), 
+                    "xs":Math.random(size), 
+                    "ys":Math.random(size), 
+                    "zs":Math.random(size)
+					}
+		p.cubes.push(cube);
+        }
+      }
+    }
+	// console.log(p.cubes);
+}
 
+// createCubes(100);
+createStandardCubes(10, 100, 10);
+
+function renderCubes(size) {
+  let cubescaler = 10
+	p.cubes.forEach(cube => {
+//       console.log(f)
+      let x=cube.x*size
+      let y=cube.y*size
+      let z=cube.z*size
+      let xs=cube.xs*cubescaler
+      let ys=cube.ys*cubescaler
+      let zs=cube.zs*cubescaler
+      p.push();
+      p.translate(-cubescaler/2,cubescaler/2,-0);
+      
+      p.translate(x,y,z);
+      p.box(xs, ys , zs );
+      p.pop();
+});
+}
+
+            
+function renderGeomCubes(cubesize, margin, xs, ys, zs) {
+  p.push();
+  p.translate(-(cubesize * (xs + margin)) / 2, -(cubesize * (xs + margin)) / 2, -(cubesize * (xs + margin)) / 2);
+  for (var x = 0; x < cubesize; x++) {
+    p.push();
+    for (var y = 0; y < cubesize; y++) {
+      p.push();
+      for (var z = 0; z < cubesize; z++) {
+        p.push();
+        p.translate(x * (xs + margin), y * (xs + margin), z * (xs + margin));
+        p.box(xs + f, ys + f, zs + f);
+        p.pop();
+      }
+      p.pop();
+    }
+    p.pop();
+  }
+  p.pop();
+}
+
+// p.draw = () => {}
+f=0
 p.draw = () => {
 	f--;
 	if (f < 0) {
-		f = 30;
+		f = 3000;
 		b += 1;
-      	createCubes(10)
+//       	createCubes(10)
 	}
 	//   console.log(b)
 	p.background(0);
 	p.normalMaterial();
 	p.push();
-  	p.translate(-0, 0, -500);
-	p.rotateZ(1 + f / 10000);
-	p.rotateX(1 + f / 10000);
-  	p.rotateY(b)
+//   	p.translate(-0, 0, -500);
+// 	p.rotateZ(1 + f / 10000);
+// 	p.rotateX(1 + f / 10000);
+//   	p.rotateY(b)
 	// 	p.rotateX(p.frameCount * 0.01);
 	// 	p.rotateY(p.frameCount * 0.01);
-	p.push();
-  	p.translate(-(t * (xs+margin)) / 2, -(t * (xs+margin)) / 2, -(t * (xs+margin)) / 2);
-	for (var x = 0; x < cubesize; x++) {
-		p.push();
-		for (var y = 0; y < cubesize; y++) {
-			p.push();
-			for (var z = 0; z < cubesize; z++) {
-				p.push();
-				p.translate(x * (xs + margin), y * (xs + margin), z * (xs + margin));
-				p.box(xs+f, ys+f, zs+f);
-				p.pop();
-			}
-			p.pop();
-		}
-		p.pop();
-	}
-	p.pop();
+  // p.renderGeomCubes(10)
+  renderCubes(100);
   p.pop();
 }
 
