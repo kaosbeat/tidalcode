@@ -230,62 +230,25 @@ _osc.on("/hydra", (m) => {
 				} else if (subpreset == 4) {
 					set4();
 				} else if (subpreset == 5) {
-					src(code)
-						.color(0, 1, 0)
-						.out(o0);
+					set5();
 				} else if (subpreset == 6) {
-					src(code)
-						.blend(src(code)
-							.pixelate(() => a.fft[0] * 32, 20))
-						.out(o0)
+					set6();
 				} else if (subpreset == 7) {
-					src(code)
-						.add(src(code)
-							.pixelate(() => a.fft[0] * 32, 20))
-						.out(o0)
+					set7();
 				} else if (subpreset == 8) {
-					src(code)
-						.invert([0, 1])
-						.out(o0);
+					set8();
 				} else if (subpreset == 9) {
-					src(code)
-						// 						.blend(solid(0, 1, 0))
-						// 						.blend(src(code))
-						.blend(src(s3))
-						.out(o0);
-
+					set9();
 				} else if (subpreset == 10) {
-					osc(() => (a.fft[0] * 10) + 2)
-						.modulate(src(code), 1)
-						.color(1, 0.2, 0.3)
-						.add(src(code))
-						.out(o0)
+					set10();
 				} else if (subpreset == 11) {
-					src(s3)
-						.pixelate(() => a.fft[0] * 1000, 1000)
-						.blend(code)
-						.out(o0);
+					set11();
 				} else if (subpreset == 12) {
-					osc(() => (a.fft[0] * 10) + 2)
-						.modulate(src(code), 1)
-						.color(1, 0.2, 0.3)
-						.add(src(s3))
-						.out(o0)
+					set12();
 				} else if (subpreset == 13) {
-					src(code)
-						.modulate(src(code), 1)
-						.color(0.5, 0.2, 0.9)
-						.add(src(s3)
-							.kaleid(p1 * 10))
-						.blend(src(code), 0.6)
-						.out(o0)
+					set13();
 				} else if (subpreset == 14) {
-					src(s3)
-						.modulate(src(code), 1)
-						.color(0.5, 0.2, 0.9)
-						.blend(src(code), 0.6)
-						.hue(p1)
-						.out(o0)
+					set14();
 				}
 				render(o0);
 			} else if (preset == "all") {
