@@ -3,14 +3,7 @@
 // await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
 await loadScript("osc.min.js")
 
-// render black
-solid(0)
-	.out(o0)
-// //render code
-src(s1)
-	.out(o0);
-render(o0)
-debug = false;
+
 
 // /config
 rw = 1436
@@ -95,7 +88,16 @@ p.draw = () => {
 	p.pop();
 }
 
-await loadScript("extraHydra.js") // loads extra p5 functions
+// render black
+solid(0)
+	.out(o0)
+// //render code
+src(s1)
+	.out(o0);
+render(o0)
+debug = false;
+
+await loadScript("extraHydra.js") // loads extra hydra functions
 
 //// osc code
 
@@ -103,6 +105,10 @@ await loadScript("extraHydra.js") // loads extra p5 functions
 _osc.on("/hydra", (m) => {
 	hycmd = m.args[0]
 	switch (hycmd) {
+		case 'reload':
+			loadScript("extraHydra.js") 
+			loadScript("extraP5.js")
+			break;
 		case 'conf':
 			//       console.log(m);
 			par = m.args[1];
@@ -196,21 +202,7 @@ _osc.on("/hydra", (m) => {
 				code = s3;
 			}
 			break;
-			//         case 'viz':
-			// 			viz = m.args[1];
-			// 			if (viz == "pixel") {
-			// 				viz = o1;
-			// 			}
-			// 			else if (viz == "glow") {
-			// 				viz = o1;
-			// 			}
-			// 			else if (viz == "p5") {
-			// 				viz = s3;
-			// 			}  
-			//         	else {
-			//             	viz = s3;
-			//             }
-			// 			break;
+
 		case 'preset':
 			preset = m.args[1];
 			subpreset = m.args[2];
@@ -275,6 +267,4 @@ _osc.on("/hydra", (m) => {
 
 
 
-render(o3);
-
-// Type some code on a new line (such as "osc().out()"), and press CTRL+shift+enter
+render(o1);
