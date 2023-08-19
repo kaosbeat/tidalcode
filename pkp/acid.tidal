@@ -39,10 +39,11 @@ do
   let pat2 = "[~ ~ e4 c4] [~ a3] [~ ~ ~ e4] [e4 e4 ~ f4]"
   let pat5 = "[e4 c4 e4 c4] [a5] [~ ~ ~ e4] [e4 e4 ~ f5]"
   let pat6 = "[a6 a4 a6 a7] e4 e5 a5"
-  d5 $ slow 2 $ layer [fast 2,rev]
-    $ bite 4 (scramble 4 "3 0 2 1")
+  d5 $ slow 2 $ layer [fast 0.5, rev]
+    -- $ bite 4 (scramble 4 "3 0 2 1")
     $stack [
       n pat1,
+      n pat2,
       n pat3
       ]
     # s "onc"
@@ -58,9 +59,10 @@ do
   let patd = "f3 d3 e3 [e4 c5] "
   let pate = "f4 d4 c5 [e4 e5]"
   d6 $ slow 4 $ layer [rev,  fast "<1>"]
-    $ n (off "0.125" (|+12) pata)
-    # s "acid309" -- spacid
-    # midichan 0
+    $ n (off "0.125" (|+12) patd)
+    # s "pfm2" -- spacid
+    # amp 1
+    # midichan 2
 
 
 
@@ -69,3 +71,8 @@ d7 $ slow 4 $ n (off "<0.125>" (|+12) "e4 a4 d4 c4")
   # s "pfm2" -- monksynth / OSCRhodesPOR
   # legato 0.5
   # midichan 1
+
+
+
+d1 $ slow 4 $ midinote "53 53 53 54"
+  # s "op1"

@@ -20,7 +20,7 @@ x2 silence
 -- sets masks, frau, cyborg
 
 once $ hycmd "imgset"
-  # hyset "masks"
+  # hyset "cyborg"
   # hybeat 1
   # hyspeed 12
 
@@ -39,7 +39,7 @@ x2 silence
 
 once $ hycmd "conf"
  # hyset "speed"
- # hybeat 10
+ # hybeat 20
 
 
 
@@ -50,8 +50,87 @@ once $ hycmd "preset"
 
 -- ----------- --
 -- p5 controls --
--- ----------- --
+ -- ----------- --
+
+
+--- p5 conf
+
+
+once $ hycmd "preset"
+  #hyset "out4"
+  #hybeat 1
+
 
 once $ hycmd "p5"
- # hyset "cubesize"  
- # hybeat 0.4  -- 0-1
+  # hyset "rotSpeedX"
+  # hybeat 0.001
+
+
+once $ hycmd "p5"
+  # hyset "rotSpeedY"
+  # hybeat 0.001
+
+
+once $ hycmd "p5"
+  # hyset "rotSpeedZ"
+  # hybeat 0.001
+
+
+once $ hycmd "p5"
+  #hyset "render"
+  # hybeat "0"   -- 0 cube 1 lines
+
+hush
+
+--- P5 cubes
+
+x1 $ hycmd "p5*4"
+ # hyset "gencubes"
+ # hybeat "0.3 0.7 0.4 0.9" -- 0-1 integer amount of subcubes^3
+ # hyspeed "1.5 1.4" -- size of subcubes
+
+
+x1 silence
+
+once $ hycmd "p5"
+  # hyset "cubegeom"
+  # hybeat "1"
+
+x3 $ hycmd "p5"
+  # hyset "cubedecay"
+  # hybeat "<0.99 0.999>"
+
+once $ hycmd "p5"
+  # hyset "cubegeom"
+  # hybeat "1" -- 0=geom, 1=random
+
+
+x2 $ hycmd "p5*32"
+  # hyset "cubefreq"
+  # hybeat "0.8 0.8 [0.8 0.7 0.8 0.7 0.5 0.3 0.6 0.1 0.8 0.7 0.6] 0.8"
+
+x3 $ hycmd "p5*4"
+  # hyset "cubeseed"
+  # hybeat (irand 120)
+
+
+x4 $ hycmd "p5*4"
+  # hyset "cubefill"
+  # hybeat "2"   -- 0 normal, 1 solid, 2 none
+
+
+
+x2 $hycmd "p5*32"
+  #hyset "cubestroke"
+  # hybeat ((slow 2 saw) *3)
+
+
+hush
+
+
+---- P5 lines
+
+
+once $ hycmd "p5"
+  #hyset "genlines"
+  # hybeat "1"
