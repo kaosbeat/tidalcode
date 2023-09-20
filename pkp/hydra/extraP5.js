@@ -80,18 +80,40 @@ function createCubes(cubesize, size, margin)
 }
 
 
-function updateCubes() {
-    
-    p.cubes.forEach(cube => {
-        let xs = cube.xs*p.cubesconfig.decay 
-        if (xs < 0.1) {
+function updateCubes(rmsdata) {
+  // console.log(rmsdata)
+    if (p.cubesconfig['decaymode'] == 'time' ){
+      p.cubes.forEach(cube => {
+          let xs = cube.xs*p.cubesconfig.decay 
+          if (xs < 0.1) {
+            xs = 0.1
+          }
+          cube.xs = xs
+      });
+    } 
+    if (p.cubesconfig['decaymode'] == 'rms' ) {
+      p.cubes.forEach(cube => {
+        let xs = 100*rmsdata 
+        if (xs > 150) {
           xs = 0.1
         }
         cube.xs = xs
     });
+    }
     // console.log(xs)
 }
 
+// function updateCubes() {
+
+//   p.cubes.forEach(cube => {
+//       let xs = cube.xs*p.cubesconfig.decay 
+//       if (xs < 0.1) {
+//         xs = 0.1
+//       }
+//       cube.xs = xs
+//   });
+//   // console.log(xs)
+// }
 // createCubes(2, 100, 10);
 
 // createStandardCubes(4, 100, 10);
