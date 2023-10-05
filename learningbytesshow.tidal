@@ -147,7 +147,6 @@ d3 $ s "gabba:1!4"
   # gain 2
 
 
-
 do
   d8 $ slow 1 $ vizscene "text*8"
     # vizcommand "clear"

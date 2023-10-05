@@ -8,9 +8,10 @@ do
   p "frau"  $ slow 4 $ s "frau" # nCount "fraucount"
     # distort 0.2
     # krush 5
+    # speed 1.2
     # room 0.3
     # sz 0.4
-    # gain 1
+    # gain 0.7
   a1 $ vizscene "rtext*4"
     # vizcommand "clear*4"
     # vizoption "alligator2"

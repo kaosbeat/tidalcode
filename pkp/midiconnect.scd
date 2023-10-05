@@ -5,7 +5,7 @@
 MIDIClient.init;
 
 
-// ~pdOut = MIDIOut.newByName("Pure Data", "Pure Data Midi-In 1");
+// ~pdOut = MIDIOut.newByName("Pu re Data", "Pure Data Midi-In 1");
 // ~dirt.soundLibrary.addMIDI(\pdclock, ~pdOut);
 // ~pdOut.latency = 0.0;  /// optional latency
 

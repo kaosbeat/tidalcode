@@ -392,7 +392,7 @@ d7 $slow 2 $ n "e5 [e6*<2 4 1>] e5 [c5 d6]"
     # s "pfm2" -- minimoog
     #midichan 1
 
-d6 $ slow 2 $  s "respect" |+| n "8 <10> [10*1] <19>"
+d6 $ slow 2 $  s "respect" |+| n "15 <17> [10*4] <17>"
   # gain 1.2
   # room 0.5
   # size 0.2

@@ -1,17 +1,19 @@
 --- live viz
 
+hush
+
 once $ hycmd "reload"
 
 
 once $ hycmd "coder"
-  # hyset "dago"
+  # hyset "andrew"
   -- # hyset "andrew kasper dago viz"
 
 
 
-x1 $ hycmd "preset"
+x1 $ hycmd "preset*4"
   # hyset "code"
-  # hybeat "3"
+  # hybeat " 11 "
 
 
 
@@ -59,6 +61,6 @@ do
   hush
   once $ hycmd "coder"
     # hyset "dago"
-  x1 $ hycmd "preset"
+  x1 $ hycmd "preset*4"
     # hyset "code"
-    # hybeat "3"
+    # hybeat "12"

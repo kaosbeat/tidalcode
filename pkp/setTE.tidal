@@ -33,8 +33,8 @@ do
 
 do
   let wl = 40
-  d1 $ s "kick:5(<<5 7> 3>,8)"
-    # s "[kick]"
+  d1 $ s "kick:5(<<5 7> 3>,8)" |+ 5
+    # s "[op1]"
     # midichan 0 --op1 drum acetate
     # waveloss (slow 4 "<55 95 5 5>" )
     # room 0.8 #sz 0.6
@@ -49,7 +49,7 @@ do
 
 d3 $ n "1 <1 2> 3 4"
   # s "[opz]"
-  # midichan 1 -- opz seb snares 4.1
+  # midichan 4 -- opz seb snares 4.1
   # shape "<0.4 0.3>"
   # gain 1
 
@@ -61,7 +61,7 @@ do
     # s "[opz]"   --acid309
     # midichan 4 -- bass - electric (5.3)
     # legato (slow 4 "<2 1 0.5>")
-    # gain 0.85
+    # gain 1
   a1 $ slow 1 $ vizscene "intersect*4"
     # vizsize "8"
     # vizframewait "0.05"
@@ -99,8 +99,8 @@ d5 $ sound "indust:7*4"
 
 
 d3 $ midinote "62*1 62*4 63*1 62*2"
-  # s "[op1, snare:4]"
-  # midichan 0
+  # s "[opz, snare:4]"
+  # midichan 3
 
 do
   once $ hycmd "preset"
@@ -220,7 +220,7 @@ do
   let pat2 = "a <c e a> f*4 [e a*2 e]"
   d6 $ n pat2
     # s "[opz]" -- opz BASS ch5 s6.2 bow
-    # midichan 5
+    # midichan 4
   d7 $ n pat2
     # s "[op1]" -- op1 synth drwave delicatto
     # midichan 0
@@ -283,10 +283,10 @@ do
 do
   d5 silence
   d6 $ slow 2 $ chop "16" $ striate 32 $ juxBy 0.8 rev $ s "turbo:1"
-    # octer "<0 0.5 1>"
-    # speed 0.5
-    # djf (slow 4 sine)
-    # gain 1
+    # octer "<0 0.5 0>"
+    # speed 0.8
+    -- # djf (slow 4 sine)
+    # gain 2
 
 
 do
@@ -375,7 +375,8 @@ d4 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" $ sound "turbo*4"
   # legato 0.5
 
 
-d1 $ fast "<[16]>" $ randslice 4 $ sound "amencutup:2"
+d1 $ fast "<[8 16]>" $ randslice 8 $ sound "amencutup:2"
+  # gain 1.4
 
 
 -- nootropicsTE.tidal
@@ -444,7 +445,7 @@ do
   let pat1 =  "[a4*<4 2 8>]  c4  [e4 a4 c4 a4]*<2 4 8>  ~ "
   let pat2 = "[a4*2]  c4  [e4*<4 2 4 8>]  ~ "
   let pat3 = "a5 c4 e3 ~"
-  let pat = pat0
+  let pat = pat2
   d1 silence
   d5 $ slow 4 $ n pat
     # s "op1"  -- dubby 80s
@@ -497,14 +498,14 @@ do
     # gain 1.1
   x2 silence
 
-d6 $ slow 8 $ chop 8 $ striate "<16 8 2>" $ n "<1 2 3>  ~ <1 3> ~ "
+d6 $ slow 8 $ chop 8 $ striate "<2 8 2>" $ n "<1 2 3>  ~ <1 3> ~ "
   # s "turbo"
   # room 0.3
-  # octer 0.8
+  # octer 0
   # sz 0.9
   # gain 1.2
   # krush 1
-  # djf "<0.2 0.6>"
+  # djf "<0.6 0.6>"
 
 
 d6 $ slow 2 $ rev $ chop 8 $ s "turbo*4" # n "<2 1> ~ <1 0 <3 ~>> ~"
@@ -553,7 +554,7 @@ d6 $ slow 2 $ degradeBy 0.1 $ rev $ n "2 3 6 _"
 
 
 
-d7 silence
+d6 silence
 
 
 
