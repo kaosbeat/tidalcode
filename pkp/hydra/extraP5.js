@@ -27,14 +27,16 @@ p.cubes = [];
 p.cubesconfig = {"cubesize":1, 
                   "size":100, 
                   "margin":10, 
-                  "mode":"geom", 
+                  "mode":"random", 
                   "freq": 1, 
                   "decay":0.9, 
                   "seed": 1,"savedseed": 1,
                   "fill": "normal",
                   "fillC": [255,0,0],
                   "stroke": [255,255,255],
-                  "strokeweight":0.5  }
+                  "strokeweight":0.5,
+                  "controlmode": "midi", 
+                  "decaymode": "time"}
 
 
 function createCubes(cubesize, size, margin) 
@@ -100,6 +102,13 @@ function updateCubes(rmsdata) {
         cube.xs = xs
     });
     }
+    if (p.cubesconfig['controlmode'] == 'midi') {
+      if (p.cubesconfig.savedseed != mididata["m0"]["v"]) {
+        p.cubesconfig.savedseed = mididata["m0"]["v"] 
+        createCubes(p.cubesconfig["cubesize"] , p.cubesconfig["size"], p.cubesconfig["margin"])
+      }
+    }
+
     // console.log(xs)
 }
 
@@ -168,7 +177,7 @@ function createLines(lines, min, max, size, margin)
   let mn = Math.random()*min
   let mx = Math.random()*max
   let z = 0
-  for (var i = 0; i < lines; i++) {
+  for (var i = 0; i < size; i++) {
     let line = {"x":i*margin,
                 "y":mn, 
                 "z":z,
@@ -176,8 +185,8 @@ function createLines(lines, min, max, size, margin)
                 "y2":mx, 
                 "z2":z
             }
-
-    p.lines.push(line);
+    console.log("creating line", line)
+    lines.push(line);
   }
 }
    
@@ -194,3 +203,85 @@ function renderLines(lines) {
     p.line(line.x,line.y,line.z,line.x2,line.y2,line.z2)
   });
 }
+
+/////////////
+// strings //
+/////////////
+
+p.violindata = {"ch3":{"pitch":0.5, "amp": 0, "count":0}, 
+                "ch4":{"pitch":0.5, "amp": 0, "count":0},
+                "ch5":{"pitch":0.5, "amp": 0, "count":0},
+                "ch6":{"pitch":0.5, "amp": 0, "count":0}}
+
+
+p.stringsconfig = {"voicesize":4, 
+                   "colors":{"ch3":p.color(255, 204, 0), "ch4":p.color(2, 204, 90),"ch5":p.color(255, 24, 23),"ch6":p.color(255, 204, 255)},
+                   "stringsize":500,
+                   "seedoffset":0,
+                   "stringwidth": 2
+}
+
+
+function createStrings(min, max, size, seedoffset) 
+{
+  console.log("creating strings")
+  p.stringsconfig.seedoffset = seedoffset
+  p.strings = {"ch3":[],"ch4":[],"ch5":[],"ch6":[]}
+  // p.initstrings = {"v1":[],"v2":[],"v3":[],"v4":[]}
+  let z = 0
+  let voiceindex = 0
+  let stringwidth = p.stringsconfig['stringwidth']
+  for (var voice in p.strings){
+    for (var i = 0; i < size; i++) {
+      let Xoffset = i*stringwidth*p.stringsconfig['voicesize'] + voiceindex*stringwidth
+      p.noiseSeed(voiceindex+seedoffset);
+      let string = {"x":Xoffset,
+                  "y": p.noise(Xoffset*0.01)*p.stringsconfig['stringsize'], 
+                  "z":z,
+                  "x2":Xoffset, 
+                  "y2":p.noise(Xoffset*0.02)*(-p.stringsconfig['stringsize']),
+                  "z2":z
+              }
+      
+      p.strings[voice].push(string);
+      // p.initstrings[voice].push(string); 
+
+    }
+    voiceindex++;
+  } 
+}
+
+function updateStrings() {
+  // console.log(p.initstrings["v1"][0])
+  // console.log("updating lines")
+  let lll = 0
+  let voiceindex = 0
+  let stringwidth = p.stringsconfig['stringwidth']
+
+  for (var voice in p.strings){
+    p.noiseSeed(voiceindex+p.stringsconfig.seedoffset);
+    // console.log(p.violindata, voice)
+    // console.log(p.initstrings[String(voice)][0].y)
+    for (var i = 0; i < p.strings[voice].length; i++) {
+      let Xoffset = i*stringwidth*p.stringsconfig['voicesize'] + voiceindex*stringwidth
+      p.strings[voice][i].y = p.violindata[voice]["amp"] * p.noise(Xoffset*0.01)*p.stringsconfig['stringsize']
+      // 
+      // 
+    }
+  }
+  voiceindex++;
+} 
+
+function renderStrings() {
+  p.strokeWeight(1)
+  for (var voice in p.strings){
+    p.stroke(p.stringsconfig.colors[voice])
+    for (var i = 0; i < p.strings[voice].length; i++) {
+      let coor = p.strings[voice]
+      // console.log(coor)
+      p.line(coor[i].x,coor[i].y,coor[i].z,coor[i].x2,coor[i].y2,coor[i].z2)
+    }
+  }
+}
+
+startOSC = true
