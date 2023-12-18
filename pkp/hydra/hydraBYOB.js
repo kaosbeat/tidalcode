@@ -33,7 +33,7 @@ _osc.open()
 // synth0 - ai viz
 s0.initScreen()
 code = s0
-src(code
+src(code)
 	p.background(0);
 	p.push();
 	p.rotateX(p.frameCount * p.viewportconf.rotSpeedX);
