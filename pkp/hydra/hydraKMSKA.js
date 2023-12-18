@@ -1,22 +1,24 @@
 //Hydravisuals 
 
 // await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
-await loadScript("osc.min.js")
+// await loadScript("osc.min.js")
+
 await loadScript("midi.js")
 await midi.start({ channel: '*', input: '*' })
 midi.show()
 op1 = midi.input(1).channel(0)
-
-mididata = {  "m0":{"n":0, "v":0}}
-
-//midivars
-
+await loadScript("extraMidiKMSKA.js") // loads extra hydra functions
 
 
 // /config
-rw = 960
-rh = 960
+rw = 1920
+rh = 1080
 setResolution(rw, rh)
+
+setResolution(1920,1080);
+ar = window.innerWidth/window.innerHeight
+pr = 16/16
+if (window.innerWidth > window.innerHeight) {sc = pr/ar} else {sc = ar/pr}
 
 a.show()
 a.setBins(4)
@@ -30,8 +32,8 @@ p2 = 0.5
 
 
 //OSC connectors
-_osc = new OSC()
-_osc.open()
+// _osc = new OSC()
+// _osc.open()
 
 // _osc.on("*", (m) => {
 // 	console.log(m.address, m.args)
@@ -53,7 +55,7 @@ code = s0
 
 // synth2 - kaos tidal
 // s2.initScreen()
-src(s2).out(o2);
+src(s0).out(o2);
 
 // synth3 - processing
 p = new P5({
@@ -67,11 +69,11 @@ await loadScript("extraP5kmska.js") // loads extra p5 functions
 
 p.hide()
 
-s3.init({
+s0.init({
 	src: p.canvas
 })
-src(s3)
-	.out(o3);
+
+src(s0).out(o0);
 
 p.cubes = [];
 p.lines = [];
@@ -87,16 +89,16 @@ createCubes(4, 100, 10)
 createRects()
 
 
-render()
+render(o1)
 
 // p.draw = () => {}
 
 f = 0
 
 
+
+
 p.draw = () => {
-op1.cc(1).value(v => f=v) 
-  console.log(f)
 // 	f++;
 	p.background(0);
 	p.push();
@@ -116,7 +118,6 @@ op1.cc(1).value(v => f=v)
       updateRects();
       renderRects();
     }
-//   piramids();
   
 	p.pop();
 
@@ -130,22 +131,28 @@ solid(0)
 // //render code
 src(s1)
 	.out(o0);
-render(o0)
+render()
 debug = false;
 
-await loadScript("extraHydra.js") // loads extra hydra functions
+await loadScript("extraHydraKMSKA.js") // loads extra hydra functions
 
+src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY( ({time}) => Math.sin(time*0.05)*0.05 ).repeatX(2).color(1,1,1).scale(sc,1,ar/pr).out(o1)
 
-src(s3).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY( ({time}) => Math.sin(time*0.05)*0.05 ).repeatX(2).color(1,1,.11).out(o1)
+src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY(() => a.fft[0]*0.1).scale(sc,1,ar/pr).out(o1)
 
-src(s3).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY(() => a.fft[0]*0.1).out(o1)
+src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).scrollY(() => a.fft[0]*0).scale(sc,1,ar/pr).out(o1)
 
-src(s3).modulateRepeatX(src(s3),300, 3.0).modulateScale(src(s3),10,3).pixelate(200,200).out(o1)
+src(s0).modulateRepeatX(src(s3),300, 3.0).modulateScale(src(s3),10,3).pixelate(cc(1).range(20,200),200).out(o1)
 
-src(s0).modulate(src(s3),()=>a.fft[0]).blend(s2).out(o2)
+src(s0).modulate(src(s0).invert(0.8),()=>a.fft[0]).out(o1)
 
 src(s0).blend(s3,0.4).blend(src(s0).modulate(src(s3),10),0.8).blend(s2).out(o2)
 
+src(o1).mask(shape(100,0.5,0.0011).scale(1,1,rw/rh)).mask(src(o2),1).out(o2)
 
-render(o1)
+
+render()
+
+
+
 

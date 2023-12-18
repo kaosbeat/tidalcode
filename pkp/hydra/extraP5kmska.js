@@ -292,6 +292,7 @@ p.rects = [];
 
 p.rectsconfig = {
   "mode":"free",  // "preset or free"
+  "trigger": "note",
   "preset": 0,
   "seed": 1337,
   "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
@@ -301,7 +302,8 @@ p.rectsconfig = {
   "sqsizeX" : 500,
   "sqsizeY" : 250,
   "rot": 0,
-  "fieldsize": 500,
+  "fieldsizeX": rw,
+  "fieldsizeY": rh,
   "counter" : 0,
   "counterreset": 100,
   "quantity": 50
@@ -313,8 +315,8 @@ function createRects(){
   p.rects = []
   for (let index = 0; index < p.rectsconfig.quantity; index++) {
     p.rectsconfig.seed+=6;
-    p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
-                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
+    p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
                   "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
                   "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
                   "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
@@ -326,6 +328,12 @@ function createRects(){
 function updateRects() {
   let updateit = false;
   p.rectsconfig.counter++;
+  /// sizedconfig
+  p.rectsconfig.quantity = cc1*100+1;
+  p.rectsconfig.rot = cc2*3.14/2;
+  p.rectsconfig.sqsizeX = cc3*500;
+  p.rectsconfig.sqsizeY = cc4*500;
+
   if (p.rects.length == 0) {
     createRects()
   }
@@ -338,8 +346,8 @@ function updateRects() {
     updateit = false;
     if (p.rectsconfig.mode =="random") {
         p.rects[Math.floor(Math.random() * p.rects.length)] = {  
-                  "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
-                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
+                  "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
                   "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
                   "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
                   "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
@@ -348,11 +356,12 @@ function updateRects() {
     }
     if (p.rectsconfig.mode == "shift") {
         p.rects.pop();
-        p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
-                    "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsize - p.rectsconfig.fieldsize/2,
-                    "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
-                    "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
-                    "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
+        p.rects.push({
+                  "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
+                  "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
+                  "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
+                  "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
                   });
     } 
     if (p.rectsconfig.mode == "sequential") {
@@ -383,9 +392,9 @@ function renderRects(){
       p.stroke(255)
     }
     p.translate(0,0,0.1)
-    p.push()
-    p.rotateZ(random()*3.14/180*10)
-    p.pop()
+    // p.push()
+    p.rotateZ(p.rects[rectangle].rot)
+    // p.pop()
     p.rect(p.rects[rectangle].x,p.rects[rectangle].y,p.rects[rectangle].xs,p.rects[rectangle].ys);
     index++;
   }
