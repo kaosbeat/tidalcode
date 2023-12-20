@@ -302,11 +302,11 @@ p.rectsconfig = {
   "sqsizeX" : 500,
   "sqsizeY" : 250,
   "rot": 0,
-  "fieldsizeX": rw,
-  "fieldsizeY": rh,
+  "fieldsizeX": rw/2,
+  "fieldsizeY": rh/2,
   "counter" : 0,
   "counterreset": 100,
-  "quantity": 50
+  "quantity": 5
 }
 
 
@@ -326,25 +326,26 @@ function createRects(){
 
 
 function updateRects() {
-  let updateit = false;
+  p.updateit = false;
   p.rectsconfig.counter++;
   /// sizedconfig
-  p.rectsconfig.quantity = cc1*100+1;
-  p.rectsconfig.rot = cc2*3.14/2;
-  p.rectsconfig.sqsizeX = cc3*500;
-  p.rectsconfig.sqsizeY = cc4*500;
+  p.rectsconfig.quantity = (params.data[1]/127)*100+2;
+  p.rectsconfig.rot = (params.data[2]/127)*3.14/2;
+  p.rectsconfig.sqsizeX = ((params.data[3]/127)*500)+2;
+  p.rectsconfig.sqsizeY = ((params.data[4]/127)*500)+2;
 
   if (p.rects.length == 0) {
     createRects()
   }
   if (p.rectsconfig.counter > p.rectsconfig.counterreset) {
+      // console.log("ready to uipdate")
       p.rectsconfig.counter = 0;
-      updateit = true
+      p.updateit = true
   }
 
-  if (updateit) {
-    updateit = false;
-    if (p.rectsconfig.mode =="random") {
+  if (p.updateit) {
+    p.updateit = false;
+    if (p.rectsconfig.changemode =="random") {
         p.rects[Math.floor(Math.random() * p.rects.length)] = {  
                   "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
                   "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
@@ -352,10 +353,11 @@ function updateRects() {
                   "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
                   "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
                 }
-    
+        p.rectsconfig.seed = p.rectsconfig.seed + 8
     }
-    if (p.rectsconfig.mode == "shift") {
-        p.rects.pop();
+    if (p.rectsconfig.changemode == "shift") {
+
+        p.rects.shift();
         p.rects.push({
                   "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
                   "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
@@ -363,6 +365,8 @@ function updateRects() {
                   "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
                   "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
                   });
+        p.rectsconfig.seed = p.rectsconfig.seed + 6
+        
     } 
     if (p.rectsconfig.mode == "sequential") {
 
@@ -392,10 +396,11 @@ function renderRects(){
       p.stroke(255)
     }
     p.translate(0,0,0.1)
-    // p.push()
+    p.push()
     p.rotateZ(p.rects[rectangle].rot)
-    // p.pop()
+    
     p.rect(p.rects[rectangle].x,p.rects[rectangle].y,p.rects[rectangle].xs,p.rects[rectangle].ys);
+    p.pop()
     index++;
   }
   p.pop();

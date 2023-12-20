@@ -3,14 +3,14 @@
 // await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
 // await loadScript("osc.min.js")
 
-await loadScript("midi.js")
+await loadScript("miditest.js")
 await midi.start({ channel: '*', input: '*' })
 midi.show()
 op1 = midi.input(1).channel(0)
 await loadScript("extraMidiKMSKA.js") // loads extra hydra functions
 
 
-// /config
+// /viewportconfig
 rw = 1920
 rh = 1080
 setResolution(rw, rh)
@@ -26,9 +26,10 @@ a.setCutoff(3)
 a.setScale(10)
 a.beat.threshold = 10
 
+
 //vars
-p1 = 0.5
-p2 = 0.5
+// var cc1,cc2,cc3,cc4 = 0
+
 
 
 //OSC connectors
@@ -40,35 +41,24 @@ p2 = 0.5
 // })
 
 
-
 // synth0 - ai viz
 // s0.initScreen()
 src(s0).out(o0)
 code = s0
 
+// synth3 - livecode
+// s3.initStream("kaos")
+// s3.initScreen()
 
-// synth1 - andrew code
-// s1.initStream("andrew")
-// s1.initScreen()
 
-// src(s1).out(o1);
 
-// synth2 - kaos tidal
-// s2.initScreen()
-src(s0).out(o2);
-
-// synth3 - processing
+// P5Synth
 p = new P5({
 	mode: "WEBGL"
 })
 
 
-await loadScript("extraP5kmska.js") // loads extra p5 functions
-
-// await new Promise(r => setTimeout(r, 2000));
-
 p.hide()
-
 s0.init({
 	src: p.canvas
 })
@@ -79,24 +69,15 @@ p.cubes = [];
 p.lines = [];
 p.rects = [];
 
+await loadScript("extraP5kmska.js") // loads extra p5 functions
+
 p.render = "rects"
 p.piramidtrans = 0
 p.cubesconfig.seed = 12;
 
 createLines(p.lines,400,20,1,2)
-
 createCubes(4, 100, 10)
 createRects()
-
-
-render(o1)
-
-// p.draw = () => {}
-
-f = 0
-
-
-
 
 p.draw = () => {
 // 	f++;
@@ -125,14 +106,6 @@ p.draw = () => {
 
 
 
-// render black
-solid(0)
-	.out(o0)
-// //render code
-src(s1)
-	.out(o0);
-render()
-debug = false;
 
 await loadScript("extraHydraKMSKA.js") // loads extra hydra functions
 
@@ -148,10 +121,10 @@ src(s0).modulate(src(s0).invert(0.8),()=>a.fft[0]).out(o1)
 
 src(s0).blend(s3,0.4).blend(src(s0).modulate(src(s3),10),0.8).blend(s2).out(o2)
 
-src(o1).mask(shape(100,0.5,0.0011).scale(1,1,rw/rh)).mask(src(o2),1).out(o2)
+src(o1).mask(shape(100,0.5,0.0011).scale(1,1,rw/rh)).out(o2)
 
 
-render()
+render(o0)
 
 
 
