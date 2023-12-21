@@ -7,6 +7,10 @@ await loadScript("miditest.js")
 await midi.start({ channel: '*', input: '*' })
 midi.show()
 op1 = midi.input(1).channel(0)
+tidal = midi.input(4)
+andrew = midi.input(2).channel(0)
+
+
 await loadScript("extraMidiKMSKA.js") // loads extra hydra functions
 
 
@@ -21,36 +25,18 @@ pr = 16/16
 if (window.innerWidth > window.innerHeight) {sc = pr/ar} else {sc = ar/pr}
 
 a.show()
-a.setBins(4)
-a.setCutoff(3)
+a.setBins(8)
+a.setCutoff(100)
 a.setScale(10)
 a.beat.threshold = 10
 
 
-//vars
-// var cc1,cc2,cc3,cc4 = 0
-
-
-
-//OSC connectors
-// _osc = new OSC()
-// _osc.open()
-
-// _osc.on("*", (m) => {
-// 	console.log(m.address, m.args)
-// })
-
-
-// synth0 - ai viz
-// s0.initScreen()
 src(s0).out(o0)
 code = s0
 
 // synth3 - livecode
 // s3.initStream("kaos")
 // s3.initScreen()
-
-
 
 // P5Synth
 p = new P5({
@@ -68,6 +54,9 @@ src(s0).out(o0);
 p.cubes = [];
 p.lines = [];
 p.rects = [];
+p.updateit = false;
+p.audioreact = false;
+p.activeaudiobin = 0;
 
 await loadScript("extraP5kmska.js") // loads extra p5 functions
 
@@ -80,13 +69,14 @@ createCubes(4, 100, 10)
 createRects()
 
 p.draw = () => {
-// 	f++;
+  	p.updateit = false;
 	p.background(0);
 	p.push();
-// 	p.rotateX(p.frameCount * p.viewportconf.rotSpeedX);
-// 	p.rotateY(p.frameCount * p.viewportconf.rotSpeedY);
-// 	p.rotateZ(p.frameCount * p.viewportconf.rotSpeedZ);
-	if (p.render == "cubes") {
+	p.rotateX(params.viewportrot[5]*2*3.14);
+	p.rotateY(params.viewportrot[6]*2*3.14);
+	p.rotateZ(params.viewportrot[7]*2*3.14);
+
+  	if (p.render == "cubes") {
 		updateCubes();
 		renderCubes();
 	}
@@ -119,12 +109,12 @@ src(s0).modulateRepeatX(src(s3),300, 3.0).modulateScale(src(s3),10,3).pixelate(c
 
 src(s0).modulate(src(s0).invert(0.8),()=>a.fft[0]).out(o1)
 
-src(s0).blend(s3,0.4).blend(src(s0).modulate(src(s3),10),0.8).blend(s2).out(o2)
+src(s0).blend(s3,0.4).blend(src(s0).modulate(src(o1),10),0.8).blend(s2).out(o2)
 
 src(o1).mask(shape(100,0.5,0.0011).scale(1,1,rw/rh)).out(o2)
 
 
-render(o0)
+render(o2)
 
 
 

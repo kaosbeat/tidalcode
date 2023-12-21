@@ -293,6 +293,7 @@ p.rects = [];
 p.rectsconfig = {
   "mode":"free",  // "preset or free"
   "trigger": "note",
+  "update": "clock",  //"counter, "clock", "link"
   "preset": 0,
   "seed": 1337,
   "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
@@ -313,6 +314,10 @@ p.rectsconfig = {
 
 function createRects(){
   p.rects = []
+  p.rectsconfig.quantity = (params.data[1])*100+1;
+  p.rectsconfig.rot = (params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
   for (let index = 0; index < p.rectsconfig.quantity; index++) {
     p.rectsconfig.seed+=6;
     p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
@@ -327,12 +332,14 @@ function createRects(){
 
 function updateRects() {
   p.updateit = false;
-  p.rectsconfig.counter++;
+  if (p.rectsconfig.update == "counter") {
+    p.rectsconfig.counter++;
+  }
   /// sizedconfig
-  p.rectsconfig.quantity = (params.data[1]/127)*100+2;
-  p.rectsconfig.rot = (params.data[2]/127)*3.14/2;
-  p.rectsconfig.sqsizeX = ((params.data[3]/127)*500)+2;
-  p.rectsconfig.sqsizeY = ((params.data[4]/127)*500)+2;
+  p.rectsconfig.quantity = (params.data[1])*100+1;
+  p.rectsconfig.rot = (params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
 
   if (p.rects.length == 0) {
     createRects()
@@ -343,8 +350,14 @@ function updateRects() {
       p.updateit = true
   }
 
+  if (p.clockupdate){
+    p.updateit = true;
+    p.clockupdate = false;
+  }
+
   if (p.updateit) {
     p.updateit = false;
+    if (p.rectsconfig.changemode == "none") {}
     if (p.rectsconfig.changemode =="random") {
         p.rects[Math.floor(Math.random() * p.rects.length)] = {  
                   "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
