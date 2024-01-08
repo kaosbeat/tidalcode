@@ -1,5 +1,5 @@
-var modes = {"current":"data", "data": false, "processed": false, "mask": false, "black":false, "audio": false, "submode":1, "setdata":true }
-var submode = {"data":1, "processed":1, "mask":1, "black":1, "audio":1}
+var modes = {"current":"raw", "raw": false, "processed": false, "mask": false, "black":false, "audio": false, "submode":1, "setdata":true }
+var submode = {"raw":1, "processed":1, "mask":1, "black":1, "audio":1}
 var params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5}, 
                 "processed": {1:0.5,2:0.5,3:0.5,4:0.5}, 
                 "mask": {1:0,2:0,3:0,4:0},
@@ -10,14 +10,26 @@ var params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5},
 
 
 function activateSubmode(submodeint) {
+    console.log("activating submode ", submodeint)
     let mode = modes.current
     submode[mode] = submodeint
-    if (mode == "data"){
+    if (mode == "raw"){
         switch (submodeint){
-            case 1 :{ p.rectsconfig.trigger = "note";break;}
-            case 2 :{ p.rectsconfig.trigger = "cc";break;}
-            case 3 :{ p.rectsconfig.trigger = "andrew";break;}
-            case 4 :{ p.rectsconfig.trigger = "clock";break;} ///beatclock note 61 on tidal channel 15
+            // case 1 :{ p.rectsconfig.trigger = "note";break;}
+            // case 2 :{ p.rectsconfig.trigger = "cc";break;}
+            // case 3 :{ p.rectsconfig.trigger = "andrew";break;}
+            // case 4 :{ p.rectsconfig.trigger = "clock";break;} ///beatclock note 61 on tidal channel 15            
+            case 1 :{ src(s0).out(o1); render(o1); break;}
+            case 2 :{ src(s1).out(o1); render(o1); break;}
+            case 3 :{ src(s2).out(o1); render(o1); break;}
+            case 4 :{ src(s3).out(o1); render(o1); break;} 
+            case 5 :{src(s0).blend(s1, () => a.fft[0]*1).out(o1); render(o1); break;} 
+            case 6 :{src(s0).blend(s2, () => a.fft[0]*1).out(o1); render(o1); break;} 
+            case 7 :{src(s0).blend(s3, () => a.fft[0]*1).out(o1); render(o1); break;} 
+
+            case 8 :{ modes.setdata = true; break;}
+
+
             // case 5 :{ p.rectsconfig.trigger = "modulate";break;}
 
         }
@@ -46,7 +58,7 @@ function activateSubmode(submodeint) {
 
 
 function activeMode(mode, submodeint){
-    modes["data"] = false;
+    modes["raw"] = false;
     modes["processed"] = false;
     modes["mask"] = false;
     modes["black"] = false;
@@ -69,7 +81,7 @@ function activeMode(mode, submodeint){
     if (modes["mask"]) { render(o2); }
     
     if (modes["black"]) { 
-        solid(0).out(o3); 
+        // solid(0).out(o3); 
         render(o3); }
 }
 
@@ -138,7 +150,7 @@ op1.onCC("*", ({index, value, channel}) => {
                 break; 
             }
 
-            case 11: { activeMode("data", submode["data"]); break; }
+            case 11: { activeMode("raw", submode["raw"]); break; }
             case 12: { activeMode("processed", submode["processed"]) ; break;}
             case 13: { activeMode("mask", submode["mask"]) ; break;}
             case 14: { activeMode("black", submode["black"]) ; break;}

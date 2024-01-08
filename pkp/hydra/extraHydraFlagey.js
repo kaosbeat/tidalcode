@@ -2,10 +2,12 @@ function set1() {
     src(s0)
     .scroll(() => params.processed[1])
     .kaleid(() => (Math.round(params.processed[2]*6)+2))  //value = 2 + Math.round(value/127*6)
-    .add(src(o1).modulate(o1,0.09),.6)
+    .add(src(o1).modulate(o1,0.9),.6)
     .scrollY( ({time}) => Math.sin(time*0.05)*0.05 )
     .repeatX(2)
     .scale(sc,1,ar/pr)
+    .blend(src(s0), 0.8)
+    .diff(src(s3), 0.8)
     .out(o1)
 }
 
@@ -20,10 +22,12 @@ function set2() {
 }
 
 function set3() {
-    src(s0)
+   src(s0)
     .modulateRepeatX(src(s3),300, 3.0)
     .modulateScale(src(s3),10,3)
     .pixelate(() => (params.processed[1]*180)+20,200)
+    .mask(src(s3),0,5).out(o2)
+    src(s0).layer(src(o2))
     .out(o1)
 }
 

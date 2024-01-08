@@ -1,4 +1,5 @@
-//Hydravisuals 
+
+ //Hydravisuals 
 
 // await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
 // await loadScript("osc.min.js")
@@ -6,9 +7,10 @@
 await loadScript("miditest.js")
 await midi.start({ channel: '*', input: '*' })
 midi.show()
+
 op1 = midi.input(1).channel(0)
-tidal = midi.input(4)
-andrew = midi.input(2).channel(0)
+tidal = midi.input(2)
+andrew = midi.input(3).channel(0)
 
 
 await loadScript("extraMidiKMSKA.js") // loads extra hydra functions
@@ -99,23 +101,36 @@ p.draw = () => {
 
 await loadScript("extraHydraKMSKA.js") // loads extra hydra functions
 
-src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY( ({time}) => Math.sin(time*0.05)*0.05 ).repeatX(2).color(1,1,1).scale(sc,1,ar/pr).out(o1)
+// src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY( ({time}) => Math.sin(time*0.05)*0.05 ).repeatX(2).color(1,1,1).scale(sc,1,ar/pr).out(o1)
 
-src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY(() => a.fft[0]*0.1).scale(sc,1,ar/pr).out(o1)
+// src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).add(src(o1).modulate(o1,0.09),.6).scrollY(() => a.fft[0]*0.1).scale(sc,1,ar/pr).out(o1)
 
-src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).scrollY(() => a.fft[0]*0).scale(sc,1,ar/pr).out(o1)
+src(s0).scroll(cc(2)).kaleid(cc(1).range(2,8)).scrollY(() => a.fft[0]*0.01).scale(sc,1,ar/pr).out(o1)
 
 src(s0).modulateRepeatX(src(s3),300, 3.0).modulateScale(src(s3),10,3).pixelate(cc(1).range(20,200),200).out(o1)
 
-src(s0).modulate(src(s0).invert(0.8),()=>a.fft[0]).out(o1)
+// src(s0).modulate(src(s0).invert(0.8),()=>a.fft[0]).out(o1)
 
-src(s0).blend(s3,0.4).blend(src(s0).modulate(src(o1),10),0.8).blend(s2).out(o2)
+// src(s0).blend(s3,0.4).blend(src(s0).modulate(src(o1),10),0.8).blend(s2).out(o2)
 
-src(o1).mask(shape(100,0.5,0.0011).scale(1,1,rw/rh)).out(o2)
-
-
-render(o2)
+src(o1).mask(shape(100,0.5,0.1).scale(1,1,rw/rh)).out(o2)
 
 
+render(o1)
 
 
+    src(s0)
+    .modulateRepeatX(src(s3),300, 3.0)
+    .modulateScale(src(s3),10,3)
+    .pixelate(100,200)
+  	.diff(src(s0), () => a.fft[0]*1)
+    .out(o2)
+
+a.setCutoff(11)
+
+
+
+
+ // Type some code on a new line (such as "osc().out()"), and press CTRL+shift+enter
+ 
+ // Type some code on a new line (such as "osc().out()"), and press CTRL+shift+enterg
