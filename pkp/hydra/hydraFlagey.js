@@ -10,6 +10,8 @@ andrew = midi.input(3).channel(0)
 
 
 
+
+
 await loadScript("extraMidiFlagey.js") // loads extra hydra functions
 
 // /viewportconfig
@@ -99,9 +101,6 @@ p.draw = () => {
 
 await loadScript("extraHydraFlagey.js") // loads extra hydra functions
 
-    src(s0)
-    .modulateScale(osc(0.3,-0.5,0))
-    .out(o1)
 
 
 src(s3).out(o3)

@@ -35,3 +35,11 @@ function set3() {
 function set4() {
     src(s0).blend(s3,0.4).blend(src(s0).modulate(src(o1),10),0.8).blend(s2).out(o1)
 }
+
+
+
+function set5() {
+    src(s0)
+    .modulateScale(osc(0.3,-0.5,0))
+    .out(o1)
+}
