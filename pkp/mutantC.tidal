@@ -34,10 +34,13 @@ d2 $ n "5 <~ 1> 5 <2 2 2 ~>" # s "[kick,opz]"
   # gain 1
 
 
+d6 $ n "3 4 5 3" # s "indust"
+  #gain 1.4
+  #legato 0.5
 
 
 
-
+hush
 
 
 d5 $ n "a5 c6 f6 a6"

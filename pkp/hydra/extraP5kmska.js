@@ -3,9 +3,9 @@
 //////////////
 
 p.viewportconf = {
-                  "rotSpeedX": 0.001,
-                  "rotSpeedY": 0.001,
-                  "rotSpeedZ": 0.001
+                  "rotSpeedX": 0.01,
+                  "rotSpeedY": 0.01,
+                  "rotSpeedZ": 0.01
 }
 
 //////////////
@@ -16,6 +16,11 @@ p.viewportconf = {
 function random() {
     var x = Math.sin(p.cubesconfig.seed++) * 10000;
     return x - Math.floor(x);
+}
+
+function fakeRandom(seed) {
+  var x = Math.sin(seed) * 10000;
+  return x - Math.floor(x)
 }
 
 
@@ -257,7 +262,6 @@ function updateStrings() {
   let lll = 0
   let voiceindex = 0
   let stringwidth = p.stringsconfig['stringwidth']
-
   for (var voice in p.strings){
     p.noiseSeed(voiceindex+p.stringsconfig.seedoffset);
     // console.log(p.violindata, voice)
@@ -265,8 +269,6 @@ function updateStrings() {
     for (var i = 0; i < p.strings[voice].length; i++) {
       let Xoffset = i*stringwidth*p.stringsconfig['voicesize'] + voiceindex*stringwidth
       p.strings[voice][i].y = p.violindata[voice]["amp"] * p.noise(Xoffset*0.01)*p.stringsconfig['stringsize']
-      // 
-      // 
     }
   }
   voiceindex++;
@@ -283,5 +285,174 @@ function renderStrings() {
     }
   }
 }
+
+
+
+p.rects = [];
+
+p.rectsconfig = {
+  "mode":"free",  // "preset or free"
+  "trigger": "note",
+  "update": "clock",  //"counter, "clock", "link"
+  "preset": 0,
+  "seed": 1337,
+  "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
+  "xoff": 10,
+  "yoff" : 10,
+  "zoff" : -500,
+  "sqsizeX" : 500,
+  "sqsizeY" : 250,
+  "rot": 0,
+  "fieldsizeX": rw/2,
+  "fieldsizeY": rh/2,
+  "counter" : 0,
+  "counterreset": 100,
+  "quantity": 5
+}
+
+
+
+function createRects(){
+  p.rects = []
+  p.rectsconfig.quantity = (params.data[1])*100+1;
+  p.rectsconfig.rot = (params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
+  for (let index = 0; index < p.rectsconfig.quantity; index++) {
+    p.rectsconfig.seed+=6;
+    p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
+                  "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
+                  "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
+                  "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
+                })
+  }
+}
+
+
+function updateRects() {
+  p.updateit = false;
+  if (p.rectsconfig.update == "counter") {
+    p.rectsconfig.counter++;
+  }
+  /// sizedconfig
+  p.rectsconfig.quantity = (params.data[1])*100+1;
+  p.rectsconfig.rot = (params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
+
+  if (p.rects.length == 0) {
+    createRects()
+  }
+  if (p.rectsconfig.counter > p.rectsconfig.counterreset) {
+      // console.log("ready to uipdate")
+      p.rectsconfig.counter = 0;
+      p.updateit = true
+  }
+
+  if (p.clockupdate){
+    p.updateit = true;
+    p.clockupdate = false;
+  }
+
+  if (p.updateit) {
+    p.updateit = false;
+    if (p.rectsconfig.changemode == "none") {}
+    if (p.rectsconfig.changemode =="random") {
+        p.rects[Math.floor(Math.random() * p.rects.length)] = {  
+                  "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
+                  "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
+                  "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
+                  "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
+                }
+        p.rectsconfig.seed = p.rectsconfig.seed + 8
+    }
+    if (p.rectsconfig.changemode == "shift") {
+
+        p.rects.shift();
+        p.rects.push({
+                  "x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
+                  "y" : fakeRandom(p.rectsconfig.seed+2)*p.rectsconfig.fieldsizeY - p.rectsconfig.fieldsizeY/2,
+                  "xs": fakeRandom(p.rectsconfig.seed+3)*p.rectsconfig.sqsizeX,
+                  "ys" : fakeRandom(p.rectsconfig.seed+4)*p.rectsconfig.sqsizeY,
+                  "rot": fakeRandom(p.rectsconfig.seed+5)*p.rectsconfig.rot,
+                  });
+        p.rectsconfig.seed = p.rectsconfig.seed + 6
+        
+    } 
+    if (p.rectsconfig.mode == "sequential") {
+
+    } 
+  }
+  // / "random", "sequential", "seed", "shift","swap"
+  
+  // if (p.rectsconfig.mode == "seed") {}
+    // fakeRandom(seed)
+
+}
+
+
+
+function renderRects(){
+  p.background(0)
+  p.push();
+  p.strokeWeight(3)
+  index = 0;
+  for (var rectangle in p.rects){
+    if (index%2 == 0){
+      p.fill(255)
+      p.stroke(0)
+    }
+    else{
+      p.fill(0)
+      p.stroke(255)
+    }
+    p.translate(0,0,0.1)
+    p.push()
+    p.rotateZ(p.rects[rectangle].rot)
+    
+    p.rect(p.rects[rectangle].x,p.rects[rectangle].y,p.rects[rectangle].xs,p.rects[rectangle].ys);
+    p.pop()
+    index++;
+  }
+  p.pop();
+
+}
+
+
+p.piramidsconfig = {"piramidtrans":0, 
+                  "size":100, 
+}
+
+
+function modulate(mode, steps, globalsteps){
+  let currentstep = globalsteps
+  if (mode == "saw") {
+    currentstep = globalsteps+1
+    globalsteps = currentstep
+    if (currentstep > steps) {
+      globalsteps = 0
+    }
+  }
+  // console.log(globalstep)
+  return currentstep / steps
+}
+function piramids(){
+  p.fill(255,0,0)
+  p.push();
+  p.cone(500,500*1.414,4,1,true);
+  // p.rotateY(3.14/2);
+  transY = modulate("saw",100,p.piramidsconfig.piramidtrans)*500
+  p.translate(0,-500*0.707 + transY ,0)
+  p.rotateZ(3.14);
+  p.cone(500,500*1.414,4,1,true);
+  p.pop();
+
+}
+
+
+
+
 
 startOSC = true

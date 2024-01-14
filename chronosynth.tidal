@@ -7,49 +7,9 @@ once $ s "freeLoops"
 hush
 
 
-d1 $ s "looper"
-
-
-
-
-
-
-once $ slow 2 $ s "rlooper" # lname "cld2"
-
 d2 silence
-
-
-
 
 d2 $ s "cp"
-
-d2 silence
-
-
-d2 $ slow 1 $ n "0 ~ ~ ~"
-  # s "cld2"
-  # legato 2
-  # speed 1
-  # vowel "<a [e] i o>"
-  # gain 1
-
-
-d5 $ slow 1 $ s "kick snare [~ kick] ~"
-  # lpf "180"
-  # room 0.7
-  # sz (slow 2 (range 0.5 1 (sine)))
-
-
-
-
-d4 $
-
-
-
-d4 silence
-
-
-
 
 
 --   ____ _                          ____              _   _
@@ -86,12 +46,15 @@ d1 $slow 2 $ s "lead1"
   # squiz 1
   # gain 0.9
 
-once $ slow 2 $ s "olooper" # lname "lead1"
+hush
+
+once $ slow 2 $ s "rlooper" # lname "lead1"
 
 
 d2 $slow 1 $ midinote "65 66 ~ 66"
   # s "op1"
 
+d2 silence
 
 d1 $ slow 2
   $ layer [(# speed 0.5), (# speed 0.25)]
@@ -115,6 +78,24 @@ d4 $ slow 2 $ chop "<4 8 32 4 32 4 4 4>"  $ s "drum1"
 
 
 
+once $ slow 2 $ s "rlooper" # lname "cld2"
+
+d2 silence
+
+
+d2 $ slow 1 $ n "0 ~ ~ ~"
+  # s "cld2"
+  # legato 2
+  # speed 1
+  # vowel "<a [e] i o>"
+  # gain 1
+
+
+d5 $ slow 1 $ s "kick snare [~ kick] ~"
+  # lpf "180"
+  # room 0.7
+  # sz (slow 2 (range 0.5 1 (sine)))
+
 
 
 --   ___  ___  ___ __ _ _ __   ___
@@ -126,23 +107,19 @@ d4 $ slow 2 $ chop "<4 8 32 4 32 4 4 4>"  $ s "drum1"
 
 hush
 
-setcps (125/60/4)
+setcps (135/60/4)
 
 
-d1 $ s"kick:4 ~ [~ kick:4] ~"
-  # lpf 500
-  # room 0.9
+-- kick4/5  + lpf
 
-d1 $ s "kick:4 kick:5 [~  kick:4] kick:5"
-  # lpf 1500
-  # room 0.9
 
 
 d1 $ slow 1 $ s "kick:5 kick:4  [~ kick:5] <kick:4 kick:2>"
-   # room (slow 4 (range 0.2 0.9 (sine)))
+  # lpf 500
+  # room (slow 4 (range 0.2 0.9 (sine)))
 
 
-d2 $slow 0.5 $ s "kick:5  kick:4 [~ kick:5] <kick:4> "
+[<16;78;27Md2 $slow 0.5 $ s "kick:5  kick:4 [~ kick:5] <kick:4> "
   # lpf "<400 800 1200 1600>"
   # lpq 0.3
 
@@ -162,22 +139,23 @@ d3 $ slow 1 $ s "opz(5,16)"
   # midichan 1
 
 
-
+-- d5 delicatto
 
 
 hush
 
 d2 $ s "hardkick:1*2 ~ hardkick:4 [hardkick:3 hardkick:5]"
 
-d2 $ s "hardkick:(5,8)"
-  # room 0.7
+d2 $ s "hardkick:1(5,8)"
+  # room 0.3
   # gain 0.9
   # vowel "< a e i o>"
 
 
 d2 silence
 
-d2 $ loopAt 4  $ s "break"
+
+d2 $ loopAt 2  $ s "break"
   # gain 1
 
 
@@ -187,14 +165,14 @@ d2 $ fast 1$ n "2 2 3 2 " |> (irand 0)
 
 
 d3 $ n "4*8" |> (irand 4)
-  # s "opz"
+  # s "onnnpz"
   #midichan 3
 
 d3 silence
 
 hush
 
--- d5 delicatto
+
 
 
 
@@ -233,7 +211,7 @@ do
     # sz 0.4
     # gain 1
   once $ hycmd "preset"
-    #hyset "out1"
+    #hyset "out2"
     #hybeat 2
 
 
@@ -261,7 +239,7 @@ d5 $ slow 2  $ n " 4 4 4 4 "
   # s "bytebeats"
   # speed "1 2 0.5 0.5"
   # krush 0
-  # lpf 200
+  # lpf 800
   # gain 1
 
 d3 $ s "kick:3!3 kick!1"
@@ -435,7 +413,9 @@ d4 $ slow 0.5 $ n "[0*8, 0(3,8)]" |-18
 --  | | |  __/ |_| |_| | |  | | | |
 --  |_|  \___|\__|\__,_|_|  |_| |_|
 
+hush
 
+setcps 0.7
 
 d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
   # s "plaits"

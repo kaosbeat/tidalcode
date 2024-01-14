@@ -3,11 +3,11 @@
 // await loadScript("https://cdn.jsdelivr.net/gh/ojack/hydra-osc/lib/osc.min.js")
 await loadScript("osc.min.js")
 
-
+mididata = {  "m0":{"n":0, "v":0}}
 
 // /config
-rw = 1436
-rh = 844
+rw = 960
+rh = 540
 setResolution(rw, rh)
 a.show()
 a.setBins(4)
@@ -30,21 +30,24 @@ _osc.open()
 
 
 
-// synth0 - dago code
-// s0.initStream("dago")
+// synth0 - ai viz
 s0.initScreen()
 code = s0
-// src(code).out(o0);
+src(code)
+	p.background(0);
+	p.push();
+	p.rotateX(p.frameCount * p.viewportconf.rotSpeedX);
+	p.rotateY(p).out(o0);
 
 // synth1 - andrew code
 // s1.initStream("andrew")
-s1.initScreen()
+// s1.initScreen()
 
 // src(s1).out(o1);
 
 // synth2 - kaos tidal
 s2.initScreen()
-// src(s2).out(o2);
+src(s2).out(o2);
 
 // synth3 - processing
 p = new P5({
@@ -65,7 +68,7 @@ p.render = "cubes"
 
 await loadScript("extraP5.js") // loads extra p5 functions
 createCubes(4, 100, 10)
-
+render()
 
 // p.draw = () => {}
 f = 0
@@ -84,7 +87,6 @@ p.draw = () => {
 		updateLines();
 		renderLines();
 	}
-
 	p.pop();
 }
 
@@ -160,7 +162,6 @@ _osc.on("/hydra", (m) => {
 				} else {
 					p.cubesconfig.mode = "geom"
 				}
-
 			}
 			if (cmd == "cubedecay") {
 				p.cubesconfig.decay = val1
@@ -176,7 +177,6 @@ _osc.on("/hydra", (m) => {
 				p.cubesconfig.strokeweight = val1
 			}
 			if (cmd == "cubefill") {
-
 				if (val1 == "0") {
 					p.cubesconfig.fill = "normal"
 				} else if (val1 == "1") {
@@ -202,12 +202,10 @@ _osc.on("/hydra", (m) => {
 				code = s3;
 			}
 			break;
-
 		case 'preset':
 			preset = m.args[1];
 			subpreset = m.args[2];
 			console.log("setting preset", subpreset);
-
 			if (preset == "code") {
 				if (subpreset == 0) {
 					src(code)
@@ -261,10 +259,14 @@ _osc.on("/hydra", (m) => {
 		default:
 			// 			console.log(m)
 	}
-
 })
 
 
 
 
-render(o1);
+src(s0).modulate(src(s3),()=>a.fft[0]).blend(s2).out(o2)
+
+src(s0).blend(s3,0.4).blend(src(s0).modulate(src(s3),10),0.8).blend(s2).out(o2)
+
+
+render(o2)

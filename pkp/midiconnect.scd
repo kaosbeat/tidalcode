@@ -14,7 +14,7 @@ MIDIClient.init;
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
 ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
-~midiOut.latency = 0.0;  /// optional latency
+~midiOu t.latency = 0.0;  /// optional latency
 
 ~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
 ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
@@ -24,12 +24,16 @@ MIDIClient.init;
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
 ~opzOut = MIDIOut.newByName("OP-Z", "OP-Z MIDI 1");
 ~dirt.soundLibrary.addMIDI(\opz, ~opzOut);
-~opzOut.latency = 0.0;  /// optional latency
+~opzOut.latency = 0.0;   /// optional latency
 //
-// ~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
-// ~dirt.soundLibrary.addMIDI(\mono, ~monoOut);
-// ~monoOut.latency = 0.0;  /// optional latency
+~monoOut = MIDIOut.newByName("Circuit Mono Station", "Circuit Mono Station MIDI 1");
+~dirt.soundLibrary.addMIDI(\mono, ~monoOut);
+~monoOut.latency = 0.0;  /// optional latency
 
+
+~td3Out = MIDIOut.newByName("TD-3", "TD-3 MIDI 1");
+~dirt.soundLibrary.addMIDI(\td3, ~td3Out);
+~td3Out  .latency = 0.0;  /// optional latency
 
 
 ~ocOut = MIDIOut.newByName("Teensy MIDI", "Teensy MIDI MIDI 1");

@@ -5,7 +5,7 @@ once $ hycmd "imgset"
 
 
 once $ hycmd "preset"  -- out1, out2, out3, out4, all, p5, code, strobe
-  # hyset "out1"
+  # hyset "out"
   #hybeat "1"
 
 -- shape size
@@ -26,7 +26,7 @@ once $ hycmd "imgset"
 
 x1 silence
 
-
+xb
 pat1 = " 2 3 3 4"
 
 
@@ -35,6 +35,9 @@ x2 $ hycmd "newimg*8"
 
 x2 silence
 
+
+once $ hycmd "code"
+  # hyset 5
 
 
 once $ hycmd "conf"
