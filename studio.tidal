@@ -1,0 +1,15 @@
+nhush
+
+d1 $ n "<[1 1] 1> 1 <1 2> 1"
+  # s "kick"
+
+
+d2 $ (struct "t*16" ) $ n (1 + (irand 8))
+  # amp (rand)
+  # s "opz"
+  # midichan 1
+
+
+hush
+
+d3 $ n (scale "minPent" $ struct "t(<3 4 7>,8)" $ (0 + (irand 8))) #s "opz" # midichan 7 #legato 2
