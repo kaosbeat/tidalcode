@@ -1,0 +1,280 @@
+setcps 0.6
+
+hush
+
+d1 $ slow 2 $ n "3 1 1 1 <1 1> 1 1 1"
+  # s "kick"
+  # lpf "450"
+  # room "2 0.6!7"
+  # sz "0.9"
+  # vowel "<k [a e i o]>"
+
+let choppat0 = "<1 [16 32] [8 0] [0 4] 2>"
+
+let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
+
+d8 $ slow 4 $ chop choppat0 $ n "<0 1 2 3>" # s "turbo"
+  # squiz 1
+  # gain 1.4
+
+
+d2 $ n "1 2 1 3 1 2 <2 [1*4]> 1"
+  # s "[snare:3*[2 8] snare:2*4]"
+  # midichan 1
+
+d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"
+  # pan (slow 4 sine)
+
+
+d4 $ n "< 4 [4 4]> 4 [4 4] <3 4> " # s "kick"
+  # squiz 1
+
+hush
+
+d4 $ midinote "53*2"
+  # s "op1" --dsynth - jammed [1]
+
+d4 silence
+
+
+d5$ slow 4 $ n (scale "minPent" (off "0.25" (|+12)  "e4 ~ [~ c] ~ "))
+  # legato 2
+  # s"td3"
+
+d5 $ slow 2 $ n (scale "minPent" (off "0.125" (|+ 12) "[e a e f]  ~ <[f f3] c5> ~ [ <e a> c ] ~ [e d*4] a"))
+  # legato 1.3
+  # s "td3"
+
+
+
+d5 silence
+
+
+
+d7 $ slow 4 $ n (scale "minPent" " a e [f ~]*4 [c f c ~] ")
+  # s "op1"
+
+hush
+
+
+d1 silence
+
+d3 silence
+
+d2 silence
+
+d5 silence
+
+-- op1 -metal
+
+----------------
+
+setcps 0.75
+
+d4 $ slow 2  $ chop "<4 8 32 4 32 4 4 4>" $ n "<1 0 4>" # s "kick"
+  # legato 2
+  # speed 0.25
+  # squiz 1
+  # vowel "<a e o i>"
+  # gain 1.3
+
+
+d1 $ slow 1 $ s "kick:4 kick:4  <kick:4 [~ kick:4]> <kick:4 kick:4>"
+  # lpf 500
+  # room (slow 4 (range 0.2 0.9 (sine)))
+
+
+
+d2 $ n "1 2 3 < 1 3 [~ 2]>"
+  # s "snare:6"
+  # midichan 1
+
+
+
+do
+  d7 silence
+  once $ s "voc"
+    # gain 1
+    # krush 3
+
+  d5 silence
+  d2 silence
+  -- d1 silence
+  d3 silence
+
+  d6 $ slow 4 $  s "respect" |+| n "18 18 10 15"
+    # gain 1
+    # squiz 1.2
+    # room 0.8
+
+    -- # fx1
+
+  d4 $ slow 2 $ chop 4
+    $ n "c f [~ d*2] [~ e]"
+    # s "op1"
+
+  d4 $ slow 2 -- $ midinote "57 55 [54 54] [56 ~]*4"
+    $ n (off "0.125" (|- 12) "a*8 c e f")
+    # s "op1"
+    # amp 1.6
+
+
+  x1 $ hycmd "p5"
+    # hyset "gencubes"
+    # hybeat 0.4 -- 0-1 integer amount of subcubes^3
+    # hyspeed 1.6 -- size of subcubes
+
+
+
+
+d1  $ n "1 1 1 1 " # s "hardkick:3"
+
+
+
+hush
+
+
+d5 silence
+
+
+do
+  hush
+  let pat0 = "[a3*2]  c5  [e4*<1 2 5 8>]  ~ "
+  let pat1 =  "[a4*<4 2 8>]  c4  [e4 a4 c4 a4]*<2 4 8>  ~ "
+  let pat2 = "[a4*2]  c4  [e4*<4 2 4 8>]  ~ "
+  let pat3 = "a5 c4 e3 ~"
+  let pat = pat0
+  d5 $ slow 4 $ n pat
+    # s "plaits"
+    # legato 1.8
+    # midichan 4
+  once $hycmd "preset"
+    #hyset "out3"
+    #hybeat 2
+  x1$ hycmd "newimg*8"
+    # hybeat  (irand 256) |+ pat
+  a1 $ vizscene "signal*4"
+    # vizcommand "cube!3 circles"
+    # vizoption "clear*7 clear"
+
+
+hush
+
+
+d2 $ fast "<8 4>"
+  $ striate "<8 4>"
+  $ n "<1 <2 <4 1> 2 1>>"
+  # s "amencutup"
+  # hpf 500
+  # gain (rand + 1)
+  # speed (rand + 0.5)
+
+d1 $ fast 1
+  $ n "1 [1] 1 [1]"
+  # s "hardkick"
+  # gain 1.2
+
+  # room 0.7
+  # sz 0.9
+
+hush
+
+--- prep break
+
+do
+ hush
+ d5 $ n "[c3 , [c a e f]]"
+  # legato 2
+  # s "plaits"
+  # pF "harm" 0.1
+
+
+
+
+
+do
+  hush
+  d1 $ midinote "54*4"
+    # s "op1" -- polymide [3] or neoprene [2]
+    # amp 1.6
+  a1 $ vizscene "signal*4"
+    # vizcommand "circles!4"
+    # vizoption "clear!4"
+  once $ hycmd "preset"
+    # hyset "out1"
+    #hybeat 3
+
+
+-- bytebeats
+do
+  hush
+  d4 $ slow 1 $ n "4 ~ 6 [2 6 <4 3 6 6>]  "
+    # legato (slow 4 sine)
+    # s "bytebeats"
+    # lpf (slow 4 (saw * "240") + 800)
+    # room 0.1
+    # sz 0.7
+    # lpq 0.2
+    # gain 1.2
+  x1 $ hycmd "preset"
+    # hyset "out2"
+    # hybeat "<1 0 2>"
+
+
+
+
+d2  $ n "[1?0.5 2] <1 [~ 1]> 1?0.3 1 "
+  # s  "hardkick:1"
+  # vowel "a e a i"
+
+
+
+d5 $ slow 2 $ n (off "<0.125 0.06125>" (|+ 12) "[e c] ~ [c5 f4] ~ c ~ [d e] a")
+  # legato 0.9
+  # s "td3"
+
+d5 silence
+
+d6 $ slow 2  $ struct (every 3 inv "t f f f t f t*4 f*2") $ n (scale "minPent" (irand 12)) # s "td3"
+
+d6 silence
+
+
+
+
+hush
+
+////////////////////////////////////
+
+
+setcps 0.6
+
+
+d5 $ fast 4 $ n "c4 c4 <cs4 cs5> c4"
+  # legato "1!2 1.5 0.9"
+  # amp "0.5 0.5 0.9 0.5"
+  # s "td3"
+
+d7 $ fast 8 $ n "f e f e"
+  #legato 0.4
+  # s "td3"
+
+d7 silence
+
+d1 $ n "<5 5 18*4> <3 5*2> [4 5] 5 " # s "kick"
+
+
+d3 $ n "t(<3 2 5>,16,[0,1,3])"
+  # s "opz"
+  # midichan 5
+
+
+d3 silence
+
+d6 silence
+
+d6 $ chop 8 $ scramble 8 $ s "turbo:4"
+  # gain 1.2
+
+
+d2 $ midinote "60 59 59 [58 58]" # s "op1" -- polimide
