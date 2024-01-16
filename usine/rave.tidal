@@ -13,20 +13,12 @@ d2 $ n "3 3 3 3"
     # room 0.5
 
 
-
-let harm = pF "harm"
-let timbre = pF "timbre"
-let morph = pF "morph"
-
-let engine = pI "engine"
-
-
-d4 $ slow 2 $n ( off 0.0625 (|+| "12")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
+d4 $ slow 2 $ n ( off 0.0625 (|+| "12")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
     # s "rash "
     # engine 1
-    # sustain 4
+    # sustain 1
     # octave 3
-    # gain 1.3
+    # gain 1.1
 
 
 d4
@@ -107,8 +99,7 @@ d5
     $ s "breaks157*2"
     # gain 1.1
 
-d2 
-
+--- 
 
 do
     hush
@@ -137,7 +128,7 @@ d3
     -- $ struct ("t f t f " )
     $ s "break:25(<5 3 7>,8)"
     # legato 0.8
-    # gain 0.8
+    # gain 0.9
 
 
 d6 $ slow 2 $ n "[8 <15 10>] ~ 16 <19 17>" # s"respect"
@@ -303,36 +294,18 @@ setcps 0.7
 d4 $ slow 4 $ n  "-24"
     # s "supersiren"
     # sustain 10
-    # gain 0.5
+    # gain 0.7
     # room 4
     # sz 0.3
 
 do
     d2 silence
     d4 $ slow 4 $ jux rev $ n (scale "majPent" "<4 [8*2] 6> <6 4> [4 5] [4 2] 2 6 ~ ~")
-        # s "superfm"
+        # s "td3" -- "superfm"
         # room 0.8
 
-d5 $ slow 4 $ n "1 1 2 1 "
-    # s "turbo"
-    # speed 1.5
-    # legato 0.5
-    # gain 1.4
-
-
-
-
-
-
-d2 $slow 4 $ n "2 1 2 0"
-    # s "superreese"
-    # voice 0
-    # detune 0
-    # accelerate 0.3
-    # legato "0.2 0.5 1 1"
 
 hush
-
 
 
 d1 $ sound "indust:7*8"
@@ -355,11 +328,8 @@ d3 $ s "kick:3!3 kick!1"
   # slow 4 (legato "<0.9 0.6>")
   # squiz 0.9
 
-
-
 d2 $ s "gabba:1!4"
   # gain 2
-
 
 
 d3 $slow 1 $ "hardkick:4!4"
@@ -367,22 +337,11 @@ d3 $slow 1 $ "hardkick:4!4"
   # room 0.3 # sz 0.9
 
 
-
-d5 $ slow 4 $ n "42 35 37 40" # s "rash"
-
-d5 $ slow 4 $ n "[42 40 42 . 40*2] 37 35 _ 37 _ 40 _" # s "rash"
- # pan 0.125
-
-
 d2 $ slow 4 $ n "2 4 5 7 [3 4 5 6] 2 [2 1] 3"
     # s "supergrind" 
     # octave 2
     # accelerate "0.9"
     # room 1
-
-
-d1 $ n " 2 2 3 1"
-    # s "fm7"
 
 hush
 

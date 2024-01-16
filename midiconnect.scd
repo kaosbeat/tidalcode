@@ -9,6 +9,10 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
 ~midiOut.latency = 0.0; /// optional latency
 
+~td3Out = MIDIOut.newByName("TD-3", "TD-3 MIDI 1");
+~dirt.soundLibrary.addMIDI(\td3, ~td3Out);
+~td3Out.latency = 0.0; /// optional latency
+
 // ~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
 // ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
 // ~op1Out.latency = 0.05;  /// optional latency

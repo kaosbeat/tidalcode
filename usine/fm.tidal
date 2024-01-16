@@ -1,0 +1,145 @@
+-- Parameters
+let fmamp op = pF ("amp" ++ show op)
+    fmratio op = pF ("ratio" ++ show op)
+    fmdetune op = pF ("detune" ++ show op)
+    fmmod opa opb = pF ("mod" ++ show opa ++ show opb)
+    fmegrate op step = pF ("egrate" ++ show op ++ show step)
+    fmeglevel op step = pF ("eglevel" ++ show op ++ show step)
+    fmfeedback = pF "feedback"
+
+-- Array functions
+let fmparam function = foldr (#) (gain 1) . zipWith function [1..]
+    lfma = fmparam fmamp
+    lfmr = fmparam fmratio
+    lfmd = fmparam fmdetune
+    lfmer op = fmparam (fmegrate op)
+    lfmel op = fmparam (fmeglevel op)
+    lfmm opa = fmparam (fmmod opa) -- didn't test, should work
+
+
+
+d1 $ stut 2 0.7 0.125 $ slow 3 $ s "superfm" 
+  |+| note (arp "pinkyup" "[0,4,7,12] [0,5,7,9]" )
+  # fmfeedback 1    -- global multiplier for 'fmod x x' feedback parameters.
+  # fmamp 1 1      -- amplitudes default to '1', so probably need to set all 6 of them...
+  # fmamp 2 0
+  # fmamp 3 1
+  # fmamp 4 0
+  # fmamp 5 0
+  # fmamp 6 0
+  # fmratio 1 1 -- oscillator frequency is note * ratio + detune Hz.
+  # fmratio 2 0.5 -- (range 0.25 20 (slow 3 $ sine))
+  # fmdetune 2 1
+  # fmratio 3 0.26
+  # fmmod 1 1 "0"   
+  # fmmod 1 2  (range 0 4 (slow 4 $ sine))   -- fmod a b Pattern  = modulate op a with op b..
+  # fmmod 1 3  (range 0 4 (slow 3 $ sine))
+  # fmmod 3 2  (range 0 3 (slow 2 $ sine))
+  # fmeglevel 1 1 "1" -- envelope generator has 4 rates and 4 steps for each operator...
+  # fmeglevel 1 2 "0.5"
+  # fmeglevel 1 3 "0"
+  # fmeglevel 1 4 "0"
+  # fmegrate 1 1 "10"  
+  # fmegrate 1 2 "0.1"
+  # fmegrate 1 3 "0.1"
+  # fmegrate 1 4 "1"
+  # fmeglevel 2 1 "1" -- envelope generator has 4 rates and 4 steps for each operator...
+  # fmeglevel 2 2 "0"
+  # fmeglevel 2 3 "0"
+  # fmeglevel 2 4 "0"
+  # fmegrate 2 1 "1"  
+  # fmegrate 2 2 "0.3"
+  # fmegrate 2 3 "0.7"
+  # fmegrate 2 4 "1"
+  # fmeglevel 3 1 "1" -- envelope generator has 4 rates and 4 steps for each operator...
+  # fmeglevel 3 2 "0.2"
+  # fmeglevel 3 3 "0"
+  # fmeglevel 3 4 "1"
+  # fmegrate 3 1 "10"  
+  # fmegrate 3 2 "0.5"
+  # fmegrate 3 3 "0.4"
+  # fmegrate 3 4 "1"
+  # room 0.8
+  # octave 3
+
+
+hush
+
+d1 $ stut 2 0.7 0.125 $ s "superfm"
+  |+| note (arp "pinkyup" "[0,4,8,12] [0,3,7,11]" )
+  # fmfeedback 1
+  # fmdetune 2 1
+  # lfmel 1 [1, 0.5, 0, 0]     -- EG Level (Operator 1)
+  # lfmer 1 [10, 0.1, 0.1, 1]  -- EG Rate (Operator 1)
+  # lfmel 2 [1, 0, 0, 0]       -- EG Level (Operator 2)
+  # lfmer 2 [1, 0.3, 0.7, 1]   -- EG Rate (Operator 2)
+  # lfmel 3 [1,0.2,0,1]        -- EG Level (Operator 3)
+  # lfmer 3 [10,0.5,0.4,1]     -- EG Rate (Operator 3)
+  # lfma [1, 1, 0, 0, 0, 1]    -- Amps (Operators 1..6)
+  # lfmr [1, 0.26, 0.5]        -- Ratios (Operators 1..3)
+
+
+d1
+    $ stut 2 0.7 0.125
+    $ slow 3 $ s "superfm" 
+    |+| note (arp "pinkyup" "[0,4,7,12] [0,5,7,9]" )
+    # fmfeedback 1
+    # lfma [1, 1, 1, 0, 0, 0]
+    # lfmr [1, (range 0 4 (slow 4 sine)), 0.26, 0.5, 0.5, 0.5]
+    # lfmd [0, 1, 0, 0, 0, 0]
+    # fmmod 1 1 "<0 1.25>"
+    # fmmod 1 2 (range 0 4 (slow 4 sine))
+    # fmmod 1 3 (range 0 4 (slow 3 saw))
+    # fmmod 3 2 (range 0 3 (slow 2 sine))
+    # lfmel 1 [1, 0.5, 0, 0, 0, 0]
+    # lfmer 1 [10, 0.1, 0.1, 1, 0, 0]
+    # lfmel 2 [1, 0, 0, 0, 0, 0]
+    # lfmer 2 [1, 0.3, 0.7, 1, 0, 0]
+    # lfmel 3 [1, 0.2, 0, 1, 0, 0]
+    # lfmer 3 [10, 0.5, 0.4, 1, 0, 0]
+    # lpf 100
+    # room 0.3
+
+
+hush
+
+do
+    let pat =  n "1 _ _ 1 1 _ _ 1 _" |+ n "<f3 d3 c4 e3>"
+    let chain = delayfeedbackbus 21 (cF 0.0 "15") # delaytime 0.667 # delaybus 20 (cF 0.0 "16") # crushbus 1 (range 0.1 16.0 $ cF 1.0 "5") # roombus 2 (range 0.0 4.0 $ cF 0.0 "6")
+    let env = attack (range 0.0 2.0 $ cF 0.4 "7") # release (range 0.0 4.0 $ cF 0.5 "8")
+    let veu = s "superfm" # legato 1 # amp1 1 # amp2 0 # amp3 0 # amp4 0 # amp5 0 # amp6 0 # feedback 1
+    d4
+        $ degradeBy (cF 0.0 "1")
+        $ slow 2
+        $ pat
+        # veu
+        # mod12 0.9
+        # ratio2bus 9 (2 + (range 0 0.5 $ cF 0.0 "9"))
+        # env
+        # chain
+    d5
+        $ degradeBy (cF 0.0 "1")
+        $ sometimesBy (cF 0.0 "4") (stutter 4 (1/8))
+        $ palindrome
+        $ slow 1
+        $ pat |+ n 12
+        # veu
+        # mod12bus 100 (slow 4 $ range 0.5 1.5 $ segment 256 $ sine)
+        # ratio2bus 10 (2 + (range 0 0.5 $ cF 0.0 "10"))
+        # env
+        # chain
+    d6
+        $ degradeBy (cF 0.0 "1")
+        $ sometimesBy (cF 0.0 "2") (stutter 4 (1/4))
+        $ sometimesBy (cF 0.0 "3") (fast 2)
+        $ slow 2
+        $ pat |+ n 24
+        # veu
+        # mod12 0.5
+        # mod11 0.6
+        # feedback 1
+        # ratio2bus 11 (3 + (range 0 0.5 $ cF 0.0 "11"))
+        # env
+        # chain
+
+
