@@ -1,3 +1,3 @@
-s.record(numChannels: 12)
+  s.record(numChannels: 12)
 
 s.stopRecording

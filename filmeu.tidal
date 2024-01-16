@@ -1,0 +1,108 @@
+linput = pI "linput"
+
+lname = pS "lname"
+
+once $ s "freeLoops"
+
+hush
+
+
+d1 $ s "looper"
+
+
+
+
+once $ slow 2 $ s "rlooper" # lname "drum1"
+
+once $ slow 2 $ s "rlooper" # lname "cld2"
+
+d2 silence
+
+
+
+
+d2 $ s "cp"
+
+d2 silence
+
+
+d2 $ slow 1 $ n "0 ~ ~ ~"
+  # s "cld2"
+  # legato 2
+  # speed 1
+  # vowel "<a [e] i o>"
+  # gain 1
+
+
+d5 $ slow 1 $ s "kick snare [~ kick] ~"
+  # lpf "280"
+  # room 0.7
+  # sz (slow 2 (range 0.5 1 (sine)))
+
+
+
+d6 $ fast 2 $ s "kick snare"
+  # lpf "480 650"
+  # room 0.1
+  # sz "0.99 0.2"
+
+
+d4 $
+
+
+d4 $ slow 2  $ chop "<4 8 32 4 32 4 4 4>"  $ s "kick"
+  # legato 2
+  # speed 0.5
+  # squiz 0.7
+  # vowel "<a e o i>"
+  # gain 1
+
+d4 silence
+
+
+d5 $ slow 2 $ n "a*4 c*8 [f f*4] [e a*4]"
+  # s "op1"
+
+
+
+d7 $ slow 2 $ chop 16 $ s  "turbo:1*4"
+  # legato 0.3
+
+-- scene 1
+--  _____ _                _ _
+-- |_   _| |__   ___    __| (_)___  ___ _____   _____ _ __ _   _
+--   | | | '_ \ / _ \  / _` | / __|/ __/ _ \ \ / / _ \ '__| | | |
+--   | | | | | |  __/ | (_| | \__ \ (_| (_) \ V /  __/ |  | |_| |
+--   |_| |_| |_|\___|  \__,_|_|___/\___\___/ \_/ \___|_|   \__, |
+--                                                          |___/
+
+hush
+
+once $ hycmd "conf"
+ # hyset "speed"
+ # hybeat 0.2
+
+
+once $hycmd "preset"
+  #hyset "out1"
+  #hybeat "1"
+
+
+d1 $slow 2 $ s "lead1"
+  # speed 0.5
+  # squiz 1
+  # gain 0.9
+
+once $ slow 2 $ s "olooper" # lname "lead1"
+
+
+d2 $slow 1 $ midinote "65 66 ~ 66"
+  # s "op1"
+
+
+d1 $ slow 2
+  $ layer [(# speed 0.5), (# speed 0.25)]
+  $ s "lead1(<3 5>,8)"
+  # legato "<1 2>"
+  # room 0.9
+  # gain 1

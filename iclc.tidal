@@ -27,7 +27,7 @@ once $ midicmd "start/4" # s "[mono, opz, onc]"
 
 --opz p1
 
-d1 $ s "opz*" # n "62 <60 62> <61 60> 62" # midichan 0
+d1 $ s "opz*4" # n "62 <60 62> <61 60> 62" # midichan 0
 
 d2 $ s "opz*8" # n "[~ <60  60  64>]*4" # midichan 1
 
@@ -36,7 +36,7 @@ d3 $ s "opz(<3 5 7>,8)" # n "<64 62 [61 62 64]>" # midichan 2
 hush
 
 
-d2   $ s "onc(5,8,[2 3])" # n "[60 ~]*4" # midichan 0  --picoL-4  "--- *--"
+d2   $ s "op1(5,8,[2 3])" # n "[60 ~]*4" # midichan 0  --picoL-4  "--- *--"
 
 d3   $ s "onc(<5,3>,8)" # n "60" # midichan 1 --picoL-10 "--* -*-"
 
@@ -125,7 +125,6 @@ d1 $ slow 1 $ n "5 <5 5 5 3> [5 3] <~ 4>"
   # speed "1 0.6 0.6 1"
   # squiz 1
   # gain 1
-
   # lpf "<2400 1400 <1800> 1400>"
   # lpq 0.6
 

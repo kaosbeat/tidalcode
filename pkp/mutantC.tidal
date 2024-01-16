@@ -4,9 +4,6 @@ setcps 0.7  -- or 0.5
 
 hush
 
-
-
-
 once $ hycmd "preset"
   # hyset "out2"
   # hybeat 1
@@ -73,7 +70,7 @@ do
     # legato  (slow 3 (range 0.3 1 saw))
     # s "turbo"
     # room 0.7
-    # gain 1.1
+    # gain 0.6
   once $ hycmd "preset"
     # hyset "out2"
     # hybeat 1

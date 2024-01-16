@@ -1,0 +1,13 @@
+d4 $ slow 4 $ n  ((scale "minPent"  "<~ [5 3]*8> <3 [4 3]> <~ [7 4 2 6]> 5 ") - 12)  # s "mono"
+  # legato 1
+
+  # legato (slow 4 saw)
+
+
+
+d1 silence
+
+
+d1 $ n "3 3 3 3"  # s "kick"
+
+d2 $ n "~ 4 ~ 5 ~ 6 ~ 3"  # s "snare"

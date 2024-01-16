@@ -1,0 +1,43 @@
+d1 $ ccn "1*64" # ccv (127*(slow 4 sine)) # s "midi"
+
+
+d1 $ ccn "1*64" # ccv (127*(slow 16 saw)) # s "midi"
+
+
+d1 silence
+
+d2 $ ccn "2*4" # ccv " 2 4 6 8 " # s "midi"
+
+d2 silence
+
+d3 $ n "24 34 21 56" # s "midi"
+
+d3 silence
+
+
+
+hush
+
+-- viewport
+
+d1 $ slow 4$ ccn "5*128" # ccv (127*(saw)) # s "midi"
+
+d2 $ slow 8 $ ccn "6*128" # ccv (127*(saw)) # s "midi"
+
+
+
+
+hush
+
+-- clock
+
+
+d8 $ fast 2  $ n "1 4 3 2 "
+  # s "midi"
+  # midichan 15
+
+
+
+
+
+  hush
