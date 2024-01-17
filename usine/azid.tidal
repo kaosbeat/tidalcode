@@ -1,17 +1,20 @@
 setcps 0.65
 
 
+
+
 do
   hush
   once $ s "announcement:1"
 
 do 
-  d7  $ slow 1 $ randslice 16 $ s "announcement:1*4"
+  d7  $ slow 1 $ randslice 16 $ s "[announcement:1*4, midi]"
     #legato 1
   d4 $ slow 2 $ chop 1 $ up "0 2 1 1" # sound "mtl160:6" 
     # speed 0.5
     # legato 1
     # lpf 10500
+    
   -- # sustain 2
 
 d1 $ slow 1 $ s "kick:4 kick:4  <kick:4> <kick:4 kick:4>"

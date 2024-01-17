@@ -2,11 +2,31 @@
 /// config ///
 //////////////
 
+p.lines = [];
+p.rects = [];
+p.updateit = false;
+p.audioreact = false;
+p.activeaudiobin = 0;
+
 p.viewportconf = {
                   "rotSpeedX": 0.01,
                   "rotSpeedY": 0.01,
                   "rotSpeedZ": 0.01
 }
+
+
+// function updateViewport (){
+//   p.viewportconf
+// }
+
+p.params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5}, 
+              "processed": {1:0.5,2:0.5,3:0.5,4:0.5}, 
+              "mask": {1:0,2:0,3:0,4:0},
+              "black": {1:0,2:0,3:0,4:0}, 
+              "audio":{1:0,2:0.8,3:0.6,4:0},
+              "viewportrot": {5:0.4,6:0.3,7:0.4}
+            }
+
 
 //////////////
 /// helpers //
@@ -29,29 +49,36 @@ function fakeRandom(seed) {
 /////////////
 
 p.cubes = [];
-p.cubesconfig = {"cubesize":1, 
-                  "size":100, 
-                  "margin":10, 
+p.cubesconfig = {
+                  "render": true,
+                  "decaymode": "time",  // time or audio or rms
+                  "decay":0.9, 
+                  "cubesize":1, 
+                  "size":1, 
+                  "margin":1, 
                   "mode":"random", 
                   "freq": 1, 
-                  "decay":0.9, 
                   "seed": 1,"savedseed": 1,
                   "fill": "normal",
                   "fillC": [255,0,0],
                   "stroke": [255,255,255],
                   "strokeweight":0.5,
-                  "controlmode": "midi", 
-                  "decaymode": "time"}
+                  "controlmode": "midi",  // midi or osc not yet implemented?
 
+                }
 
-function createCubes(cubesize, size, margin) 
-{
+function createCubes() 
+{ 
+  p.cubes = [];
+  size =  p.cubesconfig["size"] * 450 + 50
+  rot = (p.params.data[2])*3.14;
+  cubesize = p.cubesconfig["cubesize"] * 10
+  // margin = ((p.params.data[4])*500)+2;
      // "mode" = "random"
   	// console.log("creating cubes")
-	p.cubes = [];
-  p.cubesconfig["cubesize"] = cubesize
-  p.cubesconfig["size"] = size
-  p.cubesconfig["margin"] = margin
+	
+  // p.cubesconfig["cubesize"] = cubesize
+  margin = p.cubesconfig["margin"] * 500
   if (p.cubesconfig["mode"] == "random") {
     for (var i = 0; i < cubesize*cubesize*cubesize; i++) {
       let cube = {"x":Math.random()*(cubesize * (size + margin)), 
@@ -89,6 +116,7 @@ function createCubes(cubesize, size, margin)
 
 function updateCubes(rmsdata) {
   // console.log(rmsdata)
+    size = p.cubesconfig["size"]* 450 + 50
     if (p.cubesconfig['decaymode'] == 'time' ){
       p.cubes.forEach(cube => {
           let xs = cube.xs*p.cubesconfig.decay 
@@ -97,8 +125,7 @@ function updateCubes(rmsdata) {
           }
           cube.xs = xs
       });
-    } 
-    if (p.cubesconfig['decaymode'] == 'rms' ) {
+    } else if (p.cubesconfig['decaymode'] == 'rms' ) {
       p.cubes.forEach(cube => {
         let xs = 100*rmsdata 
         if (xs > 150) {
@@ -106,67 +133,60 @@ function updateCubes(rmsdata) {
         }
         cube.xs = xs
     });
+    } else if (p.cubesconfig['decaymode'] == 'audio' ) {
+      p.cubes.forEach(cube => {
+        let xs = size * a.fft[0] 
+        // if (xs > 150) {
+        //   xs = 0.1
+        // }
+        cube.xs = xs
+    });
     }
-    if (p.cubesconfig['controlmode'] == 'midi') {
-      if (p.cubesconfig.savedseed != mididata["m0"]["v"]) {
-        p.cubesconfig.savedseed = mididata["m0"]["v"] 
-        createCubes(p.cubesconfig["cubesize"] , p.cubesconfig["size"], p.cubesconfig["margin"])
-      }
-    }
-
-    // console.log(xs)
 }
 
-// function updateCubes() {
-
-//   p.cubes.forEach(cube => {
-//       let xs = cube.xs*p.cubesconfig.decay 
-//       if (xs < 0.1) {
-//         xs = 0.1
-//       }
-//       cube.xs = xs
-//   });
-//   // console.log(xs)
-// }
-// createCubes(2, 100, 10);
-
-// createStandardCubes(4, 100, 10);
 
 function renderCubes() {
-  if (p.cubesconfig.fill == "normal") {
-      p.normalMaterial();
-      p.strokeWeight(0);
-  } else if (p.cubesconfig.fill == "solid") {
-      p.ambientLight(255);
-      p.ambientMaterial(p.cubesconfig.fillC[0],p.cubesconfig.fillC[1],p.cubesconfig.fillC[2]);
-      p.fill(p.cubesconfig.fillC[0],p.cubesconfig.fillC[1],p.cubesconfig.fillC[2]);
-      p.strokeWeight(0);
-  } else if (p.cubesconfig.fill == "none") {
-      p.noFill();
-      p.strokeWeight(p.cubesconfig.strokeweight);
-      p.stroke(p.cubesconfig.stroke[0],p.cubesconfig.stroke[1],p.cubesconfig.stroke[2]);
+  cubesize = p.cubesconfig["cubesize"] * 10
+  size = p.cubesconfig["size"]* 450 + 50
+  margin = p.cubesconfig["margin"] *500
+  if (p.cubesconfig.render) {
+    if (p.cubesconfig.fill == "normal") {
+        p.normalMaterial();
+        p.strokeWeight(0);
+    } else if (p.cubesconfig.fill == "solid") {
+        p.ambientLight(255);
+        p.ambientMaterial(p.cubesconfig.fillC[0],p.cubesconfig.fillC[1],p.cubesconfig.fillC[2]);
+        p.fill(p.cubesconfig.fillC[0],p.cubesconfig.fillC[1],p.cubesconfig.fillC[2]);
+        p.strokeWeight(0);
+    } else if (p.cubesconfig.fill == "none") {
+        p.noFill();
+        p.strokeWeight(p.cubesconfig.strokeweight);
+        p.stroke(p.cubesconfig.stroke[0],p.cubesconfig.stroke[1],p.cubesconfig.stroke[2]);
+    }
+    let xoff = -cubesize * (size + margin) / 2
+    let yoff = xoff
+    let zoff = xoff
+    p.push();
+    p.translate(xoff, yoff, zoff)
+    p.cubesconfig.seed = p.cubesconfig.savedseed  
+    p.cubes.forEach(cube => {
+        // if (debug) { console.log(cube.xs)}
+        let x=cube.x
+        let y=cube.y  
+        let z=cube.z
+        let xs=cube.xs
+        let ys=cube.ys
+        let zs=cube.zs
+        p.push();
+        
+        p.translate(x,y,z);
+        if (random() < p.cubesconfig.freq){
+          p.box(xs, ys , zs );
+        }
+        p.pop();
+    });
+    p.pop();
   }
-  let xoff = -p.cubesconfig.cubesize * (p.cubesconfig.size + p.cubesconfig.margin) / 2
-//   xoff = 0
-  let yoff = xoff
-  let zoff = xoff
-  p.cubesconfig.seed = p.cubesconfig.savedseed  
-	p.cubes.forEach(cube => {
-      // if (debug) { console.log(cube.xs)}
-      let x=cube.x
-      let y=cube.y  
-      let z=cube.z
-      let xs=cube.xs
-      let ys=cube.ys
-      let zs=cube.zs
-      p.push();
-  	  p.translate(xoff, yoff, zoff)
-      p.translate(x,y,z);
-      if (random() < p.cubesconfig.freq){
-        p.box(xs, ys , zs );
-      }
-      p.pop();
-});
 }
 
 
@@ -291,6 +311,7 @@ function renderStrings() {
 p.rects = [];
 
 p.rectsconfig = {
+  "render": true,
   "mode":"free",  // "preset or free"
   "trigger": "note",
   "update": "clock",  //"counter, "clock", "link"
@@ -314,10 +335,10 @@ p.rectsconfig = {
 
 function createRects(){
   p.rects = []
-  p.rectsconfig.quantity = (params.data[1])*100+1;
-  p.rectsconfig.rot = (params.data[2])*3.14;
-  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
-  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
+  p.rectsconfig.quantity = (p.params.data[1])*100+1;
+  p.rectsconfig.rot = (p.params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
   for (let index = 0; index < p.rectsconfig.quantity; index++) {
     p.rectsconfig.seed+=6;
     p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
@@ -336,10 +357,10 @@ function updateRects() {
     p.rectsconfig.counter++;
   }
   /// sizedconfig
-  p.rectsconfig.quantity = (params.data[1])*100+1;
-  p.rectsconfig.rot = (params.data[2])*3.14;
-  p.rectsconfig.sqsizeX = ((params.data[3])*500)+2;
-  p.rectsconfig.sqsizeY = ((params.data[4])*500)+2;
+  p.rectsconfig.quantity = (p.params.data[1])*100+1;
+  p.rectsconfig.rot = (p.params.data[2])*3.14;
+  p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
+  p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
 
   if (p.rects.length == 0) {
     createRects()
@@ -395,29 +416,28 @@ function updateRects() {
 
 
 function renderRects(){
-  p.background(0)
-  p.push();
-  p.strokeWeight(3)
-  index = 0;
-  for (var rectangle in p.rects){
-    if (index%2 == 0){
-      p.fill(255)
-      p.stroke(0)
+  if (p.rectsconfig.render) {
+    p.push();
+    p.strokeWeight(3)
+    index = 0;
+    for (var rectangle in p.rects){
+      if (index%2 == 0){
+        p.fill(255)
+        p.stroke(0)
+      }
+      else{
+        p.fill(0)
+        p.stroke(255)
+      }
+      p.translate(0,0,0.1)
+      p.push()
+      p.rotateZ(p.rects[rectangle].rot)
+      p.rect(p.rects[rectangle].x,p.rects[rectangle].y,p.rects[rectangle].xs,p.rects[rectangle].ys);
+      p.pop()
+      index++;
     }
-    else{
-      p.fill(0)
-      p.stroke(255)
-    }
-    p.translate(0,0,0.1)
-    p.push()
-    p.rotateZ(p.rects[rectangle].rot)
-    
-    p.rect(p.rects[rectangle].x,p.rects[rectangle].y,p.rects[rectangle].xs,p.rects[rectangle].ys);
-    p.pop()
-    index++;
+    p.pop();
   }
-  p.pop();
-
 }
 
 
@@ -455,4 +475,4 @@ function piramids(){
 
 
 
-startOSC = true
+// startOSC = true

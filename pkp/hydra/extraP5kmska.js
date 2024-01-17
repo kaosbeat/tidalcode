@@ -133,6 +133,7 @@ function updateCubes(rmsdata) {
 // createStandardCubes(4, 100, 10);
 
 function renderCubes() {
+
   if (p.cubesconfig.fill == "normal") {
       p.normalMaterial();
       p.strokeWeight(0);
@@ -395,7 +396,7 @@ function updateRects() {
 
 
 function renderRects(){
-  p.background(0)
+  
   p.push();
   p.strokeWeight(3)
   index = 0;
