@@ -4,20 +4,44 @@
 
 p.lines = [];
 p.rects = [];
+p.imgs = [];
+
+p.cam = p.createCamera();
+
 p.updateit = false;
 p.audioreact = false;
 p.activeaudiobin = 0;
 
 p.viewportconf = {
-                  "rotSpeedX": 0.01,
-                  "rotSpeedY": 0.01,
-                  "rotSpeedZ": 0.01
+                  "rotX": 0,
+                  "rotY": 0,
+                  "rotZ":0,
+                  "rotSpeedX": 0.001,
+                  "rotSpeedY": 0.001,
+                  "rotSpeedZ": 0.0001,
+                  "offX":0,
+                  "offY":0,
+                  "offZ":0,
+                  "offSpeedX":0,
+                  "offSpeedY":0,
+                  "offSpeedZ":0,
 }
 
 
-// function updateViewport (){
-//   p.viewportconf
-// }
+
+function updateViewport (){
+  p.viewportconf.rotX += p.viewportconf.rotSpeedX;
+  p.viewportconf.rotY += p.viewportconf.rotSpeedY;
+  p.viewportconf.rotZ += p.viewportconf.rotSpeedZ;
+}
+
+
+
+
+function updateCam() {
+  p.cam.camera(0, 0, p.sin(p.frameCount * 0.01) * 1000, 0, 0, 0, 0, 1, 0);
+
+}
 
 p.params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5}, 
               "processed": {1:0.5,2:0.5,3:0.5,4:0.5}, 
@@ -34,14 +58,48 @@ p.params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5},
 
 
 function random() {
-    var x = Math.sin(p.cubesconfig.seed++) * 10000;
-    return x - Math.floor(x);
+  p.cubesconfig.seed = p.cubesconfig.seed +1
+  var x = Math.sin(p.cubesconfig.seed++) * 10000;
+  return x - Math.floor(x);
 }
 
 function fakeRandom(seed) {
   var x = Math.sin(seed) * 10000;
   return x - Math.floor(x)
 }
+
+/////////////
+/// images //
+/////////////
+
+
+// index = Math.floor((Math.abs(Math.sin(m.args[2]) * seed))) % img.length;
+// curimg = "img/" + img[index];
+
+p.imgconfig ={
+  "curImg": {},
+  "seed": 0
+}
+
+function preloadImg(img) { 
+  img.forEach(im => {
+    let imobj = p.loadImage("img/" + im);
+    p.imgs.push(imobj) 
+  });
+  p.imgconfig.curImg = p.imgs[2]
+} 
+
+function updateImgs(){
+  p.imgconfig.curImg =  p.imgs[p.imgconfig.seed % p.imgs.length]; 
+}
+
+
+function renderImgs() {
+  // p.image(p.imgconfig.curImg, 10, 100, 200, 400)
+  aallelua = 1;
+}
+  
+
 
 
 /////////////
@@ -72,7 +130,7 @@ function createCubes()
   p.cubes = [];
   size =  p.cubesconfig["size"] * 450 + 50
   rot = (p.params.data[2])*3.14;
-  cubesize = p.cubesconfig["cubesize"] * 10
+  cubesize = p.cubesconfig["cubesize"] * 12
   // margin = ((p.params.data[4])*500)+2;
      // "mode" = "random"
   	// console.log("creating cubes")
@@ -136,10 +194,19 @@ function updateCubes(rmsdata) {
     } else if (p.cubesconfig['decaymode'] == 'audio' ) {
       p.cubes.forEach(cube => {
         let xs = size * a.fft[0] 
-        // if (xs > 150) {
-        //   xs = 0.1
-        // }
         cube.xs = xs
+    });
+    } 
+    else if (p.cubesconfig['decaymode'] == 'offset' ) {
+      p.cubes.forEach(cube => {
+        let r = Math.floor(random()*3)
+        if (r == 0){ 
+          cube.x = cube.x + a.fft[0]*10 
+        } else if ( r == 1){
+          cube.y = cube.y + a.fft[0]*10
+        } else if ( r == 2){
+          cube.z = cube.z + a.fft[0]*10
+        }
     });
     }
 }
@@ -149,6 +216,7 @@ function renderCubes() {
   cubesize = p.cubesconfig["cubesize"] * 10
   size = p.cubesconfig["size"]* 450 + 50
   margin = p.cubesconfig["margin"] *500
+  
   if (p.cubesconfig.render) {
     if (p.cubesconfig.fill == "normal") {
         p.normalMaterial();
@@ -162,7 +230,10 @@ function renderCubes() {
         p.noFill();
         p.strokeWeight(p.cubesconfig.strokeweight);
         p.stroke(p.cubesconfig.stroke[0],p.cubesconfig.stroke[1],p.cubesconfig.stroke[2]);
-    }
+    } else if (p.cubesconfig.fill == "texture") {
+        p.texture(p.imgconfig.curImg);
+      } 
+
     let xoff = -cubesize * (size + margin) / 2
     let yoff = xoff
     let zoff = xoff
@@ -181,6 +252,7 @@ function renderCubes() {
         
         p.translate(x,y,z);
         if (random() < p.cubesconfig.freq){
+          
           p.box(xs, ys , zs );
         }
         p.pop();

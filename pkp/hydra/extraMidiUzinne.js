@@ -100,23 +100,26 @@ tidal.onNote('*', ({ note, velocity, channel }) => {
     switch (channel) {
         case 0: {
             if (note != 0) {
-                p.rectsconfig.seed = note
-            }else { // we use note 0 as a fake clock
-                p.clockupdate = true;
-                p.rectsconfig.seed = fakeRandom(p.rectsconfig.seed) 
+            p.cubesconfig.savedseed  = random() 
+            p.clockupdate = true;
+            p.rectsconfig.seed = fakeRandom(p.rectsconfig.seed) 
             }
-            createRects()
             break;
             }
 
         case 1: {
-            if (note != 0) {
-                // p.rectsconfig.seed = note
-                p.cubesconfig.savedseed = note
-            }else {
-                p.cubesconfig.savedseed  = random() 
-            }
+            p.cubesconfig.savedseed = note
             createCubes()
+            break;
+            }
+        case 2: {
+            p.rectsconfig.seed = note
+            createRects()
+            break;
+            }    
+        case 3: {
+            p.imgconfig.seed = note
+            // createRects()
             break;
             }
         }
@@ -229,31 +232,22 @@ op1.onCC("*", ({index, value, channel}) => {
 tidal.onCC("*", ({index, value, channel}) => {
     console.log(value)
     value = value/127;
-    // if (channel == 0){
-    //     switch (index) {
-    //         case 1: { 
-    //             // console.log("hello from tidal, ",modes.current, channel, index, value)
-    //             setParam (modes.current, index, value); 
-    //             break; 
-    //         }
-    //         case 2: { 
-    //             setParam (modes.current, index, value);
-    //             break; 
-    //         }
-    //         case 3: { 
-    //             setParam (modes.current, index, value);
-    //             break; 
-    //         }
-    //         case 4: { 
-    //             setParam (modes.current, index, value);
-    //             break; 
-    //         }
-
-    //         case 5: {setParam("viewportrot", index, value);break;}
-    //         case 6: {setParam("viewportrot", index, value);break;}
-    //         case 7: {setParam("viewportrot", index, value);break;}
-    //     }
-    // }
+    if (channel == 0){
+        switch (index) {
+            case 64: { p.viewportconf.rotX = value }
+            case 65: { p.viewportconf.rotY = value }
+            case 66: { p.viewportconf.rotZ = value }
+            case 67: { p.viewportconf.rotSpeedX = value*0.001}
+            case 68: { p.viewportconf.rotSpeedY = value*0.001}
+            case 69: { p.viewportconf.rotSpeedZ = value*0.001}
+            case 70: { p.viewportconf.offX = value }
+            case 71: { p.viewportconf.offY = value }
+            case 72: { p.viewportconf.offZ = value }
+            case 73: { p.viewportconf.offSpeedX = value*0.001}
+            case 74: { p.viewportconf.offSpeedY = value*0.001}
+            case 75: { p.viewportconf.offSpeedZ = value*0.001}
+        }
+    }
     if (channel  == 1) {
         switch (index) {
             case 1: {
@@ -263,6 +257,7 @@ tidal.onCC("*", ({index, value, channel}) => {
                 if (value == 1/127){ p.cubesconfig.decaymode = "time"; 
                 } else if (value == 2/127) { p.cubesconfig.decaymode = "rms";
                 } else if (value == 3/127) { p.cubesconfig.decaymode = "audio";
+                } else if (value == 4/127) { p.cubesconfig.decaymode = "offset";
                 } break;
             }
             case 3: { p.cubesconfig.decay = value + 0.001; break;
@@ -286,6 +281,7 @@ tidal.onCC("*", ({index, value, channel}) => {
                 if (value == 1/127){ p.cubesconfig.fill = "normal"; 
                 } else if (value == 2/127) { p.cubesconfig.fill = "solid";
                 } else if (value == 3/127) { p.cubesconfig.fill = "none";
+                } else if (value == 4/127) { p.cubesconfig.fill = "texture";
                 }  break;
             }
             case 11: { p.cubesconfig.fillC = [255,255,0] ; break;
