@@ -11,20 +11,23 @@ p.cam = p.createCamera();
 p.updateit = false;
 p.audioreact = false;
 p.activeaudiobin = 0;
-
+ 
 p.viewportconf = {
                   "rotX": 0,
                   "rotY": 0,
                   "rotZ":0,
-                  "rotSpeedX": 0.001,
-                  "rotSpeedY": 0.001,
-                  "rotSpeedZ": 0.0001,
+                  "rotSpeedX": 0, // 0.001,
+                  "rotSpeedY": 0, //0.001,
+                  "rotSpeedZ": 0, //0.0001,
                   "offX":0,
                   "offY":0,
                   "offZ":0,
                   "offSpeedX":0,
                   "offSpeedY":0,
                   "offSpeedZ":0,
+                  "cammode": "fixed", ///, "fixed" , "orbit","bigorbit"
+                  "audioCutoff": 1,
+                  "audioScale": 1,
 }
 
 
@@ -39,8 +42,13 @@ function updateViewport (){
 
 
 function updateCam() {
-  p.cam.camera(0, 0, p.sin(p.frameCount * 0.01) * 1000, 0, 0, 0, 0, 1, 0);
-
+  if (p.viewportconf.cammode == "fixed") {
+    p.cam.camera(0, 0, 1000, 0, 0, 0, 0, 1, 0);
+  } else if (p.viewportconf.cammode == "orbit") {
+    p.cam.camera(p.cos(p.frameCount * 0.01) * 500, p.sin(p.frameCount * 0.01) * 500, p.sin(p.frameCount * 0.0029) * 300, 0, 0, 0, 0, 1, 0);
+  } else if (p.viewportconf.cammode == "bigorbit") {
+    p.cam.camera(p.cos(p.frameCount * 0.01) * 1000, p.sin(p.frameCount * 0.01) * 1000, p.sin(p.frameCount * 0.0029) * 1000, 0, 0, 0, 0, 1, 0);
+  }
 }
 
 p.params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5}, 
@@ -68,6 +76,12 @@ function fakeRandom(seed) {
   return x - Math.floor(x)
 }
 
+function localrandom(localseed) {
+  localseed = localseed +1
+  var x = Math.sin(localseed++) * 10000;
+  return x - Math.floor(x);
+}
+
 /////////////
 /// images //
 /////////////
@@ -77,8 +91,11 @@ function fakeRandom(seed) {
 // curimg = "img/" + img[index];
 
 p.imgconfig ={
+
+  "render": true,
   "curImg": {},
-  "seed": 0
+  "seed": 0,
+  "mode": "cube" //  cube, center
 }
 
 function preloadImg(img) { 
@@ -95,8 +112,16 @@ function updateImgs(){
 
 
 function renderImgs() {
-  // p.image(p.imgconfig.curImg, 10, 100, 200, 400)
-  aallelua = 1;
+  if (p.imgconfig.render) {
+    if (p.imgconfig.mode == "cube") {
+      p.texture(p.imgconfig.curImg)
+      p.box( 256 + 512 * a.fft[0])
+    }
+    if (p.imgconfig.mode == "center") {
+    p.image(p.imgconfig.curImg, -p.imgconfig.curImg.width/2, -p.imgconfig.curImg.height/2, p.imgconfig.curImg.width, p.imgconfig.curImg.width)
+    }
+  }
+  // aallelua = 1;
 }
   
 
@@ -265,40 +290,102 @@ function renderCubes() {
 ///////////
 // lines //
 ///////////
-           
 p.lines = []
-p.linesconfig = {}
+p.linesconfig = { "render":true,
+                  "linemode": "ortho", //"random", // "ortho",
+                  "min":-500, 
+                  "max":500,
+                  "ttl":255,
+                  "strokeweight": 5,
+                  "ttlspeed": 0.95,
+                  "ttlup":100,
+                  "ttldown":50,
+                  "size":20, 
+                  "seed" : 1337,
+                  "margin":100
+                }
 
-function createLines(lines, min, max, size, margin) 
+function createLines() 
 {
-  let mn = Math.random()*min
-  let mx = Math.random()*max
+  p.lines = []
+  let min = p.linesconfig.min
+  let max = p.linesconfig.max
+  let ttlup =  p.linesconfig.ttlup;
+  let ttldown =  p.linesconfig.ttldown;
+  let ttl =  p.linesconfig.ttl;
+  let size =  p.linesconfig.size;
+  let margin =  p.linesconfig.margin;
+  let seed = p.linesconfig.seed
+
+  let mx = Math.random()*(max-min)+min
+  let my =  Math.random()*(max-min)+min
+  let mz =  (Math.random()*(max-min)+min)
   let z = 0
-  for (var i = 0; i < size; i++) {
-    let line = {"x":i*margin,
-                "y":mn, 
-                "z":z,
-                "x2":i*margin, 
-                "y2":mx, 
-                "z2":z
-            }
-    console.log("creating line", line)
-    lines.push(line);
+  if (p.linesconfig.linemode == "random"){
+    for (var i = 0; i < size; i++) {
+      x2 = Math.random()*(max-min)+min
+      y2 = Math.random()*(max-min)+min
+      z2 = (Math.random()*(max-min)+min)
+      let l = {"x":mx,
+                  "y":my, 
+                  "z":mz,
+                  "x2":x2, 
+                  "y2":y2, 
+                  "z2":z2,
+                  "ttl":ttl,
+              }
+      // console.log("creating line", line)
+      p.lines.push(l);
+      mx = x2;
+      my = y2;
+      mz = z2;
+      ttl--;
+    }
+  } else  if  (p.linesconfig.linemode == "ortho"){
+    for (var i = 0; i < size; i++) {
+      if (i%3 == 0) {x2 =  Math.random()*(max-min)+min} else { x2 = mx}
+      if (i%3 == 1) {y2 =  Math.random()*(max-min)+min} else { y2 = my}
+      if (i%3 == 2) {z2 =  (Math.random()*(max-min)+min)} else { z2 = mz}
+      let l = {"x":mx,
+                  "y":my, 
+                  "z":mz,
+                  "x2":x2, 
+                  "y2":y2, 
+                  "z2":z2,
+                  "ttl":ttl,
+              }
+      // console.log("creating line", line)
+      p.lines.push(l);
+      mx = x2;
+      my = y2;
+      mz = z2;
+      ttl--;
+    }
   }
 }
    
 
 function updateLines(lines) {
-  // console.log("updating lines")
-  let lll = 0
+  if (p.linesconfig.render) {
+    // console.log("updating lines")
+    p.lines.forEach(l => {
+      l.ttl = l.ttl*p.linesconfig.ttlspeed;
+      if (l.ttl < 0 ) { l.ttl = 0 }  
+    })
+  }
 } 
 
 function renderLines(lines) {
-  p.strokeWeight(10)
-  p.stroke(255)
-  p.lines.forEach(line => {
-    p.line(line.x,line.y,line.z,line.x2,line.y2,line.z2)
-  });
+  if (p.linesconfig.render) {
+    // p.stroke(255)
+    // p.line(-500, -500, 100, 500,500,0);
+    p.strokeWeight(p.linesconfig.strokeweight)
+    // p.stroke(255)
+    p.lines.forEach(l => {
+      p.stroke(l.ttl)
+      p.line(l.x,l.y,l.z,l.x2,l.y2,l.z2)
+    });
+  }
 }
 
 /////////////
@@ -384,31 +471,31 @@ p.rects = [];
 
 p.rectsconfig = {
   "render": true,
+  "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
+  "rot": 0,
+  "quantity": 5,
   "mode":"free",  // "preset or free"
   "trigger": "note",
   "update": "clock",  //"counter, "clock", "link"
   "preset": 0,
   "seed": 1337,
-  "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
   "xoff": 10,
   "yoff" : 10,
   "zoff" : -500,
   "sqsizeX" : 500,
   "sqsizeY" : 250,
-  "rot": 0,
   "fieldsizeX": rw/2,
   "fieldsizeY": rh/2,
   "counter" : 0,
   "counterreset": 100,
-  "quantity": 5
 }
 
 
 
 function createRects(){
   p.rects = []
-  p.rectsconfig.quantity = (p.params.data[1])*100+1;
-  p.rectsconfig.rot = (p.params.data[2])*3.14;
+  // p.rectsconfig.quantity = (p.params.data[1])*100+1;
+  // p.rectsconfig.rot = (p.params.data[2])*3.14;
   p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
   p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
   for (let index = 0; index < p.rectsconfig.quantity; index++) {
@@ -429,10 +516,10 @@ function updateRects() {
     p.rectsconfig.counter++;
   }
   /// sizedconfig
-  p.rectsconfig.quantity = (p.params.data[1])*100+1;
-  p.rectsconfig.rot = (p.params.data[2])*3.14;
-  p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
-  p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
+  // p.rectsconfig.quantity = (p.params.data[1])*100+1;
+  // p.rectsconfig.rot = (p.params.data[2])*3.14;
+  // p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
+  // p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
 
   if (p.rects.length == 0) {
     createRects()

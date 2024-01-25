@@ -265,7 +265,7 @@ d2 $ s "indbits" <| n "2 1 3 4"
 
 d1 silence
 
-d5$ s "alphabet(5,8)" # nCount "algorave"
+d5$ s "alphabet(5,8)" # nCount "a l g o r a v e"
   # lpf 600
   # lpq 0.1
 

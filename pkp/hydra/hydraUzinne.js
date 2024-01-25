@@ -1,4 +1,6 @@
 
+await loadScript("images.js")
+
 await loadScript("miditest.js")
 await midi.start({ channel: '*', input: '*' })
 
@@ -22,9 +24,15 @@ if (window.innerWidth > window.innerHeight) {sc = pr/ar} else {sc = ar/pr}
 a.show()
 a.setBins(8)
 a.setCutoff(1)
-a.setScale(10)
+a.setScale(4)
 a.beat.threshold = 10
 
+
+// webcam
+s0.initCam()
+
+// ascii
+s1.initScreen()
 
 // P5Synth
 p = new P5({
@@ -33,10 +41,9 @@ p = new P5({
 
 
 p.hide()
-s3.init({
+s2.init({
 	src: p.canvas
 })
-
 
 
 await loadScript("extra/extraP5Uzinne.js") // loads extra p5 functions /load after midi init, after P5 init
@@ -48,14 +55,17 @@ p.cubesconfig.seed = 12;
 // createLines(p.lines,400,20,1,2)
 createCubes()
 createRects()
+preloadImg(cyborgsmall)
 
 p.draw = () => {
   	p.updateit = false;
 	p.background(0);
+  	updateCam();
 	p.push();
-// 	p.rotateX(p.params.viewportrot[5]*2*3.14);
-// 	p.rotateY(p.params.viewportrot[6]*2*3.14);
-// 	p.rotateZ(p.params.viewportrot[7]*2*3.14);
+  	updateViewport ()
+ 	p.rotateX(p.viewportconf.rotX*2*3.14);
+	p.rotateY(p.viewportconf.rotY*2*3.14);
+	p.rotateZ(p.viewportconf.rotZ*2*3.14);
   	// if (p.render == "cubes") {
 		updateCubes();
 		renderCubes();
@@ -65,22 +75,29 @@ p.draw = () => {
 	// 	renderLines();
 	// }
 //   p.cubesconfig.seed = 153;
-    // if (p.render == "rects") {
+    // if (p.render == "rects") {p.imgs[Math.floor(Math.abs(Math.sin(seed))) % p.imgs.length]; 
       updateRects();
       renderRects();
     // }
 	p.pop();
+  	updateImgs()
+ 	renderImgs()
 }
 await loadScript("extra/extraMidiUzinne.js") // loads extra hydra functions
-await loadScript("extra/extraHydraUzinne.js") // loads extra hydra functions
+await loadScript("extra/extraHydraUzinne.js") // loads extra hydra functionsp.imgs[Math.floor(Math.abs(Math.sin(seed))) % p.imgs.length]; 
 
 
 
 src(s3).out(o3)
 
-render(o3)
-
 set1()
 
 src(s3).out(o1)
 src(s0).blend(s1, cc(1)).out(o1)
+
+
+src(s0).out(o3)
+src(s1).out(o3)
+src(s2).out(o3)
+
+render(o3)

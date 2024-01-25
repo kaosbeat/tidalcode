@@ -1,0 +1,227 @@
+-- visuals control
+midihush
+
+m1 $ midinote ("0 0 0 0" |> (irand 127))
+    # s"[midi]"
+    # midichan "[1]"
+
+m1 silence
+
+hush
+
+viz1
+
+--- midichan 0  == viewport/cam/audio
+once $ ccn 64 # ccv 0 # s "midi" -- rotX
+once $ ccn 65 # ccv 0 # s "midi" -- rotY
+once $ ccn 66 # ccv 0 # s "midi" -- rotZ
+
+once $ ccn 67 # ccv 40 # s "midi" -- rotXspeed
+once $ ccn 68 # ccv 20 # s "midi" -- rotYspeed
+once $ ccn 69 # ccv 0 # s "midi" -- rotZspeed
+
+once $ ccn 67 # ccv 127 # s "midi" -- rotXspeed
+once $ ccn 68 # ccv 60 # s "midi" -- rotYspeed
+once $ ccn 69 # ccv 30 # s "midi" -- rotZspeed
+
+
+once $ ccn 76 # ccv 0 # s "midi" -- campos (fixed, orbit, bigorbit)
+
+cam1
+
+cam2
+
+--- audioreactivity
+once $ ccn 39 # ccv 127 # s "midi" -- audioreact on
+once $ ccn 40 # ccv 127 # s "midi" -- audioreact off
+once $ ccn 77 # ccv 35 # s "midi" -- audioreact cutoff
+once $ ccn 78 # ccv 23 # s "midi" -- audioreact scale
+
+
+
+once $ ccn 127 # ccv 0 # s "midi" -- hydramode
+
+
+
+-- midichan 1  == CUBES
+--turn render on/off
+once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+-- decay mode time, rms, audio, offset
+once $ ccn 2 # ccv 4 # s "midi" # midichan 1
+-- decay (set decay mode to time)
+once $ ccn 2 # ccv 1 # s "midi" # midichan 1
+once $ ccn 3 # ccv 112 # s "midi" # midichan 1
+-- cubesize (number of cubes)
+once $ ccn 4 # ccv 50 # s "midi" # midichan 1
+-- size (size Number:
+once $ ccn 5 # ccv 127 # s "midi" # midichan 1
+-- margin (space between cubes)
+once $ ccn 6 # ccv 13 # s "midi" # midichan 1
+-- geom 1 or random 2 (layout of cubes)
+once $ ccn 7 # ccv 2 # s "midi" # midichan 1
+-- freq of cubes
+once $ ccn 8 # ccv 17 # s "midi" # midichan 1
+-- seed of cubes
+once $ ccn 9 # ccv 17 # s "midi" # midichan 1
+
+-- fillmode of cubes (normal, solid, none, texture)
+once $ ccn 10 # ccv 4 # s "midi" # midichan 1
+
+
+
+-- strokeweight of cubes 
+once $ ccn 13 # ccv 127 # s "midi" # midichan 1
+
+
+
+
+
+
+-- rects midichan 2
+once $ ccn 1 # ccv 127 # s "midi" # midichan 2
+once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+
+once $ ccn 2  # ccv 112 # s "midi" # midichan 2 -- quantity
+once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
+once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
+once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
+once $ ccn 6  # ccv 12 # s "midi" # midichan 2 -- sqsizeY
+once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
+
+
+m2 $ midinote "0 1 2 3 "
+    # s"[midi]"
+    # midichan 2    
+
+
+
+
+
+-- imgs midichan 3
+once $ ccn 1 # ccv 127 # s "midi" # midichan 3 -- on 127
+once $ ccn 1 # ccv 0 # s "midi" # midichan 3 -- off 0
+once $ ccn 2 # ccv 0 # s "midi" # midichan 3 -- rendermode center
+once $ ccn 2 # ccv 1 # s "midi" # midichan 3 -- rendermode cube
+
+
+
+
+-- lines midichan 4
+once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
+once $ ccn 2 # ccv 0 # s "midi" # midichan 4 -- linemode ortho 0 / random 1
+once $ ccn 3 # ccv 1 # s "midi" # midichan 4 -- ttl
+once $ ccn 4 # ccv 126 # s "midi" # midichan 4 -- ttlspeed
+once $ ccn 5 # ccv 12 # s "midi" # midichan 4 -- strokeweight
+once $ ccn 6 # ccv 50 # s "midi" # midichan 4 -- size
+
+
+-- P5 presets -- ccv = seed
+
+
+
+m2 silence
+
+m2 $ midinote "0 0 0 0"
+    # s"[midi]"
+    # midichan 1
+
+
+-- extra midifunctions and presets
+
+
+m2 $ ccn "4*4" 
+    # ccv (127*(slow 16 saw)) 
+    # s "midi"
+    # midichan 1
+
+
+
+let midihush = do
+    m1 silence
+    m2 silence
+    m3 silence
+    m4 silence
+
+let cubes = do
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+
+let rects = do
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 2
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+
+
+let imgs = do
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 3
+
+
+let viz1 = do    --- cubes, geometric, no texture
+    cubes
+    once $ ccn 64 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 65 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 66 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 67 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 68 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 69 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+    once $ ccn 3 # ccv 112 # s "midi" # midichan 1 -- decaytime
+    once $ ccn 4 # ccv 50 # s "midi" # midichan 1 --numcubes
+    once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+    once $ ccn 6 # ccv 13 # s "midi" # midichan 1 --margin
+    once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+    once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+    once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+
+    
+let viz2 = do    --- cubes, geometric, no texture
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+    once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 3
+    once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+    once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
+    once $ ccn 8 # ccv 50 # s "midi" # midichan 1 -- freq
+    cam2
+
+viz2
+    
+    once $ ccn 64 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 65 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 66 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 67 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 68 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 69 # ccv 0 # s "midi" # midichan 0
+    once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+    once $ ccn 3 # ccv 112 # s "midi" # midichan 1 -- decaytime
+    once $ ccn 4 # ccv 50 # s "midi" # midichan 1 --numcubes
+    once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+    once $ ccn 6 # ccv 13 # s "midi" # midichan 1 --margin
+
+let vizp2 p = once $ ccn 10 # ccv 3  $ p # s "midi"  # midichan 1
+
+
+
+resetrot
+
+stoprot
+
+startrot
+
+
+viz1
+
+viz2
+
+cubes
+
+rects
+
+imgs
+
+
+cam1

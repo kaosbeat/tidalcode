@@ -113,13 +113,22 @@ tidal.onNote('*', ({ note, velocity, channel }) => {
             break;
             }
         case 2: {
-            p.rectsconfig.seed = note
+            if (p.rectsconfig.changemode == "shift") {
+                p.rectsconfig.seed = note
+            } else if (p.rectsconfig.changemode == "random") {
+                p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
+            }
             createRects()
             break;
             }    
         case 3: {
             p.imgconfig.seed = note
             // createRects()
+            break;
+            }
+        case 4: {
+            p.linesconfig.seed = note
+            createLines()
             break;
             }
         }
@@ -194,8 +203,6 @@ op1.onCC("*", ({index, value, channel}) => {
             case 16: { break; } // drop  (orange arrow down button)
             case 17: { break; } //  cut  (orange scissors)
 
-
-
             case 50: {  activeMode(modes.current, 1); break;}  // preset 1
             case 51: {  activeMode(modes.current, 2); break;}  // preset 2
             case 52: {  activeMode(modes.current, 3); break;}  // preset 3
@@ -211,7 +218,7 @@ op1.onCC("*", ({index, value, channel}) => {
             case 48: {  ; break;}  // preset rec mode button (orange mic)
 
             case 38: { break; } // rec button (orange circle button)
-            case 39: {  a.setCutoff(params.audio[2]*3); p.audioreact = true; break;} // play button
+            case 39: {  a.setCutoff(p.viewportconf.audioCutoff); p.audioreact = true; break;} // play button
             case 40: {  a.setCutoff(100); p.audioreact = false; break;} // stop button
 
             /// END OF OP1 CONTROLLER VALUES
@@ -234,18 +241,46 @@ tidal.onCC("*", ({index, value, channel}) => {
     value = value/127;
     if (channel == 0){
         switch (index) {
-            case 64: { p.viewportconf.rotX = value }
-            case 65: { p.viewportconf.rotY = value }
-            case 66: { p.viewportconf.rotZ = value }
-            case 67: { p.viewportconf.rotSpeedX = value*0.001}
-            case 68: { p.viewportconf.rotSpeedY = value*0.001}
-            case 69: { p.viewportconf.rotSpeedZ = value*0.001}
-            case 70: { p.viewportconf.offX = value }
-            case 71: { p.viewportconf.offY = value }
-            case 72: { p.viewportconf.offZ = value }
-            case 73: { p.viewportconf.offSpeedX = value*0.001}
-            case 74: { p.viewportconf.offSpeedY = value*0.001}
-            case 75: { p.viewportconf.offSpeedZ = value*0.001}
+            case 64: { p.viewportconf.rotX = value ;break;}
+            case 65: { p.viewportconf.rotY = value ;break;}
+            case 66: { p.viewportconf.rotZ = value ;break;}
+            case 67: { p.viewportconf.rotSpeedX = value*0.001;break;}
+            case 68: { p.viewportconf.rotSpeedY = value*0.001;break;}
+            case 69: { p.viewportconf.rotSpeedZ = value*0.001;break;}
+            case 70: { p.viewportconf.offX = value ;break;}
+            case 71: { p.viewportconf.offY = value ;break;}
+            case 72: { p.viewportconf.offZ = value ;break;}
+            case 73: { p.viewportconf.offSpeedX = value*0.001;break;}
+            case 74: { p.viewportconf.offSpeedY = value*0.001;break;}
+            case 75: { p.viewportconf.offSpeedZ = value*0.001;break;}
+            case 76: { 
+                if (value*127 == 0) { 
+                    p.viewportconf.cammode = "fixed"
+                } else if (value*127 == 1) { 
+                    p.viewportconf.cammode = "orbit"
+                } else if (value*127 == 2) { 
+                    p.viewportconf.cammode = "bigorbit"
+                } 
+                break;
+            }
+            case 77: {p.viewportconf.audioCutoff = value*10, a.setCutoff(p.viewportconf.audioCutoff); break; }
+            case 78: {p.viewportconf.audioScale = value*10, a.setScale(p.viewportconf.audioScale); break; }  
+
+            
+            case 127: {
+                if (value*127 == 0) {set0()}
+                if (value*127 == 1) {set1()}
+                if (value*127 == 2) {set2()}
+                if (value*127 == 3) {set3()}
+                if (value*127 == 4) {set4()}
+                if (value*127 == 5) {set5()}
+                if (value*127 == 6) {set6()}
+                if (value*127 == 7) {set7()}
+                if (value*127 == 8) {set8()}
+                if (value*127 == 9) {set9()}
+                if (value*127 == 10) {set10()}
+                if (value*127 == 11) {set11()}
+            }
         }
     }
     if (channel  == 1) {
@@ -306,8 +341,97 @@ tidal.onCC("*", ({index, value, channel}) => {
             case 1: {
                 if (value == 1){ p.rectsconfig.render = true; } else { p.rectsconfig.render = false;} break;
             }
+            case 2: {
+                p.rectsconfig.quantity = value*50; break;
+            }
+            case 3: { p.rectsconfig.rot = value*3.14; break;
+            }
+            case 4: {
+                if (value == 1){ p.rectsconfig.changemode = "random"; 
+                } else if (value == 2){ p.rectsconfig.changemode = "note"; 
+                }
+                break;
+            }
+            case 5: {  p.rectsconfig.sqsizeX = (value*500)+2; break;}
+            case 6: {  p.rectsconfig.sqsizeY = (value*500)+2; break;}
         }
     }
+
+    // "render": true,
+    // "changemode": "random", // "random", "sequential", "seed", "shift", "swap"
+    // "rot": 0,
+    // "quantity": 5,
+    // "mode":"free",  // "preset or free"
+    // "trigger": "note",
+    // "update": "clock",  //"counter, "clock", "link"
+    // "preset": 0,
+    // "seed": 1337,
+    // "xoff": 10,
+    // "yoff" : 10,
+    // "zoff" : -500,
+    // "sqsizeX" : 500,
+    // "sqsizeY" : 250,
+    // "fieldsizeX": rw/2,
+    // "fieldsizeY": rh/2,
+    // "counter" : 0,
+    // "counterreset": 100,
+
+    if (channel  == 3) {
+        //images
+        switch (index) {
+            case 1: {
+                if (value == 1){ p.imgconfig.render = true; } else { p.imgconfig.render = false;} break;
+            }
+            case 2: {
+                if (value == 0){ p.imgconfig.mode = "center"; } 
+                else if (value =1) { p.imgconfig.mode = "cube";} break;
+            }
+        }
+    }
+
+////////////////////////////////
+//// lines lines lines lines////
+////////////////////////////////
+
+    // linemode": "ortho", //"random", // "ortho",
+    //               "ttl":255,
+    //               "min":-500, 
+    //               "max":500,
+    //               "strokeweight": 5,
+    //               "ttlspeed": 0.95,
+    //               "ttlup":100,
+    //               "ttldown":50,
+    //               "size":20, 
+    //               "seed" : 1337,
+    //               "margin":100
+    //             }
+
+    if (channel  == 4) {
+        //images
+        switch (index) {
+            case 1: {
+                if (value == 1){ p.linesconfig.render = true; } else { p.linesconfig.render = false;} break;
+            }
+            case 2: {
+                if (value == 0/127){ p.linesconfig.linemode = "ortho"; } 
+                else if (value == 1/127) { p.linesconfig.linemode = "random";} break;
+            }
+            case 3: {
+                p.linesconfig.ttl = value*255 + 100;  break;
+            }
+            case 4: {
+                p.linesconfig.ttlspeed = value/2 + 0.5;  break;
+            }
+            case 5: {
+                p.linesconfig.strokeweight = value*25;  break;
+            }
+            case 6: {
+                p.linesconfig.size = value*50;  break;
+            }
+        }
+    }
+
+
 });
 
 // var prevdatamodecc = 0

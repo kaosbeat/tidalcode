@@ -3,12 +3,12 @@
 
 setcps 0.66
 
-d2 $ loopAt 3 $ s "breaks152"
+d3 $ loopAt 3 $ s "breaks152"
 
 
 --1 Souljah - Fade 2 Black
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat ["13 14 15 16 17 18 19 20"])
    $ s "breaks152"
@@ -19,7 +19,7 @@ d1 $ fast 3
 
 Renegade - Terrorist
 
-d2 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "13 14 15 16 17 18 19 20",
@@ -33,7 +33,7 @@ d2 $ fast 3
 
 DJ SS Black
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "13 14 13 14 13 14 15 16",
@@ -52,7 +52,7 @@ d1 $ fast 3
 
 Dimension UK
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "13 14 15 16 15 16 15 16",
@@ -65,7 +65,7 @@ d1 $ fast 3
 
 5 J Malik - Your Sound
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "[13 14]*4",
@@ -79,7 +79,7 @@ d1 $ fast 3
 
 Shy FX & UK Apache - Original Nuttah
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "15 16 15 15 16 17 15 16",
@@ -108,7 +108,7 @@ d1 $ fast 3
 
 8 Splash - Babylon
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice 24 (cat [
      "13 14 15 15 15 13 14 15",
@@ -123,7 +123,7 @@ d1 $ fast 3
 
 9 Remarc - RIP
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice "<24 24 48 24>" (cat [
      "13 14 15 15 15 15 16 17",
@@ -139,7 +139,7 @@ d1 $ fast 3
 
 hush
 
-d1 $ fast 3
+d3 $ fast 3
    $ loopAt 3
    $ slice "24" (cat [
      "13 14 15 13 14 15 15 15",
