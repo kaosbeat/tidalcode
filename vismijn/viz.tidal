@@ -1,0 +1,28 @@
+
+--- 
+
+hydramode 2
+
+rects2
+
+cam1
+
+cam2
+
+
+
+rects2
+
+
+-- params.processed
+m2 $ ccn "80*4" # ccv "125 0 30 60" # s "midi"
+once $ ccn 81 # ccv 1 # s "midi"
+
+d1 silence
+
+d1 $ n "1 2 3 4"
+    # s "midi"
+
+--- hydramodes 2 5 8 9 10
+
+hydramode 9

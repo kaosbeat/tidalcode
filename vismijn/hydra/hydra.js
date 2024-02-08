@@ -29,7 +29,7 @@ a.beat.threshold = 10
 
 
 // webcam
-// s0.initCam()
+s0.initCam()
 
 // ascii
 s1.initScreen()
@@ -80,7 +80,7 @@ await loadScript("extra/extraMidi.js") // loads extra hydra functions
 await loadScript("extra/extraHydra.js") // loads extra hydra functionsp.imgs[Math.floor(Math.abs(Math.sin(seed))) % p.imgs.length]; 
 
 
-src(s3).out(o3)
+// src(s3).out(o3)
 
 // set1()
 
@@ -91,5 +91,19 @@ src(s3).out(o3)
 // src(s0).out(o3)
 // src(s1).out(o3)
 src(s2).out(o3)
+
+
+    // src(s2)
+    // .scroll(() => p.params.processed[1])
+    // .kaleid(() => (Math.round(p.params.processed[2]*6)+2))  //value = 2 + Math.round(value/127*6)
+    // .add(src(o1).modulate(o1,0.09),.6)
+    // .scrollY( ({time}) => Math.sin(time*0.05)*0.05 )
+    // .repeatX(1)
+    // .scale(sc,1,ar/pr)
+    // .mask(shape(100,0.5,0.1).scale(1,1,rw/rh)).out(o3)
+    // render(o3)
+
+
+
 
 render(o3)

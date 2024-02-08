@@ -293,6 +293,11 @@ tidal.onCC("*", ({index, value, channel}) => {
                 if (value*127 == 9) {set9()}
                 if (value*127 == 10) {set10()}
                 if (value*127 == 11) {set11()}
+                if (value*127 == 12) {set12()}
+                if (value*127 == 13) {set13()}
+                if (value*127 == 14) {set14()}
+                if (value*127 == 15) {set15()}
+                if (value*127 == 16) {set16()}
             }
         }
     }
@@ -368,6 +373,7 @@ tidal.onCC("*", ({index, value, channel}) => {
             }
             case 5: {  p.rectsconfig.sqsizeX = (value*500)+2; break;}
             case 6: {  p.rectsconfig.sqsizeY = (value*500)+2; break;}
+            case 127: {createRects(); break;}
         }
     }
 
