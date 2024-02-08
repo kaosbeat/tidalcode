@@ -9,3 +9,4 @@ yarn serve&
 /opt/chrome-linux/chrome --url="https://localhost:8000" --start-fullscreen &
 cd /home/kaos/livecoding/tidalcode
 code .
+flatpak run com.dec05eba.gpu_screen_recorder

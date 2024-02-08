@@ -5,25 +5,30 @@ do
 
 setcps (145/60/4)
 
-do
+do                                                                                                                                
     d1 $ n "1 < 2 [2 3]> [~ 1 ] <~ > "
         # s "[hardkick, midi]"
         # midichan 1
-    viz1
+    cube1
     cam1
     hydramode 2
 
 
 
+
 d5  $ slow 1 
-    $ n (off (0) (|+| "<0>") "[f1(3,8)]/2")
-    -- $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
-    #legato 2
+    $ jux rev
+    -- $ n (off (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
+    $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
+    # legato 2
     # octave "<4 4>"
+    # squiz 3 
+    # room 0.8
     -- # s "[rash, midi]"
     # s "[rash]"
-    -- # midichan "[3]"
 
+d $ n "e e e e"
+  # s "superfm"
 
 
 do
@@ -38,8 +43,8 @@ do
 d5 silence
 
 do
-    once $ ccn 68 # ccv 2 # s "midi" -- rotYspeed
-    d4 $ slow 2 $ n ( off 0.0625 (|+| "12")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
+    once $ ccn 68 # ccv 10 # s "midi" -- rotYspeed
+    d4 $ slow 2 $ n ( off 0.0625 (|+| "19")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
         # s "rash "
         # sustain 1
         # octave 3
@@ -77,7 +82,7 @@ do
     d5 silence
     cam3
 
-
+hydramode 2
 
 do
     d5 silence
@@ -92,14 +97,15 @@ do
   d7 $ slow 4 $ randslice 4 
     $ n ("1*8" |> (irand 8))
     # s "[voc, midi]"
-    # room 0.6
-    # gain 1.1
-    # hpf 300
-    # midichan "[3]"
-  once $ ccn 2 # ccv 4 # s "midi" # midichan 1 --decay
-  once $ ccn 77 # ccv 45 # s "midi" -- audioreact cutoff
-  viz2
+    # room 0.5
+    # gain 1
+    # hpf 1600
+    # midichan "[4]"
+  -- once $ ccn 2 # ccv 4 # s "midi" # midichan 1 --decay
+  -- once $ ccn 77 # ccv 45 # s "midi" -- audioreact cutoff
+  line1
   cam2
+  hydramode 2
 
 
 
@@ -108,9 +114,10 @@ do
     # s "[gab, midi]"
     # midichan 1
     # room 0.5
-    once $ ccn 10 # ccv 4 # s "midi" # midichan 1 -- wire
-    cubes
-    cam1
+  once $ ccn 10 # ccv 3 # s "midi" 
+    # midichan 1 -- wire
+  cubes
+  cam1
 
 --   once $ ccn 10 # ccv 4 # s "midi" # midichan 1 -- wire
 --   cubes
@@ -138,10 +145,10 @@ d1 $ n "0 2 1 2"
 
 do
     hush
-    setcps (145/60/4)  --155
+    setcps (155/60/4)  --155
     d3 $ fast "<1 [1 2] [2 4] [4 8]>" $ n "1 2!7"
         # s "[snare]"
-    m1 $ fast "<1 [1 2] [2 4] [4 8]>" $ n "1 2 3 4 5 6 7 8" 
+    m3 $ fast "<1 [1 2] [2 4] [4 8]>" $ n "1 2 3 4 5 6 7 8" 
         # s "midi"
         # midichan 2
     rects
@@ -160,33 +167,34 @@ do
     d5 $ slow 1 $ jux rev $ n "1 ~ ~ 1 ~ ~ 1 1" |> (irand 3)
         # s "[rave2, midi]"
         # legato 2
-        # hpf 200
-        # hpq "<0.3  0  1 0.5>"
+        # hpf 1200
+        # hpq "<0.4  0  1 0.5>"
         # room 0.7
         #midichan 3 
     cam1
-    hydramode 4
+    hydramode 3
     once $ ccn 77 # ccv 10 # s "midi" -- audioreact cutoff
 
-
-d3
-    $ chop (16)
-    $ randslice(4)
+do
+  d3
+    $ chop "<8 16>"
+    $ randslice(16)
     $ loopAt 2
     $ s "breaks157*2"
-    # gain 1.3
+    # gain 1.1
+  hydramode 6
 
 
 
 ------
 
 do
-    hush
+    -- hush
     d1 $ fast 1 $ brak 
         $  s "[gab:2(4,8) gab:3(2,8), gab:3 gab:2 gab:4(3,6) gab:1]"
     viz2
     cam3
-    hydramode 2
+    hydramode 5
 
 do
     d1 $ fast 1
@@ -201,10 +209,14 @@ do
     m1 $ slow 4 $ ccn "8*16" # ccv "[< 34 17> 127!3] 127 127 127" # s "midi" # midichan 1
     viz3
     hydramode 5
+    asciiseq1
 
+imgs
+
+hydramode 1
 
 do
-    d2 $ slow 1 $ n " 3 3 3 3"
+    d2 $ slow "1 1 2 "  $ n "1 3 3 3"
         # s "kick"
         # lpf 200
         # room 0.5
@@ -212,15 +224,15 @@ do
     m2 $ slow 1 $ n "5 6 7 8"
         # s "midi"
         # midichan 3
-    hydramode 4
+    hydramode 2
     
 
 
 d3
     $ slow 0.5
     -- $ randslice 16
-    -- $ chop "1 <4 8>"
-    -- $ struct ("t f t f " )
+    $ chop "1 <16 4 8>"
+    $ struct ("t f t f " )
     $ s "break:25(<5 3 7>,8)"
     # legato 0.8
     # gain 0.9
@@ -265,7 +277,7 @@ do
   hydramode 5
 
 
-d1 $ n "0 2 1 2"
+d1 $ n "<1 0> 2 1 2"
     # s "less"
     # gain 1
 
@@ -278,38 +290,50 @@ d4 $ slow 2  $ n " 4 4 4 4 "
   # lpf 1200
   # gain 1
 
-
+setcps (170/60/4)
 
 do
   let pat1 = "1 <~ 2 ~ [2 2]> 3 <~ 4 [2 2]>"
-  d1 $ n pat1
+  d1 $ fast 1 $ n pat1
     -- # s "kick"
     # room 0.6
-    # s "hardkick"
+    # s "[hardkick, midi]"
+    # midichan 4
+    # gain 0.7
   a1 $ slow 2 $ vizscene "signal*4"
     # vizcommand "cube*4"
     # vizoption "clear!3 [clear*8]"
+  viz5
+  hydramode 9
+
 
 
 
 d2 $ n "1 < ~ 2>"
   # s "snare"
-  #midichan 2
+  # midichan 0
 
-d3 $ n "[~ 1]*4"
-  # s "ldmtom"
-  # squiz 2
-  #midichan 1
+
+do 
+  d3 $ n "[~ 1]*4"
+    # s "[ldmtom, midi]"
+    # squiz 2
+    # midichan 1
+  cube3
+  hydramode 2
+
 
 
 do
-  d5 $ n "a <c a> f [e e]"
-    # s "[td3 ,midi ]" -- s3.1
+  d5 $ jux rev $ n "a <c a> f [e e]"
+    # s "[td3 ,midi ]" -- FX1
     -- # s "supersaw"
-    # legato 0.8
+    # legato 0.9
+    -- # amp " 0.5 0.9 0.5 0.5"
     # midichan 0
   a1 $ vizscene "signal*8"
     #vizcommand "cube!3 [cube cube]"
+  hydramode 5
 
 
 
@@ -323,8 +347,8 @@ d7 $ slow 2 $ n "[8 <15 10>] ~ 16 <12 17>" # s"respect"
 
 
 do 
-    hush
-    d1 $ brak $ s "jungbass:0 [~ jungbass:1] jungbass:1!2"
+    -- hush
+    d2 $ brak $ s "jungbass:0 [~ jungbass:1] jungbass:1!2"
         # lpf 400
         # room 1
     viz2
@@ -349,32 +373,57 @@ d3 silence
 
 ------
 
+setcps (175/4/60)
+
+
 do
-    -- hush
+    hush
     d1
         $ n "1 2 1 1"
-        # s "clubkick"
-    d8 $ chop 2 $ every 2 (mask "0 <1 0> 1 0") $ n ("1 2 3 4" |+| 2)
-        # s "bytebeats"
-        # legato 0.8
-        # gain 1
+        # s "[clubkick,midi]" 
+        #midichan 4
+    line2
+    hydramode 2
 
-d4 $ brak $ n "2 ~ [ ~ 2 2 ~] 2"
+
+do
+  d4 $ brak $ n "2 ~ [ ~ 2 2 ~] 2"
     # s "jungbass"
     # squiz 0.1
     # legato 1
     # krush 1
     # room 0.4
+  hydramode 9
+
+  
+
+d5 $ slow 0.5 $ n  "1 1 [2 3] 8 1 6 7 _"
+  # amp "0.4!6 0.9!2"
+  # legato 0.9
+  # s "td3"
+  # octave "<3 4 
+  3 5 3 5 5 5 5>"
 
 
----
+d2 $ n "[1] *4"
+  # s "hardkick:3"
+
+
+
+  d8 silence
+
+--     d8 $ chop 2 $ every 2 (mask "0 <1 0> 1 0") $ n ("1 2 3 4" |+| 2)
+--         # s "bytebeats"
+--         # legato 0.8
+--         # gain 1
+
 
 d3
     $ loopAt 1
-    $ chop 4
-    $ s "jb:3*4"
+    $ chop 8
+    $ s "jb:<1 3>*2"
     # legato 0.5
-    # gain 1.2
+    # gain 1
 
 
 
@@ -385,12 +434,16 @@ d8 $sometimes rev
     # legato 1
 
 
+-------
+
+
+
 do
     hush 
     d1 $ n "1 1 [1 < ~ 1 ~>] 1"
         # s "[808bd:1, midi]"
         -- # s "808bd:1 808bd:1 [808bd:1 <~ 808bd:1 ~>] 808bd:1"
-        # gain 1.3
+        # gain 1
         # room 0.6
         # sz 0.2
         # lpf 250
@@ -400,21 +453,9 @@ do
     once $ ccn 6 # ccv 127 # s "midi" # midichan 1
     cubes
     hydramode 6
+    cam3
 
 d5 $ s "~ [~] ~ cp*<1>"
-
-d6
-    $ speed "0.5 ~ 0.4 ~"
-    # s "arp:1"
-    #legato 0.5
-
-do
-    hush
-    d4
-        $ n (scale "minPent" (off 0.125 (|+| 2) "e2(3,7) f1 d3(5,8) f1"))
-        # s  "rash"
-
-d4 silence
 
 
 
@@ -422,15 +463,17 @@ d4 silence
 
 setcps (135/60/4)
 
+setcps (135/60/4)
+
 
 do
-    hush
+    -- hush
     d1 $ s "<drumtraks:6 drumtraks:4>*4"
         # lpf 150
         # gain 1
 
 do
-    d2 $ n "2*4"
+    d2 $ n "<2 [ 2 2 ] 1 3>*4"
         # s "[clubkick, midi]"
         #midichan 1
     once $ ccn 4 # ccv 50 # s "midi" # midichan 1
@@ -442,8 +485,9 @@ do
     hydramode 2
     cam2
 
-d3 $ n "~ ~ ~ 1"
+d3 $ n "2 1 [1 2] <1 [1 4]> "
     # s "[snare,cp]"
+
 
 cam3
 
@@ -466,48 +510,48 @@ d4 $ s "feel:6*4"
     # lpf 200
 
 
-d5 $ n " ~ 1 ~ ~ 1 ~ 1 ~"
+d5 $ n (off "<[0]> " (|+| "0") " ~ 1 ~ ~ 1 ~ 1 ~" )
     # legato 0.7
     # octave "<4 4 3 5>"
     # s "pad"
-
-
-
-
-
+    # gain 1.2
 
 
 
 do
-    hush
+    -- hush
     d1 $ fast 1
+        -- $ n "1 1 1 1"
         $ n "<1 [1*2]> <1 1 1 [1*2]> 1 <1 1 1 <~ [~ 1]>>"
-        # s "gabba:1"
+        # s "gabba"
         # speed 0.7
         # room 0.3
-        # vowel "i"
+        # vowel "a"
 
 
 -- cps 135
 setcps (200/60/4)
 
-
-d1 $ fast 1
+do
+  d1 $ fast 1
     $ n "<1 [1*2]> <1 1 1 [1*2]> 1 <1 1 1 <~ [~ 1]>>"
-    # s "gabba:0"
+    # s "[gabba:0, midi]"
+    # midichan 4
     # speed 4
     # room 0.1
     # vowel "i < [ e i] [i e]> "
-
-
-
-
-d3  $ s "snare*4 snare*8 snare*16 snare*32"
-    # gain "<0.7 0 0 0>"
-    # vowel "e i a e"
+  hydramode 4
 
 do
-    d1 $ fast 1
+  d3 $ n "0*4 0*8 0*16 0*31"
+    # s "[snare]"
+    -- $ s "snare*4 snare*8 snare*16 snare*32"
+    # gain "<0.7 0 0 0>"
+    # vowel "e i a e"
+    
+
+do
+    d2 $ fast 1
         $ n "[1 1*<2>]*4"
         # s "[gabba:0 snare:1*4]*4"
         # speed 0.7
@@ -520,18 +564,18 @@ do
     d4 $ slow 4 $ n  "-24"
         # s "supersiren"
         # sustain 10
-        # gain 0.6
+        # gain 0.8
         # room 0.4
         # sz 0.3
     hydramode 5
 
 
 do
-    hush
-    d4 $ slow 1  $ n (off "<0.0625>" (|+| 7)  "<4 [8*2] 6> <6 4> [4 5] [4 2] 2 6 [3  2] ~")
-        # s "td3" -- "superfm"
+    -- hush
+    d4 $ slow 4  $ n (off "<0.0625>" (|+| 7)  "<4 [8*2] 6> <6 4> [4 5] [4 2] 2 6 [3  2] ~")
+        # s "[td3]" -- "superfm"
         # legato 0.8
-        # amp " 0.5 0.9"
+        # amp "0.5 0.9"
     d8 $ sound "indust:7*8"
         # shape (slow 2 saw)
         # room "0.8"
@@ -545,12 +589,14 @@ do
   d3 $ n (slow 1 $ segment 8 $ range 0 32 $ rand) # s "amencutup"
     # gain 1.2
     # pan 0.5
-
-d1 $ s "kick:3!3 kick!1"
-  # legato  1
-  # gain 1
-  # slow 4 (legato "<0.9 0.6>")
-  # squiz 0.9
+  d1 $ n "3 3 3 0" 
+    # s "[kick, midi]"
+    # legato  1
+    # gain 1
+    # slow 4 (legato "<0.9 0.6>")
+    # squiz 0.9
+    # midichan "4"
+  line2
 
 d1 silence
 
@@ -558,11 +604,11 @@ d1 silence
 d2 $ s "gabba:1!4"
   # gain 1.3
   # lpf 400
-  # resonance 0
+  # resonance 0.4
 
 do
   d3 $slow 1 $ "hardkick:4!4"
-    # gain 1.2
+    # gain 0.8
     # room 0.3 # sz 0.9
     # lpf 250
   x1 $ vizscene "signal*4"
@@ -573,7 +619,7 @@ do
 d5 $ slow 4 $ n "2 4 5 7 [3 4 5 6] 2 [2 1] 3"
     # s "supergrind"
     # octave 2
-    # hpf 300
+    # hpf 1700
     # accelerate "0.9"
     # room 1
 
@@ -587,7 +633,7 @@ hush
 d6 $  chop "2" $ s "turbo:0"
   # octer "<0 0.5 1>"
   # djf (sine)
-  # gain 1
+  # gain 1.3
 
 
 --- azid
@@ -598,63 +644,72 @@ do
 
 do 
   setcps (155/60/4)
-  d7  $ slow 1 $ randslice 16 $ s "[announcement:1*4, midi]"
-    #legato 1
+  d7  $ slow 1 $ randslice 16 $ s "[announcement:1*4]"
+    # legato 1
   d4 $ slow 2 $ chop 1 $ up "0 2 1 1" # sound "mtl160:6" 
     # speed 0.5
     # legato 1
     # lpf 1500
-    # gain 1.2
-  hydramode 2
+    # gain 1.1
+
   
     
   -- # sustain 2
 
-d1 $ slow 1 
-  $ n " 4 4 <4> <4 4*2>"
-  # s "[kick, midi]"
-  # midichan 1
-  # lpf 200
-  # room (slow 4 (range 0.2 0.9 (sine)))
+do
+  d1 $ slow 2
+    $ n "3 1 1 1 <1 1> 1 1 1"
+    # s "[kick, midi]"
+    # midichan 4
+    # lpf 200
+    # room "1 0.6!7"
+    # sz "0.6"
+    # vowel "<k [a e i o]>"
+    # gain 1.3
+    # room (slow 4 (range 0.2 0.9 (sine)))
+  line1
+  hydramode 11
+  cam3
+
+hush
 
 
 do 
-  d2 $ slow 2 $ n "3 1 1 1 <1 1> 1 1 1"
-    # s "[kick]"
-    # lpf "450"
-    # room "2 0.6!7"
-    # sz "0.9"
-    # vowel "<k [a e i o]>"
+  d2 $ slow 1 $ n " 4 4 <4> <4 4*2>"
+    # s "[kick, midi]"
+    # midichan 4
+    # lpf "200"
+    # gain 1.3
   randrot 180 
   m1 $ ccn "64*4" # ccv (irand 180) # s "midi" -- rotX
-
+  hydramode 7
 
 m1 silence
     
 
 do
   d7 silence
-  let choppat0 = "<1 [16 32] [8 0] [0 4] 2>"
+  let choppat0 = "<16 [16 32] [8 0] [0 4] 32>"
   let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
-  d7 $ slow 2 $ chop choppat0 $ n "<0 1 2 3>" # s "turbo"
-    # squiz 1
-    # room 0.3
-    # gain 1
+  d7 $ slow 2 $ chop choppat1 $ n "<0 1 2 3>" # s "turbo"
+    # squiz 4
+    # room 0.9
+    # gain 1.1
 
 
-d3 $ n "1 2 1 3 1 2 <2 [1*4]> 1"
+d3 $ n "1 2 1*4 3 1*8 2*16 <2 [1*4]> 1*8"
   # s "[snare:3*[2 8] snare:2*4]"
-  #gain "<0 1>"
+  #gain "<0 [0.7 1] >"
   
 m1 $ n "1*4"
   # "midi"
   # midichan 1
 
-cubes
+cube1
 
-viz2
+viz1
 
-hydramode 5
+hydramode 2
 
 d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"
   # pan (slow 4 sine)
@@ -679,12 +734,12 @@ hydramode 9
 
 d1  $ n "1 1 1 1 " 
   # s "hardkick:3"
-  # gain 1
+  # gain 0.8
   # room 0.8
   # sz 0.7
 
-d3 $ fast "<8 4>"
-  $ striate "<8 4>"
+d3 $ fast "<8 4 16 8 16>"
+  $ striate "<8 4 16 32 8 4 8>"
   $ n "<1 <2 <4 1> 2 1>>"
   # s "amencutup"
   # hpf 500
@@ -696,10 +751,10 @@ d3 $ fast "<8 4>"
 --- prep break
 
 do
- hush
- d5 $ n "[c3 , <[c a e f]>]"
-  # legato 2
-  # s "plaits"
+--  hush
+ d5 $ n "[c3  <e2 e4(3,4)> f(3,4) <[c a e f]>]"
+  # legato 1
+  # s "td3"
   # pF "harm" 0.1
 
 do 
@@ -714,16 +769,19 @@ do
     # gain 1.3
   d1  $ n "1 1 1 1 " 
     # legato 1.2
-    # s "[hardkick:3]"
+    # s "[hardkick:3, midi]"
+    # midichan 1
+  cube3
 
 
 d8 $ slow 0.5 $ randslice 8 $ n "3 4 5*4 3" # s "indust"
   # gain 1
   # legato 2
 
-d1 $brak $ n "3 [3] 4 3"
-    # s "hardkick"
-    # lpf 500
+d1  $ n "3 [3] 4 3"
+    # s "[hardkick, midi]"
+    #midichan 1
+    # lpf "<800 500 400 200>"
     -- # room 0.5
 
 hydramode 5
@@ -740,9 +798,9 @@ do
   let pat1 = "e [f ~ e ~ c ~ a ~]*<2 1> d [c ~]*4"
   let pat2 = "e f d c"
   let pat3 = "a e*2 f [e a f a*4]"
-  d1 $ slow 4 $ layer [fast 1, fast 2, rev] $ stack [
-    n pat3,
-    n pat1
+  d1 $ slow 1 $ layer [fast 1, fast 2, rev] $ stack [
+    n pat2,
+    n pat0
     ]
     # s "hardkick:3"
     # legato 1.2
@@ -812,7 +870,7 @@ d2 $ fast 3
      "21 22 15 13 13 14 13 14"
      ])
    $ s "breaks152"
-   # gain 1
+   # gain 1.1
 
 
 d1 $ slow 1 $ n "0 3 3 3" # s "mash2"
@@ -840,6 +898,7 @@ do
     # cloudssize 0.8
     # cloudsdens 0.6
     # cloudstex 0.8
+  hydramode 10
 
 
 
@@ -847,131 +906,18 @@ d4 $ slow 1
   $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3" 
   -- $ n "10 _ [4 _ 5 _] 3" 
   # legato 1
-  # s "indust"
-  # gain 1.1
+  # s "[indust, midi]"
+  # midichan 2
+  # gain 1
   # krush 2
-  # room 0.6
+  # room 0.9
+  # size 0.9
   # hpf 700
 
 
+-- fadeout td3
 
-
-d2 $ slow "0.5" $ n "2 1 3 1 5 6 4 4"  # s "industrial"  -- #  <| "2 1 3 4"
-  # squiz "<1 2 0 1>"
-  # pan "<0.375 0.125 0.5 0.75>"
-
-  d3 $ slice 16 "16 2 13 <4 8 1> 4 <11 5> [3 7 14] 6" $ sound "indust:3"
-  # pan 0.125
-  # channel "[2,3]"
-
-
-d1 $ slow 2 $ loopAt 1 $ striate 4 $ s "indust:3 indust:4"
-  # pan 0.5
-  # comb 0
-  # hpf 300
-  # hpq "0 0.5 0.6 0.8 0.3"
-  # gain 1
-
-
-d2 $ slow "0.5" $ n "2 1 3 1 5 6 4 4"  # s "industrial"  -- #  <| "2 1 3 4"
-  # squiz "<1 2 0 1>"
-  # pan "<0.375 0.125 0.5 0.75>"
-
-
-
-d1 $ sound "indust:7*4"
-  # shape (slow 2 saw)
-  # room "0.8"
-  # legato 0.6
-  # sz (range 0.4 1 $ slow 6 perlin)
-  # gain 1
-  # pan "0.125 0.625"
-
-
-d2 $ slow "2" $ n "2 1 3 1 5 6 4 4"  # s "industrial"  -- #  <| "2 1 3 4"
-  # squiz "<1 2 0 1>"
-  # pan "<0.375 0.125 0.5 0.75>"
-
-
-d5 $ s "indust" <| n "3 5 [6 2] 2"
-  # speed "<3 3 3 2>"
-  # slow 4 (lpf (700 + (500*sine)))
-  # lpq 0.2
-
-  d1 $ slice 12 "6 1 3 <4 3 1> 4 <3 5> 3 6" $ sound "indust:8"
-  # gain 1.3
-  # pan 0.125
-
-  d3 $ s "indust:6(3,8)"
-  # hpf 5600
-  # hpq 0.6
-  # room 0.6
-
-
-d3 $ n "~ ~ 5 ~ ~ ~ 5 ~ ~ ~ ~ ~ ~ ~ ~ ~" # s "industrial"
-
-
-d1 $ n "0 ~ ~ 7 6" # s "indust"
-
-
-d1 $ sound "indust:7*3" # legato 1  # shape (slow 2 saw)
-  # room "0.8"
-  # sz (range 0.4 1 $ slow 6 perlin)
-
-
-d1 $ sound "indust:7*7" # legato 4  # shape (slow 2 saw)
-  # speed (range 1 5 rand)
-
-
-d1 $ fast 4 $ fastcat [degradeBy 0.9 (s "indust" <| n (run 10))]
-  -- # leslie "0.4" # lrate "4" # lsize "3"
-  # phasr "0.3" #phasdp "1"
-
-d1 $ slow 2 $ loopAt 1 $ striate 16 $ s "indust:3 indust:4"
-
-d1 $ fastcat [degradeBy 0.1 (s "indust:3")]
-  # djf "0.3"
-
-d3 $ s "indust:1(3,5)" # vowel "a e a"
-
-hush
-
-do
-  d2 $slow 8 $  n "[1|3 2|4 3 7]"
-    # s "indust"
-    # legato 3
-    # lpf (slow 4 "[246 293|440 493|246 440]")
-    # lpq (slow 8 $ range 0.1 0.8 sine)
-    # verb 0.9 0.8 0.2 0.1
-    # gain
-
-
-  d1 $ slow 1 $ loopAt 0.5 $ striate 8 $ s "indust:3 indust:4"
-    # pan 0.5
-    # comb 0.7
-    # lpf 830
-    # hpq 0.4
-    # gain 1.2
-
-
-
-d2 $ slow 1 $ loopAt 1 $ striate 2 $ s "indust:3 indust:4"
-    # pan 0.5
-    # comb "<0.7>"
-    # lpf 1830
-    # hpq 0.8
-    # gain 2
-
-
-rects
-
-hydramode 2
-
-
----industtrack
-
-hush
-
+--- goredustry
 
 do
   setcps (155/60/4)
@@ -981,93 +927,118 @@ do
     # lpf (slow 4 "[246 293|440 493|246 440]")
     # lpq (slow 8 $ range 0.1 0.8 sine)
     # verb 0.9 0.8 0.2 0.1
-    # gain 1
+    # gain 0.6
     # midichan 0
   rects
   cam1
   viz4
   hydramode 9
-
-midihush
-
-
-d3 $ fast 3
-   $ loopAt 3
-   $ slice 24 (cat [
-     "[13 14]*4",
-     "21 22 23 21 22 23 21 22",
-     "15 16 17 15 16 17 15 16",
-     "13 15 16 17 18 19 20 21"
-     ]
-   )
-   $ s "breaks152"
-   # lpf 800
-   # squiz 3
-   # gain 1
+  d4 $ slow 2 
+    $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3"  |> (irand 9)
+    -- $ n "10 _ [4 _ 5 _] 3" 
+    # legato 1
+    # s "[indust]"
+    # gain 0.8
+    # krush 8
+    # room 0.9
+    # size 0.9
+    # lpf 900
+    # hpf 600
 
 do
-  d1 $ slow 4 $ jux rev
-    $ n 1
-    -- $ n "1*2 < 2 1 [~ 1] 4> < 1 [2 1] > <[~ 1] 1*4>"
-    -- $ n "<1 1*2 1*4> <1*2 1 [1 2]> 1 <1  [2 4] [2 1]>"
-    # s "[gabbalouder, midi]"
-    #midichan 2
-    # room 0.7
-    # sz 0.9
-    # gain 1.2
-  once $ ccn 77 # ccv 35 # s "midi" -- audioreact cutoff
-  once $ ccn 78 # ccv 23 # s "midi" -- audioreact scale
-
-hydramode 10
-
-startrot
+  d5 silence
+  d3 $ fast 3
+    $ loopAt 3
+    $ slice 24 (cat [
+      "[13 14]*4",
+      "21 22 23 21 22 23 21 22",
+      "15 16 17 15 16 17 15 16",
+      "13 15 16 17 18 19 20 21"
+      ]
+    )
+    $ s "breaks152"
+    # lpf 800
+    # squiz 3
+    # gain 1
 
 d2 $ slow 1
   $ n "1 1 1 1"
   # s "[clubkick]"
-  # room 0.4 # sz 0.6
-  # gain 1
-
-d3 silence
+  # room 0.5 # sz 0.6
+  # gain 0
 
 
-d2 $n "1 1 [~ 2] [1 2]" #s "kick"
-  # gain 1.2
+d7 $ slow 8 $ s "indust" <| n (run "17")
+  -- # lpf "400 200 260 180"
+  -- # lpq  (slow 4 $ range 0.1 0.2 sine)
+  # pan (slow 4 saw )
+  # room "0.6" # size "0.7"
+  # ring "10" # ringf "550"
+  # gain 0
+
 
 
 do
-  m1 silence
-  d3 silence
-  d1 $ n"1 1 1 2" # s "[midi,gabbaloud]"
-      # gain 0.9
-      # midichan 2
-      # squiz "4 0 0 0  "
-      # lpf 250
-      # resonance "0.2 0 0 0"
-  cam2
-  hydramode 4
-  once $ ccn 77 # ccv 10 # s "midi" -- audioreact cutoff
-  d8 $ slow 1 $ loopAt 1 $ striate 2 $ s "indust:3 indust:4"
-      # pan 0.5
-      # comb "<0.7>"
-      # lpf 1830
-      # hpq 0.8
-      # gain 1
+  d1 $ slow "8" 
+    -- $ jux rev
+    $n "1  "
+    -- $ n "<1*4 [1*2 1]> <2 1 2 4> <1 [2 1] [1 1*2]> [~ 1]"
+    -- $ n "<1 1*2> [1 ~ 1 1]  <2 4 1> <[~ 1] 2*2>"
+    -- $ n "1*2 < 2 1 [~ 1] 4> < 1 [2 1] > <[~ 1] 1*4>"
+    -- $ n "<1 1*2 1*4> <1*2 1 [1 2]> 1 <1  [2 4] [2 1]>"
+    # s "[gabba, midi]"
+    # midichan 2
+    # room 0.7
+    # sz 0.9
+    # gain 0
+  once $ ccn 77 # ccv 35 # s "midi" -- audioreact cutoff
+  once $ ccn 78 # ccv 23 # s "midi" -- audioreact scale
 
-  d7 $ slow 8 $ s "indust" <| n (run "17")
-    # lpf "400 200 260 180"
-    # lpq (slow 4 $ range 0.1 0.2 sine)
-    # pan (slow 4 saw )
-    # room "0.9" # size "0.9"
-    # ring "10" # ringf "550"
-    # gain 0.7
+hydramode 8
+
+startrot
+
+stoprot
+
+
+
+d8 silence
+
+
+d2 $n "1 1 1 1" #s "kick"
+  # gain 1.2
+
+hush
+
+-- do
+--   m1 silence
+--   d3 silence
+--   d1 $ n"1 1 1 2" # s "[midi,gabbaloud]"
+--       # gain 0.9
+--       # midichan 2
+--       # squiz "4 0 0 0  "
+--       # lpf 250
+--       # resonance "0.2 0 0 0"
+--   cam2
+--   hydramode 4
+--   once $ ccn 77 # ccv 10 # s "midi" -- audioreact cutoff
+
+d8 $ slow 1 $ loopAt 1 $ striate 2 $ s "indust:3 indust:4"
+  # pan 0.5
+  # comb "<0.7>"
+  # lpf 1830
+  # hpq 0.8
+  # gain 1
+
+
+
 
 
 d3 $ randslice 16 $ "indust:1(5,8) indust:2(3,8)"
   # gain 2
-  #legato 1
+  # legato 1
   # krush 10
 
   hydramode 6
 
-d7 silence
+d4 silence

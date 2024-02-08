@@ -91,3 +91,49 @@ function set10() {
 function set11() {
     src(s2).scrollY(0.3).blend(s2,0.4).blend(src(s2).modulate(src(o3),100),0.8).add(src(s2).pixelate(50, () => a.fft[0]*200 - 100)).modulateKaleid(osc(1,0.5,0),3).pixelate(20,20).repeat(3,0.3,0,1).out(o3)
 }
+
+
+
+function set12() {
+    src(s2)
+    .scroll(() => p.params.processed[1])
+    .kaleid(() => (Math.round(p.params.processed[2]*6)+2))  //value = 2 + Math.round(value/127*6)
+    .add(src(o1).modulate(o1,0.09),.6)
+    .scrollY( ({time}) => Math.sin(time*0.05)*0.05 )
+    .repeatX(2)
+    .scale(sc,1,ar/pr)
+    .out(o3)
+    render(o3)
+}
+
+function set13() {
+    src(s2)
+    .scroll(() => p.params.processed[1])
+    .kaleid(() => (Math.round(p.params.processed[2]*6)+2))  //value = 2 + Math.round(value/127*6)
+    .add(src(o1).modulate(o1,0.09),.6)
+    .scrollY( ({time}) => Math.sin(time*0.05)*0.05 )
+    .repeatX(1)
+    .scale(sc,1,ar/pr)
+    .mask(shape(100,0.5,0.1).scale(1,1,rw/rh)).out(o3)
+    render(o3)
+
+
+}
+
+
+
+function set1() {
+    src(s2)
+    .scroll(() => p.params.processed[1])
+    .kaleid(() => (Math.round(p.params.processed[2]*6)+2))  //value = 2 + Math.round(value/127*6)
+    .add(src(o1).modulate(o1,0.09),.6)
+    .scrollY( ({time}) => Math.sin(time*0.05)*0.05 )
+    .repeatX(1)
+    .scale(sc,1,ar/pr)
+    .out(o3)
+    render(o3)
+    src(s2).mask(shape(100,0.5,0.1).scale(1,1,rw/rh)).out(o3)
+    render(o3)
+
+
+}

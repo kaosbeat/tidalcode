@@ -1,12 +1,12 @@
 
-await loadScript("images.js")
+// await loadScript("images.js")
 
 await loadScript("miditest.js")
 await midi.start({ channel: '*', input: '*' })
 
 //midi config
 tidal = midi.input(0) // live code data
-op1 = tidal // (no controller)
+op1 = tidal // (no controller if op1 == tidal, all controlls trough tidal)
 
 midi.show()
 
@@ -29,7 +29,7 @@ a.beat.threshold = 10
 
 
 // webcam
-s0.initCam()
+// s0.initCam()
 
 // ascii
 s1.initScreen()
@@ -46,7 +46,7 @@ s2.init({
 })
 
 
-await loadScript("extra/extraP5Uzinne.js") // loads extra p5 functions /load after midi init, after P5 init
+await loadScript("extra/extraP5.js") // loads extra p5 functions /load after midi init, after P5 init
 
 p.render = "rects"
 p.piramidtrans = 0
@@ -55,7 +55,7 @@ p.cubesconfig.seed = 12;
 // createLines(p.lines,400,20,1,2)
 createCubes()
 createRects()
-preloadImg(cyborgsmall)
+// preloadImg(cyborgsmall)
 
 p.draw = () => {
   	p.updateit = false;
@@ -73,24 +73,23 @@ p.draw = () => {
 	updateRects();
 	renderRects();
 	p.pop();
-  	updateImgs()
- 	renderImgs()
+//   	updateImgs()
+//  	renderImgs()
 }
-await loadScript("extra/extraMidiUzinne.js") // loads extra hydra functions
-await loadScript("extra/extraHydraUzinne.js") // loads extra hydra functionsp.imgs[Math.floor(Math.abs(Math.sin(seed))) % p.imgs.length]; 
-
+await loadScript("extra/extraMidi.js") // loads extra hydra functions
+await loadScript("extra/extraHydra.js") // loads extra hydra functionsp.imgs[Math.floor(Math.abs(Math.sin(seed))) % p.imgs.length]; 
 
 
 src(s3).out(o3)
 
-set1()
+// set1()
 
-src(s3).out(o1)
-src(s0).blend(s1, cc(1)).out(o1)
+// src(s3).out(o1)
+// src(s0).blend(s1, cc(1)).out(o1)
 
 
-src(s0).out(o3)
-src(s1).out(o3)
+// src(s0).out(o3)
+// src(s1).out(o3)
 src(s2).out(o3)
 
 render(o3)

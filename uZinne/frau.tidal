@@ -1,11 +1,12 @@
 setcps 0.65
 
-hush
+
 
 setF "fraucount" 0
 
 do
-  p "frau"  $ slow 4 $ s "frau" # nCount "fraucount"
+  hush
+  d7  $ slow 4 $ s "frau" # nCount "fraucount"
     # distort 0.2
     # krush 5
     # speed 1.2
@@ -17,9 +18,7 @@ do
     # vizoption "alligator2"
     # vizword1 "<CYBORG  LATENT>"
     # vizword2 "<FRAU  SPACE>"
-
-  once $ hycmd "preset"
-    #hyset "out1"
+  hydramode 2
 
 
 p "frau" silence
@@ -27,7 +26,7 @@ p "frau" silence
 p "frauglitch" silence
 
 do
-  p "frauglitch"  $ slow 2$  n  ((|+ 12) " ~ ~ ~ [<c2 c4> c4 d6 d6 ds6 <e6 d6> <ds6 a5  a5>  _ ]  ")
+  d8  $ slow 2$  n  ((|+ 12) " ~ ~ ~ [<c2 c4> c4 d6 d6 ds6 <e6 d6> <ds6 a5  a5>  _ ]  ")
     # s "acid309"
     # legato 1.2
     # distort 2
@@ -59,12 +58,7 @@ do
     -- # s "kick"
     # room 0.6
     # s "hardkick"
-  -- once $hycmd "preset"
-  --   # hyset "out3"
-  -- once $hycmd "imgset"
-  --   #hyset "frau"
-  -- x3 $ hycmd "newimg*8"
-  --   # hybeat  (irand 24) |+ pat1
+\ 
 
 
 
@@ -74,10 +68,9 @@ d2 $ n "1 < ~ 2>"
   -- # s "onc" -- "--* ***"
   #midichan 2
 
-d3 $ n "1 2 4 5"
+d3 $ n "[~ 1]*4"
   # s "ldmtom"
   # squiz 2
-  # s "onc" -- "--* ***"
   #midichan 1
 
 
@@ -87,11 +80,6 @@ do
     -- # s "supersaw"
     # legato 0.8
     # midichan 0
-  -- once $ hycmd "imgset"
-  --   # hyset "masks"
-  -- once $hycmd "preset"
-  --   #hyset "out3"
-    -- #hybeat 24
   a1 $ vizscene "signal*8"
     #vizcommand "cube!3 [cube cube]"
 

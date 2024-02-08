@@ -115,10 +115,14 @@ tidal.onNote('*', ({ note, velocity, channel }) => {
         case 2: {
             if (p.rectsconfig.changemode == "shift") {
                 p.rectsconfig.seed = note
+                createRects()
             } else if (p.rectsconfig.changemode == "random") {
                 p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
+            } else if (p.rectsconfig.changemode == "new") {
+                p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
+                // p.rectsconfig.seed = note
+                createRects()
             }
-            createRects()
             break;
             }    
         case 3: {
@@ -237,10 +241,13 @@ op1.onCC("*", ({index, value, channel}) => {
 });
 
 tidal.onCC("*", ({index, value, channel}) => {
-    console.log(value)
+    console.log("CONTROLLER", index, "reporting", value , "on channel" , channel)
     value = value/127;
     if (channel == 0){
         switch (index) {
+
+
+
             case 64: { p.viewportconf.rotX = value ;break;}
             case 65: { p.viewportconf.rotY = value ;break;}
             case 66: { p.viewportconf.rotZ = value ;break;}
@@ -265,6 +272,12 @@ tidal.onCC("*", ({index, value, channel}) => {
             }
             case 77: {p.viewportconf.audioCutoff = value*10, a.setCutoff(p.viewportconf.audioCutoff); break; }
             case 78: {p.viewportconf.audioScale = value*10, a.setScale(p.viewportconf.audioScale); break; }  
+
+
+            case 80: {p.params.processed[1] = value; break}
+            case 81: {p.params.processed[2] = value; break}
+            case 82: {p.params.processed[3] = value; break}
+            case 83: {p.params.processed[4] = value; break}
 
             
             case 127: {
@@ -347,9 +360,10 @@ tidal.onCC("*", ({index, value, channel}) => {
             case 3: { p.rectsconfig.rot = value*3.14; break;
             }
             case 4: {
-                if (value == 1){ p.rectsconfig.changemode = "random"; 
-                } else if (value == 2){ p.rectsconfig.changemode = "note"; 
-                }
+                console.log("MYVALUIE = ", value)
+                if (value == 1/127){ p.rectsconfig.changemode = "random"; 
+                } else if (value == 2/127){ p.rectsconfig.changemode = "shift"; 
+                } else if (value == 3/127){ p.rectsconfig.changemode = "new"; }
                 break;
             }
             case 5: {  p.rectsconfig.sqsizeX = (value*500)+2; break;}

@@ -82,6 +82,19 @@ function localrandom(localseed) {
   return x - Math.floor(x);
 }
 
+function modulate(mode, steps, globalsteps){
+  let currentstep = globalsteps
+  if (mode == "saw") {
+    currentstep = globalsteps+1
+    globalsteps = currentstep
+    if (currentstep > steps) {
+      globalsteps = 0
+    }
+  }
+  // console.log(globalstep)
+  return currentstep / steps
+}
+
 /////////////
 /// images //
 /////////////
@@ -470,6 +483,12 @@ function renderStrings() {
 
 
 
+///////////////////
+///// rects  //////
+///////////////////
+
+
+
 p.rects = [];
 
 p.rectsconfig = {
@@ -499,8 +518,8 @@ function createRects(){
   p.rects = []
   // p.rectsconfig.quantity = (p.params.data[1])*100+1;
   // p.rectsconfig.rot = (p.params.data[2])*3.14;
-  p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
-  p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
+//   p.rectsconfig.sqsizeX = ((p.params.data[3])*500)+2;
+//   p.rectsconfig.sqsizeY = ((p.params.data[4])*500)+2;
   for (let index = 0; index < p.rectsconfig.quantity; index++) {
     p.rectsconfig.seed+=6;
     p.rects.push({"x" : fakeRandom(p.rectsconfig.seed+1)*p.rectsconfig.fieldsizeX - p.rectsconfig.fieldsizeX/2,
@@ -564,8 +583,8 @@ function updateRects() {
         p.rectsconfig.seed = p.rectsconfig.seed + 6
         
     } 
-    if (p.rectsconfig.mode == "sequential") {
-
+    if (p.rectsconfig.changemode == "new") {
+        createRects();
     } 
   }
   // / "random", "sequential", "seed", "shift","swap"
@@ -603,23 +622,21 @@ function renderRects(){
 }
 
 
+
+/////////////////////
+///// piramids  /////
+/////////////////////
+
+
+
 p.piramidsconfig = {"piramidtrans":0, 
                   "size":100, 
 }
 
 
-function modulate(mode, steps, globalsteps){
-  let currentstep = globalsteps
-  if (mode == "saw") {
-    currentstep = globalsteps+1
-    globalsteps = currentstep
-    if (currentstep > steps) {
-      globalsteps = 0
-    }
-  }
-  // console.log(globalstep)
-  return currentstep / steps
-}
+
+
+
 function piramids(){
   p.fill(255,0,0)
   p.push();
@@ -635,6 +652,3 @@ function piramids(){
 
 
 
-
-
-// startOSC = true

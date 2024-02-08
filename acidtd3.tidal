@@ -27,6 +27,7 @@ d5 $ slow 2 $ n (scale "minPent" (off "0.125" (|+ 12) "[e a e f]  ~ <f3 c5> ~ [ 
   # s "td3"
 
 
+hush
 
 d5 $ slow 2 
   $ n (off "<0.125 0.06125>" (|+ 12) "[e c] ~ [c5 f4] ~ c ~ [d e] a")
@@ -59,10 +60,11 @@ hush
 
 setcps (175/4/60)
 
-d5 $ slow 1 $ n (scale "majPent" "1 1 [2 3] 5 1 1 2 _")
+d5 $ slow 0.5 $ n  "1 1 [2 3] 8 1 6 7 _"
   # amp "0.4!6 0.9!2"
   # legato 0.9
   # s "td3"
+  # octave 3
 
 
 d1 $ n "[1] 1 1 1"
@@ -106,6 +108,7 @@ d5 $ fast 4 $ n "c4 c4 <cs4 cs5> c4"
   # legato "1!2 1.5 0.9"
   # amp "0.5 0.5 0.9 0.5"
   # s "td3"
+  #octave 7
 
 d7 $ fast 0.25 $ n "f e f e"
   #legato 0.4

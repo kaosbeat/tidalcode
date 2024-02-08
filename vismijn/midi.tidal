@@ -25,7 +25,9 @@ once $ ccn 68 # ccv 60 # s "midi" -- rotYspeed
 once $ ccn 69 # ccv 30 # s "midi" -- rotZspeed
 
 
-once $ ccn 76 # ccv 0 # s "midi" -- campos (fixed, orbit, bigorbit)
+once $ ccn 76 # ccv 1 # s "midi" -- campos (fixed, orbit, bigorbit)
+
+
 
 cam1
 
@@ -36,6 +38,16 @@ once $ ccn 39 # ccv 127 # s "midi" -- audioreact on
 once $ ccn 40 # ccv 127 # s "midi" -- audioreact off
 once $ ccn 77 # ccv 35 # s "midi" -- audioreact cutoff
 once $ ccn 78 # ccv 23 # s "midi" -- audioreact scale
+
+
+
+-- hydra parameters p.params.processed
+once $ ccn 80 # ccv 0 # s "midi"
+once $ ccn 81 # ccv 0 # s "midi"
+once $ ccn 82 # ccv 0 # s "midi"
+once $ ccn 83 # ccv 0 # s "midi"
+
+
 
 
 
@@ -82,7 +94,6 @@ once $ ccn 13 # ccv 127 # s "midi" # midichan 1
 -- rects midichan 2
 once $ ccn 1 # ccv 127 # s "midi" # midichan 2
 once $ ccn 1 # ccv 0 # s "midi" # midichan 2
-
 once $ ccn 2  # ccv 112 # s "midi" # midichan 2 -- quantity
 once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
 once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
@@ -130,7 +141,7 @@ m2 silence
 
 m2 $ midinote "0 0 1 2"
     # s"[midi]"
-    # midichan 4
+    # midichan 2
 
 -- extra midifunctions and presets
 
@@ -231,3 +242,24 @@ imgs
 
 
 cam1
+
+rects
+
+
+rects1
+
+rects2
+
+rects3
+
+
+rects4
+
+
+hydramode 5
+
+
+
+d1 $
+ n "1 2 3 4"
+    # s "midi"

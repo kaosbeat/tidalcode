@@ -147,6 +147,8 @@ d5 $ fast 2 $ n (off 0.0625 (|+| 0) "c4 f4 <cs4 cs5> c4")
   -- # midichan "1"
 
 
+d5 silence
+
 d5 $ n "c a f e"
   # s "td3"
 

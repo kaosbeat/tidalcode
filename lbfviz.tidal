@@ -147,7 +147,7 @@ do
     #vizword1 "breakout"
     #vizword2 "session"
 
-  d1 $ slow 1 $ loopAt 0.5 $ striate 8 $ s "indust:3 indust:4"
+d1 $ slow 1 $ loopAt 0.5 $ striate 8 $ s "indust:3 indust:4"
     # pan 0.5
     # comb 0.7
     # lpf 830
