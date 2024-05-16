@@ -39,36 +39,6 @@ let midihush = do
         once $ ccn 1 # ccv 127 # s "midi" # midichan 2
         once $ ccn 1 # ccv 0 # s "midi" # midichan 3
         once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
-        once $ ccn 127  # ccv 1 # s "midi" # midichan 2 -- createrects
-    rects1 = do
-        once $ ccn 2  # ccv 4 # s "midi" # midichan 2 -- quantity
-        once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
-        once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
-        once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
-        once $ ccn 6  # ccv 12 # s "midi" # midichan 2 -- sqsizeY
-        once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
-        once $ ccn 127  # ccv 1 # s "midi" # midichan 2 -- createrects
-    rects2 = do
-        once $ ccn 2  # ccv 127 # s "midi" # midichan 2 -- quantity
-        once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
-        once $ ccn 4  # ccv 3 # s "midi" # midichan 2 -- random 1 /shift 2 /new 3 (runs createrects each note)
-        once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
-        once $ ccn 6  # ccv 12 # s "midi" # midichan 2 -- sqsizeY
-        once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
-        once $ ccn 127  # ccv 1 # s "midi" # midichan 2 -- createrects
-    rects3 = do
-        once $ ccn 2  # ccv 23 # s "midi" # midichan 2 -- quantity
-        once $ ccn 3  # ccv 60 # s "midi" # midichan 2 -- rotation
-        once $ ccn 4  # ccv 2 # s "midi" # midichan 2 -- random 1 /shift 2 /new 3 (runs createrects each note)
-        once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
-        once $ ccn 6  # ccv 125 # s "midi" # midichan 2 -- sqsizeY
-        once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
-        once $ ccn 127  # ccv 1 # s "midi" # midichan 2 -- createrects
-    rectsquant p = once $ ccn 2  # ccv p # s "midi" # midichan 2 -- quantity
-    rectsrot p = once $ ccn 3  # ccv p # s "midi" # midichan 2 -- quantity
-    rectstype p = once $ ccn 4  # ccv p # s "midi" # midichan 2 -- random 1 /shift 2 /new 3 (runs createrects each note)
-    rectssizeX p = once $ ccn 5  # ccv p # s "midi" # midichan 2 -- random 1 /shift 2 /new 3 (runs createrects each note)
-    rectssizeY p = once $ ccn 6  # ccv p # s "midi" # midichan 2 -- random 1 /shift 2 /new 3 (runs createrects each note)
     imgs = do
         once $ ccn 1 # ccv 0 # s "midi" # midichan 1
         once $ ccn 1 # ccv 0 # s "midi" # midichan 2
@@ -184,7 +154,8 @@ let midihush = do
     asciiseq1 = do
         a1 $ vizscene "signal*8"
             #vizcommand "cube!3 [cube cube]" 
-    hydramode p = once $ ccn 127 # ccv p # s "midi" -- hydramode
+    hydramode p = once $ ccn 127 # ccv p
+     # s "midi" -- hydramode
     
 asciiseq1
         
@@ -221,4 +192,3 @@ cam2
 cam1
 
 hydramode 2
-

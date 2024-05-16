@@ -33,9 +33,6 @@ MIDIClient.init;
 // ~dexOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
 // ~dirt.soundLibrary.addMIDI(\dx7, ~dexOut);
 
-//
-// ~pfm2Out = MIDIOut.newByName("PreenFM mk2", "PreenFM mk2 MIDI 1");
-// ~dirt.soundLibrary.addMIDI(\pfm2, ~pfm2Out);
 
 
 // ~monOut = MIDIOut.newByName("Protokol", "Protokol")

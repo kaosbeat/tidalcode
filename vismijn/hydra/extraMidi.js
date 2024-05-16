@@ -96,23 +96,51 @@ function toggle(item, cc) {
 }
 
 
-tidal.onNote('*', ({ note, velocity, channel }) => {
-    switch (channel) {
-        case 0: {
-            if (note != 0) {
-            p.cubesconfig.savedseed  = random() 
-            p.clockupdate = true;
-            p.rectsconfig.seed = fakeRandom(p.rectsconfig.seed) 
-            }
-            break;
-            }
+    tidal.onNote('*', ({ note, velocity, channel }) => {
+        switch (channel) {
+            case 0: {
+                if (note != 0) {
+                p.cubesconfig.savedseed  = random() 
+                p.clockupdate = true;
+                p.rectsconfig.seed = fakeRandom(p.rectsconfig.seed) 
+                }
+                break;
+                }
 
-        case 1: {
-            p.cubesconfig.savedseed = note
-            createCubes()
-            break;
+            case 1: {
+                p.cubesconfig.savedseed = note
+                createCubes()
+                break;
+                }
+            case 2: {
+                if (p.rectsconfig.changemode == "shift") {
+                    p.rectsconfig.seed = note
+                    createRects()
+                } else if (p.rectsconfig.changemode == "random") {
+                    p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
+                } else if (p.rectsconfig.changemode == "new") {
+                    p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
+                    // p.rectsconfig.seed = note
+                    createRects()
+                }
+                break;
+                }    
+            case 3: {
+                p.imgconfig.seed = note
+                // createRects()
+                break;
+                }
+            case 4: {
+                p.linesconfig.seed = note
+                createLines()
+                break;
+                }
             }
-        case 2: {
+    });
+
+
+    andrew.onNote('*', ({ note, velocity, channel }) => {
+        console.log(note)
             if (p.rectsconfig.changemode == "shift") {
                 p.rectsconfig.seed = note
                 createRects()
@@ -122,22 +150,11 @@ tidal.onNote('*', ({ note, velocity, channel }) => {
                 p.rectsconfig.seed = localrandom(p.rectsconfig.seed)
                 // p.rectsconfig.seed = note
                 createRects()
+            } else {
+                createRects()
             }
-            break;
-            }    
-        case 3: {
-            p.imgconfig.seed = note
-            // createRects()
-            break;
-            }
-        case 4: {
-            p.linesconfig.seed = note
-            createLines()
-            break;
-            }
-        }
-});
 
+    });
 
 
 
@@ -241,7 +258,7 @@ op1.onCC("*", ({index, value, channel}) => {
 });
 
 tidal.onCC("*", ({index, value, channel}) => {
-    console.log("CONTROLLER", index, "reporting", value , "on channel" , channel)
+    // console.log("CONTROLLER", index, "reporting", value , "on channel" , channel)
     value = value/127;
     if (channel == 0){
         switch (index) {
@@ -365,7 +382,7 @@ tidal.onCC("*", ({index, value, channel}) => {
             case 3: { p.rectsconfig.rot = value*3.14; break;
             }
             case 4: {
-                console.log("MYVALUIE = ", value)
+                // console.log("MYVALUIE = ", value)
                 if (value == 1/127){ p.rectsconfig.changemode = "random"; 
                 } else if (value == 2/127){ p.rectsconfig.changemode = "shift"; 
                 } else if (value == 3/127){ p.rectsconfig.changemode = "new"; }

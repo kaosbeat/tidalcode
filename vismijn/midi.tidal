@@ -44,7 +44,7 @@ once $ ccn 78 # ccv 23 # s "midi" -- audioreact scale
 -- hydra parameters p.params.processed
 once $ ccn 80 # ccv 0 # s "midi"
 once $ ccn 81 # ccv 0 # s "midi"
-once $ ccn 82 # ccv 0 # s "midi"
+once $ ccn 82 # ccv 127 # s "midi"
 once $ ccn 83 # ccv 0 # s "midi"
 
 
@@ -88,13 +88,14 @@ once $ ccn 13 # ccv 127 # s "midi" # midichan 1
 
 
 
+rects
 
-
+cubes
 
 -- rects midichan 2
 once $ ccn 1 # ccv 127 # s "midi" # midichan 2
 once $ ccn 1 # ccv 0 # s "midi" # midichan 2
-once $ ccn 2  # ccv 112 # s "midi" # midichan 2 -- quantity
+once $ ccn 2  # ccv 21 # s "midi" # midichan 2 -- quantity
 once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
 once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
 once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
@@ -104,11 +105,11 @@ once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
 
 m2 $ midinote "0 1 2 3 "
     # s"[midi]"
-    # midichan 2    
+    # midichan 1    
 
 
 
-
+rects
 
 -- imgs midichan 3
 once $ ccn 1 # ccv 127 # s "midi" # midichan 3 -- on 127
@@ -241,7 +242,7 @@ rects
 imgs
 
 
-cam1
+cam2
 
 rects
 
@@ -253,7 +254,7 @@ rects2
 rects3
 
 
-rects4
+
 
 
 hydramode 5
@@ -263,3 +264,5 @@ hydramode 5
 d1 $
  n "1 2 3 4"
     # s "midi"
+
+
