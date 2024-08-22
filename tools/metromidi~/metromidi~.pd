@@ -1,0 +1,2 @@
+#N canvas 57 90 208 170 10;
+#X obj 12 7 metromidi_gui;

@@ -1,0 +1,7 @@
+sudo apt install python3-liblo python3-espeak
+sudo apt install liblo-dev
+sudo apt install espeak-ng espeak-ng-data
+
+pip install cython
+pip install liblo
+pip install py-espeak-ng
