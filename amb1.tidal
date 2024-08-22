@@ -10,7 +10,7 @@ d3 $echoWith 20 (0.0125 * "<2 5>") ((# lpf 1700) . (|* room 1.2))
 d6 $ s "kick:2(3,8)"
 
 d7 $ s "snare:(<9 4 12 4>,16)"
-  # lpf 1000
+  # lpf (slow 4 (sine * 400)+ 600)
   # lpq 0.4
   # room 0.4
   # sz 0.8
@@ -39,7 +39,7 @@ do
   let pat4 = "a*4 c c6 c4"
   let pat = pat1
   d5 $fast 2 $ n pat4
-    # s "td3"
+    # s "acid309" -- "td3"
     # legato "1.1*3 0.5"
     # amp "0.4 0.3 0.9 0.6"
 
@@ -72,13 +72,16 @@ d6 silence
 d4 $ n "1 1 <2 1> 1"
   #s "kick"
 
-d5  $ n "e3 _ <c4 c6> ~ ~ c4  [~ c4] ~"
-  # s "td3"
+d5  $ n "e3 _ <c4 [c5 [c3 c4]] > <~ [c4 c5]> <~ [c5 c3]> c4  [~ c4] ~"
+  # s "acid309"
   # legato "1.1 0.5"
   # amp "0.9 0.5"
 
 
 d6 $ n"c6*16"
   # amp 0.4
-  # s "td3"
+  # s "acid309"
   # legato 0.6
+  # room 0.5
+  #vowel "e"
+  # lpf 500

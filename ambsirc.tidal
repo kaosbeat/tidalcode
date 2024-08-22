@@ -1,0 +1,201 @@
+setcps (0.7)
+
+hush
+
+d1
+    $ slow 4
+    $ n "6(5,8)"
+    # s "[east, onc]"
+    # room 1
+    # lpf 200  
+    # gain 0.7
+
+
+d8
+    $ slow 4
+    $ n "1"
+    # s "[onc]"
+    # midichan 3
+    -- reset mathsslope
+    -- scales 
+    -- BX7 (brains B3P1)
+    -- Clouds
+
+
+d2
+    $ slow 4
+    $ n "3(9,16)"
+    # s "east"
+    # room 1
+    # lpf 500  
+    # gain 0.6
+
+d2  
+    $ s "clouds"
+
+
+d5 $ striate  (irand 32) 
+  $slow 4 $ juxBy 0.6 rev $ n (off "<0.125>" (|+ 12) "a [~ g ] [c a ] [g d5 ]")
+  # s "tides"
+  # sustain "4"
+  # octave "<[3|6] 5 4 [5|6] [4|3]>"
+  # mode "2"
+  # shift "<2 3 4>"
+  # slope 1
+  # clouds 0.5 0.5 0.05 0.1
+  # cloudsblend 0.9 0.2 0.33 0.5
+  # gain 0.6
+
+  # distort 0.8
+  # slope (slow 3 sine)
+  # tidesshape (slow 7 sine)
+  # tidessmooth (range 0.5 0.8 $ slow 8 sine)
+
+d4 $ slow 4 
+    $ striate 8 
+    $ n "1 2 3 4" 
+    # s "numbers" 
+    # speed 0.8
+    
+    # elementsstrength "0.1"
+    # elementspitch (slow 0.5 sine)
+    # elementsblowlevel 1
+    # elementsblowtimb (slow 8 sine)
+    # elementsflow "{0.3 0.6 0.7}" 
+    # elementsstrikelevel 1
+    # elementsstriketimb 0.1
+    # elementsmallet 0
+    # elementseasteregg "[1]"
+    # elementsmodel "[4]"
+    # elementscontour 0.5
+    # elementsgeom 1
+    # elementsbright 0.5
+    # elementsdamp 0.6
+    # elementspos 0.314
+    # elementsspace 0.9
+    # gain 1.4
+
+d5 $ slow 4 
+    $ juxBy 0.4 rev
+    $ n ( off  "0.125" (|+12 )"a f g ~")
+    # s "tides"
+    # octave "[3]"
+    # legato 2
+    # mode "2"
+    # shift "<2 1 0>"
+    # clouds 0.03 0.3 0.8 0.1 -- pos, sz, dens, tex
+    # cloudswet 1
+    # cloudsspread 0.6
+    # cloudsfb "<0.3 [0.3 0.34] [0.34 0.3 0.34 0]>" -- warnign with everythign > 0.3
+
+
+
+
+
+d5 silence
+
+
+hush
+
+
+d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
+  # s "tides"
+  # legato 4
+  # pF "timbre" 0.3
+  # pF "harm" "<0.6 0.7!3 0.5>"
+  # pI "engine" 4
+  # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+  # room 0.3 #sz 0.9
+  # clouds 0.6 0.5 0.5 0.9
+  # cloudsmode 1
+  # cloudspos 3
+  # cloudspitch 1
+  # cloudspos 0.5
+  # cloudssize 0.8
+  # cloudsdens 0.9
+  # cloudstex 0.9
+  # gain 0.7
+
+
+
+hush
+
+d6  $ s "[[bd sd], linnhats*8]"
+    # elementsstrength "0.1"
+    # elementspitch (slow 4 sine)
+    # elementsblowlevel 1
+    # elementsblowtimb (slow 8 sine)
+    # elementsflow "{0.3 0.6 0.7}" 
+    # elementsstrikelevel 1
+    # elementsstriketimb 0.1
+    # elementsmallet 1
+    # elementseasteregg "[0]"
+    # elementsmodel "[1]"
+    # elementscontour (slow 2 saw)
+    # elementsgeom 0
+    # elementsbright (slow 7 saw)
+    # elementsdamp 0.6
+    # elementspos 0.314
+    # elementsspace 0
+    # gain 1
+
+d8 $degradeBy 0.1
+    $ n "[e]*<16 32 [8 32]>"
+    # s "td3"
+    # krush (irand 4) + 2
+    # vowel (chooseBy rand ["e", "a", "i", "u"])
+    # verb 0.9 0.2 0.1 0.2
+    # gain 0.6
+    # hpf 800
+
+
+
+
+----------------------------
+hush
+
+
+setcps 0.6
+
+d1 $ slow 1 $ n "1*4"
+    # s "[bass1:12, onc]"
+    # lpf 250
+    # room 0.7
+    # sz 0.7
+
+
+d3  $ s "[[ldmtom:1 soda:9], ldmchh:2*8]"
+
+
+
+
+d7 
+    $ slow 2
+    $ n ( off 0.125 (|+ 7) "<c d4 [d4 a3] a3>")
+    # s "plaits"
+    # legato ( off 0.125 (|- 2) "3")
+    # krush 3
+    # gain 0.5
+    # warpstimb (slow 5 sine)
+    # warpsosc "<0>"
+    # warpsalgo "<5 2>"
+    # warpsfreq (slow 3 saw)
+    # warpseasteregg 0
+
+d7  -- use real warps
+    $ slow 2
+    $ n ( off 0.125 (|+ "<7 19 -5>") "<c <d4 d5> [<d4 [d4 d3 d5 d4]> a3] a3>")
+    # s "plaits"
+    # legato ( off 0.125 (|- 2) "3")
+    # krush 3
+    # gain 0.5
+    # warpstimb (slow 5 sine)
+    # warpsosc "<0>"
+    # warpsalgo "<5 2>"
+    # warpsfreq (slow 3 saw)
+    # warpseasteregg 0
+
+
+
+d7 silence

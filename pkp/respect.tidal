@@ -29,3 +29,11 @@ d6 $ slow 3 $  s "respect" |+| n "8 9 10 11 12 13 14 15 16 17 18 19"
 
 
 d6 $ slow 3 $ slice 16 ("3 4 0 5 6 2 1 7" |> (irand 32)) $ s "voc:0"
+
+
+
+
+d6 $  s "speedzone:8"
+
+
+d6 $ slow 1  $ s "respect:17 speedzone:6 respect:19 speedzone:8"

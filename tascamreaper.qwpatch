@@ -1,0 +1,86 @@
+<!DOCTYPE patchbay>
+<patchbay name="tascamreaper" version="0.5.2">
+ <items>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_1"/>
+   <input node="REAPER" port="REAPER:in1"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_6"/>
+   <input node="REAPER" port="REAPER:in6"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_12"/>
+   <input node="REAPER" port="REAPER:in12"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_9"/>
+   <input node="REAPER" port="REAPER:in9"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_14"/>
+   <input node="REAPER" port="REAPER:in14"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_16"/>
+   <input node="REAPER" port="REAPER:in16"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_8"/>
+   <input node="REAPER" port="REAPER:in8"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_4"/>
+   <input node="REAPER" port="REAPER:in4"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out2"/>
+   <input node="Chromium input" port="Chromium input:input_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_5"/>
+   <input node="REAPER" port="REAPER:in5"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_7"/>
+   <input node="REAPER" port="REAPER:in7"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out1"/>
+   <input node="Chromium input" port="Chromium input:input_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_15"/>
+   <input node="REAPER" port="REAPER:in15"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_2"/>
+   <input node="Chromium input" port="Chromium input:input_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_3"/>
+   <input node="REAPER" port="REAPER:in3"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_13"/>
+   <input node="REAPER" port="REAPER:in13"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_11"/>
+   <input node="REAPER" port="REAPER:in11"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_1"/>
+   <input node="Chromium input" port="Chromium input:input_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_2"/>
+   <input node="REAPER" port="REAPER:in2"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_10"/>
+   <input node="REAPER" port="REAPER:in10"/>
+  </item>
+ </items>
+</patchbay>
+

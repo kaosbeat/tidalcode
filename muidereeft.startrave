@@ -1,0 +1,13 @@
+#!/bin/bash
+fixartwiz
+aaterm &
+pw-jack scide /home/kaos/livecode/tidalcode/muidereeft2024/reeft.scd &
+cd /opt/hydra-osc
+node server.js &
+cd /opt/hydra
+yarn serve&
+/opt/chrome-linux/chrome --url="https://localhost:8000" --start-fullscreen &
+cd /home/kaos/livecoding/tidalcode
+code .
+qpwgraph /home/kaos/livecode/tidalcode/muidereeft2024/reeft.qpwpatch
+flatpak run com.dec05eba.gpu_screen_recorder
