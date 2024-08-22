@@ -1,7 +1,7 @@
 #!/bin/bash
 fixartwiz
 aaterm &
-pw-jack scide /home/kaos/livecode/tidalcode/muidereeft2024/reeft.scd &
+pw-jack scide &
 cd /opt/hydra-osc
 node server.js &
 cd /opt/hydra
