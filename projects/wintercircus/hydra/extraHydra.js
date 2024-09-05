@@ -3,27 +3,53 @@ function set0() {
         .scale(() => p.oncdata1/127 + 1)
     .out(o0)
 
-    src(o0)
-    .rotate(3.14/2)
-    .repeat(() => p.oncdata2/127 + 3)
-    .scale(5)
-    .out(o1)
+    src(s0)
+    .diff(o1)
+    .color(1,0,0)
+    .repeat(10)
+    .blend(src(o1).rotate(3.14).repeat(() => p.oncdata1/64 + 1))
+    .modulate(osc(4,1)
+    .scale(0.01)).out(o3)
 
 
-    src(s0).diff(o1).color(1,0,1).out(o3)
+    // src(s0).diff(o1).color(1,0,1).out(o3)
 }
 
 function set1() {
-    src(s1).out(o3)
+    shape(2,0.1,0.1)
+    .scale(() => p.oncdata1/127 + 1)
+    .modulateRepeat(osc(2),1, 2, 4, 3)
+    .modulateKaleid(osc(12,0.05,0),1)
+    .luma (0.4)
+    .rotate(4, 0.1,0)
+    .modulate(o0, () => mouse.y *0.0002 )
+    .out(o0)
+
+    src(s0)
+    .diff(o1)
+    .color(1,0,0)
+    .repeat(10)
+    .blend(src(o1).rotate(3.14).repeat(() => p.oncdata1/64 + 1))
+    .modulate(osc(4,1)
+    .scale(0.01)).out(o3)
 }
 
 
 function set2() {
-    src(s2).out(o3)
+    src(s0).modulateHue(src(o0).scale(1.01),1).blend(src(o1).diff(osc(13,0.5,5))).out(o3)
+
 }
 
 function set3() {
-    src(s2).blend(src(s1)).out(o3)
+    shape(2,0.1,0.1)
+    .scale(() => p.oncdata1/127 + 1)
+    .modulateRepeat(osc(2),1, 2, 4, 3)
+    .modulateKaleid(osc(2,0.05,0),() => p.oncdata3/127+0.5)
+    .rotate(4, 0.1,0)
+    .modulate(o0, p.oncdata1+ 0.03 )
+    .out(o0)
+    
+    src(s0).blend(src(s1)).out(o3)
 }
 
 
