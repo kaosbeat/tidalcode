@@ -1,0 +1,466 @@
+setcps (0.7)
+
+hush
+
+do
+    let spd = 4
+    d1
+        $ slow spd
+        $ n "6(5,8)"
+        # s "[east, onc]"
+        # room 1
+        # lpf 200  
+        # gain 0.6
+    d8
+        $ slow spd
+        $ n "1"
+        # s "[onc]"
+        # midichan 3
+        -- reset mathsslope
+        -- scales 
+        -- BX7 (brains B3P1)
+        -- Clouds
+
+
+cube3
+
+rect1
+
+viz5
+
+-- m1 $ slow 2
+--     -- $ n "8(5,8)" |> irand(6)
+--     $n " 1 2 3 4 "  
+--     # s "midi"
+--     # midichan 2
+
+d2 silence
+
+d2
+    $ slow "<4 2>"
+    $ n "3(<11 9 13>,16)"
+    -- # midinote irand(64)
+    # s "[east, onc, midi]"
+    # room 1
+    # lpf 400  
+    # gain 0.8
+    # midichan 2
+
+d5 silence
+
+
+
+cube2
+
+do
+    cubes
+    d5 $ striate  2
+        $ juxBy 0.6 rev $ n " a g d [a g]"
+        # s "[tides, midi]"
+        #legato 2
+        # octave "<4 <5 6>>"
+        # clouds 0.5 0.5 0.04 0.41
+        # cloudsblend 0.9 0.2 0.2 0.5
+        # midichan 1
+
+d5 $ striate  (irand 32) 
+  $slow 4 $ juxBy 0.6 rev $ n (off "<0.125>" (|+ 12) "a [~ g ] [c a ] [g d5 ]")
+  # s "tides"
+  # sustain "4"
+  # octave "<[3|6] 5 4 [5|6] [4|3]>"
+  # mode "2"
+  # shift "<2 3 4>"
+  # slope 1
+  # clouds 0.5 0.5 0.05 0.1
+  # cloudsblend 0.9 0.2 0.33 0.5
+  # gain 0.6
+
+  # distort 0.8
+  # slope (slow 3 sine)
+  # tidesshape (slow 7 sine)
+  # tidessmooth (range 0.5 0.8 $ slow 8 sine)
+
+d4 $degradeBy 0 $ slow 8 
+    -- $ juxBy 0.9 rev
+    -- $ striate 16 
+    $ n "1 22 3 4 7 5 8 9"
+    # s "science" 
+    # speed 0.8
+    # elementsstrength "0.1"
+    # elementspitch (slow 0.5 sine)
+    # elementsblowlevel 1
+    # elementsblowtimb (slow 8 sine)
+    # elementsflow "{0.3 0.6 0.7}" 
+    # elementsstrikelevel 1
+    # elementsstriketimb 0.1
+    # elementsmallet 0
+    # elementseasteregg "[1]"
+    # elementsmodel "[4]"
+    # elementscontour 0.5
+    # elementsgeom 1
+    # elementsbright 0.5
+    # elementsdamp 0.6
+    # elementspos 0.314
+    # elementsspace 0.9
+    # gain 1.4
+
+d5 $ slow 4 
+    $ juxBy 0.8 rev
+    $ n ( off  "0.125" (|+12 )"a f g ~")
+    # s "tides"
+    # octave "[5 3 4]"
+    # legato 2
+    # mode "2"
+    # shift "<2 1 0>"
+    # clouds 0.03 0.3 0.8 0.1 -- pos, sz, dens, tex
+    # cloudswet 1
+    # cloudsspread 0.6
+    # cloudsfb "<0.3 [0.3 0.34] [0.34 0.3 0.34 0]>" -- warnign with everythign > 0.3
+
+
+
+
+
+d5 silence
+
+
+hush
+
+
+d5 $ slow 4 $ n (off "<0.125 0>" (|+ 12) "~ f4 e5 a4")
+  # s "tides"
+  # legato 4
+--   # pF "timbre" 0.3
+--   # pF "harm" "<0.6 0.7!3 0.5>"
+--   # pI "engine" 4
+--   # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+--   # room 0.3 #sz 0.6
+  # clouds 0.03 0.4 0.8 0.1
+  # cloudsmode 1
+--   # cloudspos 3
+--   # cloudspitch 1
+--   # cloudspos 0.5
+--   # cloudssize 0.8
+--   # cloudsdens 0.9
+--   # cloudstex 0.9
+  # gain 0.6
+
+textparts
+
+cubes
+
+cam2
+
+hush
+
+d6  $ s "[[bd sd], linnhats*8]"
+    # elementsstrength "0.1"
+    # elementspitch (slow 4 sine)
+    # elementsblowlevel 1
+    # elementsblowtimb (slow 8 sine)
+    # elementsflow "{0.3 0.6 0.7}" 
+    # elementsstrikelevel 1
+    # elementsstriketimb 0.1
+    # elementsmallet 1
+    # elementseasteregg "[0]"
+    # elementsmodel "[1]"
+    # elementscontour (slow 2 saw)
+    # elementsgeom 0
+    # elementsbright (slow 7 saw)
+    # elementsdamp 0.6
+    # elementspos 0.314
+    # elementsspace 0
+    # gain 1
+
+
+
+d8 $degradeBy "0"
+    $ n "[e]*<16 32 [8 32]>"
+    # s "[td3, acid309]"
+    # krush (irand 4) + 2
+    # vowel (chooseBy rand ["e", "a", "i", "u"])
+    # verb 0.9 0.2 0.1 0.2
+    # gain 0.6
+    # hpf (slow 1 sine * 1200)
+
+
+
+d1
+    $ slow 2
+    $ n "6(8,8)"
+    # s "[east, onc]"
+    # room 1
+    # lpf 200  
+    # gain 0.8
+
+----------------------------
+hush
+
+
+do 
+    d4 silence
+    d5 silence
+
+setcps 0.6
+
+d2 $ slow 1 $ n "<1(<3 7 5>,8) 1*4>"
+    # s "[bass1:12, onc]"
+    # lpf "< 150 400 250>"
+    # room 0.7
+    # sz 0.7
+
+
+d3  $ s "[[ldmtom:1 soda:9], ldmchh:2*8]"
+    -- # vowel "<e a>"
+
+
+
+
+d7 
+    $ slow 2
+    $ n ( off 0.125 (|+ 7) "<c d4 [d4 a3] a3>")
+    # s "plaits"
+    # legato ( off 0.125 (|- 2) "3")
+    # krush 3
+    # gain 0.9
+    # warpstimb (slow 5 sine)
+    # warpsosc "<0>"
+    # warpsalgo "<5 2>"
+    # warpsfreq (slow 3 saw)
+    # warpseasteregg 0
+
+d7  -- use real warps
+    $ slow 2
+    $ n ( off 0.125 (|+ "<7 19 -5>") "<c <d4 d5> [<d4 [d4 d3 d5 d4]> a3] a3>")
+    # s "plaits"
+    # legato ( off 0.125 (|- 2) "3")
+    # krush 3
+    # gain 0.9
+    # warpstimb (slow 5 sine)
+    # warpsosc "<0>"
+    # warpsalgo "<5 2>"
+    # warpsfreq (slow 3 saw)
+    # warpseasteregg 0
+
+
+
+d7 silence
+
+
+
+setcps (148/60/4)
+
+
+d5 silence
+
+
+
+do
+    lines
+    d1 $ n "3 3 3 3"
+        # s"[popkick, onc, midi]"
+        # midichan 3
+        -- # s"[midi]"
+        # lpf 200
+        # room 0.2
+    m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
+    
+    cube1
+    cam1
+    hydramode 2
+
+
+d5  $ slow 1 
+    -- $ jux rev
+    -- $ brak
+    -- $ n "[f1(3,8) e2(5,8), c3(5,8) f4(7,8)]"
+    -- $ n (off (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
+    $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
+    # legato 2
+    # octave "<4 5>"
+    # squiz 0.5 
+    # room 0.1
+    -- # s "[rash, midi]"
+    # s "[rash]"
+
+d4 $ n "c e f a*2"
+  #legato 0.5
+  # s "superfm"
+
+
+
+
+
+do
+    startrot
+    once $ ccn 68 # ccv 127 # s "midi" -- rotYspeed
+    d4 $ slow 2 $ n ( off 0.0625 (|+| "19")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
+        # s "rash"
+        # sustain 1
+        # octave 3
+        # gain 1.1
+
+d1 silence 
+
+do
+    d1 $ n "3 3 3 3"
+        # s"[popkick, onc, midi]"  -- ---/-*-
+        # midichan 0
+        -- # s"[midi]"
+        # lpf 200
+        # room 0.2
+    m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
+    cube1
+    cam1
+    hydramode 2
+--
+
+do
+  d5 $ slow 2
+    $ juxBy 0.6 rev
+    $ n (off 0.125 (|+| "<7>") "[d1(3,8) f2(3,8) f1(7,8) e2(3,8)]/2" )
+    # s "[rash, midi]"
+    # midichan 1
+    # room 0.8
+    # lpf (slow 4 (sine * 1000 + 200))
+    # sz 0.9
+    # gain 0.9
+  cam1
+  m2 silence
+  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
+
+----  break for respect
+
+
+do
+    d4 silence
+    d5 silence
+    once $ ccn 10 # ccv 4 # s "midi" # midichan 1
+    once $ s "voc"
+        # orbit "[7,8]"
+        # gain 1.3
+        # room 0.5
+    -- d1 silence
+
+
+do
+    setcps (155/60/4)
+    d1 $ n "1*4"
+        # s "[kick:2, onc ]"
+do
+    d4 silence
+    d5 silence
+    once $ ccn 10 # ccv 4 # s "midi" # midichan 1
+    once $ s "voc"
+        # orbit "[7,8]"
+        # gain 1.3
+        # room 0.5
+    -- d1 silencendslice 4
+        $ n ("1*8" |> (irand 8))
+        # s "[voc, midi]"
+        # room 0.5
+        # hpf 600
+        # midichan "[4]"
+    once $ ccn 2 # ccv 4 # s "midi" # midichan 1 --decay
+    once $ ccn 77 # ccv 12 # s "midi" -- audioreact cutoff
+    once $ ccn 78 # ccv 127 # s "midi" -- audioreact cutoff
+    line1
+    cam2
+    hydramode 2
+
+do
+  d3 $ fast 1
+    $ n "2 3 <2 [3 2] 2> 3 "
+    -- $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
+    # s "[bsnoise, midi]"
+    # legato 0.6
+    # midichan 1
+    # room 0.4
+  once $ ccn 10 # ccv 3 # s "midi"
+    # midichan 1 -- wire
+  line2
+  cam3
+
+d8 $  chop "2" $ s "turbo:0"
+  # octer "<0 0.5 1>"
+  # djf (slow  4 (sine))
+  # gain 1
+
+
+do
+  d3 $ fast 1
+    $ n "2 3 <2 [3 2] 2> 3 "
+    -- $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
+    # s "[bsnoise, midi]"
+    # legato 0.6
+    # midichan 1
+    # room 0.4
+  once $ ccn 10 # ccv 3 # s "midi"
+    # midichan 1 -- wire
+  line2
+  cam3
+
+
+d8 $  chop "2" $ s "turbo:0"
+  # octer "<0 0.5 1>"
+  # djf (slow  4 (sine))
+  # gain 1
+
+d7 $ brak $ jux rev $ fast 1 $ stack [ n "[10 <15 16>]", n "10 17 19 16"]
+    # s "[midi, respect]"
+    #midichan 4
+    # gain 0.9
+    # room 0.9
+    # speed 1.2
+    # vowel  "a e i a"
+
+
+
+----------- break
+-- 303 ready?
+
+do
+  once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
+  d6 $ fast 1
+    -- $ pressBy 0.25
+    -- $ n " c4 ~ c2 [c4 c6]"
+    $ n (off 0.0625 (|+| 7) "c4 f4 <cs4 cs5> c4")
+    -- $ n "c5 [e4 ~] e3 f4"
+    # legato "1!2 1.5 0.9"
+    # amp "0.5 0.5 0.9 0.9"
+    # s "[td3 , midi]"s(p)
+	drawParticles(p)
+	updateCubes(p);
+	renderCubes(p);
+  updateImgs(p);
+  renderImgs(p);
+    # midichan "[0,1]"
+  
+
+do 
+    d4 silence
+    d1 $ n "2*4"
+        # s "[clubkick, onc]"
+    m2 $ ccn "10*4" # ccv "4 1 2 3" # s "midi" # midichan 1 -- wire
+--   hush
+  once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
+
+  do
+    d2 silence
+    d3 $ fast 3
+        $ loopAt 3
+        $ slice 24 (cat [
+            "[1 ~] [2 ~] [~ 1]  [2 ~] " |+ "14",
+            "[1 0] [2 [0 2]] [[0 2] 1] [2 0 ]" |+ "25",
+            "[1 0] [2 1*4]*2 [0 2]  [1 0] " |+ "21",
+            "[1 5] [2 5] [5 1]  [2 5] " |+ "14",
+            "[~ 5] [<1 8> 5] [6*8 1]  [2*4 5] " |+ "14",
+            "13 15 16 17 18 19 20 21"
+            ]
+        )
+        $ s "breaks152"
+        # gain 1
+
+
+        
