@@ -240,7 +240,7 @@ function initMidi(p5){
     });
 
     tidal.onCC("*", ({index, value, channel}) => {
-        console.log(value)
+        // console.log(value)
         value = value/127;
         if (channel == 0){
             switch (index) {

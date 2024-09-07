@@ -1,13 +1,20 @@
 #!/bin/bash
-fixartwiz
-aaterm &
+# fixartwiz
+# aaterm &
 pw-jack scide &
-cd /opt/hydra-osc
-node server.js &
+# cd /opt/hydra-osc
+# node server.js &
 cd /opt/hydra
 yarn serve&
 /opt/chrome-linux/chrome --url="https://localhost:8000" --start-fullscreen &
 cd /home/kaos/livecoding/tidalcode
 code .
-#qpwgraph /home/kaos/livecode/tidalcode/muidereeft2024/reeft.qpwpatch
-#flatpak run com.dec05eba.gpu_screen_recorder
+qpwgraph
+flatpak run com.dec05eba.gpu_screen_recorder
+
+
+
+
+# cd /opt/hydra/frontend/web-editor/public 
+# ln -s /home/kaos/livecode/tidalcode/projects/wintercircus/hydra/ .
+# ln -s /home/kaos/livecode/tidalcode/img .

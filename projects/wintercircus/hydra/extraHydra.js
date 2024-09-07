@@ -31,7 +31,8 @@ function set1() {
     .repeat(10)
     .blend(src(o1).rotate(3.14).repeat(() => p.oncdata1/64 + 1))
     .modulate(osc(4,1)
-    .scale(0.01)).out(o3)
+    .scale(0.01)).blend(s0,() => p.oncdata2/127).out(o3)
+
 }
 
 
@@ -127,4 +128,40 @@ function set10() {
 
 function set11() {
     src(s2).scrollY(0.3).blend(s2,0.4).blend(src(s2).modulate(src(o3),100),0.8).add(src(s2).pixelate(50, () => a.fft[0]*200 - 100)).modulateKaleid(osc(1,0.5,0),3).pixelate(20,20).repeat(3,0.3,0,1).out(o3)
+}
+
+
+
+function donotexecute(){
+    shape(2,0.1,0.1)
+  .scale(() => p.oncdata1/127 + 1)
+.out(o0)
+
+src(o0)
+  .rotate(3.14/2)
+  .repeat(() => p.oncdata3/127 + 3)
+  .scale(5)
+  .out(o1)
+
+
+
+src(s0).out(o3)
+
+src(s0)
+  .diff(o1)
+  .color(1,0,0)
+  .repeat(10)
+  .blend(src(o1).rotate(3.14).repeat(() => p.oncdata1/64 + 1))
+  .modulate(osc(4,1)
+  .scale(0.01)).out(o3)
+
+src(o0).blend(src(s0).color(0.1,0.3,0.5)).scale(()=>p.oncdata1/64).out(o3)
+
+    src(s0)
+//       .repeat(1).kaleid(1)
+//     .mult(osc(10,0.1,()=>Math.sin(time)*3).saturate(3).kaleid(200))
+//     .modulate(o1,0.5)
+    .add(src(s2),0.9)
+    .scrollY( ()=>Math.sin(time)*0.03 + 0)
+    .luma(0.7).out(o3)
 }
