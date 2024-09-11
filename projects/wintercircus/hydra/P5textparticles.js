@@ -73,7 +73,7 @@ function updateParticles(p5) {
         	z = (p5.textconfig.f%50)*36;
         }
         let txt = techTerms[Math.floor(Math.random() * techTerms.length)];
-        let part = new Particle(x, y, z, txt, p);
+        let part = new Particle(x, y, z, txt, p5);
         p5.particles.push(part);
       }
     }
