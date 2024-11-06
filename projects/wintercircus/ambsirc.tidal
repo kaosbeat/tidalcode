@@ -8,11 +8,11 @@ hydramode 1
 
 cubes
 
-do
+do 
     cubes
     cube1
     cube2
-    hydramode 1
+    hydramode 2
     let spd = 4
     d11
         $ slow spd
@@ -82,22 +82,26 @@ do
 
 
 
+d1
+  $ s "sd*4 sd bd bd"
 
+hush
 
 do
   once $ ccn 1 # ccv 127 # s "midi" # midichan 5
-  d4 $degradeBy "0.4 0" $ slow 8
+  d4 $degradeBy "0.6 0.5" $ slow 8
     $ juxBy 0.5 rev
     $ striate 2
     $ n "1 22 3 4 7 5 8 9"
     # s "science"
     # speed 0.8
-
     # elementsstrength "0.1"
     # elementspitch (slow 0.5 sine)
     # elementsblowlevel 1
     # elementsblowtimb (slow 8 sine)
     # elementsflow "{0.3 0.6 0.7}"
+
+    
     # elementsstrikelevel 1
     # elementsstriketimb 0.1
     # elementsmallet 0
@@ -191,9 +195,9 @@ do
 
 do
   hydramode 2
-  d8 $degradeBy "0.8 0.3 "
-      $ slow 1
-      $ n "[e]*<16 32 [8 32]>"
+  d8 $degradeBy "1 0.2 "
+      $ slow 0.25
+      $ n "[e]*<2 8 [8 32] 64>"
       # s "[td3, acid309]"
       # krush (irand 4) + 4
       # vowel (chooseBy rand ["e", "a", "i", "u"])
@@ -229,7 +233,7 @@ do
   cube4
   hydramode 6
   hydramode 2
-  d2 $ slow 1 $ n "<1(<3 3 3>,8) <2>*<2>>"
+  d2 $ slow 1 $ n "<1(<3 5 3>,8) <2 4>*<2 8 16>>"
       # s "[bass1:12, onc, midi]"
       # lpf "< 150 400 250>"
       # room 0.7
@@ -240,12 +244,12 @@ do
 d2 silence
 
 
-d3  $fast 1$ s "[[ldmtom:1 soda:9], ldmchh:2*8]"
+d3  $fast "1 2" $ s "[[ldmtom:1*4 soda:9*<2 4 8 16>], ldmchh:2*<4 8 16>]"
     # vowel "<e a>"
 
 do
   cam3
-  hydramode 2
+  hydramode 3
 
 d7
     $ slow 2
@@ -262,20 +266,20 @@ d7
 
 do
   cube4
-  hydramode 2
+  hydramode 1
   cam3
   d7  -- use real warps
       $ slow 2
-      $ n ( off 0.125 (|+ "<7 19 -5>") "<c <d4 d5> [<d4 [d4 d3 d5 d4]> a3] a3>")
+      $ n ( off "<0.125 0.0625>" (|+ "<7 19 -5>") "<[c e5] <d4 d5> [<d4 [d4 d3 d5 d4]> a3] [a3 a5]>")
       # s "plaits"
       # legato 2
-      # krush 3
+      # krush 2
       # gain 0.9
 
 
 d7 silence
 
-
+d2 silence
 
 setcps (148/60/4)
 
@@ -297,11 +301,11 @@ do
 
 do
   line2
-  d5  $ slow 1
+  d6  $ slow 1
     -- $ jux rev
     -- $ brak
     -- $ n "[f1(3,8) e2(5,8), c3(5,8) f4(7,8)]"
-    -- $ n (off (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
+    -- $ n (ofofff (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
     $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
     # legato 2
     # octave "<4 5>"
@@ -312,7 +316,7 @@ do
     # midichan 4
 
 
-
+d4 silence
 
 do
     startrot
@@ -323,11 +327,11 @@ do
         # octave 3
         # gain 1.1
 
-hydramode 7
+hydramode 5
 
 
 do 
-  d5 silence
+  d6 silence
   d4 $ n "c e f a*2"
     #legato 0.5
     # s "superfm"
@@ -376,7 +380,12 @@ do
     d5 silence
     once $ ccn 10 # ccv 4 # s "midi" # midichan 1
     once $ s "voc"
-        # orbit "[7,8]"
+        # or
+  m2 silence
+  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
+
+  cam2
+  bit "[7,8]"
         # gain 1.3
         # room 0.5
     -- d1 silence
@@ -428,7 +437,7 @@ do
   cube2
   cam3
 
-d8 $  chop "2" $ s "turbo:0"
+d8 $  chop "8" $ s "turbo:0 turbo:1"
   # octer "<0 0.5 1>"
   # djf (slow  4 (sine))
   # gain 1
@@ -452,14 +461,14 @@ do
 d8 $  chop "2" $ s "turbo:0"
   # octer "<0 0.5 1>"
   # djf (slow  4 (sine))
-  # gain 1
+  # gain 0.5
 
 d7 $ brak $ jux rev $ fast 1 $ stack [ n "[10 <15 16>]", n "10 17 19 16"]
     # s "[midi, respect]"
     #midichan 4
     # gain 0.9
-    # room 0.9
-    # speed 1.2
+    # room 0.6
+    # speed "<1.2 1.4>"
     # vowel  "a e i a"
 
 
@@ -468,7 +477,7 @@ d7 $ brak $ jux rev $ fast 1 $ stack [ n "[10 <15 16>]", n "10 17 19 16"]
 -- 303 ready?
 
 do
-  hush
+  -- hush
   -- textparts
   hydramode 4
   lines
@@ -522,11 +531,11 @@ do
   d1 silence
   d2 silence
 
-d7 $ fast 2
+d7 $ fast 4
     $ loopAt 4
     -- $ slice "<8 16>" "5 5 5 5"
+    -- $ slice 8 "silence5 5 5 5"
     $ slice 8 "5 5 5 5"
-    -- $ slice 16 "1 2 3 4"
     $ s "sitar"
     # gain 1
 
@@ -543,12 +552,35 @@ do
     # midichan 1
     # room 0.1
     # gain 1
+d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
+  # s "plaits"
+  # legato 4
+  # pF "timbre" (slow 16 (range 0 0.3 (sine)))
+  # pF "harm" 4
+  # pI "engine" 3
+  # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+  # room 0.6 #sz 0.5
+  # gain 0.9
 
+hush
+
+do
+  let wl = 0
+  d2 $ s "kick:5(<2 6 5 7>,8)"
+    # waveloss wl
+    # crush  "<16 1>"
+    # scram 0
+    # gain 0.4
+  d3 $ s "kick:2(5,8)"
+    # waveloss wl
+    # room 0.6 # sz 0.1
+    #gain 0.5
 d3 $pressBy 0 
-    -- $ every 2 (|+| speed "0.5") 
-    -- $ every 3 (0.5 <~)
-    -- $ whenmod 8 6 (rev) 
-    $ n "4 <14 4> <14 7 14> [6 6]"
+    $ every 2 (|+| speed "0.5") 
+    $ every 3 (0.5 <~)
+    $ whenmod 8 6 (rev) 
+    $ n "4*4 <14 4> <14 7*4 14*8> [6 6*16]"
     # legato 2
     -- $ cat []
     # s"[tabla, midi]"
@@ -561,7 +593,7 @@ do
   let pat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
   let choppat2 = "<32>"
   d7 $ slow 1 
-    $ chop choppat2
+    $ chop choppat0
     $ jux rev
     $ n "<0 3 2 1>" 
     # s "sitar"
@@ -603,8 +635,8 @@ do
   hydramode 1
   rect1
   d4 $ slow 1 
-    $ degradeBy 0.6
-    $ striate 16
+    $ degradeBy 0.4
+    -- $ striate 4
     $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3" |> (irand 9)
     -- $ n "10 _ [4 _ 5 _] 3" 
     # legato 1
@@ -619,7 +651,7 @@ do
 
 -- fadeout moog
 
-d5 silence
+d7 silence
 
 --- goredustry
 
@@ -638,8 +670,8 @@ do
     viz4
     hydramode 1
     d4 $ slow 2 
-        -- $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3"
-        $ n "10 _ [4 _ 5 _] 3" 
+        $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3"
+        -- $ n "10 _ [4 _ 5 _] 3" 
         # legato 1
         # s "[indust]"
         # gain 0.8
@@ -685,9 +717,9 @@ d3 silence
 do
   viz1
   cube1
-  d1 $ slow "1" 
+  d1 $ slow "8" 
     -- $ jux rev
-    $ n " 1 2 [2] [1]"
+    $ n "1"
     -- $ n "1*2 <3 2> [< 1 3*2> <1 2*4>] <2 1>"
     -- $ n "<1*4 [1*2 1]> <2 1 2 4> <1 [2 1] [1 1*2]> [~ 1]"
     -- $ n "<1 1*2> [1 ~ 1 1]  <2 4 1> <[~ 1] 2*2>"
@@ -697,7 +729,7 @@ do
     # midichan "[4,1]"
     # room 0.5
     # sz 0.2
-    # gain 1
+    # gain 0.2
 
 hydramode 2
 
@@ -734,7 +766,8 @@ do
 d8 $ slow 1 $ loopAt 1 $ striate 2 $ s "indust:3 indust:4"
   # pan 0.5
   # comb "<0.7>"
-  # lpf 1830
+  # lpf 18301*4 [1*2 1]> <2 1 2 4> <1 [2 1] [1 1*2]> [~ 1]"
+    -- $ n "<1 1*2
   # hpq 0.8
   # gain 1
 
@@ -755,3 +788,4 @@ d4 silence
 hydramode 1 
 
 
+hush

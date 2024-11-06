@@ -1,4 +1,87 @@
-h
+//////////////
+/// config ///
+//////////////
+
+p.lines = [];
+p.rects = [];
+p.imgs = [];
+
+p.cam = p.createCamera();
+
+p.updateit = false;
+p.audioreact = false;
+p.activeaudiobin = 0;
+ 
+p.viewportconf = {
+                  "rotX": 0,
+                  "rotY": 0,
+                  "rotZ":0,
+                  "rotSpeedX": 0, // 0.001,
+                  "rotSpeedY": 0, //0.001,
+                  "rotSpeedZ": 0, //0.0001,
+                  "offX":0,
+                  "offY":0,
+                  "offZ":0,
+                  "offSpeedX":0,
+                  "offSpeedY":0,
+                  "offSpeedZ":0,
+                  "cammode": "fixed", ///, "fixed" , "orbit","bigorbit"
+                  "audioCutoff": 1,
+                  "audioScale": 1,
+}
+
+
+
+function updateViewport (){
+  p.viewportconf.rotX += p.viewportconf.rotSpeedX;
+  p.viewportconf.rotY += p.viewportconf.rotSpeedY;
+  p.viewportconf.rotZ += p.viewportconf.rotSpeedZ;
+}
+
+
+
+
+function updateCam() {
+  if (p.viewportconf.cammode == "fixed") {
+    p.cam.camera(0, 0, 1000, 0, 0, 0, 0, 1, 0);
+  } else if (p.viewportconf.cammode == "orbit") {
+    p.cam.camera(p.cos(p.frameCount * 0.01) * 500, p.sin(p.frameCount * 0.01) * 500, p.sin(p.frameCount * 0.0029) * 300, 0, 0, 0, 0, 1, 0);
+  } else if (p.viewportconf.cammode == "bigorbit") {
+    p.cam.camera(p.cos(p.frameCount * 0.01) * 1000, p.sin(p.frameCount * 0.01) * 1000, p.sin(p.frameCount * 0.0029) * 1000, 0, 0, 0, 0, 1, 0);
+  }
+}
+
+p.params = {  "data": {1:0.5,2:0.5,3:0.5,4:0.5}, 
+              "processed": {1:0.5,2:0.5,3:0.5,4:0.5}, 
+              "mask": {1:0,2:0,3:0,4:0},
+              "black": {1:0,2:0,3:0,4:0}, 
+              "audio":{1:0,2:0.8,3:0.6,4:0},
+              "viewportrot": {5:0.4,6:0.3,7:0.4}
+            }
+
+
+//////////////
+/// helpers //
+//////////////
+
+
+function random() {
+  p.cubesconfig.seed = p.cubesconfig.seed +1
+  var x = Math.sin(p.cubesconfig.seed++) * 10000;
+  return x - Math.floor(x);
+}
+
+function fakeRandom(seed) {
+  var x = Math.sin(seed) * 10000;
+  return x - Math.floor(x)
+}
+
+function localrandom(localseed) {
+  localseed = localseed +1
+  var x = Math.sin(localseed++) * 10000;
+  return x - Math.floor(x);
+}
+
 /////////////
 /// images //
 /////////////

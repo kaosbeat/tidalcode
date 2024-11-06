@@ -2,5 +2,15 @@
     "workbench.colorTheme": "Default Dark Modern",
     "apc.electron": {
     "backgroundColor": "#00000000"
-    }
+    },
+    "spellright.language": [
+        "Dutch",
+        "English (American)",
+        "en-US-10-1."
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }

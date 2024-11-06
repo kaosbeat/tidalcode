@@ -8,7 +8,7 @@ hush
 
 setcps 0.7
 
-p "midiclock" $ midicmd "midiClock*192" # s "[mono, onc, opz]"
+p "midiclock" $ midicmd "midi*192" # s "[mono, onc, opz]"
 
 once $ midicmd "stop" # s "[mono, opz, onc ] "
 
@@ -86,7 +86,7 @@ d5 $ s "bytebeats" |+| n "[[3 4] 5 ~ < 6 [6 3 4] >] "
 
 
 
-d1 $ s "opz" |+| n "60 [~ 62] <[62 62] 60> 60" # midichan 0
+d1 $ s "opz" |+| n "60instance [~ 62] <[62 62] 60> 60" # midichan 0
 
 d1 $ s "opz" |+| n "60 [~ ] 60 60" # midichan 0
 

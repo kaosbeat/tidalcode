@@ -202,6 +202,7 @@ do
     # tidessmooth (range 0.2 1 $ slow 8 sine)
     # slope (slow 3 sine)
     # gain 0.8
+    
   once $ hycmd "preset"
     #hyset "out3"
   x1 $ slow 1 $ vizscene "signal*16" |+ pat1
