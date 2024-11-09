@@ -17,8 +17,8 @@ x1$slow 2 $ vizscene "rtext*4"
   #vizword2 " kaotec"
 
 x1 $ slow 1 $ vizscene "circle*64"
-  # vizspeed (slow 16 sine)   -- sets the noisestep offset
-  # vizamount 1122
+  # vizspeed (slow 1 sine)   -- sets the noisestep offset
+  # vizamount (irand 34) + 1122
 
 
 
@@ -55,6 +55,19 @@ x1 $ slow 1  $ vizscene "invertedcat*4"
 x1 $ vizscene "signal*8"
   # vizcommand "cube!3 circles!3  perspsq!2"
   # vizoption "clear*7 clear"
+
+
+
+
+x1 $ slow 1  $ vizscene "banner*4"
+  # vizcommand (slow 8 "clear")
+  # vizoption "invert fill noise invert"
+  # vizsize (slow 4 saw)  -- octaves
+  # vizspeed "0.1"  -- noisstep
+  # vizoption "8"
+  # vizx "5 4"
+  # vizy "0 0"
+  #vizword1 "l"
 
 
 
