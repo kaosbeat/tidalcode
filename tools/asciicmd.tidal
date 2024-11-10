@@ -60,14 +60,14 @@ x1 $ vizscene "signal*8"
 
 
 x1 $ slow 1  $ vizscene "banner*4"
-  # vizcommand (slow 8 "clear")
+  # vizcommand (slow 8 "clear logo")
   # vizoption "invert fill noise invert"
   # vizsize (slow 4 saw)  -- octaves
   # vizspeed "0.1"  -- noisstep
   # vizoption "8"
   # vizx "5 4"
   # vizy "0 0"
-  #vizword1 "l"
+  # vizword1 "l"
 
 
 
