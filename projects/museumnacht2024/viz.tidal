@@ -1,0 +1,14 @@
+hush
+
+cubes
+
+
+m1 $ n "1 2 3 4"
+    # s "[midi]"
+    # midichan 1
+
+lines
+
+rects
+
+nop5

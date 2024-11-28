@@ -1,0 +1,268 @@
+let midihush = do
+        m1 silence
+        m2 silence
+        m3 silence
+        m4 silence
+    resetrot = do
+        once $ ccn 64 # ccv 0 # s "midi" -- rotX
+        once $ ccn 65 # ccv 0 # s "midi" -- rotY
+        once $ ccn 66 # ccv 0 # s "midi" -- rotZ
+    stoprot = do
+        m1 silence
+        once $ ccn 67 # ccv 0 # s "midi" -- rotXspeed
+        once $ ccn 68 # ccv 0 # s "midi" -- rotYspeed
+        once $ ccn 69 # ccv 0 # s "midi" -- rotZspeed
+    startrot = do
+        once $ ccn 67 # ccv 127 # s "midi" -- rotXspeed
+        once $ ccn 68 # ccv 60 # s "midi" -- rotYspeed
+        once $ ccn 69 # ccv 30 # s "midi" -- rotZspeed
+    randrot p = do
+        m1 $ ccn 64 # ccv (irand p) # s "midi" -- rotX
+        m1 $ ccn 65 # ccv (irand p) # s "midi" -- rotY
+        m1 $ ccn 66 # ccv (irand p) # s "midi" -- rotZ
+    cam1 = do
+        once $ ccn 76 # ccv 0 # s "midi" -- campos (fixed, orbit)
+        resetrot
+        stoprot
+    cam2 = do
+        once $ ccn 76 # ccv 1 # s "midi" -- campos (orbit)
+    cam3 = do
+        once $ ccn 76 # ccv 2 # s "midi" -- campos (orbit)
+    alsocubes = do
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+    cubes = do    
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 5    
+    nop5 = do
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 5
+        -- once $ ccn 4 # ccv 50 # s "midi" # midichan 1 --numcubes
+    rects = do
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 5
+    imgs = do
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 5
+    lines = do
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 5
+        -- once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+        -- once $ ccn 4 # ccv 127 # s "midi" # midichan 1 --numcubes
+    textparts = do
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 4
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 5
+    viz1 = do    --- cubes, geometric, no texture
+        cubes
+        resetrot
+        stoprot
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 112 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 127 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 13 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+    cube1 = do    --- cubes, geometric, no texture
+        resetrot
+        stoprot
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 112 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 50 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 13 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 0 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 0 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 10 # s "midi" # midichan 1 -- strokeweigh
+    cube2 = do    --- cubes, geometric, no texture
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 90 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 40 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 87 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 80 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 4 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 4 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 127 # s "midi" # midichan 1 -- strokeweight of cubes
+    cube3 = do    --- cubes, geometric, no texture
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 90 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 40 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 87 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 80 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 0 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 2 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 4 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 4 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 127 # s "midi" # midichan 1 -- strokeweight of cubes
+    cube4 = do    --- cubes, geometric, no texture
+        once $ ccn 2 # ccv 50 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 120 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 40 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 18 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 0 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 25 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 1 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 68 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 41 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 17 # s "midi" # midichan 1 -- strokeweight of cubes
+    cube5 = do    --- cubes, geometric, no texture
+        once $ ccn 2 # ccv 5 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 12 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 30 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 17 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 1 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 25 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 0 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 68 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 41 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 17 # s "midi" # midichan 1 -- strokeweight of cubes
+    cube6 = do    --- cubes, geometric, no texture
+        resetrot
+        stoprot
+        once $ ccn 2 # ccv 10 # s "midi" # midichan 1 --decay
+        once $ ccn 3 # ccv 112 # s "midi" # midichan 1 -- decaytime
+        once $ ccn 4 # ccv 15 # s "midi" # midichan 1 --numcubes
+        once $ ccn 5 # ccv 60 # s "midi" # midichan 1 --size
+        once $ ccn 6 # ccv 80 # s "midi" # midichan 1 --margin
+        once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
+        once $ ccn 10 # ccv 2 # s "midi" # midichan 1 -- wire
+        once $ ccn 11 # ccv 23 # s "midi" # midichan 1 -- fillcolorB
+        once $ ccn 12 # ccv 0 # s "midi" # midichan 1 -- strokecolor B
+        once $ ccn 13 # ccv 10 # s "midi" # midichan 1 -- strokeweigh
+    rect1 = do 
+        rects
+        once $ ccn 2  # ccv 5 # s "midi" # midichan 2 -- quantity
+        once $ ccn 3  # ccv 10 # s "midi" # midichan 2 -- rotation
+        once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
+        once $ ccn 5  # ccv 100 # s "midi" # midichan 2 -- sqsizeX
+        once $ ccn 6  # ccv 10 # s "midi" # midichan 2 -- sqsizeY
+        once $ ccn 7  # ccv 2 # s "midi" # midichan 2
+    rect2 = do
+        rects
+        once $ ccn 2  # ccv 50 # s "midi" # midichan 2 -- quantity
+        once $ ccn 3  # ccv 10 # s "midi" # midichan 2 -- rotation
+        once $ ccn 4  # ccv 2 # s "midi" # midichan 2 -- random 1 /shift 2
+        once $ ccn 5  # ccv 10 # s "midi" # midichan 2 -- sqsizeX
+        once $ ccn 6  # ccv 100 # s "midi" # midichan 2 -- sqsizeY
+        once $ ccn 7  # ccv 2 # s "midi" # midichan 2
+    line1 = do
+        lines
+        -- once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 4 -- linemode ortho 0 / random 1
+        once $ ccn 3 # ccv 80 # s "midi" # midichan 4 -- ttl
+        once $ ccn 4 # ccv 50  # s "midi" # midichan 4 -- ttlspeed
+        once $ ccn 5 # ccv 120 # s "midi" # midichan 4 -- strokeweight
+        once $ ccn 6 # ccv 80 # s "midi" # midichan 4 -- size
+    line2 = do
+        -- lines
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+        once $ ccn 2 # ccv 0 # s "midi" # midichan 4 -- linemode ortho 0 / random 1
+        once $ ccn 3 # ccv 120 # s "midi" # midichan 4 -- ttl
+        once $ ccn 4 # ccv 80  # s "midi" # midichan 4 -- ttlspeed
+        once $ ccn 5 # ccv 12 # s "midi" # midichan 4 -- strokeweight
+        once $ ccn 6 # ccv 127 # s "midi" # midichan 4 -- size
+    viz2 = do    --- cubes, geometric, no texture
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+        once $ ccn 1 # ccv 127 # s "midi" # midichan 3
+        once $ ccn 10 # ccv 3 # s "midi" # midichan 1 -- wire
+        once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
+        once $ ccn 8 # ccv 50 # s "midi" # midichan 1 -- freq
+        cam2
+    viz3 = do
+        cubes
+        viz1
+        once $ ccn 8 # ccv 120 # s "midi" # midichan 1
+        once $ ccn 4 # ccv 25 # s "midi" # midichan 1
+        once $ ccn 5 # ccv 50 # s "midi" # midichan 1
+        once $ ccn 10 # ccv 4 # s "midi" # midichan 1
+    viz4 = do
+        rects
+        once $ ccn 2  # ccv 50 # s "midi" # midichan 2 -- quantity
+        once $ ccn 3  # ccv 0 # s "midi" # midichan 2 -- rotation
+        once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
+        once $ ccn 5  # ccv 1 # s "midi" # midichan 2 -- sqsizeX
+        once $ ccn 6  # ccv 1 # s "midi" # midichan 2 -- sqsizeY
+        once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
+    viz5 = do
+        lines
+        -- once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+        once $ ccn 2 # ccv 1 # s "midi" # midichan 4 -- linemode ortho 0 / random 1
+        once $ ccn 3 # ccv 127 # s "midi" # midichan 4 -- ttl
+        once $ ccn 4 # ccv 50 # s "midi" # midichan 4 -- ttlspeed
+        once $ ccn 5 # ccv 120 # s "midi" # midichan 4 -- strokeweight
+        once $ ccn 6 # ccv 17 # s "midi" # midichan 4 -- size
+    asciiseq1 = do
+        a1 $ vizscene "signal*8"
+            #vizcommand "cube!3 [cube cube]"      
+    hydramode p = once $ ccn 127 # ccv p # s "midi" -- 
+
+    
+
+    
+asciiseq1
+        
+hush
+
+midihush
+
+resetrot
+
+stoprot
+
+startrot
+
+randrot 180
+
+viz1
+
+viz4
+
+viz5
+
+cubes
+
+lines
+
+rects
+
+rect2
+
+imgs
+
+cam3
+
+cam2
+
+cam1
+
+
+hydramode 0
