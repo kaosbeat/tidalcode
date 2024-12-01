@@ -30,7 +30,7 @@ let midihush = do
         once $ ccn 76 # ccv 2 # s "midi" -- campos (orbit)
     alsocubes = do
         once $ ccn 1 # ccv 127 # s "midi" # midichan 1
-    cubes = do    
+    cubes = do
         once $ ccn 1 # ccv 127 # s "midi" # midichan 1
         once $ ccn 1 # ccv 0 # s "midi" # midichan 2
         once $ ccn 1 # ccv 0 # s "midi" # midichan 3
@@ -181,6 +181,7 @@ let midihush = do
         once $ ccn 4 # ccv 50  # s "midi" # midichan 4 -- ttlspeed
         once $ ccn 5 # ccv 120 # s "midi" # midichan 4 -- strokeweight
         once $ ccn 6 # ccv 80 # s "midi" # midichan 4 -- size
+        
     line2 = do
         -- lines
         once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
@@ -188,8 +189,7 @@ let midihush = do
         once $ ccn 3 # ccv 120 # s "midi" # midichan 4 -- ttl
         once $ ccn 4 # ccv 80  # s "midi" # midichan 4 -- ttlspeed
         once $ ccn 5 # ccv 12 # s "midi" # midichan 4 -- strokeweight
-        once $ ccn 6 # ccv 127 # s "midi" # midichan 4 -- size
-    viz2 = do    --- cubes, geometric, no texture
+        once $ ccn 6 # ccv 127 # s "midi" # midichan 4 -- size    viz2 = do    --- cubes, geometric, no texture
         once $ ccn 1 # ccv 127 # s "midi" # midichan 1
         once $ ccn 1 # ccv 0 # s "midi" # midichan 2
         once $ ccn 1 # ccv 127 # s "midi" # midichan 3
@@ -223,7 +223,7 @@ let midihush = do
     asciiseq1 = do
         a1 $ vizscene "signal*8"
             #vizcommand "cube!3 [cube cube]"      
-    hydramode p = once $ ccn 127 # ccv p # s "midi" -- 
+    hydramode p = once $ ccn 119 # ccv p # s "midi" -- 
 
     
 
