@@ -1,1 +1,1 @@
-/home/kaos/.cabal/store/ghc-9.0.2/tidal-1.9.4-deefedab3084f37052b90cca25906d4ac87389bea3f7694ad9f719f3d84aac30/share/BootTidal.hs
+/home/kaos/.cabal/store/ghc-9.4.7/tidal-1.9.5-d1edc661d272a1c46d5a904adcbad45150184a9b0ffdde194c2b8cc49caa58d2/share/BootTidal.hs
