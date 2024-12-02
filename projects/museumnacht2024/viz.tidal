@@ -42,3 +42,16 @@ do
     # ccv "5" 
     # s "midi" 
     # midichan 0
+d1 $ n "1 2 3 4"
+    # s "[midi]"
+    # midichan "[0,1,2,3,4,5,6]"
+    
+
+
+hydramode 0
+
+
+lines
+rects
+
+nop5
