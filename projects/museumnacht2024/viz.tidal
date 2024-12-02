@@ -3,12 +3,42 @@ hush
 cubes
 
 
-m1 $ n "1 2 3 4"
+m1 $ n "1 2 3 4 3 4 6 7 "
     # s "[midi]"
-    # midichan 1
+    # midichan "[0,1,2,3,4,5]"
+    -- #midichan "1"
+    
 
 lines
 
+addlines
+
 rects
 
+addrects
+
 nop5
+
+addcoll2D
+
+addcoll3D
+
+
+metadata
+
+nometadata
+
+hydramode 6
+
+
+
+
+
+do 
+  rects
+  addcoll2D
+  metadata
+  m2 $ ccn "119*4" 
+    # ccv "5" 
+    # s "midi" 
+    # midichan 0
