@@ -1,4 +1,17 @@
-d1 $ n "1 2 3 4"
-  # s "bd"
-  
+d1 $ s "bd bd [bd sd ] bd"
+
+
+
+d2 $ s "word"
+
+
+d6 $ slow 1 $ word "EAT SLEEP [RAVE DANCE] REPEAT"
+  # fade "250"
+  # ttime "12"
+
+
+d6 silence
+
+  hush
+
 

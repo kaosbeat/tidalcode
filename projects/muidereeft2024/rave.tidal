@@ -5,7 +5,8 @@ do
 do
     hush
     midihush
-    setcps (135/60/4)
+
+setcps (135/60/4)
 
 
 
