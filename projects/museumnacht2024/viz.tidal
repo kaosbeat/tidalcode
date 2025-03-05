@@ -1,47 +1,27 @@
 hush
 
+
+p "midiclock" $ midicmd "midiClock*96" # s "[axo]"
+
+once $ midicmd "stop" # s "[axo]"
+
+-- once $ midicmd "start" # s "[opz] "
+
+p "midictl" $ midicmd "start/4" # s "[axo]"
+
+p "midiclock" $ midicmd "midiClock*96" # s "[opz]"
+
+p "midictl" silence
+
+
+
 cubes
 
 
-m1 $ n "1 2 3 4 3 4 6 7 "
-    # s "[midi]"
-    # midichan "[0,1,2,3,4,5]"
-    -- #midichan "1"
-    
+m1 $ n "1 2 3 4"
+    # s "[axo]"
+    # midichan 1
 
-lines
-
-addlines
-
-rects
-
-addrects
-
-nop5
-
-addcoll2D
-
-addcoll3D
-
-
-metadata
-
-nometadata
-
-hydramode 6
-
-
-
-
-
-do 
-  rects
-  addcoll2D
-  metadata
-  m2 $ ccn "119*4" 
-    # ccv "5" 
-    # s "midi" 
-    # midichan 0
 d1 $ n "1 2 3 4"
     # s "[midi]"
     # midichan "[0,1,2,3,4,5,6]"
@@ -52,6 +32,14 @@ hydramode 0
 
 
 lines
+
 rects
 
+cubes 
+
+cube1
+
 nop5
+
+
+

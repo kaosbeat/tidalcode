@@ -28,14 +28,6 @@ let midihush = do
         once $ ccn 76 # ccv 1 # s "midi" -- campos (orbit)
     cam3 = do
         once $ ccn 76 # ccv 2 # s "midi" -- campos (orbit)
-    alsocubes = do
-        once $ ccn 1 # ccv 127 # s "midi" # midichan 1
-    cubes = do
-        once $ ccn 1 # ccv 127 # s "midi" # midichan 1
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 4 -- off 0
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 5    
     nop5 = do
         once $ ccn 1 # ccv 0 # s "midi" # midichan 1
         once $ ccn 1 # ccv 0 # s "midi" # midichan 2
@@ -213,7 +205,15 @@ let midihush = do
         once $ ccn 4  # ccv 2 # s "midi" # midichan 3 -- random 1 /shift 2
         once $ ccn 5  # ccv 10 # s "midi" # midichan 3 -- sqsizeX
         once $ ccn 6  # ccv 100 # s "midi" # midichan 3 -- sqsizeY
-        once $ ccn 7  # ccv 2 # s "midi" # midichan 3
+        once $ ccn 7  # ccv 2 # s "midi" # midichan 3    
+    rect3 = do
+        rects
+        once $ ccn 2  # ccv 127 # s "midi" # midichan 3 -- quantity
+        once $ ccn 3  # ccv 100 # s "midi" # midichan 3 -- rotation
+        once $ ccn 4  # ccv 2 # s "midi" # midichan 3 -- random 1 /shift 2
+        once $ ccn 5  # ccv 100 # s "midi" # midichan 3 -- sqsizeX
+        once $ ccn 6  # ccv 100 # s "midi" # midichan 3 -- sqsizeY
+        once $ ccn 7  # ccv 18 # s "midi" # midichan 3
     line1 = do
         lines
         -- once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
@@ -275,12 +275,17 @@ let midihush = do
         once $ ccn 4 # ccv 50 # s "midi" # midichan 2 -- ttlspeed
         once $ ccn 5 # ccv 120 # s "midi" # midichan 2 -- strokeweight
         once $ ccn 6 # ccv 17 # s "midi" # midichan 2 -- size
+
     asciiseq1 = do
         a1 $ vizscene "signal*8"
             #vizcommand "cube!3 [cube cube]"      
     hydramode p = once $ ccn 119 # ccv p # s "midi" #midichan 0
     -- hydramode = do
         -- once $ ccn 119 # ccv 1 # s "midi" # midichan 0
+    startclock = do
+        p "midiclock" $ midicmd "midiClock*96" # s "[axo]"
+        once $ midicmd "stop" # s "[axo] "
+        p "midictl" $ midicmd "start/4" # s "[axo]"
    
     
 
