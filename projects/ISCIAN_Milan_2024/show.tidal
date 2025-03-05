@@ -1,34 +1,36 @@
 hush
 
+setcps(0.82)
 
+p "midiclock" $ midicmd "midiClock*96" # s "[axo]"
 
-p "midiclock" $ midicmd "midiClock*96" # s "[opz]"
-
-once $ midicmd "stop" # s "[opz] "
+once $ midicmd "stop" # s "[axo] "
 
 -- once $ midicmd "start" # s "[opz] "
 
-p "midictl" $ midicmd "start/4" # s "[opz]"
+p "midictl" $ midicmd "start/4" # s "[axo]"
 
-p "midiclock" $ midicmd "midiClock*96" # s "[opz]"
 
 
 p "midictl" silence
 
 do
-  hydramode 2
+  -- hydramode 2
   cubes
   cube2
   cam1
-  let pat1 = "1 " 
-  d1 $ n pat1
-      # s "[kick, opz]"
-      # midichan "0"
+  let pat1 = "1 2 3 4"  
+  d1 $ n "1 2 3 4" |> irand(8)
+      # s "[kick, midi]"
+      # midichan "1"
+
   m2 $ n pat1
     # s "[midi]"
     #midichan 1
 
 d2 silence
+
+hush
 
 d2 $ s "bd*4" 
 
@@ -167,8 +169,8 @@ do
 
 do
   d5 silence
-  cube4
-  cam3
+  cube2
+  cam2
   hydramode 6
 
 -- d6 $ slow 1   
