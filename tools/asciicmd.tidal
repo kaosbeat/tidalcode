@@ -1,0 +1,75 @@
+hush
+
+x1 $ slow 1  $ vizscene "boot"
+  # vizcommand (slow 4 "noise wait")
+  # vizsize "0.5"
+
+
+x1 $ vizscene "data signal*4"
+  # vizcommand "perspsq*8"
+  # vizoption "clear*8"
+
+
+x1$slow 2 $ vizscene "rtext*4"
+  #vizcommand "clear*8"
+  # vizoption "slant"
+  # vizword1 "algorave livecoding"
+  #vizword2 " kaotec"
+
+x1 $ slow 1 $ vizscene "circle*64"
+  # vizspeed (slow 1 sine)   -- sets the noisestep offset
+  # vizamount (irand 34) + 1122
+
+
+
+x1 $ slow 4 $vizscene "rtext*4"
+  #vizcommand "clear"
+  # vizoption "big"
+  #vizword1 "CYBORG LATENTEN"
+  #vizword2 "FRAU RAUM"
+
+
+x1 $ slow 1 $ vizscene "text*4"
+    # vizcommand "clear*4"
+    # vizoption "banner3-D*2 alligator2*2"
+    # vizword1 "PKP*2 ALGORAVE"
+    # vizword2 "RAVE RAVE"
+    # vizx "5 4"
+    # vizy "50 40"
+
+x1 $ slow 1 $ vizscene "intersect*4"
+    # vizsize "8"
+    # vizframewait "0.05"
+
+
+
+
+x1 $ slow 1  $ vizscene "invertedcat*4"
+  # vizcommand (slow 8 "n n n n n n n [next n n n ]")
+  # vizoption "invert fill noise invert"
+  # vizsize (slow 4 saw)
+  # vizspeed "0.1"
+
+
+
+x1 $ vizscene "signal*8"
+  # vizcommand "cube!3 circles!3  perspsq!2"
+  # vizoption "clear*7 clear"
+
+
+
+
+x1 $ slow 1  $ vizscene "banner*4"
+  # vizcommand (slow 8 "clear logo")
+  # vizoption "invert fill noise invert"
+  # vizsize (slow 4 saw)  -- octaves
+  # vizspeed "0.1"  -- noisstep
+  # vizoption "8"
+  # vizx "5 4"
+  # vizy "0 0"
+  # vizword1 "l"
+
+
+
+
+hush

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../pkp/hydra"
+		}
+	],
+	"settings": {
+		"glassit.alpha": 220,
+		"workbench.colorTheme": "Default Dark Modern"
+	}
+}

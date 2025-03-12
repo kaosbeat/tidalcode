@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+x1 $ slow 1 $ vizscene "text*4"
+    # vizcommand "clear*4"
+    # vizoption "banner3-D*2 alligator2*2"
+    # vizword1 "kaotec" 
+    # vizword2 "algorave"
+    # vizx "5 4"
+    # vizy "20 30"
+
+
+
+hydramode 1

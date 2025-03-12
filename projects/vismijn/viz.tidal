@@ -1,0 +1,85 @@
+once $ ccn 1 # ccv 127 # s "midi" # midichan 1
+
+once $ ccn 8 # ccv 50 # s "midi" # midichan 1
+
+d2 silence
+
+once $ ccn "10*8" # ccv " 3" # s "midi" # midichan 1 -- wire
+
+
+
+-- once $ ccn 1 # ccv 127 # s "midi" # midichan 2
+-- once $ ccn 1 # ccv 0 # s "midi" # midichan 2
+
+once $ ccn 3  # ccv 1 # s "midi" # midichan 2 -- rotation
+once $ ccn 4  # ccv 1 # s "midi" # midichan 2 -- random 1 /shift 2
+once $ ccn 5  # ccv 112 # s "midi" # midichan 2 -- sqsizeX
+once $ ccn 6  # ccv 12 # s "midi" # midichan 2 -- sqsizeY
+once $ ccn 7  # ccv 1 # s "midi" # midichan 2 -- rotation
+--- 
+
+rectstype 3
+
+rectsquant 90
+
+hydramode 13
+
+
+rectssizeX 125
+sound
+rectssizeY 17
+
+
+rectsrot 70
+
+rects
+
+startrot
+
+stoprot
+
+
+cam1
+
+once $ ccn 80 # ccv 50 # s "midi"
+
+once $ ccn 81 # ccv 5 # s "midi"
+
+
+
+d1 silence 
+
+
+d1 $ n "1 ~ 2 ~ [1 2] 3 3 4"
+    # s "midi"
+    #midichan 1
+
+
+-- rects3
+
+cam1
+
+cam3
+
+midihush
+
+rectsquant 1
+
+rects
+
+
+-- params.processed
+m2 $ ccn "80*4" # ccv "125 0 30 60" # s "midi"
+
+m1 $ ccn "81*4" # ccv "125 0 30 60" # s "midi"
+
+once $ ccn 81 # ccv 1 # s "midi"
+
+d1 silence
+
+d2 $ n "1 2 3 4"
+    # s "midi"
+
+--- hydramodes 2 5 8 9 10
+
+hydramode 2

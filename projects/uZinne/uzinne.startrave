@@ -1,0 +1,12 @@
+#!/bin/bash
+fixartwiz
+aaterm &
+pw-jack scide /home/kaos/livecode/tidalcode/uZinne/uZinne.scd &
+cd /opt/hydra-osc
+node server.js &
+cd /opt/hydra
+yarn serve&
+/opt/chrome-linux/chrome --url="https://localhost:8000" --start-fullscreen &
+cd /home/kaos/livecoding/tidalcode
+code .
+flatpak run com.dec05eba.gpu_screen_recorder

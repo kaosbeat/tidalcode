@@ -1,0 +1,150 @@
+<!DOCTYPE patchbay>
+<patchbay version="0.5.2" name="reeft">
+ <items>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_7" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX3" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_15" node="SuperCollider"/>
+   <input port="REAPER:in15" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_1" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX0" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="REAPER:out1" node="REAPER"/>
+   <input port="Chromium input:input_FL" node="Chromium input"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_2" node="SuperCollider"/>
+   <input port="Chromium input:input_FR" node="Chromium input"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_5" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX2" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_11" node="SuperCollider"/>
+   <input port="REAPER:in11" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_3" node="SuperCollider"/>
+   <input port="REAPER:in3" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_13" node="SuperCollider"/>
+   <input port="REAPER:in13" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_1" node="SuperCollider"/>
+   <input port="Chromium input:input_FL" node="Chromium input"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_16" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX7" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_2" node="SuperCollider"/>
+   <input port="REAPER:in2" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_10" node="SuperCollider"/>
+   <input port="REAPER:in10" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_15" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX6" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_9" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX4" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_1" node="SuperCollider"/>
+   <input port="REAPER:in1" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_6" node="SuperCollider"/>
+   <input port="REAPER:in6" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_12" node="SuperCollider"/>
+   <input port="REAPER:in12" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_3" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX2" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_16" node="SuperCollider"/>
+   <input port="REAPER:in16" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_14" node="SuperCollider"/>
+   <input port="REAPER:in14" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_9" node="SuperCollider"/>
+   <input port="REAPER:in9" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_11" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX6" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_8" node="SuperCollider"/>
+   <input port="REAPER:in8" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_4" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX2" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_8" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX3" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_4" node="SuperCollider"/>
+   <input port="REAPER:in4" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_14" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX7" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_2" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX0" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_5" node="SuperCollider"/>
+   <input port="REAPER:in5" node="REAPER"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_6" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX2" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="REAPER:out2" node="REAPER"/>
+   <input port="Chromium input:input_FR" node="Chromium input"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_10" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX4" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_13" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX6" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_12" node="SuperCollider"/>
+   <input port="Model 12:playback_AUX7" node="Model 12 Pro"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output port="SuperCollider:out_7" node="SuperCollider"/>
+   <input port="REAPER:in7" node="REAPER"/>
+  </item>
+ </items>
+</patchbay>
+

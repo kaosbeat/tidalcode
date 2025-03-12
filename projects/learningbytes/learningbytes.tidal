@@ -1,0 +1,123 @@
+-- preshowscene
+
+
+d1 $ slow 8 $ s "indust" <| n (run "17")
+  # lpf "400 200 260 180"
+  # lpq (slow 4 $ range 0.1 0.2 sine)
+  # pan (slow 4 saw )
+  # room "0.9" # size "0.9"
+  # ring "1" # ringf "550"
+  # gain 0.9
+
+
+--1scene 1
+d1 silence
+
+
+d2 $slow 1 $  n "[1|3 2|4 3 7]"
+  # s "indust"
+  # legato 2
+  # lpf (slow 4 "[246 293|440 493|246 440]")
+  # lpq (slow 8 $ range 0.1 0.8 sine)
+  # verb 0.9 0.8 0.2 0.1
+  # gain 0.9
+
+
+
+d8 $ slow 1 $vizscene "text*8"
+  # vizcommand "clear"
+  # vizoption "big"
+  #vizword1 "kaotec ~ ~ ~ livecoding ~ ~ ~"
+  -- #vizword2 "making"
+  #vizx "10 150"
+  #vizy "10"
+
+
+d2 silence
+
+d3  $ s "[[bd*2|hardkick:3 snare], linnhats*<4 8 16>]"
+  # gain 1
+  # ripplescf 0.4
+  # ripplesreson (range 0.5 1 $ slow 3 sine)
+  # ripplesdrive "0"
+  # room 0.3
+  # sz 0.4
+
+
+
+hush
+
+d2 $slow 1 $ juxBy 0.6 rev $ n (off "<0.125>" (|+ 12) "a [~ g ] [c a ] [g d5 ]")
+  # s "tides"
+  # octave "<[3|6] 5 4 [5|6] [4|3]>"
+  # sustain "0.5" --
+  # mode "3"
+  # shift "<2 3 4>"
+  # slope 1
+  # clouds 0.5 0.5 0.05 0.1
+  # cloudsblend 0.5 0.2 0.33 0.5
+
+  # gain 0.9
+  # distort 0.8
+
+  # slope (slow 3 sine)
+
+  # tidesshape (slow 7 sine)
+  # tidessmooth (range 0.5 0.8 $ slow 8 sine)
+
+
+
+
+
+
+d4 silence
+
+
+d1 $ jux (iter 4) $ s "arpy arpy:2*3"
+  |+ speed "2 3 3 1"
+
+
+
+do
+  hush
+  d7 silence
+  once $ vizscene "boot"
+    # vizcommand "init"
+    # vizspeed "0.05"
+
+
+d7 $ slow 1  $ vizscene "boot"
+  # vizcommand (slow 4 "noise wait")
+  # vizsize "0.5"
+
+
+
+d7 $ slow 1 $ vizscene "text*8"
+  # vizcommand "clear ~!7"
+  # vizoption "banner3-D"
+  # vizword1  "LEARNING!8"
+  # vizword2 "BYTES!8"
+  # vizx "30"
+  # vizy "50"
+
+
+
+d7 $ slow 1 $vizscene "rtext*4"
+  #vizcommand "clear"
+  # vizoption "big"
+  #vizword1 "kaotec"
+  #vizword2 "making beats"
+
+hush
+
+d7 $vizscene "banner*64"
+  #vizcommand "banner"
+  #vizword1 "i"
+  #vizx "1"
+  #vizy "1"
+  # vizspeed (slow 8 sine)   -- sets the noisestep offset
+  # vizamount 1124345  -- sets the seed
+
+  #vizoption "big"
+  #vizword1 "kaotec"
+  #vizword2 "making beats"

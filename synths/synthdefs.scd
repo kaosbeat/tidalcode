@@ -158,7 +158,7 @@ SynthDef(\acid, {
 	var line = Line.ar(begin, end, sustain, doneAction:2);
 	var env = Env([0, 1, 0], [0.01, 1], curve:-3);
 	var envGen = IEnvGen.ar(env, line*env.times.sum*abs(speed));
-	var carrier = RLPF.ar((Saw.ar(freq)*(1-mix))+(Pulse.ar(freq)*mix), envGen*clamp*18000,res);
+	ar carrier = RLPF.ar((Saw.ar(freq)*(1-mix))+(Pulse.ar(freq)*mix), envGen*clamp*18000,res);
 	var sound = DirtPan.ar(carrier, ~dirt.numChannels, pan, envGen);
 	Out.ar(out, sound);
 }).add;

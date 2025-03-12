@@ -1,0 +1,9 @@
+
+
+
+
+d4 $ slow 2 $ sound "indust:7*2 indust:6*2" # legato 2  # shape (slow 2 saw)
+  # room "0.8"
+  # speed "0.5"
+  # sz (range 0.4 1 $ slow 8 perlin)
+  # gain 0.8

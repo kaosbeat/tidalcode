@@ -1,0 +1,49 @@
+hush
+
+d1 silence
+
+d2 silence
+
+d3 silence
+
+d4 silence
+
+d5 silence
+
+d6 silence
+
+d7 silence
+
+d8 silence
+
+d9 silence
+
+
+p "midiclock" $ midicmd "midiClock*192" # s "[rtpmidi]"
+
+once $ midicmd "stop" # s "[rtpmidi] "
+
+once $ midicmd "start" # s "[rtpmidi] "
+
+p "midictl" $ midicmd "start/4" # s "[pfm2, opz]"
+
+p "midiclock" $ midicmd "midiClock*96" # s "mono"
+
+once $ midicmd "stop" # s "mono"
+
+once $ midicmd "start/4" # s "mono"
+
+p "midictl" $ midicmd "start/4" # s "mono"
+
+p "midictl" $ silence
+
+let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16]
+
+hush
+
+d8 $ midinote "1 2 3 3*3" 
+    # s "[rtpmidi]"
+    # midichan 15
+
+
+d1 $ s "bd*4"
