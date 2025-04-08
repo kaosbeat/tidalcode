@@ -3,51 +3,72 @@ setcps 0.75
 
 hush
 
-d2 $ loopAt 2 $ smash 1 [1,2]  $ s "jb jb:3"
+do
+  d3 $ loopAt 1 $ smash 1 [1,2]  $ s "jb jb:3"
+    # gain 1
+  d5 $ slow 1 $ loopAt 8 $ s "bev"
+    # gain 1.2
 
-d2 silence
+d5 $ slow 0.5 $ loopAt 8 $ chop 64 $  randslice 2  $ s "bev"
+  # gain 1.2
 
-d1 $ slow 8  $ s "bev:1"
-
-d1 $ fast 4 $  randslice 8 $ sound "bev:2"
+d5 $ fast 4 $  randslice 8 $ sound "bev:2"
   # room 0.4
   # hpf 1800
 
 
-d3 $ n "1 2 3 4"
-  # s "opz"
+d1 $ "kick:4!4"
+
+
+d2 $ "snare(3,8)"
+
+
+
+d3 $ slow "4" $ n "1 2 3 4"
+  # s "rave"
   # midichan 0
 
-d3 $ "kick:4!4"
-
-d4 $ "snare(3,8)"
 
 
-d4 $ s "opz(5,8)" # n "8*8"
-  #midichan 3
+d4 $ n "8(3,8)"
+  # s "cpu"
 
 
-d1 $ slow 2 $ jux rev $ chop 16 $ s "jb:3"
-
-d1 $ chop "<16 32 48>" $ s "arpy ~ feel*2 newnotes"
-
-d2 $ s "gabba:3!0 hardkick:1!4"
-  #gain 0.9
-  #room 0.4
-
-d1 silence
+d5 $ slow 2 $ jux rev $ chop 16 $ s "jb:3"
 
 
-d3  $ chew  4 "0 1*2 2*2 [~ 3]" $ n "0 .. 7" # s "jb"
- #  gain 1.8
+
+
+d3 $ fast 1 $ n "0 0(1,4) 0 0(1,4)"
+  # s "<gabba>"
+  # gain 0.9
+  # room 0.4
+
+d3 silence
+
+
+d3 $ slow 2  $ chew 4 "0 1*2 2*2 [~ 3]" $ n "0 .. 7" # s "bev"
+ #  gain 1
+ # room 0.2
+
 
 
 d3 $ loopAt 4 $ s "jb:2"
 
-d1 $ loopAt 2 $ s "jb:2"
 
 d2 $ loopAt 1 $ s "jb:2"
 
 
 
-d4 $ s " kick:2 ~ ~ ~ kick:2 ~ ~ ~ snare ~ hh ~ kick:2 hh snare oh"
+
+
+d4 $ randslice $ s " kick:2 ~ ~ ~ kick:2 ~ ~ ~ snare ~ hh ~ kick:2 hh snare oh"
+
+
+d4 $ n (slow 1 $ segment "8 16 8 16" $ range 0 16 $ rand) 
+  # s "amencutup"
+  # gain 1.2
+
+
+d2 $ n "1 <1*2 1*2> 1 <1*2 1*2>"
+    # s "hardkick"

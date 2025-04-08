@@ -188,7 +188,7 @@ do
   d3
     $ chop "<2 16>"
     $ randslice(32)
-    $ loopAt 1
+    $ loopAt 10
     $ s "breaks157"
     # gain 1.1
   hydramode 6
@@ -205,6 +205,10 @@ do
     cam3
     hydramode 5
 
+d1 silence
+
+hush
+
 do
     d1 $ fast 1
         -- $ n "<2 3> 2 2 2"
@@ -216,6 +220,7 @@ do
         # lpq 0.2
         # vowel " a a a a"
     m1 $ slow 4 $ ccn "8*16" # ccv "[< 34 17> 127!3] 127 127 127" # s "midi" # midichan 1
+   
     viz3
     hydramode 5
     asciiseq1
@@ -233,6 +238,7 @@ do
     m2 $ slow 1 $ n "5 6 7 8"
         # s "midi"
         # midichan 3
+    
     hydramode 2
     
 
@@ -280,9 +286,11 @@ do
     # squiz "<0 2 4>"
     # ringsbright tri
     # ringsfreq 30
+  
   a1 $ slow 2 $ vizscene "signal*64"
     # vizcommand "~ ~ ~ ~ [cube*7 ~] "
     # vizoption "clear!3 [clear*8]"
+  
   hydramode 5
 
 
@@ -290,6 +298,8 @@ d1 $ n "<1 0> 2 1 2"
     # s "less"
     # gain 1
 
+
+d4 silence
 
 d4 $ slow 2  $ n " 4 4 4 4 "
   # legato 4
@@ -358,8 +368,9 @@ d7 $ slow 2 $ n "[8 <15 10>] ~ 16 <12 17>" # s"respect"
 do 
     -- hush
     d2 $ brak $ s "jungbass:0 [~ jungbass:1] jungbass:1!2"
-        # lpf 400
-        # room 1
+        # lpf 600
+        # room 1..
+14
     viz2
     hydramode 2
 

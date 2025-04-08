@@ -1,0 +1,27 @@
+d1 $ n " 1 1 1 1"
+    # s "kick"
+
+
+d2 $ pressBy (slow 16 $ range 0 0.15 tri) $ n "2 [3 4] 2 [3 4]"
+    # s "hardkick"
+
+d1 $ compress (1/4, 3/4) $ s "[bd sn]!"
+
+d1 $ compress (0/4, 2/4) $ n (run 4) # s "arpy"
+
+d3 $ fast 2 $ off (slow 256 $ range (-1) 1 tri) (# speed 0.5) $ s "arpy"
+
+
+off
+
+d2 silence
+
+hush
+
+
+d5 $ n "1 1 1 1"
+    # s "hardkick"
+
+
+
+

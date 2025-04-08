@@ -4,8 +4,7 @@ d2 $ slow 5 $ s "indust" <| n (run 10)
   # lpq "0.4"
   # pan (slow 4 saw)
   # room "0.5" # size "0.1"
-  # gain "0.6"
-
+  # gain "1"
 
   # ring "10" # ringf "250" # gain "0.8"
 
