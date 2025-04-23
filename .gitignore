@@ -1,1 +1,3 @@
 BootTidal.hs
+*.tidal#
+*.tidal~
