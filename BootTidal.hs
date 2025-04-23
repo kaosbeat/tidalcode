@@ -1,1 +1,1 @@
-BootTidal.hs.fury
+BootTidal.hs.modrock

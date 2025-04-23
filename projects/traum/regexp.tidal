@@ -1,0 +1,50 @@
+setcps 0.55
+
+hush
+
+d1 silence
+
+
+d1 $ stack [
+  slow 1 $ n "<0 0> [0 ~]!3" # s "[clubkick, axo]",
+  every 2 ghost $ slow 1 $ n "[~ 3]!4" # s "house"
+  ]
+  # lpf 1200
+  #legato 0.5
+
+d2 $ fast 1
+  $ s "rm!4"
+  # gain 1.2
+  # room 0
+
+
+d3 $ fast 2
+  $ ghost
+  $ n (off 0.0625 (|+| 12) "cs6 as5 as5 <e5 g5>")
+  # s "pfm2"
+  # gain 0.8
+
+
+d3 silence
+
+hush
+
+d3 $ fast 4 
+  $ n "<2 1 5> <~ ~> < 5 2 >~"
+  # legato 0.5
+  # s "snc" -- C2
+
+
+
+d5 $ fast 4 $ chop 1
+  $ striate 1
+  $ n "1 2 3 4" |> (irand 16)
+  # s "amencutup"
+  # gain 1.3
+
+
+
+
+
+
+

@@ -1,0 +1,75 @@
+-- yacid4t
+-- onc preset 1
+-- snc patch 2
+
+hush
+
+startclock
+
+setcps (155/60/4)
+
+d1 $ n "<5 5 5 6> 5!3"
+    # s "[bassdm, axo]"
+    -- # s "[jungle]"
+    # gain 1
+
+
+d2 $ n "[~ <3 2 3 12>] [~ 2]!3"
+    # s "[bass1]"
+    # gain 1
+
+d2 silence
+
+
+d4 $ slow 4 $ chop 2 $ striate 8 $ s "voc:1 voc:0"
+    # gain 0.7
+    # speed 1.7
+    # room 0.8
+
+d4 silence
+
+
+d5 $ degradeBy 0 $ fast 2 $ mask "t(<8 4 2 4>,16)" $ n "1*16"  |> irand 16
+    # s "amencutup" 
+    # room 0.5
+    # size 0.2
+
+d5 silence
+
+
+d7 $ fast 2 $ n "2 1 8 1"
+    # legato 1
+    # octave 3
+    # s "snc"
+
+
+d7 $ fast 2 $ n "<2 1*4> 1*2 <8 [8 <1 ~> 8 <1 ~ 1> ] 8> 1*2" 
+    # legato 1
+    # octave 3
+    # s "snc"
+
+d7 silence
+
+
+d8 $ fast 4 $ n "[8 1] 8 [8 1] 8"
+    # legato 0.4
+    # midichan 0
+    # s "snc"
+
+d8 silence
+
+do
+   let pat = "0 0 0 <0 0 0 [1 0]>"
+   d11 $ n pat
+        # s "axo" 
+        # midichan ( fmap ([0,1,2]!!) $ pat)
+        -- # midichan pat
+
+
+d3 $ n " 1 1 1 1"
+    # s "kick:3"
+    # gain 1
+
+d11 silence
+
+hush 

@@ -11,14 +11,14 @@ OSCFunc({ |msg|
 	// Forward OSC message
 	b.sendMsg("/rms", *msg);
 }, "/rms");
-)
+
 
 
 /// trying to patch input busses into output busses to send audio to RMS
 // {Out.ar(2, SoundIn.ar(1,1))}.play;
 /// this does not work, instead use below script to append inputs to output RMS messages
 
-(
+
 {
 	var rmsReplyRate = 8, rmsPeakLag = 3, replyID = 1000;
 	var signal = SoundIn.ar(0,1);
@@ -68,4 +68,4 @@ OSCFunc({ |msg|
 	var signal = SoundIn.ar(7,1);
 	SendPeakRMS.kr(signal, replyRate: rmsReplyRate, peakLag: rmsPeakLag, cmdName:"/rms", replyID: replyID)
 }.play(target: ~dirt.group, addAction: \addToTail);
-)
+);

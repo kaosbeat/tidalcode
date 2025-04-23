@@ -1,0 +1,99 @@
+---- #### RASH
+---- kick > WASP > BIGEN(simpleclouds)
+
+hush
+
+do
+  setcps (140/60/4)
+  let pat0 = " 0 0 0 <0 0 0 1>"
+  d1 $ fast 1
+    -- $ every 4 (rev)
+    $ n pat0
+    # s "axo"
+    # midichan pat0
+
+d2 silence
+
+
+d2 $ n "[~ 1]*4" 
+  # s "<808lt:1 808lt:2 808lt:3 808lt:4>"
+  # gain 1
+  -- # room 0.5
+  -- # krush "<2 4 8 16>"
+  -- # lpf (slow 4 $ 200 + (sine * 400))
+
+
+--WASP driver
+
+d3 $ slow 4
+    $ n "e4 f3 c4 a3"
+    # s "axo"
+    # midichan 2
+
+
+-- go rash (d1, f2)
+
+d4 silence
+
+d4 $ slow 1
+  $ n "d4(3,8) f5(3,4)"
+  # s "pfm2"
+
+d6 $ n " 2 3 4 5"
+  # s "respect"
+
+
+
+
+d4 $ slow 2 $ n "d1(5,8) <f2 f2 f3>(3,4) e2(3,8)/2 c3(5,8)"
+  # s "pfm2"
+
+
+do
+  -- hush
+  setcps (145/60/4)
+  -- startrot
+  once $ ccn 68 # ccv 127 # s "midi" -- rotYspeed
+  d4 $ slow 2 $ n ( off 0.0625 (|+| "19")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
+    # s "rash"
+    # sustain 1
+    # octave 3
+    # gain 0.8
+
+hush
+
+
+do
+  d4 silence
+  -- hydramode 5
+  -- cubes
+  d5 $ slow 2
+    $ juxBy 0.6 rev
+    $ n (off 0.125 (|+| "<7>") "[d1(3,8) f2(3,8) f1(7,8) e2(3,8)]/2" )
+    # s "[rash, midi]"
+    # midichan 1
+    # room 0.8
+    # lpf (slow 4 (sine * 1000 + 200))
+    # sz 0.8
+    # gain 0.6
+  -- cam1
+  m2 silence
+  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
+
+
+d2 $ s "bassdm:3*4"
+  # lpf 1200
+  # room "0.8 0.4!3"
+  # sz "0.9 0.3!3"
+
+hush
+
+d2 silence
+
+
+
+d5 $ chop 16 $ scramble 4 $ s "breaks125:0 breaks:1"
+  # unit "c" # speed 1
+
+
+d5 silence

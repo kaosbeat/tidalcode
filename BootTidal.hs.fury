@@ -70,7 +70,7 @@ let word = pS "word"
     
 pivizTarget :: Target
 pivizTarget = Target {oName = "piviz",
-                       oAddress = "localhost",
+                       oAddress = "aib1.local",
                     --    oAddress = "corekaos.local",
                        oPort = 1337,
                        oBusPort = Nothing,

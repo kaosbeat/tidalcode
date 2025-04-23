@@ -277,6 +277,7 @@ d2 $ slow 2 $ chop 8 $ sound "numbers:0 numbers:6 numbers:7 numbers:3"
   # gain 1.5
 
 d2 $ splice 8 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" $ sound "turbo"
+  -- # speed 0.2
   # legato 1
 
 d1 $ fast "<8 16>" $ randslice 4 $ sound "amencutup"
