@@ -1,9 +1,11 @@
-hush
+setcps (165/60/4)
 
-d5 $ fast 4
+do
+  hush
+  d5 $ fast 4
     $ loopAt 4
-    -- $ slice "<8 16>" "2 3 1 8"
-    $ slice 8 "9 5 8 5"
+    $ slice "<8 16>" "2 3 1 8"
+    -- $ slice 8 "9 5 8 5"
     -- $ slice 8 "5 5 5 5"
     $ s "sitar"
     # legato 0.5
@@ -14,44 +16,36 @@ d8 silence
 d1 silence
 
 do
-  -- cube1
+  lines
+  line2
   d2 silence
   let pat0 = " 1 1 1 1"
   let pat1 = "1 <~ 1 1*2> <1 1 1*4> <~ 1>"
   let pat2 = "1 <~ 1> 1 ~"
-  d1 $ n pat0
-    # s "[tabla:21, gabba, midi]"  -- oncL --*/---
+  let pat = pat0
+  d1 $ n pat
+    # s "[tabla:21, gabba]"  -- oncL --*/---
     # legato 1
-    # midichan 1
     # room 0.2
     # sz 0.3
     # gain 1
-
+  m1 $ n pat
+    # s "midi"
+    # midichan 2
 
 hush
 
 
-do
-  let wl = 0
-  d2 $ s "kick:5(<2 6 5 7>,8)"
-    # waveloss wl
-    # crush  "<16 1>"
-    # scram 0
-    # gain 0.6
-  d3 $ s "kick:2(5,8)"
-    # waveloss wl
-    # room 0.6 # sz 0.1
-    #gain 0.5
-
 
 do
   d2 silence
-  d3 $ pressBy 0 
+  d3 
     $ every 2 (|+| speed "0.5") 
     $ every 3 (0.5 <~)
     $ whenmod 8 6 (rev) 
-    -- $ n "4*4 <14 4> <14 7*4 14*8> [6 6*16]"
-    $ n "4 <14 4> <14 7 14> [6 6]"
+    $ n "4*4 <14 4> <14 7*4 14*8> [6 6*16]"
+    -- $ n "4 <14*2 4> <14 7 [6 14]> [6 6]"
+    -- $ n "4 <14 4> <14 7 14> [6 6]"
     # legato 2
     -- $ cat []
     # s"[tabla, midi]"  
@@ -65,16 +59,16 @@ do
   let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
   let choppat2 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
   let choppat3 = "<32>"
-  d2 $ slow 1 
-    $ chop choppat0
-    $ jux rev
-    $ n "<0 3 2 1>" 
+  d2 $ slow 4 
+    $ chop choppat1
+    -- $ jux rev
+    $ n "<0*8 3*4 2*6 1*4>" |> (irand 8) 
     # s "sitar"
     # squiz 0
     -- # room 0.5
 
 
-d4 $ degradeBy 0
+d6 $ degradeBy 0
     $ striate 2 
     $ loopAt 4 
     $ fast "<8>" 
@@ -82,10 +76,10 @@ d4 $ degradeBy 0
     $ sound "sitar:3" 
     # gain 0.8
 
-d4 $ slow 8 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" 
+d6 $ slow 8 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" 
     $ s"sitar"
 
-d3 silence
+d4 silence
 
 hush
 

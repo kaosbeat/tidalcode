@@ -1,7 +1,7 @@
 setcps 0.6
 
 do
-  hush
+  -- hush
   d1 $ s "bytebeats" <| n "2 3 6 7"
     # legato 0.5
     # gain 0.9
@@ -12,11 +12,13 @@ do
 
 
 d1 $ slow "<4 2>" $ segment "<4 8 16>" $ juxBy (range 0 1 sine) rev $ s "bytebeats:6"
-  # legato 1
+    # legato 1
 
 
 d1 $ s "bytebeats" <| n "12 3 6 ~ 7  ~ 23 21 "
   # legato 0.4
+
+
 
 d4 $ s "[~ snare]!6 [snare snare]!2" # n (irand 4)
   #gain 1
@@ -36,7 +38,7 @@ d2 $ fast 2 $ s "bytebeats" <| n "1 1 1 1 1 1 1 1 "
   # lpq 0.9
   # gain (range 0.7 0.9 rand)
 
-
+hush
 
 d5 $ slow   $ word "berslet fectly sible ificat"
   # language  "de en"

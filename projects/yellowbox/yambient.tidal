@@ -1,0 +1,27 @@
+hush
+
+setcps 0.5
+
+d10 $ slow 2 $ n "<2 5 3 [2 5]>"
+    # s "pfm2" -- YelloWhale
+    # legato 1
+    # midichan 3
+    # amp 0.9
+    # octave 5
+
+d10 silence
+
+do
+    let pat1 = "0 0 <0 0 0 [~ 0]> [0 1]"
+    d9 $ slow 2 $ n pat1
+        # s "axo"
+        # midichan pat1 
+
+d1 $ n"1 2 3 4"
+    # s "clubkick:4"
+    # speed 0.3
+    # room 0.54
+    # gain  0.8
+    # lpf 800 
+
+

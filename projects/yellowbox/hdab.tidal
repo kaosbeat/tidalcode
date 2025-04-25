@@ -1,0 +1,65 @@
+setcps (185/4/60)
+
+
+hush
+
+    d1 $ n"1 1 1 1"
+    # s" clubkick"
+
+d3 $ fast 1 $ n "1 2 3 2" 
+    # s "electro1"
+    # gain 0.9
+
+d5 $ slow 1
+    -- $ somecyclesBy 0.25 (# speed "1 1 1 1 1.25 1.5 1.75 2") -- (1 + ((saw)*2)))
+    $ every 2 (# speed  "1 1 1 1 1.25 1.5 1.75 2") -- (1 + ((saw)*2)))
+    -- $ somecyclesBy 0.25 (# speed "2 2 2 2 1.75 1.5 1.25 1") -- (1 + ((saw)*2)))
+    $ n "1 2 3 4 1 2 2 2" |>  (irand 4)
+    -- $ n "2 2 2 2 2 2 2 2" -- |>  (irand 4)
+    # s "amencutup"
+    # gain 0.7
+
+d1 silence
+
+hush
+
+d1 $ every 4 (# speed "1!4 1.25 1.5 1.75 2 ")
+    $ every 3 (0.25 <~) $ stitch "t(3,8)" (sound "kick:4") (sound "gabba:5")
+    # gain 0.8
+    # squiz 3
+
+d5 $ stitch "t(<3 5>,<8 8 8 6>,<0 2 4>)" (sound "kick:4") (sound "hc")
+    #gain 0.6
+
+d5 $ slow 1
+    $ s "amencutup*8"
+    # n (choose [1, 2, 6])
+    # speed "1*8" |> (1+(irand 4)/4)
+    # gain 0.8
+    # room 0.01
+
+d4 $ slow 1 $ n "<1 3*4> <4 2*2> [4 [3*2 4]] [4 8]"
+    # legato 4
+    # s "bass"
+    # gain 0.7
+
+    #
+     
+hush
+
+d1 $ n "<~ 2> <2 ~> <~ 3 2> <2 2 5>" 
+    # s "kick"
+    # squiz 1
+
+d2 $ n "[~ 2]!3 [~ ~]"
+    # s "snare"
+    # gain 0.8
+
+d2 silence
+
+d3 $ slow 8 $ striate 8 $ chop 8 $ n "1 2"
+    # s "voc"
+    # gain 0.9
+
+d3 silence
+

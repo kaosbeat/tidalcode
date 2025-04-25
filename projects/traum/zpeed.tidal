@@ -2,8 +2,8 @@
 setcps (175/4/60)
 
 do
-  -- hush
-  d5 $ slow 0.5 
+  hush
+  d5 $ slow 0.5
     -- $ n  "1 1 [2 3] 8 1 6 7 _"
     $ n "c4 c4 <[cs4 cs5]> f4 c4 e4 a4 _"
     # amp "0.4!6 0.9!2"
@@ -16,14 +16,16 @@ do
 
 do
   -- hush
-  -- hydramode 3
-  -- cube3
-  -- cam1
-  d1 $ n "<3 > 3 3 3"
+  hydramode 3
+  hydramode 1
+  cube3
+  cam1
+  d1 $ fast "<1 1 1 1>" $ n "<3 5 4 3 3 > 3!3"
     # s "[hardkick, midi]"
     # midichan 1
     # gain 1
     # squiz 1
+
 
 do
 --   hush
@@ -39,10 +41,14 @@ d7 $ fast 0.25 $ n "f e f e"
 
 
 do
-  -- hydramode 4
+  hydramode 4
   d7 silence
-  d1 $ n "5*4"
-    # s "[kick, midi]"
+  let pat0 = "3*4"
+  let pat = pat0
+  d1 $ n pat
+    # s "[hardkick]"
+  m1 $ n pat
+    # s "midi"
     # midichan 1
 
 hush
@@ -54,66 +60,6 @@ d6 $ slow 2 $ chop 8
     # s "turbo"
     # gain 1
 
-
-
-
-
-
-
-----  break for respect
-
-
-do
-  hush
-  d4 silence
-  d5 silence
-  once $ ccn 10 # ccv 4 # s "midi" # midichan 1
-  once $ s "voc"
-  m2 silence
-  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
-
-do
-  -- cubes
-  -- cube1     
-  setcps (155/60/4)
-  d1 $ n "1*4"
-    # s "[kick:2, midi, axo ]"
-    # midichan 1
-  -- hydramode 2
-
-do
-  d4 silence
-  d5 silence
-  d2
-    $ n ("1" |> (irand 8))
-    # s "[voc]"
-    # room 0.5
-    # lpf 200
-
-do
-  d3 $ fast 1
-    $ n "2 3 <2 [3 2] 2> 3 "
-   -- $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
-    # s "[bsnoise, midi]"
-    # legato 0.6
-    # midichan 1
-    # room 0.4
-  once $ ccn 10 # ccv 32 # s "midi" # midichan 1 -- wire
-  -- cube2
-
-d6 $  chop "8" $ s "turbo:0 turbo:1"
-  # octer "<0 0.5 1>"
-  # djf (slow  4 (sine))
-  # gain 0.8
-
-
-d5 $ brak $ jux rev $ fast 1 $ stack [ n "[10 <15 16>]", n "10 17 19 16"]
-    # s "[midi, respect]"
-    # midichan 4
-    # gain 0.9
-    # room 0.6
-    # speed "<1.2 1.4>"
-    # vowel  "a e i a"
 
 
 ----------- break
@@ -134,18 +80,24 @@ do
     # gain 0.8
 
 
+d6 silence
 
 do
   d4 silence
-  d1 $ n "2!4"
-    # s  "[clubkick, axo]"
+  let pat0 = "4 4 4 4"
+  d1 $ n pat0
+    # s  "[hardkick]"
     # gain 1
+  d2 $ n pat0 
+    # s "axo"
+    # midichan 0 
   m2 $ ccn "10*4" # ccv "4 1 2 3" # s "midi" # midichan 1 -- wire
   -- hushcubes
 
   once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
 
-  do
+
+do
     -- d6 silence
     d2 silence
     d3 $ fast 3
