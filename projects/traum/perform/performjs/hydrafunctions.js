@@ -176,7 +176,20 @@ function pfiver(){
 }
 
 function simplep5(){
-  src(s2).out(o2)
+  src(s2).pixelate(() => p5vars.p3*800,() => p5vars.p3*450).out(o2)
+  
+}
+
+function simpleascii(){
+  src(s1).out(o2)
+}
+
+function simplewebcam(){
+  src(s3)
+  .thresh(0.5, () => p5vars.p1)
+  .luma( () => p5vars.p2)
+  .scale( ()=> p5vars.p4,()=> p5vars.p4)
+  .pixelate(() => p5vars.p3*800,() => p5vars.p3*450).out(o2)
 }
 
 
@@ -194,4 +207,5 @@ function test() {
 
 all()
 
-fxpipe = [ all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, shmear, scrollr, pfiver, simplep5, test]
+fxpipe = [ all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, 
+           shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]

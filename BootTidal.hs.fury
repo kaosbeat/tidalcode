@@ -39,10 +39,10 @@ let eword = pS "eword"
 :{
 neighborTarget :: Target
 neighborTarget = Target {oName = "neighbor",
-                    --    oAddress = "127.0.0.1",
+                       oAddress = "127.0.0.1",
                     --    oAddress = "corekaos.local",
                     --    oAddress = "neighbor.local",
-                       oAddress = "192.168.1.10",
+                    --    oAddress = "192.168.1.10",
                        oPort = 1337,
                        oBusPort = Nothing,
                        oLatency = 0.02,
@@ -70,7 +70,8 @@ let word = pS "word"
     
 pivizTarget :: Target
 pivizTarget = Target {oName = "piviz",
-                       oAddress = "aib1.local",
+                       oAddress = "localhost",
+                    --    oAddress = "aib1.local",
                     --    oAddress = "corekaos.local",
                        oPort = 1337,
                        oBusPort = Nothing,
