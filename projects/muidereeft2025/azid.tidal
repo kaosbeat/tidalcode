@@ -80,10 +80,9 @@ do
 
 d3 $ n "1 2 1 3 1 2 <2 [1*4]> 1"
   # s "[snare:3*[2 8] snare:2*4]"
-  
 
 
-viz2
+
 
 do
   d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"

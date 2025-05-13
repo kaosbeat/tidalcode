@@ -1,0 +1,13 @@
+hush
+
+
+
+p "midiclock" $ midicmd "midiClock*96" # s "[axo]"
+
+once $ midicmd "stop" # s "[axo] "
+
+-- once $ midicmd "start" # s "[opz] "
+
+p "midictl" $ midicmd "start/4" # s "[axo]"
+
+p "midictl" silence

@@ -127,10 +127,11 @@ d8 silence
 
 do  
   d7 $ slow 4
-    $ degradeBy 0.2
+    $ degradeBy 0
     $ loopAt 4
-    -- $ chop "2 16 8 4" 
-    $ stutter 4 (1/16)
+    $ chop "2 16 8 4" 
+    -- $ randslice 16
+    $ stutter 2 (1/16)
     -- $ striate 4
     -- $ n "<3 2>"
     $ n "0 1 5 4" 

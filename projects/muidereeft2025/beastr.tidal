@@ -6,7 +6,7 @@ do
   let pat0 = "1!8"
   let pat1 = "<2 [2 2] 3*2 3!1>" 
   let pat = pat1
-  d8  $ degradeBy "<0>"
+  d8  $ degradeBy "<0 0.5>"
     $ n pat
     # s  "rave"
     # room 0.5
@@ -27,10 +27,10 @@ do
     # midichan 1
 
 
-d7 $ stripe 1 $ stutter 2 (1/16)
+d7 $ stripe 4 $ stutter 4 (1/16)
   $ slow 4 $ n  "2 3 4 5"
   # s "indust"
-  # legato 1
+  # legato 2
   # gain 1.4
   # vowel "a e a e"
 
@@ -122,7 +122,7 @@ d5 $ slow 4
   # s "superreese"
   -- # s "supergrind"
   # octave 5
-  # hpf 2000
+  # hpf 1200
   # accelerate "0.9"
   # room 0.6
 
@@ -134,15 +134,15 @@ d5 silence
 do
   let pat0 = "<4 [8*2] 6> <6 4> [4 5] [4 2] 2 6 [3  2] ~" 
   let pat1 = "<4 [8*8] [6 2]> <6 4*4> [4 5*2] [4*2 2] 2 6 [3  2] ~" 
-  d4 $ degradeBy 0.8
+  d4 $ degradeBy 0
     $ slow 4  $ n (off "<0.0625>" (|+| 7) pat1 )
         # s "[snc]" -- "superfm"
         # legato 0.5
         # octave 5
-        # amp "0.5 0.9"
+        # amp "1.5 0.9"
 
 
-d6 $ degradeBy 0.8 $ chop "8" $ s "turbo:0"
+d6 $ degradeBy 0 $ chop "1" $ s "turbo:0"
   # octer "<0 0.5 1>"
   # djf (sine)
   # gain 1.3

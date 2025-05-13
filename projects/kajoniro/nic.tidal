@@ -1,0 +1,98 @@
+hush
+
+d1 $ slow 1
+  $ n "2(2,4)  3(5,8) "
+  # s " axo"  -- d1 "---/***" d2 "*--/-*-"
+
+
+
+slide x = accelerate (2 **| (x |/ 12) - 1)
+
+d3 $ pressBy 0 $ fast 1
+  $ n "[0,3,7,10,14]"
+  # sound "[superreese, pfm2]" -- eth voice
+  # voice 0.4
+  |+ n "<0 0 7 7>"
+  # gain 0.8
+  # legato "1"
+  # slide "<0 7 0 -7>" 
+  # midichan 0
+  # vowel "e"
+  -- # gain 0
+
+
+--- LOOPER
+setcps (135/4/60)
+
+hush
+
+d1 $ slow 1
+    $ n "1(5,8)"
+    # s "clubkick"
+    # room 0.6
+
+d2 $ slow 1
+    $ n "2 1 1 1"
+    # s "snare"
+    # squiz 3
+    # gain 0.6
+
+d12 $ slow 4
+  $ n "<0 1 2 3 4 5 6 7>"  # s "rlooper"
+  # linput 0
+  # lname "sax"
+
+d12 silence
+
+hush
+
+once $ qtrigger $ s "rlooper" # linput 0
+
+d5  $ slow 2 $ striate "<2 8>" $ n "6 <2 1> 4 4"
+  # s "sax"
+  # speed "[1 2 2 1]"
+  # legato 1.2
+  # gain 1.2
+  # squiz 1
+
+
+d5 silence
+
+
+d4 $ degradeBy 0 $ slow 4 $ striate "<8 1>" $ n "1"
+  # s "sax"
+  # speed "[1 2 4 0.5]"
+  # legato 3
+  # gain 1
+  -- # squiz 4
+  # lpf 800
+  # lpq 0.4
+
+d4 silence
+
+hush
+
+scaleList
+
+
+setcps (120/60/4)
+
+
+do
+  hush
+  d1 $ n "<2 3> 3 <~ 3> 3(2,1) "
+    # s "kick"
+    # lpf 1500
+
+
+d2 $ n "[~ 1] < "
+    # s "snare"
+
+
+d5 silence
+
+
+d5  $ slow 2 
+  $ n "6 <2 1> 4 4"
+4 # s "sax"
+  # gain 0.5
