@@ -80,7 +80,8 @@ do
     # gain 0.8
 
 
-d6 silence
+
+hush
 
 do
   d4 silence
@@ -88,16 +89,15 @@ do
   d1 $ n pat0
     # s  "[hardkick]"
     # gain 1
-  d2 $ n pat0 
+  d2 $ n pat0 |> 0
     # s "axo"
-    # midichan 0 
+    # midichan " 4 4 4 4" |>  1
   m2 $ ccn "10*4" # ccv "4 1 2 3" # s "midi" # midichan 1 -- wire
   -- hushcubes
 
   once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
 
-
-do
+  do
     -- d6 silence
     d2 silence
     d3 $ fast 3

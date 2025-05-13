@@ -1,4 +1,4 @@
-setcps (165/60/4)
+setcps (155/60/4)
 
 do
   hush
@@ -24,7 +24,7 @@ do
   let pat2 = "1 <~ 1> 1 ~"
   let pat = pat0
   d1 $ n pat
-    # s "[tabla:21, gabba]"  -- oncL --*/---
+    # s "[tabla:21, gabba, axo]"  -- oncL --*/---
     # legato 1
     # room 0.2
     # sz 0.3

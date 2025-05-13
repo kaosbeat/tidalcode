@@ -1,0 +1,28 @@
+-- dig the silence
+
+setcps (150/60/4)
+
+hush
+
+-- A
+do 
+  digA1
+  digA2
+  digA3b
+  digA5
+
+  digA3b
+  
+  digA3c
+  digA4
+  digA5
+
+
+
+-- C
+setcps (130/4/60)
+
+digC
+
+
+

@@ -52,7 +52,8 @@ hush
 do
   let pat0 = "3 1 1 1 <1 1> 1 1 1" 
   let pat = pat0
-  d2 $ slow 2 $ n pat 
+  d7 silence
+  d1 $ slow 2 $ n pat 
     # s "[kick, midi]"
     # midichan 1
     # lpf "450"
@@ -60,10 +61,6 @@ do
     # sz "0.9"
     # vowel "<k [a e i o]>"
   -- randrot pat 126 0 0
-  m2 $ ccn (10 <| pat0)
-    # ccv (irand 5)
-    # s "midi"
-    # midichan 1
 
 stoprot
 
@@ -75,10 +72,10 @@ do
   d7 silence
   let choppat0 = "<1 [16 32] [8 0] [0 4] 2>"
   let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
-  d8 $ slow 2 $ chop choppat0 $ n "<0 1 2 3>" # s "turbo"
+  d8 $ slow 2 $ chop choppat1 $ n "<0 1 2 3>" # s "4D"
     # squiz 1
     # room 0.3
-    # gain 0.7
+    # gain 1.4
 
 
 d3 $ n "1 2 1 3 1 2 <2 [1*4]> 1"
@@ -93,12 +90,14 @@ do
     # pan (slow 4 sine)
   startrot
 
-d1 $ n "< 4 [4 4]> 4 [4 +4] <3 4> " # s "kick"
-  # squiz 1
+d1 $ n "< 4 [4 4]> 4 [4 4] <3 4> " # s "kick"
+  # squiz 3
 
 
 d4 $ chop "<2 <[0 4] <[4 32]>> [2 8] 16>" $ n "17 11 4 1 "
   # s "space"
+
+d7 silence
 
 d4 silence
 
@@ -109,8 +108,11 @@ do
   d1  $ n pat0 
     # s "hardkick:3"
     # gain 1
-    # room 0.8
+    # room 0.4
     # sz 0.7
+    # legato 0.5
+  d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"
+    # pan (slow 4 sine)
   m3 $ ccn (5 <| pat0)
     # ccv (irand 100)
     # s "midi"
@@ -148,16 +150,20 @@ do
   d7  $ slow 1 $ randslice 16 $ s "announcement:4*4"
     # legato 1
     # gain 1
+  d7 silence
   d1  $ n "1 1 1 1" 
-     # s "[hardkick:3, axo , midi]"
-     # midichan 1
+     # s "[hardkick:2, axo , midi]"
+     # midichan 0
      # gain 1.2
 
-d6 $ slow 0.5 $ randslice 8 $ n "3 4 5*4 3" # s "indust"
-  # gain 1
-  # legato 2
+d6 $ slow 0.5
+  $ randslice 8
+  $ n "3 4 5*4 3"
+  # s "indust"
+  # gain 1 
+  # legato 0.5
 
-d1 $brak $ n "3 [3] 4 3"
+d1 $ brak $ n "3 [3] 4 3"
   # s "[hardkick, axo]"
     # lpf 500
     -- # room 0.5
@@ -168,7 +174,7 @@ d6 $ slow 2 $ randslice 4 $ n "3 4 5*4 3" # s "indust"
   # gain 1.2
   # legato 1
 
-
+d5 silence
 
 
 do
@@ -178,8 +184,8 @@ do
   let pat2 = "e f d c"
   let pat3 = "a e*2 f [e a f a*4]"
   d1 $ slow 4 $ layer [fast 1, fast 2, rev] $ stack [
-    n pat3,
-    n pat2
+    n pat1,
+    n pat3
     ]
     # s "[hardkick:3, midi]"
     # legato 1.2
@@ -189,7 +195,7 @@ do
 stoprot
 
 
-d5 $ fast 2 $ n (off 0.0625 (|+| 0) "c4 f4 <cs4 cs5> c4")
+d5 $ fast 2 $ n (off 0.0625 (|+| 19) "c4 f4 <cs4 cs5> c4")
   # legato "1!2 1.5 0.9"
   # amp "0.5 0.5 0.9 0.9"
   # s "[snc , midi]"
@@ -198,8 +204,9 @@ d5 $ fast 2 $ n (off 0.0625 (|+| 0) "c4 f4 <cs4 cs5> c4")
 
 d5 silence
 
-d5 $ ply "<1 2>"
-  $ n "c a f e"
+d5 $ ply "<4 2>"
+  $ n "c4 a3 f4 [cs4 cs5] "
+  # legato 0.5
   # s "snc"
 
 viz2
@@ -238,6 +245,7 @@ d2 $ striate "[<1 8 2> <2 4>]" $ s "amencutup*<4>" # n "<4 2 1 4>"
 
 
 do
+  d1 $ slow 1 $ n "0 3 3 3" # s "mash2"
   d4 $ n (slow 2 $ segment "8 64 16 [4 32]" $ range "<0>" "<32>" $ sine) # sound "bytebeats"
     # gain 0.8
     # legato 0.9
@@ -257,7 +265,6 @@ d2 $ fast 3
    # gain 1
 
 
-d1 $ slow 1 $ n "0 3 3 3" # s "mash2"
 
 
 d1 silence

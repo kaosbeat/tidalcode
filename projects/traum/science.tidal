@@ -114,7 +114,7 @@ hush
 -------------------------------------
 
 do
-  -- hush
+  hush
   -- rects
   rect3
   let pat0 = "0 0 0 0"
@@ -225,7 +225,8 @@ do
     # elementsmallet 0
     # elementseasteregg "[1]"
     # elementsmodel "[4]"
-    # elementscontour 0.5
+   # elementscontour 0.5
+  
     # elementsgeom 1
     # elementsbright 0.5
     # elementsdamp 0.6
