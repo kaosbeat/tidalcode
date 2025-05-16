@@ -1,3 +1,5 @@
+--YBASS!
+
 setcps(150/60/4)
 
 
@@ -40,7 +42,7 @@ do
   let pat1 = "e a a e"
   let pat2 = " e b a g"
   let pat3 = " e e b e"
-  let pat = pat0
+  let pat = pat3
   d6 $ degradeBy 0
     $ slow 1
     $ ply "<1 2>"
@@ -95,7 +97,7 @@ hush
 
 do
   d3 $ fast 1
-    $ n "[~ <d6 e5 g5 a5>]!4"
+    $ n "[~ <d6 4e5 g5 a5>]!4"
     # s "pfm2"
     # midichan 2
     
@@ -132,12 +134,12 @@ do
     $ chop "2 16 8 4" 
     -- $ randslice 16
     $ stutter 2 (1/16)
-    -- $ striate 4
+    $ striate 4
     -- $ n "<3 2>"
     $ n "0 1 5 4" 
     # s "silence"
-    -- # legato "<0.7 0.6>"
-    # legato 1
+    # legato "<0.7 0.6>"
+    -- # legato 1
     # speed 1
     # gain 1.2
     # vowel "<a a e i>"

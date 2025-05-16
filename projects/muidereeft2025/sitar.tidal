@@ -4,12 +4,14 @@ do
   setcps (155/60/4)
   d4 $ fast 4
     $ loopAt 4
-    $ slice "<8 16>" "2 3 1 8"
+    -- $ slice "<8 16>" "2 3 1 8"
+    $ slice "<8>" "5 5 5 5"
     -- $ slice 8 "9 5 8 5"
     -- $ slice 8 "5 5 5 5"
     $ s "sitar"
     # legato 0.5
     # gain 1
+
 
 
 do
@@ -32,8 +34,8 @@ do
     $ whenmod 8 6 (rev) 
     -- $ n "4*4 <14 4> <14 7*4 14*8> [6 6*16]"
     -- $ n "4 <14*2 4> <14 7 [6 14]> [6 6]"
-    $ n "4*8 <14*4 4*8> <[14*8 6*4]  [7*4 4] [14 8]> [6 6]"
-    -- $ n "4 <14 4> <14 7 14> [6 6]"
+    -- $ n "4*8 <14*4 4*8> <[14*8 6*4]  [7*4 4] [14 8]> [6 6]"
+    $ n "4 <14 4> <14 7 14> [6 6]"
     -- # legato 2
     -- $ cat []
     # s"[tabla, midi]"  
@@ -49,12 +51,12 @@ do
   let choppat3 = "<32>"
   d4 $ slow 1
     $ chop choppat0
-    -- $ jux rev
-    -- $ n "<0*8 3*4 2*6 1*4>" |> (irand 8) 
-    $ n "<0 3 2 1>"
+    $ jux rev
+    $ n "<0*8 3*4 2*6 1*4>" |> (irand 8) 
+    -- $ n "<0 3 2 1>"
     # s "sitar"
     # squiz 1
-    # legato 0.5
+    # legato 2
     # room 0.5
 
 
@@ -104,6 +106,7 @@ hush
 
 
 do
+  d2 silence
   d4 silence
   d6 silence
   d7 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
@@ -146,6 +149,8 @@ d5 $ fast 4
   # s "amencutup"
   # gain 1.0
 
+d5 silence
+
 
 d3 $ while (binaryN 8 "<3432 3252>") (|+ n "<-7 -12>") 
   $ every 3 (# vowel "e a")
@@ -157,29 +162,7 @@ d3 $ while (binaryN 8 "<3432 3252>") (|+ n "<-7 -12>")
   # gain 0.8
 
 
-
-do
-  d4 silence
-  d5 $ degradeBy 0
-    $ slow 1
-    $ n (off "<0.125 0>" (|+ "<19 7>") "<a4 ~> [c4 f4] <e5 [c4 e5]> [a4 c4]")
-    # s "[tides, pfm2]"
-    # legato 2
-    # pF "timbre" 0.3
-    # pF "harm" "<0.6 0.7!3 0.5>"
-    # pI "engine" 4
-    # pF "morph" "<0.9 0 0.4 0.1>"
-    # vowel "a e i o"
-    # room 0.3 #sz 0.6
-    # clouds 0.03 0.4 0.8 0.1
-    # cloudsmode 1
-    # cloudspos 3
-    # cloudspitch 0.8
-    # cloudspos 0.5
-    # cloudssize 0.8
-    # cloudsdens 0.9
-    # cloudstex 0.9
-    # gain 1
+d3 silence
 
 
 do
@@ -229,4 +212,29 @@ do
     # vowel (chooseBy rand ["e", "a", "i", "u"])
     # gain 0.8
     -- # lpf (slow 4 sine * 1200)
+
+do
+  d2 silence
+  d3 silence
+  d6 silence
+  d5 $ degradeBy 0
+    $ slow 1
+    $ n (off "<0.125 0>" (|+ "<19 7>") "<a4 ~> [c4 f4] <e5 [c4 e5]> [a4 c4]")
+    # s "[tides, pfm2]"
+    # legato 2
+    # pF "timbre" 0.3
+    # pF "harm" "<0.6 0.7!3 0.5>"
+    # pI "engine" 4
+    # pF "morph" "<0.9 0 0.4 0.1>"
+    # vowel "a e i o"
+    # room 0.3 #sz 0.6
+    # clouds 0.03 0.4 0.8 0.1
+    # cloudsmode 1
+    # cloudspos 3
+    # cloudspitch 0.8
+    # cloudspos 0.5
+    # cloudssize 0.8
+    # cloudsdens 0.9
+    # cloudstex 0.9
+    # gain 1
 
