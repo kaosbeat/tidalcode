@@ -14,7 +14,7 @@ do
   x1 $ slow 1 $ vizscene "rtext*4"
     # vizcommand "clear"
     # vizoption "big"
-    # vizword1 "RAVE 200"
+    # vizword1 "RAVE 180"
     # vizword2 "LETS BPM"
 
 do 
@@ -47,8 +47,8 @@ do
     # s "midi"
     # midichan 1
 
-hush
-    
+
+
 do
   let pat0 = "3 1 1 1 <1 1> 1 1 1" 
   let pat = pat0
@@ -80,10 +80,9 @@ do
 
 d3 $ n "1 2 1 3 1 2 <2 [1*4]> 1"
   # s "[snare:3*[2 8] snare:2*4]"
-  
 
 
-viz2
+
 
 do
   d3 $ slow "4" $ speed "0.5 ~ ~ 1 " # s "pad:1"
@@ -147,10 +146,10 @@ do
 
 do
   cube6
-  d7  $ slow 1 $ randslice 16 $ s "announcement:4*4"
-    # legato 1
-    # gain 1
-  d7 silence
+  d7  $ slow 1 $ randslice 8 $ s "announcement:4*4"
+    # legato 2
+    # gain 1.2
+  -- d7 silence
   d1  $ n "1 1 1 1" 
      # s "[hardkick:2, axo , midi]"
      # midichan 0

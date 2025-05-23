@@ -1,0 +1,133 @@
+-- /// midiClock ///
+
+let hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16]
+
+startclock = do
+        p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
+        once $ midicmd "stop" # s "[pfm2 ,axo] "
+        p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
+
+
+once $ midicmd "stop" # s "[pfm2 ,axo] "
+
+startclock
+
+
+
+-- ///LOOPER///
+
+setcps 0.4
+
+linput = pI "linput"
+lname = pS "lname"
+
+d1 $ s "kick:2 [kick snare]!3"
+
+
+d2 $ s "clap:1 clap!3"
+
+ 
+
+hush
+
+
+
+
+
+do
+  resetCycles
+  d1 $ n "2 1 1 1"
+    # s "kick"
+    # lpf 540
+
+d12 $ qtrigger  $ slow 16 
+    $ n "<0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15>"  # s "rlooper" 
+    # linput 0   
+    # lname "sax9"
+
+
+d12 silence
+
+
+
+d3 $ slow 4
+  # chop 16
+  $ n "0"
+  # s "sax9"
+  # legato 0.2
+  # speed 2"
+  
+
+
+
+
+
+d4 $ slow 8
+  -- # striate 16
+  $ n "9 10 11 12 13 14 15 16" 
+  # s "sax9"
+  -- # vowel "a e a i"
+  # legato 1
+
+
+hush
+
+
+
+
+
+
+
+
+
+
+
+d4 silence
+
+
+hush
+
+
+d2 $ slow 2
+    $ striate 4
+    $ n "1 2 <3*2 5*4> <4*8 5>"
+    # s "sax1"
+    # speed 1
+    # legato 2
+
+
+d3 $ slow 2 $ chop 1 $ scramble 2 
+    $ n "1 ~ ~ <4 7>"
+    # s "sax2"
+    # legato 1
+    # vowel "e a"
+
+
+d2 silence
+
+d3 silence
+
+
+d4 $ slow 4
+  $ n "1 2 3 4"
+  # s "sax3"
+  # speed 2
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
