@@ -1,0 +1,304 @@
+setcps(150/60/4)
+
+d5 silence
+
+hush
+
+d1 silence
+
+do
+  -- hush
+  cubes
+  cube1
+  midihush
+  asciihush
+  hydramode 0 
+  let pat0 = "<0 0> [0 ~]!3"
+  let pat1 = "0(3,8) 0(5,8)"
+  let pat = pat1
+  d1 $ stack [
+    slow 1 $ n pat # s "[axo]" #  midichan 0,
+    -- every 2 ghost $ slow 1 $ n "[~ 3]!4" # s "house",
+    slow 1 $ n pat # s "axo" # midichan 0
+    ]
+    # lpf 1200
+    #legato 0.5
+  m1 $ n pat
+    # s "midi"
+     # midichan 1    
+  hydramode 3
+  hydramode 1
+  x1 $ slow 1 $ vizscene "rtext" <| pat
+    # vizcommand "clear"
+    # vizoption "slant"
+    # vizword1 "algorave livecoding"
+    # vizword2 "kaotec lambdasonic"
+
+
+
+do
+  d3 $ fast 0.5
+    $ every 2 ghost
+    $ n (off 0.06125 (|+| 0 ) "[~ d6] <[~ a5] [~ b5]> <[~ g5] [~ e5]>  <[~ ~ e5 g5] ~ ~>")
+    -- $ n (off 0.125 (|+| 0 ) "cs6 as5 as5 <[e5 g5] ~ ~>")
+    # s "pfm2"
+    # gain 1
+    # midichan 2 --SpaCID
+
+do
+  d3 $ fast 1
+    $ n "[~ <d6 e5 g5 a5>]!4"
+    # s "pfm2"
+    # midichan 2
+  
+
+d7 silence
+
+d3 silence
+
+
+
+
+do
+  cubes
+  let pat0 = "[~ 1]!4"
+  let pat1 = "[~ 1?0.4]*4"
+  let pat2 = "1(5,8)"
+  let pat = pat2
+  d2 $ fast 1
+    $ n pat
+    # s "axo"
+    # midichan 1
+  m2 $ fast 4 $ ccn 4 # ccv (40 + (irand 60)) # s "midi" # midichan 1
+  randrot pat 127 127 127
+  cam1
+  hydramode 0
+
+do
+  -- d2 silence
+  d1 $ n "e e e e"
+    # s "[hardkick,  axo]"
+    # midichan 0
+    # legato 0.5
+
+
+ hush  
+
+do
+  -- resetCycles
+  let pat3 = "[<e4 a3> ~] [<d3 b3> <e3 e4>] <g3 d4> _ "
+  let pat = pat3
+  d6 $ degradeBy 0
+    $ slow 4
+    $ n pat
+    # s "snc"
+    # octave 6 
+
+
+do
+  d7 silence
+  d6 silence
+
+do
+  -- resetCycles
+  let pat0 = "g e g d"
+  let pat1 = "e a a e"
+  let pat2 = " e b a g"
+  let pat = pat1
+  d6 $ degradeBy 0
+    $ slow 1
+    $ ply "<1 2 >"
+    $ n (off 0.125 (|+| 7 ) pat)
+    -- $ n pat
+   x    # s "snc"
+    # octave 4 
+    # legato "<0.5 1 0.75 0.5>"
+
+d7 silence
+
+
+
+
+hush
+
+do
+  let pat0 = "5 1 4 ~"
+  let pat = pat0
+  d7 $ slow 8 $ striate "<8 4>"
+    $ struct "t(<4 8 2>,16)"
+    $ n pat0
+    # s "celly"
+    # legato 2
+    # gain 1.3
+
+d7 silence
+
+d8 silence
+
+d8 $ slow 4
+  $ n "0"
+  # s "celly"
+  # gain 1.3
+
+d3 silence
+
+d7 silence
+
+
+    
+x1 $ vizscene "signal*8"
+    # vizcommand "perspsq*8"
+    # vizoption "clear*8"
+  
+
+
+
+startclock
+
+
+do
+  -- d1 silence
+  d3 silence
+  d7 silence
+
+--- brrrroptional
+d3 silence
+
+
+d3 $ fast 4 
+  $ n "<2  1 5> <~ ~> < 5 2 >~"
+  # legato 3
+  # s "snc" --C2
+
+
+
+d5 $ fast 4
+  $ chop 2
+  $ degradeBy "<1 0.5 0.25 0>"
+  $ n "1 2 3 4" |> (irand "<1 8 16>") 
+  # s "amencutup"
+  # gain 1.0
+  
+
+d5 silence
+  
+
+cube1
+
+
+
+
+do
+  let pat0 = "5 1 4 ~"
+  d7  $ slow 4 $ striate 4
+    $ struct "t(8,16)"
+    $ n pat0
+    # s "celly"
+    # legato 2
+    # gain 1.3
+
+d7 silence
+
+
+
+hush
+  
+
+
+
+  
+
+d3 silence
+
+hush
+
+d7 silence
+
+do  
+  d7 $ slow 1
+    $ degradeBy 0.6
+    -- $ loopAt 4
+    $ chop "2 16 8 4" 
+    $ stutter 2 (1/16)
+    -- $ striate 2
+    -- $ n "<3 2>"
+    $ n "0 1 5 4" 
+    # s "celly"
+    # legato "<0.7 0.6>"
+    -- # legato 1
+    # speed 1
+    # gain 1.2
+    # vowel "<a a e i>"
+    -- # room 0.5
+
+
+    
+x1 $ vizscene "signal*8"
+    # vizcommand "perspsq*8"
+    # vizoption "clear*8"
+  
+
+
+
+startclock
+
+
+do
+  -- d1 silence
+  d6 silence
+  d7 silence
+
+--- brrrroptional
+d3 silence
+
+
+d3 $ fast 4 
+  $ n "<2  1 5> <~ ~> < 5 2 >~"
+  # legato 3
+  # s "snc" --C2
+
+
+
+setcps(130/60/4)
+
+do  
+  d7 $ slow 2
+    $ degradeBy 0.6
+    $ loopAt 4
+    $ chop "16 16 8 32" 
+    $ stutter 8 (1/16)
+    $ striate 2
+    -- $ n "<3 2>"
+    $ n "0 1 5 4" 
+    # s "silence"
+    # legato "<0.7 0.6>"
+    -- # legato 1
+    # speed 1
+    # gain 1.2
+    -- # vowel "<a a e i>"
+    -- # room 0.5
+
+
+
+d7 $ slow 4
+  $ n "<0 1>"
+  # s "silence"
+  # gain 1.3
+
+
+
+d5 $ fast 4
+  -- $ chop 2
+  $ degradeBy "<1 0.5 0.25 0>"
+  $ n "1 2 3 4" |> (irand "<1 8 16>") 
+  # s "amencutup"
+  # gain 1.0
+  
+
+d6 silence
+  
+
+cube1 
+
+
+

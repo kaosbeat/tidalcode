@@ -1,1 +1,5 @@
 BootTidal.hs
+*.tidal#
+*.tidal~
+.#*.tidal
+*/dist-newstyle/*

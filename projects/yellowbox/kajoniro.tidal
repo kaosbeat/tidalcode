@@ -1,0 +1,94 @@
+
+hush
+
+
+setcps (145/60/4)
+
+
+d1 $ slow 1 
+  $ n "1 [~ 1] ~ ~ [1 ~ ~ 1] [~ 1] ~ ~"
+  -- $ n "2*2 [2 1]*2 <2 [2 3]> 2(3,8)"
+  -- $ n "~ 0 [~ ~ ~ 2] 0"
+  # s "[drum, axo]"
+  # room 0.5
+  # sz 0.6
+
+
+d2 $ slow 2
+  $ n "~ <1 [1 ~ ~ 1]> ~ 1"
+  # s "rm"
+  # room 0.5
+  # sz 0.6
+
+
+
+
+d3 $degradeBy 0.9 $ n "[~ [ 1]]*4"
+  # s "808oh"
+
+
+
+d5 $ slow 2
+  $ brak
+  $ n "e f [ e f] f"
+  # s "dbass"
+  # gain 1
+  # vowel "e a e i"
+  # krush 1
+
+
+d6 $ slow 2
+  $ struct (binaryN 16 12323)
+  $ n (off 0.125 (|+| 7) "c c <e f> f")
+  # s "snc"
+  # legato 2
+  # amp 1
+
+
+d6 silence
+
+
+-----------  LOOPER
+
+
+linput = pI "linput"
+lname = pS "lname"
+
+
+d12 $ slow 4
+  $ n "<0 1 2 3 4 5 6 7>"  # s "rlooper" 
+  # linput 0
+  # lname "bubu"
+
+
+d12 silence
+
+
+
+d5  $ slow 1 $ striate "<16 2>" $ n "1 2*4 1 4"
+  # s "bubu"
+  # speed "[1 2 4 0.5]"
+  # legato 2
+  # gain 1
+
+
+d5 silence
+
+let choppat0 = "<1 [16 32] [8 0] [0 4] 2>"
+
+let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
+
+
+d8 $ slow 1
+  $ chop choppat0
+  $ n "<0 1 2 3 4 5 6 7>"
+  # s "bubu"
+  # squiz 1
+  # krush 3
+  # gain 1.2
+  # vowel "e a e a"
+
+hush
+
+
+d12

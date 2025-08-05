@@ -1,0 +1,97 @@
+
+linput = pI "linput"
+
+lname = pS "lname"
+
+
+
+hush
+
+
+d1 $ stack [
+    s "looper" # n "<0 1 2 3>",
+    s "loop" # n "[0,1,2,3]",
+    s "808 cp!3"
+]
+
+
+hush
+
+
+d12 $ slow 4 
+  $ n "<0 1 2 3 4 5 6 7>"  # s "rlooper" 
+  # linput 0   
+  # lname "bubu"
+
+d12 silence
+
+once $ qtrigger $ s "rlooper" # linput 0
+
+d5  $ slow 1 $ striate "<16 2>" $ n "1 2 1 4"
+  # s "bubu"
+  # speed "[1 2 4 0.5]"
+  # legato 1
+  # gain 1
+  -- # squiz 3
+
+scaleList
+
+hush
+
+d1 silence
+
+d2 $ qtrigger 
+  $ seqP [
+    (0, 1, s "olooper" # lname  "bubu" # linput "6")
+    ]
+
+
+once $ s "freeLoops"
+
+d1 $ slow 2 $ qtrigger $ s "rlooper" 
+  # n "<0 1 2 3 4 5 6 7>"
+  # lname "loop" 
+  # linput "8"
+  
+d1 silence
+
+# n "<0 1 2 4>"-- analog recording
+
+-- once $ s "persistLoops" # "tloop"  -- not working
+
+hush
+
+d2 $ slow 2 $ s "loop" # n "0"
+
+startclock
+
+d2 $ slow 1 $ n "3"
+  # s "loop"
+  # legato 1
+  # gain 0.9
+  -- # speed "[1.5 2 4 4]"
+  # vowel "<e a i 0>"
+
+
+d4 $ s "clubkick:1*4"
+
+d2 silence
+
+d3 $ fast "1 2" $ n  "[1 2 ] ~ ~ ~"
+  # s "snare"
+  # room 1
+  # sz 0.7
+
+
+d3 silence
+
+d4 $ n "1 5  8 0"
+  # s "superreese"
+
+
+d1 $ slow 1 $ n "1 2 3 4"
+  # s "tloop"
+  # legato 0.9
+  # gain 0.9
+  # speed "[1.5 2 4 4]"
+  # vowel "<e a i 0>"

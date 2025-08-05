@@ -1,0 +1,126 @@
+
+----------- sitar
+
+do
+  d6 silence
+  d4 silence
+  d1 silence
+  d2 silence
+
+d7 $ fast 4
+    $ loopAt 4
+    $ slice"<8 16>" "5 5 5 5"
+    -- $ slice 8 "5 5 5 5"
+    -- $ slice 8 "<5 3> <2 3> 3 5"
+    $ s "sitar"
+    # gain 1
+
+d8 silence
+
+do
+  cube1
+  d2 silence
+  let pat0 = " 1 1 1 1"
+  let pat1 = "1 <~ 1 1*2> <1 1 1*4> <~ 1>"
+  let pat2 = "1 <~ 1> 1 ~"
+  d1 $ degradeBy 0
+    $ n pat1
+    # s "[tabla:21, gabba, midi]"  -- oncL --*/---
+    # legato 1
+    # midichan 1
+    # room 0.6
+    # sz 0.5
+    # gain 1
+
+
+
+do
+  let wl = 0.5
+  d2 $ s "kick:5(<2 6 5 7>,8)"
+    # waveloss wl
+    # crush  "<16 1>"
+    # scram 0
+    # gain 0.6
+  d3 $ s "kick:2(5,8)"
+    # waveloss wl
+    # room 0.6 # sz 0.1
+    # gain 0.5
+
+hydramode 2
+
+cubes
+
+cube1
+
+m1 $ n "1 2 3 4"
+  # s "midi"
+
+
+do
+  d3 $pressBy 0 
+    $ every 2 (|+| speed "0.5") 
+    $ every 3 (0.5 <~)
+    $ whenmod 8 6 (rev) 
+    -- $ n "4*4 <14 4> <14 7*4 14*2> [6 6*4]"
+    $ n "4 <14 4> <14 7 14> [6 6]"
+    # legato 2
+    -- $ cat []
+    # s"[tabla, midi]"  
+    # midichan 4 
+  line1
+  hydramode 11
+
+do
+  -- d7 silence
+  let choppat0 = "<16 [16 32] [8 0] [0 4] 32>"
+  let choppat1 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
+  let choppat2 = "<2 <[0 4] <[4 32]>> [2 8] 16>"
+  let choppat3 = "<32>"
+  d7 $ slow 1 
+    $ chop choppat1
+    -- $ jux rev
+    $ n "<0 3 2 1>" 
+    # s "sitar"
+    # squiz 0
+    -- # room 0.5
+
+
+d4 $ degradeBy 0.8
+    $ striate 2 
+    $ loopAt 4 
+    $ fast "<8 4 2>" 
+    $ randslice 16 
+    $ sound "sitar:3" 
+    # gain 0.8
+
+d4 $ slow 8 $ splice 16 "[<0*8 0*2> 3*4 2 4] [4 .. 7]" 
+    $ s"sitar"
+
+d3 silence
+
+
+-- d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
+--   # s "plaits"
+--   # legato 4
+--   # pF "timbre" (slow 16 (range 0 0.3 (sine)))
+--   # pF "harm" 4
+--   # pI "engine" 3
+--   # pF "morph" "<0.9 0 0.4 0.1>"
+--   # vowel "a e i o"
+--   # room 0.6 #sz 0.5
+--   # gain 0.9
+
+d5 silence
+
+
+
+
+d5 $slow 2  
+  $ n "1 2 ~ [1 4] "
+  -- $ n (off "0.125" (|+| "<19 26>") " 1*4 [2 7] ~ [1 4] ")
+  # s"moog"
+  # legato 2
+
+
+
+-------------------

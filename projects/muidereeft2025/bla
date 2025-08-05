@@ -1,0 +1,98 @@
+tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> tidal[]<> 
+<interactive>:2530:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> 
+<interactive>:2584:1: error:
+    parse error (possibly incorrect indentation or mismatched brackets)
+tidal[]<> 
+<interactive>:2542:3: error:
+    Variable not in scope: digA3c :: IO a0
+    Suggested fix:
+      Perhaps use one of these:
+        ‘digA3a’ (line 2498), ‘digA3b’ (line 2509), ‘dig3’ (line 2159)
+
+<interactive>:2543:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> 
+<interactive>:2553:3: error:
+    Variable not in scope: digA3c :: IO a0
+    Suggested fix:
+      Perhaps use one of these:
+        ‘digA3a’ (line 2498), ‘digA3b’ (line 2509), ‘dig3’ (line 2159)
+
+<interactive>:2554:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> tidal[]<> 
+<interactive>:2616:3: error:
+    Variable not in scope: digA3c :: IO a0
+    Suggested fix:
+      Perhaps use one of these:
+        ‘dig3Ac’ (line 2602), ‘Ghci243.digA3a’ (imported from Ghci243),
+        ‘digA3a’ (line 2580)
+
+<interactive>:2617:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> 
+<interactive>:2627:3: error:
+    Variable not in scope: digA3c :: IO a0
+    Suggested fix:
+      Perhaps use one of these:
+        ‘dig3Ac’ (line 2602), ‘Ghci243.digA3a’ (imported from Ghci243),
+        ‘digA3a’ (line 2580)
+
+<interactive>:2628:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> tidal[]<> 
+<interactive>:2643:3: error:
+    Variable not in scope: digA3c :: IO a0
+    Suggested fix:
+      Perhaps use one of these:
+        ‘dig3Ac’ (line 2602), ‘Ghci243.digA3a’ (imported from Ghci243),
+        ‘digA3a’ (line 2580)
+
+<interactive>:2644:3: error:
+    Variable not in scope: digA4 :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘Ghci208.digA’ (imported from Ghci208),
+        ‘Ghci210.digA’ (imported from Ghci210),
+        ‘Ghci211.digA’ (imported from Ghci211)
+tidal[]<> 
+<interactive>:2654:3: error:
+    Variable not in scope: digA3c :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘dig3Ac’ (line 2602), ‘Ghci243.digA3a’ (imported from Ghci243),
+        ‘digA3a’ (line 2580)
+tidal[]<> 
+<interactive>:2664:3: error:
+    Variable not in scope: digA3c :: IO b
+    Suggested fix:
+      Perhaps use one of these:
+        ‘dig3Ac’ (line 2602), ‘Ghci243.digA3a’ (imported from Ghci243),
+        ‘digA3a’ (line 2580)

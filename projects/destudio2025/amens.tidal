@@ -1,0 +1,68 @@
+do
+  d4 $ n (slow 1 $ segment 8 $ range 0 32 $ rand) # s "amencutup"
+    # gain 1.2
+    # pan 0.5
+
+
+d4 $ fast "<8 4>"
+  $ striate "<8 4>"
+  $ n "<1 <2 <4 1> 2 1>>"
+  # s "amencutup"
+  # hpf 500
+  # gain (rand + 1)
+  # speed (rand + 0.5)
+
+
+  d4 $ n (slow 2 
+      $ segment 16 
+      $ range 8 14 $ rand) 
+      # s "amencutup"
+    # gain 1.2
+    # pan 0.5
+
+
+    hush  
+
+
+d4 $slow 2
+      $ segment 32 
+      $ range 8 32 
+      $ speed 1 + rand 
+      # s "amencutup"
+    # gain 1.2
+    # pan 0.5
+
+
+    d4 $ juxBy 0.3 rev $ striate "[<16 8 2> <8 4>]" $ s "amencutup*<8 4 8>" # n "<2 4>"
+        # gain 1.1
+
+
+d4 $ fast 4
+  -- $ chop 2
+  $ degradeBy "<1 0.5 0.25 0>"
+  $ n "1 2 3 4" |> (irand "<1 8 16>") 
+  # s "amencutup"
+  # gain 1.0
+  
+
+  d4 $ fast 3
+   $ loopAt 3
+   $ slice 24 (cat [
+     "13 14 15 16 17 18 19 20",
+     "21 22 15 15 13 14 13 14",
+     "13 14 15 16 17 18 19 20",
+     "21 22 15 13 13 14 13 14"
+     ])
+   $ s "breaks152"
+   # gain 1
+
+
+hush
+
+d4 $ while (binaryN 8 "<332 3227>") (|+ n "<-7 -12>") 
+  $ every 3 (# vowel "e a")
+  $ struct "t(9,16)" 
+  $ n "c7" 
+  # s "amencutup" 
+  --  # legato 0.5
+  -- # squiz 2

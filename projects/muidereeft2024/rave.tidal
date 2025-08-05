@@ -8,19 +8,25 @@ do
 
 setcps (135/60/4)
 
-
+cubes
 
 do
-    d1 $ n "3 3 3 3"
-        # s"[popkick, onc, midi]"
+    let pat0 = "3 3 3 3" 
+    d1 $ n pat0
+        # s"[popkick, axo]"
         # midichan 0
         -- # s"[midi]"
         # lpf 200
         # room 0.2
+    m1 $ n pat0
+      # s "midi"
+      # midichan 0
     m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
-    cube1
+    cube2
     cam1
     hydramode 2
+
+hush
 
 
 do

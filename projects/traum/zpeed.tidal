@@ -1,0 +1,117 @@
+
+setcps (175/4/60)
+
+do
+  hush
+  d5 $ slow 0.5
+    -- $ n  "1 1 [2 3] 8 1 6 7 _"
+    $ n "c4 c4 <[cs4 cs5]> f4 c4 e4 a4 _"
+    # amp "0.4!6 0.9!2"
+    # legato 0.9
+    # s "snc"
+    # octave 4
+    # gain 0.8
+
+
+
+do
+  -- hush
+  hydramode 3
+  hydramode 1
+  cube3
+  cam1
+  d1 $ fast "<1 1 1 1>" $ n "<3 5 4 3 3 > 3!3"
+    # s "[hardkick, midi]"
+    # midichan 1
+    # gain 1
+    # squiz 1
+
+
+do
+--   hush
+  d5 $ fast 4 $ n "c4 c4 <cs4 cs5> c4"
+    # legato "1!2 1.5 0.9"
+    # amp "0.5 0.5 0.9 0.5"
+    # s "snc"
+    # octave 3
+
+d7 $ fast 0.25 $ n "f e f e"
+  # legato 0.4
+  # s "snc"
+
+
+do
+  hydramode 4
+  d7 silence
+  let pat0 = "3*4"
+  let pat = pat0
+  d1 $ n pat
+    # s "[hardkick]"
+  m1 $ n pat
+    # s "midi"
+    # midichan 1
+
+hush
+
+
+d6 $ slow 2 $ chop 8 
+    $ scramble 16
+    $ n "0 1 1 0" 
+    # s "turbo"
+    # gain 1
+
+
+
+----------- break
+-- 303 ready?
+
+do
+  hush
+  once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
+  d6 $ fast 1
+    $ pressBy 0
+    -- $ n " c4 ~ c2 [c4 c6]"
+    $ n (off 0.125 (|+| 12) "c4 f4 <cs4 cs5> c4")
+    -- $ n "c5 [e4 ~] e3 f4"
+    # legato "1!2 1.5 0.9"
+    # amp "0.5 0.5 0.9 0.9"
+    # s "[snc , midi]"
+    -- # midichan "[2]"
+    # gain 0.8
+
+
+
+hush
+
+do
+  d4 silence
+  let pat0 = "4 4 4 4"
+  d1 $ n pat0
+    # s  "[hardkick]"
+    # gain 1
+  d2 $ n pat0 |> 0
+    # s "axo"
+    # midichan " 4 4 4 4" |>  1
+  m2 $ ccn "10*4" # ccv "4 1 2 3" # s "midi" # midichan 1 -- wire
+  -- hushcubes
+
+  once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
+
+  do
+    -- d6 silence
+    d2 silence
+    d3 $ fast 3
+        $ loopAt 3
+        $ slice 24 (cat [
+            "[1 ~] [2 ~] [~ 1]  [2 ~] " |+ "14",
+            "[1 0] [2 [0 2]] [[0 2] 1] [2 0 ]" |+ "25",
+            "[1 0] [2 1*4]*2 [0 2]  [1 0] " |+ "21",
+            "[1 5] [2 5] [5 1]  [2 5] " |+ "14",
+            "[~ 5] [<1 8> 5] [6*8 1]  [2*4 5] " |+ "14",
+            "13 15 16 17 18 19 20 21"
+            ]
+        )
+        $ s "breaks152"
+        # gain 1
+
+

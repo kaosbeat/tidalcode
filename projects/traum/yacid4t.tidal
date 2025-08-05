@@ -1,0 +1,97 @@
+-- yacid4t
+-- onc preset 1
+-- snc patch 2
+do
+  hush
+  startclock
+  setcps (158/60/4)
+
+do
+  hush
+  d1 $ n "<5 5 5 6> 5!3"
+    # s "[bassdm, axo]"
+    -- # s "[jungle]"
+    # gain 1
+
+do
+  hydramode 0
+  hydramode 1
+  d2 $ n "[~ <3 2 3 12>] [~ 2]!3"
+    # s "[snc, bass1]"
+    # gain 1
+  x1 $ slow 1 $ vizscene "intersect*4"
+    # vizsize "8"
+    # vizframewait "0.05"
+  hydramode 9
+
+d2 silence
+
+
+d4 $ slow 4 $ chop 8 $ striate 2 $ s "voc:1 voc:0"
+    # gain 0.8
+    # speed 1.7
+    # room 0.8
+
+d4 silence
+
+do
+  d5 $ degradeBy 0.5 $ fast 2 $ mask "t(<8 4 2 4>,16)" $ n "1*16"  |> irand 16
+    # s "amencutup" 
+    # room 0.5
+    # size 0.2
+  x1 $ vizscene "signal*32" <| "t(<8 4 2 4>,16)" 
+    # vizcommand "cube!3 circles!3  perspsq!2"
+    # vizoption"clear*7 clear"
+
+d5 silence
+
+
+d7 $ fast 2 $ n "2 1 8 1"
+    # legato 1
+    # octave 3
+    # s "snc"
+
+
+do
+  lines
+  line1
+  let pat0 = "<2 1*4> 1*2 <8 [8 <1 ~> 8 <1 ~ 1> ] 8> 1*2"
+  let pat = pat0
+  d7 $ fast 2 $ n pat
+    # legato 1
+    # octave 3
+    # s "snc"
+  m1 $ n pat
+    # s "midi"
+    # midichan 2
+  hydramode 10
+
+d7 silence
+
+
+d8 $ fast 4 $ n "[8 1] 8 [8 1] 8"
+    # legato 0.4
+    # s "snc"
+
+d8 silence
+
+do
+   let pat = "0 0 0 <0 0 0 [1 0]>"
+   d1 $ n pat
+        # s "axo" 
+        # midichan ( fmap ([0,1,2]!!) $ pat)
+        -- # midichan pat
+
+do
+  d3 $ n " 1 1 1 1"
+    # s "kick:3"
+    # gain 1
+  d2 silence
+
+
+
+x1 $ slow 1  $ vizscene "banner*4"
+  # vizcommand (slow 1 "lambdalogo*4")
+
+
+hush 

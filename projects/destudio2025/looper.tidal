@@ -1,0 +1,24 @@
+
+linput = pI "linput"
+
+lname = pS "lname"
+
+hush
+
+d1 $ slow 4 
+  $ n "<0 1 2 3 4 5 6 7>"  # s "rlooper" 
+  # linput 0
+  # lname "train"
+
+
+
+d5  $ slow 1 $ striate "<16 2>" $ n "1 2 1 4"
+  # s "train"
+  # speed "[1 2 4 0.5]"
+  # legato 1
+  # gain 1
+  -- # squiz 3
+
+
+d1 $ n "1 1 ~ 1"
+    # s "kick"

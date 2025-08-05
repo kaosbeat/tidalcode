@@ -23,6 +23,7 @@ d6 $ slow 2 $ s "hardkick(<7 5 7>,<8 16>,0)"
   # lpf 690
   # squiz 1
 
+
 hush
 
 
@@ -50,17 +51,17 @@ hush
 
 d5 $ n "c4!11 c3 c4!4"
   # legato 1
-  # s "td3"
+  # s "acid309"
 
 d6 $ n "~ c5 ~ ~ c5 ~!11"
-  # s "td3"
+  # s "acid309"
   # amp 0.9
 
 
 d4 $slow 2 $ n " 1!8"
   # s "kick"
-  # room "2.9 0.1!7"
-  # sz "2.9 0!7"
+  # room "0.9 0.1!7"
+  # sz "0.9 0!7"
 
 
 hush
