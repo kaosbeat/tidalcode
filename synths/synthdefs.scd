@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/efairbanks/tidal-performance-2019/master/synth
     var sound = DirtPan.ar(carrier, ~dirt.numChannels, pan, envGen);
     Out.ar(out, sound);
   }).add;
+
   SynthDef(\wub, {
     |out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan, accelerate, offset|
     var line = Line.ar(begin, end, sustain, doneAction:2);
@@ -24,6 +25,7 @@ https://raw.githubusercontent.com/efairbanks/tidal-performance-2019/master/synth
     var sound = LPF.ar(car, DC.ar(20000)*envGen+DC.ar(10))*(-11.dbamp);
     Out.ar(out, DirtPan.ar(sound, ~dirt.numChannels, pan, envGen));
   }).add;
+
   SynthDef(\sawpluck, {
     |out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan, accelerate, offset|
     var line = Line.ar(begin, end, sustain, doneAction:2);
@@ -153,15 +155,17 @@ SynthDef(\ultrasaw, {
 	//sound = RLPF.ar(sound, Clip.ar(envGen*freq*48, 0, 20000), 0.5);
 	Out.ar(out, DirtPan.ar(sound, ~dirt.numChannels, pan, envGen));
 }).add;
+
 SynthDef(\acid, {
 	|out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan, accelerate, offset, clamp=1, res=0.2, mix=0.1|
 	var line = Line.ar(begin, end, sustain, doneAction:2);
 	var env = Env([0, 1, 0], [0.01, 1], curve:-3);
 	var envGen = IEnvGen.ar(env, line*env.times.sum*abs(speed));
-	ar carrier = RLPF.ar((Saw.ar(freq)*(1-mix))+(Pulse.ar(freq)*mix), envGen*clamp*18000,res);
+var carrier = RLPF.ar((Saw.ar(freq)*(1-mix))+(Pulse.ar(freq)*mix), envGen*clamp*18000,res);
 	var sound = DirtPan.ar(carrier, ~dirt.numChannels, pan, envGen);
 	Out.ar(out, sound);
 }).add;
+
 SynthDef(\sinosc, {
 	|out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan=0.5, accelerate, offset|
 	var env, envTimes, envGen, line, sound, rate, phase;

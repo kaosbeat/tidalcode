@@ -1,0 +1,45 @@
+hush
+
+d1 $ n "1 ~ ~ ~ ~ 1 ~ ~ "
+  # s "hardkick"
+  # speed "<0.6  0.8  0.4  1 >"
+
+do
+  let pat1 = "~ ~ 2 ~ ~ ~ 2 ~"
+  let pat2 = "[1 2]!4 ~ ~ 2 ~"
+  let pat = pat1
+  d2 $ n pat
+    # s "gabba"
+    # squiz 6
+    # gain 1.5
+    # hpf 1500
+    # hpq 0.3
+
+hush
+
+d4 $ fast 2 $ n "5*8" 
+  # s "cpu"
+  # speed 1 |> ((rand ) + 0.5)
+  # squiz 8
+  # gain "1.6?0.3"
+
+d5 $ n (off 0.125 (|+| 7)  "c <~ a> <d e> ~ " )
+  # s "acid"
+  # legato 0.8
+  # lpf 600
+
+d7 silence
+
+
+d7 $ slow 8
+  $ n (off 0 (|+| 0) " c f d e")
+  # s "midi"
+  # octave 3
+
+d8 $ n "1*8" |> (irand 8)
+  # s "amencutup"
+  # gain "1.4" |> (rand)*1.6
+
+d7 silence
+
+  
