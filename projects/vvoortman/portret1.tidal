@@ -20,6 +20,7 @@ d5 $ slow 4  $ n "1 2 1 ~"
 
 d5 silence
 
+d6 rush
 
 d6 $ slow 4
   $ n (off 0.06125 (|+ 12) "a [a d] f [d ~ e f] ")
