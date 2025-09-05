@@ -8,32 +8,50 @@ d1 $ n "1 ~ ~ <1 ~ >  ~ 1 ~ ~"
 d2 $ n "~ ~ <1 2 2>*<4 2 1 1> ~ ~ ~ 1 ~"
   # s "snare"
 
+d3 silence
 
 d3 $ chop 1
   $ n " 1 2 3 4 5 6 7 8" |> (irand 8) 
   # s "amencutup"
-  # gain 1.4
+  # gain 1.2
   
 
 d5 $ slow 4  $ n "1 2 1 ~"
-  # s "midi" -- Electric city
+ --  # s "midi" -- Electric city
+  # s "pfm2" -- minimoog
+  # midichan 1
 
+
+d5 $ slow 4 $ chop 2
+  $ n "1 2 [1 <4*4 2>] [~ <1 4 8>*8]"
+ --  # s "midi" -- Electric city
+  # s "pfm2" -- minimoog
+  # midichan 1
+
+
+
+
+
+  
 d5 silence
 
-d6 rush
+d7 silence
 
 d6 $ slow 4
   $ n (off 0.06125 (|+ 12) "a [a d] f [d ~ e f] ")
   # s "donk"
   # legato 2
-  # lpf 200
+  # lpf 1200
+  # gain 1.2
 
 
 d7 $ slow 0.5
   $ n "a?0.6 f?0.5 d?0.3 e?0.4"
-  # s "acid"
+  # s "acid309"
   # lpf 1800
   # gain 1
+
+
 
 
 

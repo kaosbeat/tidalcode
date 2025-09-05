@@ -1,0 +1,14 @@
+
+
+do
+  hydramode 9
+  hydramode 2
+  a1 $ slow 1 $ vizscene "text*8"
+    # vizcommand "none"
+    # vizoption "alligator2"
+    # vizword1 "All  ~  Cats  ~  Are   ~ Bonkers  ~"
+    # vizword2 "x"
+    # vizx "5 4"
+    # vizy (7 +(irand 37))
+
+
