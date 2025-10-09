@@ -273,7 +273,7 @@ let
         once $ ccn 6 # ccv 17 # s "midi" # midichan 2 -- size
     asciiseq1 = do
         a1 $ vizscene "signal*8"
-            #vizcommand "cube!3 [cube cube]"      
+            # vizcommand "cube!3 [cube cube]"      
     hydramode p = once $ ccn 119 # ccv p # s "midi" #midichan 0
     startclock = do
         p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"

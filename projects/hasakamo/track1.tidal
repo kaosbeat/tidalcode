@@ -1,0 +1,56 @@
+-- start midi clock
+
+hush 
+-- start a beat
+
+
+d1 $ slow 1
+  -- $ rev
+  -- $ n "1*4"
+  $ n "[2 4 2 ~](3,8)"
+  # s "snc"
+  # midichan 4
+
+d2 $ n "2 3 1 2 "
+  # s "snc"
+  # midichan 5
+
+
+d2 $ n "3*16?0.1" |> (irand 2) 
+  # s "amencutup"
+  # room 0.6
+  # sz 0.6
+  # legato 0.2
+
+
+d3 $ n "1*4"
+  # s "axo"
+  # midichan 0
+
+
+
+
+
+d5 $ slow 4
+  $ n  (off "0.125" (|+| "12")  "e [f a] c ~")
+  # s "pfm2"
+  # ⌊zzzzzzzzzzzzzzzzzzzzzzzzzzsilegato 2
+
+
+  
+
+
+
+
+
+hush
+
+
+
+
+
+
+
+
+
+  

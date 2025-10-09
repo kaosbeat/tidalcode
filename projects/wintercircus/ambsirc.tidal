@@ -6,7 +6,7 @@ do
 
 hydramode 1
 
-cubes
+cube
 
 do 
     cubes
@@ -67,8 +67,11 @@ do
 do
   cam2
   hydramode 3
-  d6 $ striate (irand 32)
-    $slow 4 $ juxBy 0.6 rev $ n (off "<0.125>" (|+ 12) "a [~ g ] [c a ] [g d5 ]")
+  d6 
+    -- $ striate (irand 3 )
+    $ slow 4
+    -- $ juxBy 0.6 rev
+    $ n (off "<0>" (|+ 12) "a [~ g ] [c a ] [g d5 ]")
     # s "tides"
     # sustain "4"
     # octave "<[3|6] 5 4 [5|6] [4|3]>"
@@ -89,7 +92,7 @@ hush
 
 do
   once $ ccn 1 # ccv 127 # s "midi" # midichan 5
-  d4 $degradeBy "0.6 0.5" $ slow 8
+  d4 $ degradeBy "0.6 0.5" $ slow 8
     $ juxBy 0.5 rev
     $ striate 2
     $ n "1 22 3 4 7 5 8 9"

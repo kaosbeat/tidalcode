@@ -17,12 +17,13 @@ d3 $ chop 1
   
 
 d5 $ slow 4  $ n "1 2 1 ~"
- --  # s "midi" -- Electric city
+  --  # s "midi" -- Electric city
   # s "pfm2" -- minimoog
   # midichan 1
 
 
 d5 $ slow 4 $ chop 2
+  -- $ n "1 2 ~ ~ "
   $ n "1 2 [1 <4*4 2>] [~ <1 4 8>*8]"
  --  # s "midi" -- Electric city
   # s "pfm2" -- minimoog
@@ -41,7 +42,7 @@ d6 $ slow 4
   $ n (off 0.06125 (|+ 12) "a [a d] f [d ~ e f] ")
   # s "donk"
   # legato 2
-  # lpf 1200
+  # lpf 200
   # gain 1.2
 
 
