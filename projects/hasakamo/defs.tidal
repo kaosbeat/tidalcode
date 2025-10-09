@@ -1,0 +1,10 @@
+let
+    startclock = do
+        p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
+        once $ midicmd "stop" # s "[pfm2 ,axo] "
+        p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
+
+
+do
+  once $ midicmd "stop" # s "[pfm2 ,axo] "
+  startclock

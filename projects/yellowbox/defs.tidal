@@ -11,6 +11,6 @@ once $ midicmd "stop" # s "[pfm2 ,axo] "
 startclock
 
 
+p "midiclock" silence
 
-
-
+hush

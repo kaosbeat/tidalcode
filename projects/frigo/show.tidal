@@ -1,14 +1,76 @@
 hush
 
+a1 $slow 2 $ vizscene "rtext*4"
+  #vizcommand "clear*8"
+  # vizoption "slant"
+  # vizword1 "algorave"
+  #vizword2 " kaotec"
 
-d1 $ n "5(<5,3,3>,8)"
-  # s "snc"
-  # midichan 4 -- kick
 
+  
+-- snc load preset3 
+do
+  let pat = "1(<4 5>,8)" 
+  x1 silence
+  d1 $ n pat
+     # s "snc"
+     # midichan 4 -- kick
+  asciicube2 pat
 
-d2 $ n "5(<7,5>, 8,3)"
+d2 $ n "5(<7 5 >,8,1)"
   # s "snc"
   # midichan 5 --snare
 
+d3 $ slow 4
+  $ chop "<1 2 4 8>"
+  $ n " c a d ~"
+  # s "pfm2"
 
+d3 silence
+
+d5 $ slow 4
+  $ chop "2"
+  $ s "phone:2"
+  # legato 2
+  # vowel "a"
+  # delay 0.5
+  # delayfb 0.6
+
+  
+d5 $ slow 4
+  $ chop "16 8 4 1"
+  $ s "phone:3 phone:2 phone:5 phone:2"
+  # legato 4
+  # gain 1
+  # vowel "a"
+  # delay 0.5
+  # delayfb 0.8
+
+
+hush
  
+do
+  let pat0 = "1!8"
+  let pat1 = "<2 [2 2] 3*2 3!1>" 
+  let pat = pat0
+  d8  $ degradeBy "<0 0.5>"
+    $ n pat
+    # s "rave"
+    # room 0.5
+    # size 0.2
+    # gain 1
+
+do
+  d8 silence
+  d1 $ n "1!4"
+    # s "[hardkick, axo]"
+
+do
+  let pat = "5(<7 2>,8)"
+  d2 $ n pat
+    # s "snc"
+    # midichan 6 --clap
+
+
+
+
