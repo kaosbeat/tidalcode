@@ -1,10 +1,32 @@
 let
     startclock = do
-        p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
-        once $ midicmd "stop" # s "[pfm2 ,axo] "
-        p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
+        p "midiclock" $ midicmd "midiClock*96" # s "[axo]"
+        once $ midicmd "stop" # s "[axo] "
+        p "midictl" $ midicmd "start/4" # s "[axo]"
+
+hush
 
 
 do
-  once $ midicmd "stop" # s "[pfm2 ,axo] "
+  once $ midicmd "stop" # s "[axo] "
   startclock
+
+
+setcps (120/60/4)
+
+once $ ccn 0 # ccv 64 # s "axo" # midichan 0 -- size
+
+once $ ccn 5 # ccv 127 # s "axo" # midichan 0 -- size
+
+-- Maybe there is a more elegant way then abusing seqP for this?
+seqC x y pt= (p x . (|< orbit (x-1))) $ qtrigger x $ seqP [(0, y, pt)]
+
+once' x = seqC x 1
+
+
+once $ n "1 2 2 2" # s "snare" 
+
+
+
+d1 $ n"1 2 2 2"
+  # s "kick "
