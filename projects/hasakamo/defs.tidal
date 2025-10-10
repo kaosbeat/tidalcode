@@ -30,7 +30,7 @@ setlooplength 16
 stoploop
 
 
-
+m2 $ ccn "4*16" # ccv "[1 127]" # s "axo" # midichan 0 -- size
 
 
 
