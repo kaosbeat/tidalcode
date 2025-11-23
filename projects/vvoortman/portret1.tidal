@@ -1,8 +1,38 @@
 hush
 
-setcps(155/60/4)
+setcps(135/60/4)
 
-d1 $ n "1 ~ ~ <1 ~ >  ~ 1 ~ ~"
+--eerie drone
+do
+  d4 $ slow 2 $ sound "indust:7*2 indust:6*2" # legato 2  # shape (slow 2 saw)
+    # room "0.8"
+    # speed "0.5"
+    # sz (range 0.4 1 $ slow 8 perlin)
+    # gain 0.8
+  d5 $ slow 5 $ s "indust" <| n (run 10)
+    # lpf "400 850 550"
+    # lpq "0.4"
+    # pan (slow 4 saw)
+    # room "0.5" # size "0.1"
+    # gain "0.6"
+  d6 $ sound "indust:7*4"
+    # shape (slow 8 saw)
+    # room "0.8"
+    # legato 0.6
+    # sz (range 0.4 1 $ slow 6 perlin)
+    # gain 1
+    # pan "0.125 0.625"
+
+
+
+xfade 5 $ fast 4 
+  $ s "cpu?0.1 ~ cpu?0.4 cpu?0.6" 
+  # n (choose [0,2,3, 1, 5])
+  # gain 1.2
+
+d6 silence
+
+d1 $ n "1 ~ ~ <~ ~ 1 >  <1 ~> <~ 1> ~ ~"
   # s "kick"
 
 
@@ -10,45 +40,43 @@ d2 $ n "~ ~ <1 2 2>*<4 2 1 1> ~ ~ ~ 1 ~"
   # s "snare"
 
 
-d3 silence
+d2 silence
 
-d3 $ chop 1
+d3 $ s "~"
+
+xfade 3 $ chop 1
   $ n " 1 2 3 4 5 6 7 8" |> (irand 8) 
   # s "amencutup"
   # gain 1.2
   
 
-d5 $ slow 4  $ n "1 2 1 ~"
-  --  # s "midi" -- Electric city
-  # s "pfm2" -- minimoog
+d5 $ slow 4 $ chop 8  $ n "1 <4 [2 2 4 2]> <1 4>  ~"
+  # s "midi" -- Electric city
+  -- # s "pfm2" -- minimoog
   # midichan 1
 
 
-d5 $ slow 4 $ chop 2
-  -- $ n "1 2 ~ ~ "
+xfade 5 $ slow 4 $ chop 2
   $ n "1 2 [1 <4*4 2>] [~ <1 4 8>*8]"
- --  # s "midi" -- Electric city
-  # s "pfm2" -- minimoog
+  # s "midi" -- Electric city
+  -- # s "pfm2" -- minimoog
   # midichan 1
-
-
 
 
 
   
-d5 silence
+d6 silence
 
 d7 silence
 
-d6 $ slow 4
-  $ n (off 0.06125 (|+ 12) "a [a d] f [d ~ e f] ")
+xfade 5 $ slow 2
+  $ n (off 0.125 (|+ "<7 12 19>") "a [a d] f [d ~ e f] ")
   # s "donk"
-  # legato 2
-  # lpf 200
-  # gain 1.2
+  # legato 1.5
+  # lpf 500
+  # gain 1
 
-
-d7 $ slow 0.5
+d3 $ slow 0.5
   $ n "a?0.6 f?0.5 d?0.3 e?0.4"
   # s "acid309"
   # lpf 1800
