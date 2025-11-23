@@ -3,41 +3,53 @@
 hush 
 -- start a beat
 
+setcps (135/60/4)
 
-d1 $ slow 1
-  -- $ rev
-  -- $ n "1*4"
+
+d1 $ slow 2
+  $ rev
+  -- $ n "[[~ 1] 2]*4"
   $ n "[2 4 2 ~](3,8)"
   # s "snc"
   # midichan 4
 
-d2 $ n "2 3 1 2 "
+
+d2 $ n "1*4"
   # s "snc"
   # midichan 5
+
+d1 silence
 
 
 d2 $ n "3*16?0.1" |> (irand 2) 
   # s "amencutup"
-  # room 0.6
+  # room 0.6 
   # sz 0.6
   # legato 0.2
+ 
 
-
-d3 $ n "1*4"
+d1 $ n "1"
   # s "axo"
   # midichan 0
 
+d5 $ slow 8
+  $ n" 1 2 3 4 7 6 5 8"
+  # s "science"
+  # gain 0.6
+  # speed (irand 10)/5+0.5
 
 
-
-
-d5 $ slow 4
-  $ n  (off "0.125" (|+| "12")  "e [f a] c ~")
+d5 $ slow 
+  $ n  (off "0.125" (|+| "12")  "e [f a] d ~")
   # s "pfm2"
-  # ⌊zzzzzzzzzzzzzzzzzzzzzzzzzzsilegato 2
+  # legato 2
 
 
-  
+d5 silence
+
+d5 $ slow 1 $ n "1 ~ ~ ~"
+  # s "phone:3"
+  # legato 0.4
 
 
 
@@ -47,9 +59,11 @@ hush
 
 
 
+d1 $ s "hh:1 hh:0!3"
 
 
 
+setcps (135/60/4)
 
 
 

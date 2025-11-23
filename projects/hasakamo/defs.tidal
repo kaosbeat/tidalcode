@@ -33,6 +33,7 @@ stoploop
 m2 $ ccn "4*16" # ccv "[1 127]" # s "axo" # midichan 0 -- size
 
 
+once $ ccn 0 # ccv 4 # s "axo" # midichan 0 -- length in quarters
 
 
 d1 $ slow 4 
