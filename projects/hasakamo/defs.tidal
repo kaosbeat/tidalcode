@@ -9,7 +9,7 @@ hush
 
 
 do
-  once $ midicmd "stop" # s "[axo] "
+  once $ midicmd "stop" # s "[snc] "
   startclock
 
 

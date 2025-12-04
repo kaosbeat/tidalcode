@@ -1,0 +1,13 @@
+d2 $ slow 2 
+  $ striate 1
+  $ chop 1
+  $ s "news" |> (irand 8)
+  # speed 0.7
+  # squiz 1
+  # gain 0.6
+
+
+
+d1 $ s "kick?0.8 snare?0.6"
+
+

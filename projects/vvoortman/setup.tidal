@@ -1,0 +1,21 @@
+-- start midi clock here
+let
+  setlooplength length = do
+    once $ ccn 0 # ccv length # s "axo" # midichan 0 -- length in quarters
+  setpitch ptch = do
+    once $ ccn 7 # ccv ptch # s "axo" # midichan 0 -- length in quarters
+  setstretch strch = do
+    once $ ccn 8 # ccv strch # s "axo" # midichan 0 -- length in quarters
+
+
+setstretch 64
+
+
+setpitch 66
+
+
+setlooplength 2
+
+
+
+setcps  (155/60/4)
