@@ -11,9 +11,9 @@ do
 
 
 d7 $ slow 2
-    -- $ n  ("'minor7 'dom7 ['min7flat9] ['minor7sharp5*2]" )
+    $ n  ("'minor7 'dom7 ['min7flat9] ['minor7sharp5*2]" )
     -- $ n  (off "0.125" (|+ 12)  ("['major7 <~ 'minor7 >] 'dom7 ['min7flat9] ['minor7sharp5*2]" ))
-    $ n ("'7sus4 'nineSus4 'major9 'minMaj7*2")
+    -- $ n ("'7sus4 'nineSus4 'major9 'minMaj7*2")
     # sound "pfm2"  --"pfm2 B1 algorave S2 eth.voice
     # gain 1
     # legato 0.6
@@ -37,7 +37,7 @@ d8 $ slow 8
     # midichan 1
     # octave 2 
 
-d8 silence
+d7 silence
 
 
 d1 $ slow 4 $ n "1 1*2 ~ 1" |> n "2 4"

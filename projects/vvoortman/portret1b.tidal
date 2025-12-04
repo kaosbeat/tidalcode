@@ -1,0 +1,98 @@
+hush
+
+setcps(155/60/4)
+
+d1 $ n "1 ~ ~ <1 ~ >  ~ 1 ~ ~"
+  # s "snc"
+  # midichan 4
+
+d2 $ n "~ ~ <1 2 2>*<4 2 1 1> ~ ~ ~ 1 ~"
+  # s "snc"
+  # midichan 5
+
+
+d3 $ degradeBy 0.3 $ chop 1
+  $ n " 1 2 3 4 5 6 7 8" |> (irand 8) + 4 
+  # s "amencutup"
+  # gain 1
+
+
+d4 $ n "1*8"
+  # s "snc"
+  # midichan 6
+
+
+  hush
+
+d5 $ slow 4  $ n "1 2 1 ~"
+  # s "midi" -- Electric city
+
+d6 silence
+
+
+d6 $ slow 4
+  $ n (off 0.06125 (|+ 12) "a [a d] f [d ~ e f] ")
+  # s "donk"
+  # legato 2
+  # lpf 200
+
+d7 silence
+
+
+d7 $ slow 1 $ chop 4 $ every 3 rev
+  $ n "a?0.6 f?0.5 d?0.3 e?0.4"
+  # legato 3
+  # s "snc"
+  # lpf 1800
+  # gain 1
+
+hush
+
+do
+  
+let bd1 = s "bd ~ ~ ~ ~ bd ~ ~"
+let bd2 = s "bd <~ ~ bd [~ bd]> ~ <~ bd> ~ bd ~ ~"
+let bd3 = s "bd ~ ~ bd ~ ~ bd ~"
+let sd1 = s "~ ~ sd ~ ~ ~ sd ~"
+let sd2 = s "~ sd ~ ~ <sd ~> <~ ~ [sd sd]> ~ sd"
+let sd3 = s "~ ~ sd ~ ~ sd ~ ~"
+let hh1 = s "hh*8"
+d1 $ seqPLoop [(0, 1, bd1),
+               (1, 1.5, bd1),
+               (1.5, 4, bd2),
+               (0, 2, sd2),
+               (2, 1, sd2),
+               (0, 3.75, hh1)
+              ]
+
+hush
+
+do
+  let bd1 = "1 ~ ~ ~ ~ 1 ~ ~"
+  let bd2 = "1 <~ ~ 1 [~ 1]> ~ <~ 1> ~ 1 ~ ~"
+  let bd3 = "1 ~ ~ 1 ~ ~ 1 ~"
+  let sd1 = "~ ~ 1 ~ ~ ~ 1 ~"
+  let sd2 = "~ 1 ~ ~ <1 ~> <~ ~ [1 1]> ~ 1"
+  let sd3 = "~ ~ 1 ~ ~ 1 ~ ~"
+  let hh1 = "60*8"
+  d1 $ slow 1
+    $ n bd2
+    # s "snc"
+    # midichan 4
+  d2 $ slow 1
+    $ n sd1
+    # s "snc"
+    # midichan 5
+  d3 $ slow 2
+    $ n hh1
+    # s "snc"
+    # midichan 6
+
+
+hush
+
+d1 $ s "bd sd"
+  # delay "0.8" # dt "q" # dfb 0.4
+  # orbit "1"
+
+

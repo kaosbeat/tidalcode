@@ -1,16 +1,20 @@
----- #### RASH
+ ---- #### RASHrace
 ---- kick > WASP > BIGEN(simpleclouds)
 
-hush
 
 do
   setcps (155/60/4)
+  hush
   let pat0 = " 0 0 0 <0 0 0 1>"
+  let pat1 = " 0 1 0 1"
+  let pat = pat0
   d1 $ fast 1
     -- $ every 4 (rev)
-    $ n pat0
+    $ n pat
     # s "axo"
-    # midichan pat0
+    # midichan pat
+  asciicats
+  
 
 d2 silence
 
@@ -20,7 +24,7 @@ d2 $ n "[~ 1]*4"
   # gain 1
   # room 0.5
   -- # krush "<2 4 8 16>"
-  -- # lpf (slow 4 $ 200 + (sine * 400))
+  # lpf (slow 4 $ 200 + (sine * 400))
 
 
 --WASP driver
@@ -33,15 +37,10 @@ d3 $ slow 4
 
 -- go rash (d1, f2)
 
-d4 $ slow 2
-  $ n "d1 d2 d2*4 f2"
-  # s "rash"
-
-
 d4 silence
 
-d4 $ slow 1
-  $ degradeBy 0.5
+d4 $ slow 2
+  $ chop 2
   $ n "d4(3,8) f5(3,4)"
   # s "pfm2"
 
@@ -52,8 +51,7 @@ d4 $ slow 1
 do 
   d4 silence
   d5 silence
-  once $ ccn 10 # ccv 4 # s "midi" # midichan 1
-  once $ s "voc"
+  once $ s "voc" # gain 1.2
 
 
 
@@ -61,17 +59,12 @@ d6 $ n " 2 3 4 5"
   # s "respect"
 
 do
-  cubes
-  cube1     
   d1 $ n "1*4"
     # s "[kick:2, midi ]"
     # midichan 1
-  hydramode 2
 
 
 do
-  cubes
-  cube1
   d4 silence
   d5 silence
   d2
@@ -79,11 +72,8 @@ do
     # s "[voc]"
     # room 0.5
     # lpf 200
-  cam2
-  hydramode 2
 
 do
-  hydramode 2
   d3 $ fast 1
     $ n "2 3 <2 [3 2] 2> 3 "
     -- $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
@@ -91,9 +81,6 @@ do
     # legato 0.6
     # midichan 1
     # room 0.4
-  once $ ccn 10 # ccv 32 # s "midi" # midichan 1 -- wire
-  -- cube2
-  cam3
 
 d8 $  chop "8" $ s "turbo:0 turbo:1"
   # octer "<0 0.5 1>"
@@ -110,43 +97,14 @@ d7 $ brak $ jux rev $ fast 1 $ stack [ n "[10 <15 16>]", n "10 17 19 16"]
     # vowel  "a e i a"
 
 
-cam1
-
-hush
+d3 silence
 
 
 do
-  hydramode 12
-  cube2
-  d4 silence
+  d2 silence
   d1 $ n "2*4"
     # s  "[clubkick]"
     # gain 1
-  m2 $slow 4 $ ccn "10*4" # ccv "4 1 2 3" # s "midi" # midichan 1 -- wire
-  -- hushcubes
-
-  once $ ccn 5 # ccv 127 # s "midi" # midichan 1 --size
-
-  do
-    -- d6 silence
-    d2 silence
-    d3 $ fast 3
-        $ loopAt 3
-        $ slice 24 (cat [
-            "[1 ~] [2 ~] [~ 1]  [2 ~] " |+ "14",
-            "[1 0] [2 [0 2]] [[0 2] 1] [2 0 ]" |+ "25",
-            "[1 0] [2 1*4]*2 [0 2]  [1 0] " |+ "21",
-            "[1 5] [2 5] [5 1]  [2 5] " |+ "14",
-            "[~ 5] [<1 8> 5] [6*8 1]  [2*4 5] " |+ "14",
-            "13 15 16 17 18 19 20 21"
-            ]
-        )
-        $ s "breaks152"
-        # gain 1
-    hydramode 11
-
-
-
 
 
 do
@@ -165,11 +123,8 @@ do
   hydramode 12
 
 
-stoprot
 
-cube1
 
-hush
 
 d3 silence
 
@@ -187,18 +142,16 @@ do
     # sz 0.8
     # gain 0.6
   -- cam1
-  m2 silence
-  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
 
 
 d2 $ s "bassdm:3*4"
-  # lpf 1200
+  # lpf 200
   # room "0.8 0.4!3"
   # sz "0.9 0.3!3"
 
 hush
 
-d2 silence
+d1 silence
 
 
 

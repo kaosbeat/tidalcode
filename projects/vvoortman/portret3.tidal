@@ -1,0 +1,37 @@
+setcps(120/60/4)
+
+
+d1 $ n "1 ~ 8 ~ <1> <1 ~> <~ 1 ~> ~"
+  # s "snc"
+  # midichan 4
+
+d2 $ n "1 ~ 4 2 ~ 4 ~ 1 "
+  # s "snc"
+  # midichan 5
+
+hush
+  
+
+d3 $ slow 2 $ "1*16" |> (irand 8)
+  # s "amencutup"
+  # legato 1.1
+  -- # djf ("^10")
+  -- # speed ("^13")/1+0.75
+  # gain 1.2
+  # speed (rand + 0.5)
+
+
+
+
+d5 $ slow 1 $ chop 8
+  $ degradeBy 0.4
+  $ n "[<a f> ~, c ~, e f, ~ c]"
+  # legato  0.62
+  # s "pfm2"
+
+ 
+
+
+
+
+
