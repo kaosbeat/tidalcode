@@ -119,7 +119,7 @@ d1 $ slow 1 $ s "kick:5 kick:4  [~ kick:5] <kick:4 kick:2>"
   # room (slow 4 (range 0.2 0.9 (sine)))
 
 
-[<16;78;27Md2 $slow 0.5 $ s "kick:5  kick:4 [~ kick:5] <kick:4> "
+d2 $slow 0.5 $ s "kick:5  kick:4 [~ kick:5] <kick:4> "
   # lpf "<400 800 1200 1600>"
   # lpq 0.3
 

@@ -13,7 +13,7 @@ d1 $ s "[[bd sn]](3,8)"
     # gain 1
 
 d2 $ s "hh*8"
-    # gain 1
+    # gain 1.3
 
 
 d4 $ fast 1 
@@ -27,7 +27,7 @@ d4 $ fast 1
 
 
 
-d5 jux$ slow 2 
+d5 $ slow 2 
     $ striate 1
     $ chop 1
     $ n "1 4"
