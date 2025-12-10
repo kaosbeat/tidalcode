@@ -1,0 +1,186 @@
+## digital platform for redefining democracy
+
+
+d5 $ slow 2 $ s "numbers" |> (irand 10)
+    # speed (perlin*1 + 0.25)
+    
+
+d1 $ s "bd(<4 5>,8)"
+    # room 0.4
+    # squiz 2
+
+d2 $ s "hh*8"
+    # squiz 8
+    # gain 1.2
+
+
+d3 $ fast 1
+    $ (struct "t(<3 2 5>, 8)")
+    $ n (scale "minPent" (irand "<1 8 12>"))
+    # s "acid309"
+    # legato "0.5"
+    # octave "4"
+    # lpf 400
+    # squiz (slow 8 $ range 0 1 $ sine)
+
+
+d3 silence
+
+d5 $ slow 1
+    $ striate 1
+    $ chop 1
+    $ n "1 4 3 [4 2 3 4]" |> (irand 8)
+    # s "news"
+    # hpf 500
+    # legato 0.5
+    # room 0.9
+    # gain 1 
+    # speed  (run 4)
+
+
+
+
+d6  $ degradeBy 1 
+    $ (struct "t(<3 5 3>, 8)")
+    $ n (scale "minPent" (run 16))  
+    # s "acid309"
+    # squiz 1
+    # legato 4
+    # lpf (slow 8 $ range 200 1400 $ sine)
+
+
+hush
+
+
+
+
+
+hush
+
+--- goredustry
+
+do
+  hush
+  setcps (155/60/4)
+  d8 $ slow 1 $  n "[1|3 2|4 3 7]"
+    # s "[indust, midi]"
+    # legato 2
+    # lpf (slow 4 "[246 1293|440 1493|646 1640]")
+    # lpq (slow 8 $ range 0.1 0.8 sine)
+    # verb 0.9 0.8 0.2 0.1
+    # gain 0.9
+    # midichan 0
+  d4 $ slow 2 
+    $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3"  |> (irand 9)
+    -- $ n "10 _ [4 _ 5 _] 3" 
+    # legato 1
+    # s "[indust]"
+    # gain 1
+    # krush 8
+    # room 0.9
+    # size 0.9
+    # lpf (slow 4 $ range 600 1200 $ sine)
+    -- # hpf 600
+
+do
+  d5 silence
+  d3 $ fast 3
+    $ loopAt 3
+    $ slice 24 (cat [
+      "[13 14]*4",
+      "21 22 23 21 22 23 21 22",
+      "15 16 17 15 16 17 15 16",
+      "13 15 16 17 18 19 20 21"
+      ]
+    )
+    $ s "breaks152"
+    # lpf 1800
+    # squiz 1
+    # gain 1.1
+
+d2 $ slow 1
+  $ n "1 1 1 1"
+  # s "[clubkick]"
+  # room 0.5 # sz 0.6
+  # gain 0.9
+
+
+d7 $ slow 8 
+  $ s "indust" <| n (run "17")
+  # lpf "400 200 260 180"
+  -- # lpq  (slow 4 $ range 0.1 0.2 sine)
+  # pan (slow 4 saw )
+  # room "0.6" # size "0.7"
+  # ring "8" # ringf "550"
+  # gain 0.8
+
+
+
+do
+--   hush
+  d1 $ slow "<2 1>" 
+    -- $ jux rev
+    $ n "<1>  2 "
+    -- $ n "<1*2 4 1> [2*4 4] [1 2*2] <4*4 <1*8 3>> "
+    -- $ n "1*2 <3 2> [< 1 3*2> <1 2*4>] <2 1>"
+    -- $ n "<1*4 [1*2 1]> <2 1 2 4> <1 [2 1] [1 1*2]> [~ 1]"
+    -- $ n "<1 1*2> [1 ~ 1 1]  <2 4 1> <[~ 1] 2*2>"
+    -- $ n "1*2 < 2 1 [~ 1] 4> < 1 [2 1] > <[~ 1] 1*4>"
+    -- $ n "<1 1*2 1*4> <1*2 1 [1 2]> 1 <1  [2 4] [2 1]>"
+    # s "[gabba, midi]"
+    # midichan 2
+    # room 0.5
+    # lpf "400 2000 1000 1200 2000 400 4000 8000"
+    # lpq 0.4
+    # sz 0.2
+    # gain 1
+
+hush
+
+
+d5 $ jux' [rev, (# speed "[2 1 6 4]")] $ slow 4 $ n (off "<0.125 0.25>" (|+ 12) "~ [f4 g4] e5 a4")
+  # s "plaits"
+  # legato 4
+  # pF "timbre" (slow 16 (range 0 0.3 (sine)))
+  # pF "harm" 4
+  # pI "engine" 3
+  # pF "morph" "<0.9 0 0.4 0.1>"
+  # vowel "a e i o"
+  # room 0.6 #sz 0.5
+  # gain 0.9
+
+
+
+
+
+d1 $ n (scale "phrygian" "2 [2*2 1] 4*2 <1 [~ 1]> " |> (irand 12))
+  # s "superpiano"
+
+hush
+
+
+d1  $ note (scale "phrygian" "0 1 2 3 4 5 6 7")
+    # s "superpiano"
+
+
+d1  $ note "0 1 3 5 7 8 10"
+    # s "superpiano"
+
+hush
+
+
+d1 $ n (scale "phrygian" "[0,2,4]*8") |+ n "<0 [1 4] <2 4> [3 4 5 6] ~>" # s "acid309" 
+
+
+d1 $ arpg $ n "[e7,g7,c8,e8]" # sound "superpiano"
+
+
+d1  $ note "0 2 4 5 7 9 11 12"
+    # s "superpiano"
+
+d1  $ note "0 2 3 5 7 9 10 12"
+    # s "superpiano"
+
+
+d1 $ n (scale "dorian" "a b c d e f g")
+    # s "superpiano"    
