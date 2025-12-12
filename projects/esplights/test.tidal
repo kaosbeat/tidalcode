@@ -1,0 +1,20 @@
+-- activate wled_coreshifter
+-- add midi in SC
+
+-- ~corekaosOut = MIDIOut.newByName("rtpmidi kaosfury", "corekaos")
+-- ~dirt.soundLibrary.addMIDI(\core, ~corekaosOut);
+-- ~corekaosOut.latency = 0.05;  /// optional latency
+
+setcps(0.4)
+
+
+
+do 
+    let pat = "4 6 5 [3 4]"
+    d2 $ slow 1 $ midinote pat
+        # s "[core]"`
+    d1 $ slow 1 $ n pat
+        # s "kick"
+
+
+hush
