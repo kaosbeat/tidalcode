@@ -5,9 +5,10 @@ MIDIClient.init;
 // MIDIClient.init;
 
 
--- ~wledmidiOut = MIDIOut.newByName("RtMidiIn Client", "Virtual MIDI input")
--- ~dirt.soundLibrary.addMIDI(\wled, ~wledmidiOut);
--- ~wledmidiOut.latency = 0.0;  /// optional latency
+// ~wledmidiOut = MIDIOut.newByName("RtMidiIn Client", "Virtual MIDI input")
+~wledmidiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+~dirt.soundLibrary.addMIDI(\wled, ~wledmidiOut);
+~wledmidiOut.latency = 0.0;  /// optional latency
 
 
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
@@ -24,7 +25,7 @@ MIDIClient.init;
 // ~op1Out.latency = 0.05;  /// optional latency
 
 //
-~axoOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
+~axoOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core");
 ~dirt.soundLibrary.addMIDI(\axo, ~axoOut);
 
 
