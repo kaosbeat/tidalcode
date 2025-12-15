@@ -205,7 +205,21 @@ function test() {
 }
 
 
+function ghettostranded(){
+  s1.initVideo("vid/mbrug.mp4")
+
+}
+
+function mbridge() {
+  s1.initVideo(url="vid/mbrug.mp4")
+  s1.src.playbackRate=20
+  // src(s1).diff(src(s0),()=> 0.2)
+  src(s1).out()
+}
+
+
 all()
 
-fxpipe = [ all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, 
-           shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]
+fxpipe = [ all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]
+
+fxpipe = [ghettostranded, mbridge]
