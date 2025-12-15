@@ -1,4 +1,115 @@
--- ### flotsam and floating away
--- 
+-- TIDAL GHETTO WAVES
+-- setup
+-- a. coatlab >> PD patch >> midi big genes
+-- b. visuals
 
+
+
+d1 $ n "1*4"
+
+-------------------------------------------------------
+
+-- 1. flotsam and floating
+-- noisy crackles, setting the scene
+-- slow drones (vvdrone) coatlab driven
+
+setcps(180/60/4)
+
+d1 $ slow 1 $ degradeBy 0.8 $ n "[1*32] 2 3 [3*4 8*8]" |> (irand 16)
+  # legato 0.5
+  # s "[indbits, midi]"
+  # midichan 2
+
+line1
+
+hydramode 13
+
+
+
+hush
+
+
+-- viz
+-- dark + moon
+
+
+-------------------------------------------------------
+-- 2. exploring  - phrygian
+-- looper -- soft crackles into rhythmic pattern
+-- mystery, geen angst maar onzekerheid
+
+d2 $ n "2 2 1 1" |> (irand 4)
+  # s "soda"
+  # legato 0.5
+
+
+d5 $ slow 2 $ note (scale "phrygian" "[0,2,4,6]*2 [2,4] [2] [4]" |+ (irand 8))
+  # s "pfm2"
+  # octave 4
+
+
+d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
+  # s "[axo]"
+  # midichan 1
+-- viz
+
+-------------------------------------------------------
+
+-- 3. friendly encounter
+-- aftastend verkennend
+-- wantrouw / schrik
+-- conclusie  goed/hoopvol
+
+hush
+
+
+d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
+  # s "[snc, axo]"
+  # midichan 0
+
+
+
+
+
+-- viz 
+-- meerkoet 
+-- goal (bridge is visible)
+
+-------------------------------------------------------
+-- 4. op pad
+-- 4a. chitchat
+
+
+-- 4b. death trap
+-- dark beats, slowly swelling into chaos
+
+-- 4c. alarm
+-- gevaar / paniek
+
+-- 4d. heldhaftige daad
+-- (guitarz/metal vibe?)
+
+-- 4e uitdovende stilte 
+
+
+-------------------------------------------------------
+
+
+-- 5. desolation
+-- empty, silent >> positive energy from the distance
+
+-------------------------------------------------------
+
+-- 6. happy rave
+-- energy levels rising
+-- dancing containers, reddingsboei, anker, bolder, ...
+
+
+-------------------------------------------------------
+
+
+-- 7. push towards goal (meulestedebrug)
+-- melancholic/happy/fadeout
+-- licht - lucht -  open
+-- tides - ghetto - waves
 

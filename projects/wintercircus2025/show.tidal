@@ -1,5 +1,7 @@
 ## digital platform for redefining democracy
 
+setcps (155/60/4)
+
 
 d1 $ slow 2 $ sound "numbers*8" |> (irand 10) 
     # speed (perlin*1 + 0.25)
@@ -14,6 +16,8 @@ d1 $ s "[[bd sn]](3,8)"
 
 d2 $ s "hh*8"
     # gain 1.3
+
+d3 silence
 
 
 d4 $ fast 1 
@@ -54,7 +58,6 @@ hush
 
 d6 $ (struct "t(<3 5 3>,8)") $ n (scale "minPent" (run 16))
     # s "acid309"
-
     # squiz 4
     # lpf (slow 8 $ range 200 1600 $ sine)
 
@@ -64,7 +67,10 @@ d6 $ slow 4 $ ply 2 $ n (scale "minor" (off "0" (|+| 12) "[a [d e]] [c f]*2 e*2 
     # s "acid309"
     # squiz 8
     # room 0.4
-    # sz 0.9## digital platform for redefining democracy
+    # sz 0.9
+
+
+    ## digital platform for redefining democracy
 
 
 
@@ -90,7 +96,7 @@ d4 $ fast 1
     $ (struct "t(<3 2 5>,8)" ) 
     $ n (scale "minPent" (irand "<1 8 12>"))
     # s "acid309" 
-    # legato 10
+    # legato 2
     # octave 4
     # lpf 400
     # squiz (slow 8 $ range 1 4 $ sine)
@@ -189,10 +195,10 @@ d2 $ n "~ ~ 2 ~ ~ ~ 2 ~"
   
 
 d3 $ slow 2
-  $ degradeBy 1
-  $ n (off "0.125" (|+| "<0 7>") "<f a f> e f d")
+  $ degradeBy 0.2
+  $ n (off "0.125" (|+| "<0 7>") "<f a*2 [f e]> e f d")
   # s "snc"
-  # legato 0.5
+  # legato "<0.4 1>"
   
   
 

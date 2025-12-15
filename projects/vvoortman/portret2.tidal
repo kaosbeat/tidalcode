@@ -1,12 +1,12 @@
-setcps (155/60/4)
+setcps (125/60/4)
 
 hush
 
 d1 $ slow 1
   -- $ n "1*4"
-  $ n "1 ~ 1 ~ ~ 1 ~ ~ "
+  $ n "1 ~ 1*2 ~ ~ 1 ~ ~ "
   # s "kick"
-  # room 0.4
+  # room 0.7
   # sz 0.6
   # lpf 400
   # speed "<1 1.5>"
@@ -14,8 +14,8 @@ d1 $ slow 1
 
 do
   let pat1 = "~ ~ 2 ~ ~ ~ 2 ~"
-  let pat2 = "[1 2]!4 ~ ~ 2 ~"
-  let pat = pat1
+  let pat2 = "[1 2]!4  [2*4]?0.5 ~ 2 ~"
+  let pat = pat2
   d2 $ n pat
     # s "gabba"
     # squiz (1 + 3)
@@ -36,9 +36,9 @@ d4 $ fast 1 $ n "5*8"
 
 
 d5 $ slow 4
-  $ degradeBy 0.9
+  $ degradeBy 0
   -- $ n (off 0.125 (|+| 7)  "[c*2 <~ a> <d e> ~ , f  e ~ e]")
-  $ n (off 0.125 (|+| 7) "[c a f*2 ~, ~ f*2 e a]")
+  $ n (off 0.125 (|+| 19) "[c [a e]  f*2 ~, ~ f*2 e a]")
   # s "[acid309, snc]"
   -- # legato ("^2"+0.2)
   # lpf 400
@@ -52,15 +52,15 @@ hush
 
 d7 $ slow 2
   -- $ n "<f a> e f d" 
-  $ n (off 0.125 (|+| "<0 7>") "<f a> e f d")
+  $ n (off 0.125 (|+| "<19 7>") "<f a> e f d")
   # legato 0.5
   # s "snc"
   # octave 4
 
 d8 $ n "1*16" |> (irand 8)
   # s "amencutup"
-  -- # gain "1" |> (rand)*1.6
-  # gain "1*16?0.2"
+  # gain "1" |> (rand)*1.6
+  -- # gain "1*16?0.2"
   # speed "1 1 1.5 2.5"
 
 hush
@@ -68,12 +68,12 @@ hush
 d8 silence
 
 
-d5 $ slow 4
-  $ striate 16
-  $ chop 8
+d5 $ slow 8
+  $ striate 1 
+  $ chop 1
   $ n "1 4 3 5" |> (irand 8)
   # s "news"
-  # hpf 2500
+  # hpf 500
   
  
 
