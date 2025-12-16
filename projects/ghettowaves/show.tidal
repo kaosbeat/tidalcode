@@ -326,3 +326,210 @@ d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
 -- licht - lucht -  open
 -- tides - ghetto - waves
 
+
+-- in the name of science
+
+
+hydramode 4
+
+do
+  hush
+  cube1
+  d1 $ n "3 3 3 3"
+    # s"[popkick, midi]"
+    # midichan 0
+    -- # s"[midi]"
+    # lpf 800
+    # room 0.2
+  m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
+  cam1
+  hydramode 2
+
+do
+    d3 $ n "[~ 2]!4"
+        # s "808oh"
+    d2 $ n "1*16?0.4"  -- ?0.2
+        # s "ades4:3"
+        # legato 0.8
+        -- # speed 1
+
+
+
+do
+  hydramode 8
+  d8 $degradeBy "1 0.2 "
+      $ slow 0.25
+      $ n "[e]*<2 8 [8 32] 64>"
+      # s "[acid309]"
+      -- #legato 4
+      # krush (irand 4) + 4
+      # vowel (chooseBy rand ["e", "a", "i", "u"])
+      # verb 0.9 0.2 0.1 0.2
+      # lpf (slow 4 sine * 1200)
+      # speed (slow 8 (sine * 2 - 1))
+      # gain "<[1 0.8]*8  0>"
+
+
+do
+  textparts
+  cam2
+  d5 $ slow 4 $ n (off "<0.125 0>" (|+ 19) "~ f4 [e5] a4")
+    # s "tides"
+    # legato 4
+    # pF "timbre" 0.3
+  --   # pF "harm" "<0.6 0.7!3 0.5>"
+  --   # pI "engine" 4
+  --   # pF "morph" "<0.9 0 0.4 0.1>"
+    # vowel "a e i o"
+  --   # room 0.3 #sz 0.6
+    # clouds 0.03 0.4 0.8 0.1
+    # cloudsmode 1
+  --   # cloudspos 3
+  --   # cloudspitch 1
+  --   # cloudspos 0.5
+  --   # cloudssize 0.8
+  --   # cloudsdens 0.9
+  --   # cloudstex 0.9
+    # gain 0.6
+
+do
+  d4 silence
+  d2  $ s "[[bd sd], linnhats*8, midi]"
+      # n "2"
+      # elementsstrength "0.1"
+      # elementspitch (slow 4 sine)
+      # elementsblowlevel 1
+      # elementsblowtimb (slow 8 sine)
+      # elementsflow "{0.3 0.6 0.7}"
+      # elementsstrikelevel 1
+      # elementsstriketimb 0.1
+      # elementsmallet 1
+      # elementseasteregg "[0]"
+      # elementsmodel "[1]"
+      # elementscontour (slow 2 saw)
+      # elementsgeom 0
+      # elementsbright (slow 7 saw)
+      # elementsdamp 0.6
+      # elementspos 0.314
+      # elementsspace 0
+      # gain 1.4
+      # midichan 1
+
+
+
+do
+  hydramode 8
+  textparts
+  once $ ccn 1 # ccv 127 # s "midi" # midichan 5
+  d4 $degradeBy "0.6 0.5" $ slow 8
+    $ juxBy 0.5 rev
+    $ striate 2
+    $ n "1 22 3 4 7 5 8 9"
+    # s "science"
+    # speed 0.95
+    # elementsstrength "0.1"
+    # elementspitch (slow 0.5 sine)
+    # elementsblowlevel 1
+    # elementsblowtimb (slow 8 sine)
+    # elementsflow "{0.3 0.6 0.7}"
+    # gain 1
+
+
+
+do
+  hydramode 2
+  d8 $degradeBy "1 0.2 "
+      $ slow 0.25
+      $ n "[e]*<2 8 [8 32] 64>"
+      # s "[acid309]"
+      # krush (irand 4) + 4
+      # vowel (chooseBy rand ["e", "a", "i", "u"])
+      # verb 0.9 0.2 0.1 0.2
+      # gain 0.8
+      # lpf (slow 4 sine * 1200)
+
+
+do
+  d2 silence
+  d7
+    $ slow 2
+    $ n ( off 0.125 (|+ 7) "<c d4 [d4 a3] a3>")
+    # s "plaits"
+    # legato ( off 0.125 (|- 2) "3")
+    # krush 1
+    # gain 0.8
+    # warpstimb (slow 5 sine)
+    # warpsosc "<0>"
+    # warpsalgo "<5 2>"
+    # warpsfreq (slow 2 saw)
+
+
+
+do
+  alsocubes
+  cube1
+  hydramode 2
+  cam3
+  d7  -- use real warps
+      $ slow 2
+      $ n ( off "<0.125 0.0625>" (|+ "<7 19 -5>") "<[c e5] <d4 d5> [<d4 [d4 d3 d5 d4]> a3] [a3 a5]>")
+      # s "plaits"
+      # legato 2
+      # krush 2
+      # gain 0.9
+
+
+
+
+
+
+do
+  d7 silence
+  d4 silence
+  d8 silence
+  line2
+  d6  $ slow 1
+    -- $ jux rev
+    -- $ brak
+    -- $ n "[f1(3,8) e2(5,8), c3(5,8) f4(7,8)]"
+    -- $ n (ofofff (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
+    $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
+    # legato 2
+    # octave "<4 5>"
+    # squiz 0.5
+    # room 0.1
+    # s "[rash, midi]"
+    # midichan 4
+    # gain 0.4
+  lines
+  alsocubes
+
+  d5 silence
+
+setcps 0.6
+
+do
+  startrot
+  once $ ccn 68 # ccv 127 # s "midi" -- rotYspeed
+  d4 $ slow 2 $ n ( off 0.0625 (|+| "19")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
+    # s "rash"
+    # sustain 1
+    # octave 3
+    # gain 0.8
+
+do
+  -- d4 silence
+  hydramode 2
+  cubes
+  d5 $ slow 2
+    $ juxBy 0.6 rev
+    $ n (off 0.125 (|+| "<7>") "[d1(3,8) f2(3,8) f1(7,8) e2(3,8)]/2" )
+    # s "[rash, midi]"
+    # midichan 1
+    # room 0.8
+    # lpf (slow 4 (sine * 1000 + 200))
+    # sz 0.9
+    # gain 0.6
+  cam1
+  m2 silence
+  once $ ccn 7 # ccv 2 # s "midi" # midichan 1 --geom
