@@ -315,7 +315,7 @@ d4 $ jux' [id,(# djf 0.6),(# speed 2)]
 
 do
   xfade 6 silence
-  xfade 4 silence
+  xfade 5 silence
   d7 $ slow 4 $ sound "indust:7*4"
     -- # shape (slow 2 saw)
     # shape 0.9
@@ -331,19 +331,20 @@ hush
 
 panic
 
-d6 silence
+d3 silence
 
 d1 silence
 
-  d1 $ slow 1 $ "clubkick*4"
-    # gain 0.9
-    # delay 0.1
+
+d1 $ slow 1 $ "clubkick*4"
+    # gain 0.3
+    # delay 0.2
     # lock 1
     # delayt "<0.05 0.1 0.125 0.12>"
-    # delayfb 0.9
-    # lpf 2100
-    # krush 0
-    # orbit 1
+    # delayfb 0.1
+    # lpf 600
+    # krush 1
+    # orbit 0
 
 
 -- killdelay
@@ -377,9 +378,40 @@ d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
 
 -------------------------------------------------------
 
+
+-- hans begint met DRUM jas
+setcps(155/60/4)
+
+
+d1 $slow 1 $ n "2 1!3 "
+  # s "[ snc, kick]"
+  # midichan 4
+
+
+d2 silence
+
+d2 $ fast 2 $ n "[~ 2]*2"
+  # s "[snc]"
+  # midichan 5
+
+
+
+d3 $ n"1*8"
+  # s "hh"
+
+
+
+
+--- melodie in recording looper
+
+
+
 -- 6. happy rave
 -- energy levels rising
 -- dancing containers, reddingsboei, anker, bolder, ...
+
+
+
 
 
 -------------------------------------------------------

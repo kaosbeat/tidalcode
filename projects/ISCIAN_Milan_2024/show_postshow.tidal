@@ -547,13 +547,14 @@ do
 do
   textparts
   cam2
+
   d5 $ slow 4 $ n (off "<0.125 0>" (|+ 19) "~ f4 [e5] a4")
     # s "tides"
     # legato 4
     # pF "timbre" 0.3
-  --   # pF "harm" "<0.6 0.7!3 0.5>"
-  --   # pI "engine" 4
-  --   # pF "morph" "<0.9 0 0.4 0.1>"
+    # pF "harm" "<0.6 0.7!3 0.5>"
+    # pI "engine" 4
+    # pF "morph" "<0.9 0 0.4 0.1>"
     # vowel "a e i o"
   --   # room 0.3 #sz 0.6
     # clouds 0.03 0.4 0.8 0.1
@@ -654,17 +655,18 @@ do
 d7 silence
 
 do
-  alsocubes
+  -- alsocubes
   cube1
   hydramode 2
   cam3
   d7  -- use real warps
-      $ slow 2
-      $ n ( off "<0.125 0.0625>" (|+ "<7 19 -5>") "<[c e5] <d4 d5> [<d4 [d4 d3 d5 d4]> a3] [a3 a5]>")
-      # s "plaits"
-      # legato 2
-      # krush 2
-      # gain 0.9
+    $ degradeBy 0
+    $ slow 2
+    $ n ( off "<0.5 0.125 0.0625>" (|+ "<12 7 19 -5>") "<[c e5] <d4 d5> [<d4 [d4 d3 d5 d4]> a3] [a3 a5]>")
+    # s "plaits"
+    # legato 2
+    # krush 1
+    # gain 0.9
 
 
 do
