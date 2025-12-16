@@ -3,6 +3,10 @@
 -- a. coatlab >> PD patch >> midi big genes
 -- b. visuals
 
+hush
+
+
+setLooplength 4
 
 
 d1 $ n "1*4"
@@ -13,29 +17,51 @@ d1 $ n "1*4"
 -- noisy crackles, setting the scene
 -- slow drones (vvdrone) coatlab driven
 
-setcps(180/60/4)
+setcps(140/60/4)
 
-d1 $ slow 1 $ degradeBy 0.8 $ n "[1*32] 2 3 [3*4 8*8]" |> (irand 16)
-  # legato 0.5
+d1 $ slow 4 $ degradeBy 0.1 $ n "[1*16] 2 3 [3*4 8*8]" |> (irand "<8 1 1 4>")
+  # legato 2
   # s "[indbits, midi]"
   # midichan 2
-
-line1
-
-
-cube1
-
-nolines
-
+  # hpf "<1500 3500 400 200>"
+  # hpq 0.3
+  # vowel "e a i u"
+  # room 0.67
+  # sz 0.7
+  # gain 1
 
 
-hydramode 1
+do
+  hydramode 0
+  lines
+ 
 
 
 
+
+
+d3 $ degradeBy 0.6 $ slow 4 $ randslice "<1 4 8 8 >" 
+  $ n "1*4 [2*2] <2 [4 1*4]> <3*8 4> " |> (irand 8)
+  # s " bytebeats"
+  # gain 0.9
+  # hpf "<300 2000 4200>"
+  # hpq 0.5
+  # room 0.8
+  # sz 0.6
+  # speed 0.125
+  # vowel "<a e>"
+  # legato 1
+
+d3 silence
+
+
+-- cEnableLink
 
 hush
 
+
+
+setcps (134/60/4)
 
 -- viz
 -- dark + moon
@@ -46,19 +72,64 @@ hush
 -- looper -- soft crackles into rhythmic pattern
 -- mystery, geen angst maar onzekerheid
 
-d2 $ n "2 2 1 1" |> (irand 4)
+resetCycles
+
+d3 silence
+
+
+d2 $ n "2 2 1 [1 2 4 2]" |> (irand 1)
   # s "soda"
-  # legato 0.5
+  # legato 0.25
+  # gain 0.8
 
+d2 silence
 
-d5 $ slow 2 $ note (scale "phrygian" "[0,2,4,6]*2 [2,4] [2] [4]" |+ (irand 8))
-  # s "pfm2"
+-- legato  0.2 >>>> 1 of 2
+
+d5 $ slow 1 $ degradeBy 0 $ note (scale "phrygian" "[0,2,4,6] [0,4]*8 [0,2]*8 [0]*4" |+ (irand 0))
+  # s "[superreese, pfm2]"
+  # legato 0.3
+  # squiz 4
   # octave 4
+  # gain "0.7 0.7 0.7 0.7?0.6"
+
+d7 $ slow 4 $ n "1 2 3 5 " 
+  -- $ chop 4
+  -- $ striate 
+  #  s "[science]"
+  -- # squiz 4
+  # lpf 1400
+  # vowel "<e i i a>"
+  # krush 0
+  # legato 0.5
+  # speed "1"
+  # gain 0.7
 
 
-d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
-  # s "[axo]"
+d5 silence
+
+
+d4 $ slow 2 $ n "1*8" |> (irand 8)
+  # s "numbers"
+  # speed 1.2
+  # vowel "a e a i"
+  # gain 1
+  # legato 2
+  # hpf 1000
+  # lpq 0.1
+ 
+
+
+d1 $ n "1 1 ~ ~ 1 ~ [3 4] ~"
+  # s "[kick, bd, clubkick]"
+  # room 0.3
+  # lpf 800
+  # sz 0.4
+  # gain 1
+  # squiz 0
+  # vowel "<a e e a>"
   # midichan 1
+
 -- viz
 
 -------------------------------------------------------
@@ -68,20 +139,145 @@ d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
 -- wantrouw / schrik
 -- conclusie  goed/hoopvol
 
+
+hush
+
+do
+  hush
+  d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
+    # s "[snc, axo, bd]"
+    # midichan 0
+
+
+d5 $ n (off 0 (|+| 0) (scale "phrygian" (run "<2 4 8>") ))
+  # s "rash"
+  # legato 2
+  # octave 5
+
+
+d5 silence
+
+
+d2 silence
+
+d2 $ n "[~ 1]*4" 
+  # s "<808lt:1 808lt:2 808lt:3 808lt:4>"
+  # gain 0.7
+  # room 0.5
+  # krush "<2 4 8 16>"
+  # lpf (slow 4 $ 200 + (sine * 400))
+
+
+d1 silence
+
+
+
 hush
 
 
-d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
-  # s "[snc, axo]"
+d1 $ "3(4,8)" 
+  # s "bd"
+
+  # nudge "-0.05"
+
+
+
+d5 $ slow 2
+  -- $  n "4 8 10 11 12 15 17 ~ "
+  $  n " [2*8 ,[~ 4 ]] [4 ,[8*2 4]] [[10 11], 8] [[12 11] , 4] [12*4 10] 15 [17 15] ~ "
+  # s "pfm2"
+  # gain "<1 1 0 0>"
+  # midichan 1 
+  
+
+
+
+d1 $ slow 4 $ n (scale "phrygian" "2 [2*2 1] 4*2 <1 [~ 1]> " |> (irand 12))
+  # s "[supersaw, pfm2]"
+  # legato 2
+
+hush
+
+
+d1  $ note (scale "phrygian" "[0, 2, 4, 6]") 
+    # s "pfm2"
+
+
+
+
+d1  $ note "0 1 3 5 7 8 10"
+    # s "superpiano"
+
+hush
+
+
+d1 $ n (scale "phrygian" "[0,2,4]*8") |+ n "<0 [1 4] <2 4> [3 4 5 6] ~>" # s "acid309" 
+
+
+d1 $ arpg $ n "[e7,g7,c8,e8]" # sound "superpiano"
+
+
+d1  $ note "0 2 4 5 7 9 11 12"
+    # s "superpiano"
+
+d1  $ note "0 2 3 5 7 9 10 12"
+    # s "superpiano"
+
+
+d1 $ n (scale "dorian" "a b c d e f g")
+    # s "superpiano"    
+⎈
+
+
+
+
+xfade 5 $ slow 2 
+  $ n (scale "phrygian" (off "<0.125 0.06125>" (|+ 12) "[e c] ~ [c5 f4] ~ c ~ [d e] a"))
+  # legato 1
+  # octave 3
+  # amp "0.4 0.9"
+  # s "acid309"
   # midichan 0
+  # gain 0.5
+
+
+enableLink
+
+d7  $ slow 4 $ randslice 4 $ s "turbo*4" |> (irand 4)
+  # legato 1
+  # vowel "a"
+  # gain 1
 
 
 
 
+
+
+       
 
 -- viz 
+    # gain 1
 -- meerkoet 
 -- goal (bridge is visible)
+setcps(130/60/4)
+
+do
+  d3 $ degradeBy "0" 
+    -- $ degradeBy "<0.1 0.6 0.9 0>" 
+    $ fast "<1 4 8 1 1 1 1>"
+    -- $ n "2 3 <2 [3 2] 2> 3 "
+    $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
+    # s "[bsnoise, midi]"
+    # legato 0.3
+    # midichan 1
+    # room 0.2
+    # sz  0.4
+    # gain 1
+    # vowel "a"
+    # lpf (slow 4 $ range 400 1400 $ sine)
+    -- # nudge "-0.05"
+
+d3 silence
 
 -------------------------------------------------------
 -- 4. op pad

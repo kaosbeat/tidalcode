@@ -12,7 +12,7 @@ setcps(0.4)
 do 
     let pat = "4 6 5 [3 4]"
     d2 $ slow 1 $ midinote pat
-        # s "[core]"`
+        # s "[wled]"
     d1 $ slow 1 $ n pat
         # s "kick"
 
