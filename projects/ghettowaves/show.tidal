@@ -219,15 +219,88 @@ d3 silence
 -- 4. op pad
 -- 4a. chitchat
 
+hush
+
+
+
+
+
+d6 $ n "42 [64*8] 20 64*12 [23*12] 12 [14*12] 12" 
+  # s "snare:2"
+  # speed "0.5 0.6 0.4 0.4"
+  # squiz ((irand 2) - 1)
+  # lpf "<600 500 400 800>"
+  # lpq (slow 4 (range 0.2 0.6 saw))
+  # gain 0.8
+  # pan "[0 0.5 0.8 0.3]"
+
+
+
+d4 $ jux' [id,(# djf 0.6),(# speed 2)] 
+  $ every 2 ("<0.25 0.125>" <~) 
+  $ slow 2 
+  $ (off 0.125 (|+ 1.2) (speed "~ 1.4 [1 1.2 1.4 1.2] 0.1"))
+  # s "dsynth:1"
+  # binshift "<4 1 2 0>"
+  # gain 0.8
+
+
 
 -- 4b. death trap
 -- dark beats, slowly swelling into chaos
 
+do
+  xfade 6 silence
+  xfade 4 silence
+  d7 $ slow 4 $ sound "indust:7*4"
+    -- # shape (slow 2 saw)
+    # shape 0.9
+    # room "0.8"
+    # speed 0.25
+    # legato 1
+    # sz (range 0.8 1 $ slow 1  saw)
+    # gain 1
+    # pan (slow 8 $ range 0.1 0.9 $ sine)
+
+
+hush
+
+panic
+
+d6 silence
+
+d1 silence
+
+  d1 $ slow 1 $ "clubkick*4"
+    # gain 0.9
+    # delay 0.1
+    # lock 1
+    # delayt "<0.05 0.1 0.125 0.12>"
+    # delayfb 0.9
+    # lpf 2100
+    # krush 0
+    # orbit 1
+
+
+-- killdelay
+
+d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
+ # pan 0.5
+ # gain 1
+
+
 -- 4c. alarm
 -- gevaar / paniek
 
+
+
+
 -- 4d. heldhaftige daad
 -- (guitarz/metal vibe?)
+
+
+
+
 
 -- 4e uitdovende stilte 
 
