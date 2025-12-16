@@ -1,7 +1,7 @@
 function initMidi(p5, midiobject){
-	
+	console.log("init mifdiiiiii") 
 	midiobject.noteOn = (note) => {
-		// print(note)
+		print(note)
 		p5vars.hydracount+=1;
 		switch (note.channel){
 			case 1 : // control params
