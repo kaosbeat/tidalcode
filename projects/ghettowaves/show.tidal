@@ -22,7 +22,15 @@ d1 $ slow 1 $ degradeBy 0.8 $ n "[1*32] 2 3 [3*4 8*8]" |> (irand 16)
 
 line1
 
-hydramode 13
+
+cube1
+
+nolines
+
+
+
+hydramode 1
+
 
 
 
