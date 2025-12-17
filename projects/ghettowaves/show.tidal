@@ -131,14 +131,14 @@ d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
 -- conclusie  goed/hoopvol
 
 
-hush
-
 do
   hush
   d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
     # s "[snc, axo, bd]"
     # midichan 0
 
+
+setcps(145/60/4)
 
 d5 $ n (off 0 (|+| 0) (scale "phrygian" (run "<2 4 8 16>") ))
   # s "rash"
@@ -148,6 +148,7 @@ d5 $ n (off 0 (|+| 0) (scale "phrygian" (run "<2 4 8 16>") ))
 
 d5 silence
 
+hush
 
 d2 silence
 
@@ -161,10 +162,9 @@ d2 $ n "[~ 1]*4"
 
 d1 silence
 
-d1 $ "3(4,8)" 
+d1 $ "3(5,8)" 
   # s "bd"
 
-  # nudge "-0.05"
 
 
 xfade 5 $ slow 2 
@@ -177,7 +177,6 @@ xfade 5 $ slow 2
   # gain 0.5
 
 
-enableLink
 
 d7  $ slow 4 $ randslice 4 $ s "turbo*4" |> (irand 4)
   # legato 1
@@ -223,16 +222,18 @@ hush
 
 
 
+d6 silence
 
-
-d6 $ n "42 [64*8] 20 64*12 [23*12] 12 [14*12] 12" 
-  # s "snare:2"
-  # speed "0.5 0.6 0.4 0.4"
-  # squiz ((irand 2) - 1)
-  # lpf "<600 500 400 800>"
-  # lpq (slow 4 (range 0.2 0.6 saw))
-  # gain 0.8
-  # pan "[0 0.5 0.8 0.3]"
+do 
+  hush
+  d6 $ n  "42 [64*8] 20 64*12 [23*12] 12 [14*12] 12" 
+    # s "snare:2"
+    # speed "0.5 0.6 0.4 0.4"
+    # squiz ((irand 2) - 1)
+    # lpf "<600 500 400 800>"
+    # lpq (slow 4 (range 0.2 0.6 saw))
+    # gain 0.8
+    # pan "[0 0.5 0.8 0.3]"
 
 
 
@@ -263,17 +264,14 @@ do
     # pan (slow 8 $ range 0.1 0.9 $ sine)
 
 
-hush
 
-panic
 
-d6 silence
 
 d1 silence
 
-  d1 $ slow 1 $ "clubkick*4"
-    # gain 0.9
-    # delay 0.1
+  d1 $ slow 4 $ "clubkick*4"
+    # gain 0.8
+    # delay 0.5
     # lock 1
     # delayt "<0.05 0.1 0.125 0.12>"
     # delayfb 0.9
@@ -363,7 +361,6 @@ do
       # s "[acid309]"
       -- #legato 4
       # krush (irand 4) + 4
-      # verb 0.9 0.2 0.1 0.2
       # lpf (slow 4 sine * 1200)
       # speed (slow 8 (sine * 2 - 1))
       # gain "<[1 0.8]*8  0>"
