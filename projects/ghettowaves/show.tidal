@@ -171,20 +171,17 @@ d2 $ n "[~ 1]*4"
 d1 silence
 
 
-
-hush
-
-
 d1 $ "3(4,8)" 
   # s "bd"
 
-  # nudge "-0.05"
 
 
 
 d5 $ slow 2
   -- $  n "4 8 10 11 12 15 17 ~ "
-  $  n " [2*8 ,[~ 4 ]] [4 ,[8*2 4]] [[10 11], 8] [[12 11] , 4] [12*4 10] 15 [17 15] ~ "
+  $ n (chooseBy ["a"])
+  -- $  n "[4 10] [8 17] [17 11] [4 11] 12*4 [15 8] 8 ~ "
+  -- $  n " [2*8 ,[~ 4 ]] [4 ,[8*2 4]] [[10 11], 8] [[12 11] , 4] [12*4 10] 15 [17 15] ~ "
   # s "pfm2"
   # gain "<1 1 0 0>"
   # midichan 1 
@@ -241,7 +238,6 @@ xfade 5 $ slow 2
   # gain 0.5
 
 
-enableLink
 
 d7  $ slow 4 $ randslice 4 $ s "turbo*4" |> (irand 4)
   # legato 1
@@ -284,8 +280,6 @@ d3 silence
 -- 4a. chitchat
 
 hush
-
-
 
 
 
@@ -383,12 +377,14 @@ d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
 setcps(155/60/4)
 
 
-d1 $slow 1 $ n "2 1!3 "
-  # s "[ snc, kick]"
+d1 $slow 1 $ n "1 1!3 "
+  # s "[snc]"
   # midichan 4
 
 
-d2 silence
+hush
+
+d1 silence
 
 d2 $ fast 2 $ n "[~ 2]*2"
   # s "[snc]"
@@ -398,6 +394,8 @@ d2 $ fast 2 $ n "[~ 2]*2"
 
 d3 $ n"1*8"
   # s "hh"
+
+
 
 
 
@@ -439,7 +437,7 @@ do
     # room 0.2
   m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
   cam1
-  hydramode 2
+  hydramode 1
 
 do
     d3 $ n "[~ 2]!4"
