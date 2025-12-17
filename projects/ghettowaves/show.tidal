@@ -457,7 +457,6 @@ do
       # s "[acid309]"
       -- #legato 4
       # krush (irand 4) + 4
-      # vowel (chooseBy rand ["e", "a", "i", "u"])
       # verb 0.9 0.2 0.1 0.2
       # lpf (slow 4 sine * 1200)
       # speed (slow 8 (sine * 2 - 1))
