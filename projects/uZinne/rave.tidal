@@ -591,6 +591,8 @@ do
     hydramode 5
 
 
+hush
+
 do
     -- hush
     d4 $ slow 4  $ n (off "<0.0625>" (|+| 7)  "<4 [8*2] 6> <6 4> [4 5] [4 2] 2 6 [3  2] ~")
@@ -764,8 +766,8 @@ d3 $ fast "<8 4 16 8 16>"
   $ n "<1 <2 <4 1> 2 1>>"
   # s "amencutup"
   # hpf 600
-  # gain (rand + 1)
-  # speed (rand + 0.5)
+  # gain (rand/2 + 1)
+  # speed (rand + 1.5)
 
 
 
@@ -773,9 +775,9 @@ d3 $ fast "<8 4 16 8 16>"
 
 do
  hush
- d $ n "[c3  <e2 e4(3,4)> f(3,4) <[c a e f]>]"
+ d1 $ n "[c3  <e2 e4(3,4)> f(3,4) <[c a e f]>]"
   # legato 1
-  # s "td3"
+  # s "[acid309, td3]"
   # pF "harm" 0.1
 
 do 
@@ -786,8 +788,9 @@ do
 
 do 
   d7  $ slow 1 $ randslice 16 $ s "announcement:4*4"
-    # legato 1
+    # legato 2
     # gain 1
+
   d1  $ n "1 1 1 1 " 
     # legato 1.2
     # s "[hardkick:4, midi]"
@@ -795,9 +798,13 @@ do
   cube3
 
 
-d8 $ slow 0.5 $ randslice 8 $ n "3 4 5*4 3" # s "indust"
+d8 $ slow 1 $ randslice 8 $ n "3 4 5*4 3" # s "indust"
 # gain 1
   # legato 2
+  # gain 0.8
+
+d7 silence 
+
 
 d1  $ n "3 [3] 4 3"
     # s "[hardkick, midi]"
@@ -934,7 +941,7 @@ d4 $ slow 2
   # krush 8
   # room 0.9
   # size 0.9
-  # hpf ($ slow 4 "700 800 1200 5000")
+  # hpf "700 800 1200 5000"
 
 
 -- fadeout td3

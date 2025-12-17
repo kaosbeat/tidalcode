@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/efairbanks/tidal-performance-2019/master/synth
 
   SynthDef(\donk, {
     |out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan, accelerate, offset|
-    var line = Line.ar(begin, end, sustain, doneAction:2);
+	var line = Line.ar(begin, end, sustain, doneAction:2);
     var env = Env([0, 1, 0], [0.01, 1], curve:-3);
     var envGen = IEnvGen.ar(env, line*env.times.sum*abs(speed));
     var modulator = (SinOsc.ar(freq*[1.0001,0.9999]*abs(speed))*2).tanh;

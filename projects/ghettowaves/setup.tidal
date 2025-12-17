@@ -275,13 +275,41 @@ let
         a1 $ vizscene "signal*8"
             #vizcommand "cube!3 [cube cube]"      
     hydramode p = once $ ccn 119 # ccv p # s "midi" #midichan 0
-    startclock = do
-        p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
-        once $ midicmd "stop" # s "[pfm2 ,axo] "
-        p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
+<<<<<<< HEAD
+  
+  
+-- #### put clock in supoercollider, via abletonlink  
+--     startclock = do
+--         p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
+--         once $ midicmd "stop" # s "[pfm2 ,axo] "
+--         p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
 
-do
-  once $ midicmd "stop" # s "[pfm2 ,axo] "
-  startclock
+-- do
+--   once $ midicmd "stop" # s "[pfm2 ,axo] "
+--   startclock
+=======
+
+    -- startclock = do
+        -- p "midiclock" $ midicmd "midiClock*96" # s "[pfm2,axo]"
+        -- once $ midicmd "stop" # s "[pfm2 ,axo] "
+        -- p "midictl" $ midicmd "start/4" # s "[pfm2, axo]"
+
+-- do
+  -- once $ midicmd "stop" # s "[pfm2 ,axo] "
+  -- startclock
+>>>>>>> e6fd07e0cc2ecebf73e510dd7319905cde55096c
 
 
+
+
+cube5
+
+
+cubes
+
+rects
+
+
+m1 $ n "1 2 3 4"
+    # s "midi"
+    # midichan 1
