@@ -6,10 +6,17 @@
 hush
 
 
-setLooplength 4
+wledmode 0
 
 
-d1 $ n "1*4"
+do
+  hush
+  setcps(140/60/4)
+  setlooplength 4
+  hydramode 0
+  wledmode 0
+  wledmode 2
+
 
 -------------------------------------------------------
 
@@ -17,54 +24,46 @@ d1 $ n "1*4"
 -- noisy crackles, setting the scene
 -- slow drones (vvdrone) coatlab driven
 
-setcps(140/60/4)
 
-d1 $ slow 4 $ degradeBy 0.1 $ n "[1*16] 2 3 [3*4 8*8]" |> (irand "<8 1 1 4>")
-  # legato 2
-  # s "[indbits, midi]"
-  # midichan 2
-  # hpf "<1500 3500 400 200>"
-  # hpq 0.3
-  # vowel "e a i u"
-  # room 0.67
-  # sz 0.7
-  # gain 1
 
 
 do
-  hydramode 0
+  hydramode 1
+  wledmode 3
   lines
- 
+  line1
+  d3 $ degradeBy 0.2 $ slow 2 $ randslice "<1 4 8 8 >" 
+    $ n "1*4 [2*2] <2 [4 1*4]> <3*8 4> " |> (irand 8)
+    # s " bytebeats"
+    # hpf "<300 1800 2000 3200>"
+    # hpq 0.5
+    # room 0.8
+    # sz 0.6
+    # speed 0.5
+    # vowel "<a e>"
+    # legato 1
+    # gain 0.7
 
 
+d1 silence
 
+  
+  d1 $ slow 4 $ degradeBy 0 $ n "[1*16] 2*4 3 [3*4 8*8]" |> (irand "<8 1 1 4>")
+    # legato 2
+    # s "[indbits, midi]"
+    # midichan 2
+    # hpf "<1500 3500 400 200>"
+    # hpq 0.3
+    # vowel "e a i u"
+    # room 0.67
+    # sz 0.7
+    # gain 0.7
 
-
-d3 $ degradeBy 0.6 $ slow 4 $ randslice "<1 4 8 8 >" 
-  $ n "1*4 [2*2] <2 [4 1*4]> <3*8 4> " |> (irand 8)
-  # s " bytebeats"
-  # gain 0.9
-  # hpf "<300 2000 4200>"
-  # hpq 0.5
-  # room 0.8
-  # sz 0.6
-  # speed 0.125
-  # vowel "<a e>"
-  # legato 1
-
-d3 silence
-
-
--- cEnableLink
-
-hush
-
-
-
-setcps (134/60/4)
 
 -- viz
 -- dark + moon
+
+
 
 
 -------------------------------------------------------
@@ -72,26 +71,46 @@ setcps (134/60/4)
 -- looper -- soft crackles into rhythmic pattern
 -- mystery, geen angst maar onzekerheid
 
-resetCycles
+setcps (134/60/4)
 
 d3 silence
 
+-- ghettostranded
 
-d2 $ n "2 2 1 [1 2 4 2]" |> (irand 1)
-  # s "soda"
-  # legato 0.25
-  # gain 0.8
+do
+  -- hydramode 3
+  d2 $ n "2 2 1 [1 2 4 2]" |> (irand 1)
+    # s "soda"
+    # legato 0.25
+    # gain 0.8
+  wledmode 1
+  m1 $ fast 8 $ midinote "1 ~ ~ [~ ~ ~ 2]"
+    # s "midi"
+
+
+
+hush
 
 d2 silence
 
--- legato  0.2 >>>> 1 of 2
 
-d5 $ slow 1 $ degradeBy 0 $ note (scale "phrygian" "[0,2,4,6] [0,4]*8 [0,2]*8 [0]*4" |+ (irand 0))
-  # s "[superreese, pfm2]"
-  # legato 0.3
-  # squiz 4
-  # octave 4
-  # gain "0.7 0.7 0.7 0.7?0.6"
+
+do
+  hydramode 4 
+  d5 $ slow 2 $ degradeBy 0 $ note (scale "phrygian" "[0,1,4]*4 [0,4]*2 [0,1]*8 [0,4]" |+ (irand 0))
+    # s "[superreese, pfm2]"
+    #legato  0.2 -- == >>> 1 of 2
+    # legato 1
+    # amp 0.7
+    # gain 0.7
+    # squiz 4
+    # octave 4
+    # gain "0.7 0.7 0.7 0.7?0.6"
+
+
+d1 silence
+
+
 
 d7 $ slow 4 $ n "1 2 3 5 " 
   -- $ chop 4
@@ -118,19 +137,11 @@ d4 $ slow 2 $ n "1*8" |> (irand 8)
   # hpf 1000
   # lpq 0.1
  
+hush
 
 
-d1 $ n "1 1 ~ ~ 1 ~ [3 4] ~"
-  # s "[kick, bd, clubkick]"
-  # room 0.3
-  # lpf 800
-  # sz 0.4
-  # gain 1
-  # squiz 0
-  # vowel "<a e e a>"
-  # midichan 1
 
--- viz
+
 
 -------------------------------------------------------
 
@@ -140,22 +151,41 @@ d1 $ n "1 1 ~ ~ 1 ~ [3 4] ~"
 -- conclusie  goed/hoopvol
 
 
+
+do
+  rects
+  hydramode 5 --encounter 1
+  d1 $ n "1 1 ~ ~ 1 ~ [3 4] ~"
+    # s "[kick, midi]"
+    # room 0.3
+    # lpf 800
+    # sz 0.4
+    # gain 1
+    # squiz 0
+    # vowel "<a e e a>"
+    # midichan 3
+
+-- viz
 hush
 
 do
   hush
+  hydramode 6
+  cube2
   d1 $ n "1 1 ~ ~ ~ ~ ~ ~"
-    # s "[snc, axo, bd]"
-    # midichan 0
+    # s "[snc, axo, bd, midi]"
+    # midichan 1
 
 
-d5 $ n (off 0 (|+| 0) (scale "phrygian" (run "<2 4 8>") ))
+d5 $ n (off 0 (|+| 0) (scale "phrygian" (run "<2 4 8 16 32 64>") ))
   # s "rash"
   # legato 2
   # octave 5
 
 
 d5 silence
+
+hush
 
 
 d2 silence
@@ -168,239 +198,125 @@ d2 $ n "[~ 1]*4"
   # lpf (slow 4 $ 200 + (sine * 400))
 
 
+hush
+
 d1 silence
 
+do
+  cube5
+  hydramode 7 --
+  d1 $ "3(4,8)" 
+    # s "[bd, midi]"
+    # midichan 1
 
-d1 $ "3(4,8)" 
-  # s "bd"
+midihush
+
+m1 silence
 
 
 
+do
+  hydramode "6" -- encounter 3
+  d5 $ slow 2
+    -- $  n "4*2 8*4 [10 4] [11*4] [12 4] 8 [17 4] ~ "
+    -- $ n (chooseBy ["a"])
+    $  n "[4 10] [8 17] [17 11] [4 11] 12*4 [15 8] 8 ~ "
+    -- $  n " [2*8 ,[~ 4 ]] [4 ,[8*2 4]] [[10 11], 8] [[12 11] , 4] [12*4 10] 15 [17 15] ~ "
+    # s "pfm2"
+    # gain "<1 1 0 0>"
+    # midichan 1 
+  m1 $ slow 2 $ ccn 119 # ccv "<8 8 9 9>" # s "midi" #midichan 0
 
-d5 $ slow 2
-  -- $  n "4 8 10 11 12 15 17 ~ "
-  $ n (chooseBy ["a"])
-  -- $  n "[4 10] [8 17] [17 11] [4 11] 12*4 [15 8] 8 ~ "
-  -- $  n " [2*8 ,[~ 4 ]] [4 ,[8*2 4]] [[10 11], 8] [[12 11] , 4] [12*4 10] 15 [17 15] ~ "
-  # s "pfm2"
-  # gain "<1 1 0 0>"
-  # midichan 1 
+
+panic 
+
+-- goal (bridge is visible)
+
+do
+  hush
+  m1 silence
+  hydramode 10 -- mbr
+  d1 $ n (scale "phrygian" "[0,2,4]*8") |+ n "<0 [1 4] <2 4> [3 4 5 6] ~>" # s "acid309" 
   
 
 
-
-d1 $ slow 4 $ n (scale "phrygian" "2 [2*2 1] 4*2 <1 [~ 1]> " |> (irand 12))
-  # s "[supersaw, pfm2]"
-  # legato 2
-
-hush
-
-
-d1  $ note (scale "phrygian" "[0, 2, 4, 6]") 
-    # s "pfm2"
-
-
-
-
-d1  $ note "0 1 3 5 7 8 10"
-    # s "superpiano"
-
-hush
-
-
-d1 $ n (scale "phrygian" "[0,2,4]*8") |+ n "<0 [1 4] <2 4> [3 4 5 6] ~>" # s "acid309" 
-
-
-d1 $ arpg $ n "[e7,g7,c8,e8]" # sound "superpiano"
-
-
-d1  $ note "0 2 4 5 7 9 11 12"
-    # s "superpiano"
-
-d1  $ note "0 2 3 5 7 9 10 12"
-    # s "superpiano"
-
-
-d1 $ n (scale "dorian" "a b c d e f g")
-    # s "superpiano"    
-⎈
-
-
-
-
-xfade 5 $ slow 2 
-  $ n (scale "phrygian" (off "<0.125 0.06125>" (|+ 12) "[e c] ~ [c5 f4] ~ c ~ [d e] a"))
-  # legato 1
-  # octave 3
-  # amp "0.4 0.9"
-  # s "acid309"
-  # midichan 0
-  # gain 0.5
-
-
-
-d7  $ slow 4 $ randslice 4 $ s "turbo*4" |> (irand 4)
-  # legato 1
-  # vowel "a"
-  # gain 1
-
-
-
-
-
-
-       
-
--- viz 
-    # gain 1
--- meerkoet 
--- goal (bridge is visible)
-setcps(130/60/4)
+--- drama incoming
 
 do
-  d3 $ degradeBy "0" 
-    -- $ degradeBy "<0.1 0.6 0.9 0>" 
-    $ fast "<1 4 8 1 1 1 1>"
-    -- $ n "2 3 <2 [3 2] 2> 3 "
-    $ n "<2*3 2> <2 3> <2 [3 2] 2> <3 [3*4]>"
-    # s "[bsnoise, midi]"
-    # legato 0.3
-    # midichan 1
-    # room 0.2
-    # sz  0.4
-    # gain 1
-    # vowel "a"
-    # lpf (slow 4 $ range 400 1400 $ sine)
-    -- # nudge "-0.05"
+  hush
+  d1 $ slow 4 $ n (scale "phrygian" "2 [2*2 1] 4*2 <1 [~ 1]> " |> (irand 12))
+    # s "[supersaw, pfm2]"
+    # legato 2
 
-d3 silence
-
--------------------------------------------------------
--- 4. op pad
--- 4a. chitchat
-
-hush
-
-
-
-d6 $ n "42 [64*8] 20 64*12 [23*12] 12 [14*12] 12" 
-  # s "snare:2"
-  # speed "0.5 0.6 0.4 0.4"
-  # squiz ((irand 2) - 1)
-  # lpf "<600 500 400 800>"
-  # lpq (slow 4 (range 0.2 0.6 saw))
-  # gain 0.8
-  # pan "[0 0.5 0.8 0.3]"
-
-
-
-d4 $ jux' [id,(# djf 0.6),(# speed 2)] 
-  $ every 2 ("<0.25 0.125>" <~) 
-  $ slow 2 
-  $ (off 0.125 (|+ 1.2) (speed "~ 1.4 [1 1.2 1.4 1.2] 0.1"))
-  # s "dsynth:1"
-  # binshift "<4 1 2 0>"
-  # gain 0.8
-
-
-
--- 4b. death trap
 -- dark beats, slowly swelling into chaos
 
+hush
+
 do
+  hush
+  -- hydramode 0 -- black
+  hydramode 11 -- the crash (boat approach)
+  wledmode 4
   xfade 6 silence
   xfade 5 silence
-  d7 $ slow 4 $ sound "indust:7*4"
-    -- # shape (slow 2 saw)
-    # shape 0.9
-    # room "0.8"
-    # speed 0.25
-    # legato 1
-    # sz (range 0.8 1 $ slow 1  saw)
-    # gain 1
+  d3 $ slow 2 $ sound "indust:7*1"
+    # shape (range 0.2 0.5 $ slow  3 saw)
+    # room 0.3
+    # speed 0.69
+    # legato 6
+    # sz (range 0.5 0.8 $ slow 1  saw)
+    # gain 1.3
     # pan (slow 8 $ range 0.1 0.9 $ sine)
 
 
-hush
-
-panic
-
 d3 silence
 
-d1 silence
-
-
-d1 $ slow 1 $ "clubkick*4"
-    # gain 0.3
+do
+  wledmode 5
+  hydramode 12 -- thecrash (boat attack)
+  xfade 1 $ slow 1 $ "clubkick*4"
+    # gain 0.8
     # delay 0.2
     # lock 1
     # delayt "<0.05 0.1 0.125 0.12>"
-    # delayfb 0.1
-    # lpf 600
+    # delayfb 0.3
+    # lpf 400
     # krush 1
+    # squiz 0
     # orbit 0
+
+
 
 
 -- killdelay
 
-d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
- # pan 0.5
- # gain 1
+do
+  wledmode 6
+  hydramode 13 -- the crash boat burn
+  d3 $ s "hardkick*4" # n "4 4 <4 2> <4 4 >"
+    # pan 0.5
+    # gain 1
 
 
--- 4c. alarm
--- gevaar / paniek
+do
+  hydramode 14 -- THE CRASH END
+  hush
 
-
-
-
--- 4d. heldhaftige daad
--- (guitarz/metal vibe?)
-
-
-
-
-
--- 4e uitdovende stilte 
-
-
--------------------------------------------------------
 
 
 -- 5. desolation
+-- empty waves
+
+do
+  hydramode 15 -- "emptywaves"
+  textparts
+
 -- empty, silent >> positive energy from the distance
 
 -------------------------------------------------------
 
 
 -- hans begint met DRUM jas
-setcps(155/60/4)
-
-
-d1 $slow 1 $ n "1 1!3 "
-  # s "[snc]"
-  # midichan 4
-
-
-hush
-
-d1 silence
-
-d2 $ fast 2 $ n "[~ 2]*2"
-  # s "[snc]"
-  # midichan 5
-
-
-
-d3 $ n"1*8"
-  # s "hh"
-
-
-
-
-
-
---- melodie in recording looper
 
 
 
@@ -408,8 +324,49 @@ d3 $ n"1*8"
 -- energy levels rising
 -- dancing containers, reddingsboei, anker, bolder, ...
 
+hush
+
+--- turn off sub
+
+do
+  setcps(135/60/4)
+  rects
+  cubes
+  cube1
+  hydramode 16 -- dancing 
+  m1 $ n "1 2 3 4"
+    # s "midi"
+    #midichan 1
+  cam1
+  d1 $ slow 1 $ n "1 1!3 "
+    # s "[snc]"
+    # midichan 4
 
 
+
+--- bring some sub
+
+hush
+
+d1 silence
+
+
+do
+  d2 $ fast 2 $ n "[~ 2]*2"
+    # s "[snc]"
+    # midichan 5
+  cam2
+
+
+  d3 $ n"1*8"
+  # s "hh"
+
+
+
+hush
+
+
+    
 
 
 -------------------------------------------------------
@@ -424,11 +381,12 @@ d3 $ n"1*8"
 -- in the name of science
 
 
-hydramode 4
 
 do
   hush
+  rects
   cube1
+  hydramode 17
   d1 $ n "3 3 3 3"
     # s"[popkick, midi]"
     # midichan 0
@@ -437,7 +395,6 @@ do
     # room 0.2
   m2 $ ccn "10*4" # ccv "2 3 2 3" # s "midi*4"  # midichan 1
   cam1
-  hydramode 1
 
 do
     d3 $ n "[~ 2]!4"
@@ -462,6 +419,8 @@ do
       # speed (slow 8 (sine * 2 - 1))
       # gain "<[1 0.8]*8  0>"
 
+panic
+
 
 do
   textparts
@@ -484,6 +443,11 @@ do
   --   # cloudsdens 0.9
   --   # cloudstex 0.9
     # gain 0.6
+
+
+hydramode 18
+
+
 
 do
   d4 silence
@@ -511,7 +475,7 @@ do
 
 
 do
-  hydramode 8
+  -- hydramode 8
   textparts
   once $ ccn 1 # ccv 127 # s "midi" # midichan 5
   d4 $degradeBy "0.6 0.5" $ slow 8
@@ -530,7 +494,7 @@ do
 
 
 do
-  hydramode 2
+  --hydramode 2
   d8 $degradeBy "1 0.2 "
       $ slow 0.25
       $ n "[e]*<2 8 [8 32] 64>"
@@ -541,6 +505,8 @@ do
       # gain 0.8
       # lpf (slow 4 sine * 1200)
 
+
+hydramode 17
 
 do
   d2 silence
@@ -556,10 +522,10 @@ do
     # warpsalgo "<5 2>"
     # warpsfreq (slow 2 saw)
 
+hush
 
 
 do
-  alsocubes
   cube1
   hydramode 2
   cam3
@@ -573,42 +539,13 @@ do
 
 
 
+hydramode 0
 
 
 
-do
-  d7 silence
-  d4 silence
-  d8 silence
-  line2
-  d6  $ slow 1
-    -- $ jux rev
-    -- $ brak
-    -- $ n "[f1(3,8) e2(5,8), c3(5,8) f4(7,8)]"
-    -- $ n (ofofff (0.0625) (|+| "<19>") "[f1(3,8) a2(5,8) c4(3,8) f2(2,8)]/1")
-    $ n (off (0.125) (|+| "<7 12 19>") "[f1(3,8) a2(7,8) e1(4,8) c1(5,8) ]/2")
-    # legato 2
-    # octave "<4 5>"
-    # squiz 0.5
-    # room 0.1
-    # s "[rash, midi]"
-    # midichan 4
-    # gain 0.4
-  lines
-  alsocubes
+hydramode 4
 
-  d5 silence
-
-setcps 0.6
-
-do
-  startrot
-  once $ ccn 68 # ccv 127 # s "midi" -- rotYspeed
-  d4 $ slow 2 $ n ( off 0.0625 (|+| "19")"[d1(3,8) <f2 f3>(5,8) f1(7,8) e2(5,8)]/2")
-    # s "rash"
-    # sustain 1
-    # octave 3
-    # gain 0.8
+hush
 
 do
   -- d4 silence
@@ -616,7 +553,7 @@ do
   cubes
   d5 $ slow 2
     $ juxBy 0.6 rev
-    $ n (off 0.125 (|+| "<7>") "[d1(3,8) f2(3,8) f1(7,8) e2(3,8)]/2" )
+    $ n (off 0.125 (|+| "<7>") "[d1(5,8) f2(3,8) f1(7,8) e2(3,8)]/2" )
     # s "[rash, midi]"
     # midichan 1
     # room 0.8
