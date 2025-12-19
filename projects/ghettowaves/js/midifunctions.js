@@ -16,7 +16,7 @@ function initMidi(p5, midiobject){
 				break;
 				
 			case 2:  // cubes
-				// print("doing cubestuff")
+				print("doing cubestuff")
 				p5.cubesconfig.savedseed = note.number
 				// loginfo("creating cubes")
 				createCubes(p5)

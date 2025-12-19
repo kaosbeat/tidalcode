@@ -205,11 +205,86 @@ function test() {
 }
 
 
+
+function blackout() {
+  solid([0,0,0],[0,0,0],[0,0,0],1).out(o3)
+  render(o3)
+}
+
+
+function flotsamfloated(){
+  s1.initImage("img/sluis.jpg")
+	osc(107, 0, 0.7).color(1, 0, 1).rotate(0, -0.08).modulateRotate(o1, 0.4).out(o0)
+	osc(33).rotate(2, 0.8).modulateRotate(o0, () => (a.fft[0]*2)).out(o1)
+	src(s1).posterize(()=>a.fft[0]*5).add(src(s2),1).blend(src(o1),0.1).out(o3)
+
+}
+
+
+
+
 function ghettostranded(){
   s1.initVideo("vid/ghettostrand.mp4")
   src(s1).out(o1)
-  src(o1).diff(o2).blend((solid(0), 0.5)).out(o3)
+  
 }
+
+function exploring(){
+  s1.initVideo("vid/scrollscene.mp4")
+}
+
+
+
+function encounter1(){
+  s1.initVideo("vid/encounter1.mp4")
+  osc(8,-.1,0).thresh([.93,.7].fast(10.75),0).color(0,1,1).out(o0)
+  src(s1).add(src(o0),()=>a.fft[0]).add(src(o2),1).blend(src(o1),0.1).out(o3)
+
+}
+
+
+function encounter2(){
+  s1.initVideo("vid/encounter2.mp4")
+  osc(8,-.1,0).thresh([.93,.7].fast(10.75),0).color(0,1,1).out(o0)
+  src(s1).add(src(o0),()=>a.fft[0]).add(src(o2),1).blend(src(o1),0.1).out(o3)
+
+}
+function encounter3(){
+  s1.initVideo("vid/encounter3.mp4")
+  osc(18,-.1,0).thresh([.3,.7].fast(105),0).color(0,1,3).out(o0)
+  src(s1).diff(src(o0),()=>a.fft[0]).kaleid(5).diff(src(s1).colorama([0.0011,0.007,0.001, 1])).out(o3)
+
+}
+
+
+function conversation1 () {
+  s1.initVideo("vid/encounter3.mp4")
+  osc(18,-.1,0).thresh([.3,.7].fast(105),0).color(0,1,3).out(o0)
+
+
+
+  src(s1).diff(src(o0),()=>a.fft[0]).kaleid(5).diff(src(s1).colorama([0.001])).out(o3)
+
+}
+
+function conversation2 () {
+  s1.initVideo("vid/encounter3.mp4")
+  osc(6, 0, 0.8)
+  .color(1.14, 0.6,.80)
+  .rotate(0.92, 0.3)
+  .pixelate(20, 10)
+  .mult(osc(40, 0.03).thresh(0.4).rotate(0, -0.02))
+  .modulateRotate(osc(20, 0).thresh(0.3, 0.6), () => 0.1 + mouse.x * 0.002)
+  .out(o0)
+
+  src(s1).diff(src(o0),()=>a.fft[0]).kaleid(5).pixelate(()=>a.fft[0]*200,()=>a.fft[0]*200).diff(src(s1).colorama([0.001])).out(o3)
+  
+  // src(s1).diff(src(o0),()=>a.fft[0]).kaleid(5).diff(src(s1)).out(o3)
+
+}
+
+
+
 
 function mbridge() {
   s1.initVideo(url="vid/mbrug.mp4")
@@ -219,8 +294,63 @@ function mbridge() {
 }
 
 
+function thecrash() {
+  s1.initVideo(url="vid/thecrash.mp4")
+  src(s1).out()
+}
+
+function thecrash1() {
+  s1.initVideo(url="vid/thecrash1.mp4")
+  src(s1).out()
+}
+
+function thecrash2() {
+  s1.initVideo(url="vid/thecrash2.mp4")
+  src(s1).out()
+}
+
+function thecrash3() {
+  s1.initVideo(url="vid/thecrash3.mp4")
+  src(s1).out()
+}
+
+function thecrash4() {
+  s1.initVideo(url="vid/thecrash4.mp4")
+  src(s1).out()
+}
+
+
+function slowwaves() {
+  s1.initVideo(url="vid/slowwaves.mp4")
+  src(s1).out()
+}
+
+function dancingravers(){
+  s1.initVideo(url="vid/dance.mp4")
+  // src(s1).kaleid(5).pixelate(()=>a.fft[0]*1200,()=>a.fft[0]*1200).colorama(()=>a.fft[0]*4).contrast(2).out(o2)
+  // src(s1).out(o1)
+  src(s1).diff(src(o2),0.2).out(o3)
+}
+
+function happymeulestee(){
+  s1.initVideo(url="vid/happymeulestee.mp4")
+  // src(s1).kaleid(5).pixelate(()=>a.fft[0]*1200,()=>a.fft[0]*1200).colorama(()=>a.fft[0]*4).contrast(2).out(o2)
+  // src(s1).posterize(6).out(o1)
+  src(s1).add(src(o2),0.2).out(o3)
+}
+
+function happylife(){
+  s1.initVideo(url="vid/happylife.mp4")
+  // src(s1).kaleid(5).pixelate(()=>a.fft[0]*1200,()=>a.fft[0]*1200).colorama(()=>a.fft[0]*4).contrast(2).out(o2)
+  // src(s1).posterize(6).out(o1)
+  src(s1).add(src(o2),0.2).out(o3)
+}
+
+
+
+
 all()
 
 // fxpipe = [ all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]
 
-fxpipe = [ghettostranded, mbridge,  all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]
+fxpipe = [blackout, flotsamfloated, ,ghettostranded, exploring, encounter1, encounter2, encounter3, conversation1, conversation2, mbridge, thecrash1, thecrash2,thecrash3,thecrash4, slowwaves, dancingravers, happymeulestee, happylife, all, code, nocode, repeatglitch, rotshape, silhouettes, sqs,  repetr, neonglow, kaleido, shmear, scrollr, pfiver, simplep5, simpleascii, simplewebcam, test]

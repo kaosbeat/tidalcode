@@ -8,7 +8,7 @@ function initCubes(p5) {
   p5.cubes = [];
   p5.cubesconfig = {
                     "render": true,
-                    "decaymode": "audio",  // time or audio or rms
+                    "decaymode": "time",  // time or audio or rms
                     "decay":0.9, 
                     "cubesize":1, 
                     "size":1, 
