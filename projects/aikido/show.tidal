@@ -1,0 +1,285 @@
+--- rotten flotsam
+hush
+
+setcps(134/60/4)
+
+d1 $ n "1(3,8,0)" |> (irand 8)
+  # s "bytebeats"
+  # legato 1.1
+  # gain "0.7"
+  # lpf (slow 4 $ range 600 1200 $ saw)
+
+d2 $ n "3(<3 4 5 4 4> ,8)"
+  # s "bd"
+  # gain "0.7"
+
+d3 $ fast "<1 2>" $ n "3(3,8)"
+  # s "[~ sd]*4"
+  # gain 0.7
+
+d2 silence
+
+
+d5 $ slow "<2 4>"
+  $ n (scale "phrygian" ("[0, 2, 4]*<4 2> [2, 6]*2 4*2 6" |> (irand " 2 2 8 8"))  ) 
+  # s " pfm2"
+  # octave 4
+  # midichan 1
+
+d1 silence
+
+
+d5 $ slow "<1 2>"
+  $ n (scale "phrygian"
+       ("[0,2,4]*[2 8] [2,4]*<4 5> 4*<4 3 4>  2?0.5")
+       |> (irand "1 4 12"))
+  # s "pfm2" -- minimoog
+  # legato "1  0.5"
+  # octave 4
+  # midichan 1
+
+  
+d5 silence
+
+
+d5 $ slow 2
+  $ n (scale "phrygian"
+       ("[0,2,4,6]*2 2*<5 4> 4*[5 4] 2"
+       |> (irand "1 2 12 8") ))
+  # s "pfm2"
+  # midichan 1
+  # octave 4
+  # legato "2 0.5"
+
+
+d1 $ slow 4 $ n "1(3,8) 3(4,8) 4(2,8) 5"
+  # s "kick"
+  # squiz 1
+  # room 0.5
+  # gain 0.7
+
+d1  silence
+
+d4 $ slow "1 2 1 4" $ n "1*4"
+  # s "clubkick"
+  # gain 0.7
+
+d4 silence
+
+d6 $ slow 2 $ n "4 4 7  8 6 5 5 5 "
+  # s "respect"
+  # gain 0.9
+
+  # squiz 1
+  # hpf 1500
+
+  
+
+
+
+setpitch 64
+
+setstretch 64
+
+
+
+
+d5 $ slow 4
+  $ n (scale  "phrygian" (
+          "[0,4,6]*<2 4 8> [0,4]*[4 8] 2*2 4?0.5" |>
+          (irand "1 4 2 8")))
+  # s "pfm2"
+  # legato 0.3
+  # octave 4
+  # midichan 1
+
+
+
+
+
+do
+  hydramode 1
+  d3 $ degradeBy 0.2 $ slow 2 $ randslice "<1 4 8 8 >" 
+    $ n "1*4 [2*2] <2 [4 1*4]> <3*8 4> " |> (irand 8)
+    # s " bytebeats"
+    # hpf "<300 1800 2000 3200>"
+    # hpq 0.5
+    # room 0.8
+    # sz 0.6
+    # speed 0.5
+    # vowel "<a e>"
+    # legato 1
+    # gain 0.7
+
+
+hush
+
+hydramode 1
+  
+
+d3 $ degradeBy 0.1 $ slow 0.5
+  $ n "2(5,8)" |> (irand 8)
+  # legato "0.5"
+  # s "bytebeats"
+  # lpf 300
+  # room 0.6
+  # gain 0.7
+
+d1 $ n "1 1 ~ 1 ~ ~ 1 ~ "
+  # s "kick"
+  # gain 0.7
+
+
+d2 $ n "[~ 2]*4?0.1"
+  # s "snare"
+  # gain 0.7
+
+
+d5 silence
+
+panic
+
+setstretch 64
+
+setpitch ((irand 40)+ 40)
+  
+## alogo
+hush
+
+d1 $ fast 1
+  -- $ juxBy 0 rev
+  $ s"kick:3(<4>,8)"
+  # room 0.1
+  # gain 0.7
+
+d2 $ s "kick:3*2"
+  -- # room (slow 4 (range 0 1 (sine)))
+  # gain 0.7
+
+
+do
+  -- hush
+  d4 $ juxBy 0.3 rev $ n (off  "<0.125 0.25>" (|+24)  "a4 <f4 c3> c4 <~ e4 c3 e4 c4>" )
+    # legato 4
+    # s "plaits"
+    # engine "[3 1]"
+    # pF "timbre" (slow 8 (range 0.5 0.9 (saw)))
+    # pF "harm" (slow 8 (range 0 0.5 (sine)))
+    # pan ((range 0 1 $ slow 4 sine) - 0.5)
+    # gain 0.7
+  
+d3 silence
+
+d5 $ juxBy 0.3 rev $ n (off  "<0.75 0.25>" (|+12)  "a4 <f4 c3> c4 <~ e4 c3 e4 c4>" )
+  # legato 0.5
+  # s "pfm2"
+  # gain 0.7
+
+d6 $ n "2 2 ~ [1 2] " 
+  # s "808lt"
+  # gain 0.7 
+
+
+d5 $ slow "<2 4 1>" $ striate 8 $ s "breaks125:0 breaks125:1"
+  # unit "c" # speed 1
+  # gain 0.8
+
+
+d1 $ s "bassdm:3*4"
+  # lpf 200
+  # room "0.8 0.4!3"
+  # sz "0.9 0.3!3"
+  # gain 0.7
+
+
+xfade 4 $ degradeBy 0.1 $ slow 2  
+  $ chop 4 $ striate 8
+  $ n "9 ~ [1 9 3 1 ~ 5 [3 6]] 3" 
+  -- $ n "10 _ [4 _ 5 _] 3*8 " 
+  # legato 1
+  # s "indust"
+  # gain 0.7
+  # krush "<1.3 2>" 
+  # room 0.6
+  # hpf (slow 4 (range 200 600 saw))
+
+
+
+
+## digital platform for redefining democracy
+
+hush 
+
+d5 $ slow 2 $ s "numbers" |> (irand 10)
+  # speed (perlin*1.5 + 0.25)
+  # gain 0.8
+
+d1 $ s "bd(<4 4 4>,8)"
+  # room 0.4
+  # squiz 2
+  # gain 0.7
+
+d2 $ s "[hh*4, [~ sn]*4?0.5]"
+  # squiz 1
+  # gain 0.7
+
+d5 $ slow 2  $ n "t(<3 2 7>,16,[0,1,3])" |> (irand 13)
+  # s "diphone2"
+  # legato 1.5
+  # gain 0.7
+
+d5 silence
+
+d3 $ fast "<1 4>"
+    $ (struct "t(<1 4 5>, 8)")
+    $ n (scale "majPent" (irand "<1 8 12>"))
+    # s "[acid309, snc]"
+    # legato "2"
+    # octave "4"
+    # lpf 400
+    # squiz (slow 8 $ range 0 1 $ sine)
+    # gain 0.7
+
+d3 silence
+
+d5 $ slow 8
+    $ striate 2
+    $ chop 4
+    $ n "1 4 3 [4 2 3 4]" |> (irand 8)
+    # s "news"
+    # hpf 1500
+    # legato 0.5
+    # room 0.4
+    # gain 1
+    
+    # speed  (run 4)
+
+
+--- #### --
+
+hush
+
+
+
+
+d1 $ n "3(<2>,8)"
+  # s "kick"
+
+
+d2 $ n "[~ 2]*<1 2 1 4>"
+  # s "sn:2"
+
+
+d3 $ n  "1*<8 16>"  |> (irand "<1 8>")
+  # s "amencutup"
+  # gain "1*8?0.5"
+  
+
+
+d5 $ slow 2 $ degradeBy 0.6
+  $ n (scale "majPent" (off "0.0625" (|+| "-7") " [~ a] c <~ [f e] ~> [a f e c] "))
+  # s "pfm2"
+  # midichan 0
+
+
+
