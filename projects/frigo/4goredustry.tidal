@@ -121,10 +121,10 @@ d8 $ slow 1 $ loopAt 1 $ striate 2 $ s "indust:3 indust:4"
 
 
 
+hush
 
-
-d3 $ randslice 16 $ "indust:1(5,8) indust:2(3,8)"
-  # gain 2
+d3 $ slow 4 $ randslice 16 $ "indust:1(5,8) indust:2(3,8)"
+  # gain 0.7
   # legato 1
   # krush 10
 
