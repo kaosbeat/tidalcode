@@ -15,26 +15,27 @@ do
   d1 $ n pat
      # s "snc"
      # midichan 4 -- kick
-  asciicube2 pat
+
+  asciicube pat
 
 d2 $ n "5(<7 5 >,8,1)"
   # s "snc"
   # midichan 5 --snare
 
-d3 $ slow 4
+d3 $ slow 2
   $ chop "<1 2 4 8>"
-  $ n " c a d ~"
+  $ n " [c e] [a f] [d c] ~"
   # s "pfm2"
 
 d3 silence
 
 d5 $ slow 4
   $ chop "2"
-  $ s "phone:2"
-  # legato 2
+  $ s "phone:1"
+  # legato 0.2
   # vowel "a"
   # delay 0.5
-  # delayfb 0.6
+  # delayfb 0.2
 
   
 d5 $ slow 4
@@ -44,7 +45,7 @@ d5 $ slow 4
   # gain 1
   # vowel "a"
   # delay 0.5
-  # delayfb 0.8
+  # delayfb 0.5
 
 
 hush
@@ -58,7 +59,7 @@ do
     # s "rave"
     # room 0.5
     # size 0.2
-    # gain 1
+    # gain 0.7
 
 do
   d8 silence
@@ -71,6 +72,8 @@ do
     # s "snc"
     # midichan 6 --clap
 
+
+hush
 
 
 

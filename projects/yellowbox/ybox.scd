@@ -22,6 +22,11 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
 ~midiOut.latency = 0.0; /// optional latency
 
+// ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+~dirt.soundLibrary.addMIDI(\wled, ~midiOut);
+// ~midiOut.latency = 0.0; /// optional latency
+
+
 /*~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
 ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
 ~op1Out.latency = 0.0; /// optional latency*/

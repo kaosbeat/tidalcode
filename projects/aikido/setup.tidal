@@ -284,7 +284,20 @@ let
         once $ ccn 7 # ccv ptch # s "axo" # midichan 0 -- length in quarters
     setstretch strch = do
         once $ ccn 8 # ccv strch # s "axo" # midichan 0 -- length in quarters
-
+    asciicube1 p1 = do
+        a1 $ vizscene "signal*32" |> p1
+            # vizcommand "cube" |> p1
+    asciicube2 p1 = do
+        a1 $ vizscene "signal*8" |> p1
+            # vizcommand "cube" |> p1
+    asciicats = do
+      a1 $ slow 1 $ vizscene "text*8"
+        # vizcommand "none"
+        # vizoption "alligator2"
+        # vizword1 "All  ~  Cats  ~  Are   ~ Bonkers  ~"
+        # vizword2 "x"
+        # vizx "5 4"
+        # vizy (7 +(irand 37))
 
 setstretch 64
 
