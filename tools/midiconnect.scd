@@ -1,9 +1,15 @@
 // Quarks.install("crucial-library");
 // Quarks.gui;
+MIDIClient.disposeClient;
+
 MIDIClient.init;
+
 (
 // MIDIClient.init;
 
+
+~renoiseOut = MIDIOut.newByName("Renoise MIDI Input", "Renoise MIDI In Port A");
+~dirt.soundLibrary.addMIDI(\rmidi, ~renoiseOut);
 
 // ~wledmidiOut = MIDIOut.newByName("RtMidiIn Client", "Virtual MIDI input")
 ~wledmidiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
@@ -20,9 +26,9 @@ MIDIClient.init;
 ~dirt.soundLibrary.addMIDI(\td3, ~td3Out);
 ~td3Out.latency = 0.0; /// optional latency
 
-// ~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
-// ~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
-// ~op1Out.latency = 0.05;  /// optional latency
+~op1Out = MIDIOut.newByName("OP-1", "OP-1 MIDI 1");
+~dirt.soundLibrary.addMIDI(\op1, ~op1Out);
+~op1Out.latency = 0.0;  /// optional latency
 
 //
 ~axoOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core");

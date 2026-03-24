@@ -1,0 +1,74 @@
+d1 $ n "1 2 3 4"
+    #  s "midi "
+    # midichan 1
+
+
+d1 $ slow 1 $ n "0 1"
+    # s "midi"
+    # midichan 5
+
+hush
+
+rects
+
+cubes   
+
+hydramode 0 -- all
+
+hydramode 1 -- noVid
+
+hydramode 7
+
+cube6
+
+nop5
+
+startrot
+
+cam3
+
+img1
+
+
+m4 $ ccn "2*127"
+    # ccv (slow 2 $ range 0 127  $ sine ) 
+    -- # ccv "0" 
+    -- # s "midi"
+
+
+m3 $ ccn (65 <| p) # ccv (p +| irand y) # s "midi" -- rotY
+
+
+
+
+startrot    
+
+stoprot
+
+nop5
+
+viz1
+
+addtextparts
+
+cubes
+
+cube1
+
+m1 $ slow 4 
+    $ n "1 2 3 4"
+    # s "midi"
+    # midichan 1
+
+hydramode 3
+
+hydramode 24
+
+img1
+
+
+once $ ccn 1 # ccv 0 # s "midi" # midichan 5  -- img off
+
+once $ ccn 1 # ccv 1 # s "midi" # midichan 5  -- img cube
+
+once $ ccn 1 # ccv 2 # s "midi" # midichan 5  -- img plane
