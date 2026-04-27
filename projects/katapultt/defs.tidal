@@ -1,0 +1,12 @@
+let
+    stopplot = do
+        once $ ccn 1 # ccv 1 # s "plotter"
+    startclock = do
+        p "midiclock" $ midicmd "midiClock*96" # s "[midi]"
+        once $ midicmd "stop" # s "[midi] "
+        p "midictl" $ midicmd "start/4" # s "[midi]"
+
+do
+  once $ midicmd "stop" # s "[midi] "
+  startclock
+

@@ -1,0 +1,44 @@
+d1 $ n "1 2 3 4"
+    #  s "midi "
+    # midichan 2
+
+
+d1 $ slow 1 $ n "0 1"
+    # s "midi"
+    # midichan 5
+
+hush
+
+
+
+
+hydramode 5
+
+
+m4 $ ccn "2*127"
+    # ccv (slow 2 $ range 0 127  $ sine ) 
+    -- # ccv "0" 
+    # s "midi"
+
+
+m3 $ ccn (65 <| p) # ccv (p +| irand y) # s "midi" -- rotY
+
+
+
+startrot    
+
+stoprot
+
+
+viz1
+
+addtextparts
+
+cubes
+
+cube3
+
+m1 $ slow 2 
+    $ n "1 2 3 4"
+    # s "midi"
+    # midichan 1

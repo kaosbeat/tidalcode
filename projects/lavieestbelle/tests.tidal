@@ -1,3 +1,4 @@
+-- c'etait belle
 d1 $ n "1 2 3 4"
     #  s "midi "
     # midichan 1
@@ -17,8 +18,7 @@ hydramode 0 -- all
 
 hydramode 1 -- noVid
 
-hydramode 7
-
+hydramode 13
 cube6
 
 nop5
@@ -29,6 +29,7 @@ cam3
 
 img1
 
+hydramode 21
 
 m4 $ ccn "2*127"
     # ccv (slow 2 $ range 0 127  $ sine ) 
@@ -72,3 +73,58 @@ once $ ccn 1 # ccv 0 # s "midi" # midichan 5  -- img off
 once $ ccn 1 # ccv 1 # s "midi" # midichan 5  -- img cube
 
 once $ ccn 1 # ccv 2 # s "midi" # midichan 5  -- img plane
+
+
+imgs
+
+hydramode 15
+
+cube6
+
+
+hush
+
+setcps(147/60/4)
+
+rects
+
+startrot
+
+resetrot
+
+d1 $ slow 1 $ n "~ ~ ~ ~" # s "bytebeats" 
+    # legato 0.5 # gain 0.57 # midichan 2
+                  
+d1 $ slow "<2>" $ n "1!3 1*<1 4>" # s "[kick, midi]"
+    # vowel "a"
+    -- # squiz "1"
+    # gain 0
+    # midichan 3
+
+d1 silence
+
+d2 $ slow 2 $ s "4(<4 3>,8)" # s "snare"
+
+
+d3 $ slow 2 $ n "c a" # s "op1"
+
+
+d5 $ slow 2 
+    $ randslice "1"
+    $ n "1 7 3*<8 4> 4"
+    # s "respect"
+    # gain 0
+    # legato 1
+
+stoprot
+
+resetrot
+
+hush
+
+
+imgs
+
+m3 $ n "4(4,8)"
+    # s "midi"
+    # midichan "[5, 2]"

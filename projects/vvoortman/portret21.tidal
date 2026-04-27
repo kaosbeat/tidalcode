@@ -1,0 +1,20 @@
+hush
+
+setcps (200/60/4)
+
+
+d1 $ slow 2 $ n "0  _  _  _  1 1*4 2 [2 2*4]"
+  # s "rmidi"
+  # midichan 0
+
+
+  
+
+
+
+
+
+d3 $ slow 4 $ n "14 [16 ~ 14 15 ] 12 _"
+  # lega to 2
+  # s "rmidi"
+  # midichan 1

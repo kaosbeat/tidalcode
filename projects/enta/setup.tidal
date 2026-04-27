@@ -1,6 +1,4 @@
 let
-    linput = pI "linput"
-    lname = pS "lname"
     midihush = do
       m1 silence
       m2 silence
@@ -100,20 +98,6 @@ let
         once $ ccn 1 # ccv 0 # s "midi" # midichan 5
         once $ ccn 1 # ccv 0 # s "midi" # midichan 6
         once $ ccn 1 # ccv 0 # s "midi" # midichan 7
-    addimages = do
-        once $ ccn 1 # ccv 127 # s "midi" # midichan 5
-    imgs = do
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 1
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 2
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 3
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 4
-        once $ ccn 1 # ccv 127 # s "midi" # midichan 5
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 6
-        once $ ccn 1 # ccv 0 # s "midi" # midichan 7
-    img1 = do
-        once $ ccn 1 # ccv 1 # s "midi" #midichan 5 --img cube
-    img2 = do
-        once $ ccn 1 # ccv 2 # s "midi" #midichan 5 --img plane
     viz1 = do    --- cubes, geometric, no texture
         cubes
         resetrot
@@ -199,7 +183,7 @@ let
         once $ ccn 6 # ccv 80 # s "midi" # midichan 1 --margin
         once $ ccn 7 # ccv 1 # s "midi" # midichan 1 --geom
         once $ ccn 8 # ccv 127 # s "midi" # midichan 1 -- freq
-        once $ ccn 10 # ccv 4 # s "midi" # midichan 1 -- text
+        once $ ccn 10 # ccv 4 # s "midi" # midichan 1 -- wire
         once $ ccn 11 # ccv 23 # s "midi" # midichan 1 -- fillcolorB
         once $ ccn 12 # ccv 0 # s "midi" # midichan 1 -- strokecolor B
         once $ ccn 13 # ccv 10 # s "midi" # midichan 1 -- strokeweigh
@@ -313,15 +297,10 @@ let
   -- startclock
 
 
-startrot
 
-cam2
 
-addcubes
+cube5
 
-cube4
-
-addimages
 
 cubes
 
