@@ -1,0 +1,12 @@
+d1 $ n "0 1"
+    # s "indust"
+    # gain 0.7
+
+d2 $ n "2" 
+    # s "bytebeats"
+    # gain 1
+    # room 0.7
+    # sz 0.8
+
+
+hush
