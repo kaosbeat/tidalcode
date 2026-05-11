@@ -157,9 +157,9 @@ SynthDef(\futuresub, {
 	Out.ar(out, DirtPan.ar(sound, ~dirt.numChannels, pan, envGen));
 }).add;
 SynthDef(\ultrasaw, {
-	|out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, pan, accelerate, offset|
+	|out, sustain = 1, freq = 440, speed = 1, begin=0, end=1, decay=0.001, pan, accelerate, offset|
 	var line = Line.ar(begin, end, sustain, doneAction:2);
-	var env = Env([0,1,1,0],[0.001,1,0.001]);
+	var env = Env([0,1,1,0],[0.001,1,decay]);
 	var envGen = IEnvGen.ar(env, line*env.times.sum*abs(speed));
 	var freqs = {Rand(-1,1)*(freq/60)}.dup(12);
 	var sound = Saw.ar((freq+freqs));

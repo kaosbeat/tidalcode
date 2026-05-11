@@ -81,7 +81,7 @@ d4 silence
 d3 $ fast 4 
   $ n "<2  1 5> <~ ~> < 5 2 >~"
   # legato 3
-  # s "snc" --C2
+  # s "[snc, acid309]" --C2
 
 
 
@@ -115,19 +115,44 @@ do
     $ slow 2 
     $ n "[e c [e f] <~ a>]"
     # octave 5
-    # s "[snc]"  -- c2
+    # s "[snc, acid309]"  -- c2
     # legato 1
 
 
-d3 $ while (binaryN 8 "<3432 3252>") (|+ n "<-7 -12>") 
+d3 $ while (binaryN 8 "<3432 3252>")  (|+ n "<-7 -12>")
      $ every 3 (# vowel "e a")
-     $ struct "[t]*16" 
-     $ n "c7" 
+     $ struct "[t]*16 t*4" 
+     $ n "1*8" |> choose [2,3 ,4 , 6]  
      # s "snare" 
-    --  # legato 0.5
-     -- # squiz 2
+     # legato 0.5
+     # squiz 2
 
 hush
+
+
+d1 $ struct (ascii "<[a b] [c d] [e f] [g h]>") $ sound "bd" # speed 2
+
+d1 $ slow 4 $ note (stitch (binaryN 8 4870) "d" "g")
+  # s "moog"
+  # cut 1
+
+d1 $ chop 8 $ sound "moog"
+  # gain (stitch (binaryN 8 7522) "0.4" "1")
+  # legato 1
+
+
+ 
+d1 $ while "{101010011101}%20" (# cutoff 300) -- pseudo random application of the cutoff effect
+$ chop 4 $ n " 1 2 3 ~ 4 2 1 1 "  # sound "moog"
+  # gain (stitch (binaryN 16 121331) "0.6" "1")
+
+hush
+
+
+d1 $ loopAt 12 $ chop 64 $ sound "bev" 
+
+  # cut 1
+
 
 
 do

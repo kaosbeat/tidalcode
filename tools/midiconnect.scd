@@ -4,9 +4,20 @@ MIDIClient.disposeClient;
 
 MIDIClient.init;
 
+
+MIDIClient.destinations;
 (
 // MIDIClient.init;
 
+
+
+// ~open303 = MIDIOut.newByName("Virtual Raw MIDI 2-0", "VirMIDI 2-0");
+~open303 = MIDIOut(0)
+~dirt.soundLibrary.addMIDI(\op3, ~open303);
+
+
+~bal =  MIDIOut(1)
+~dirt.soundLibrary.addMIDI(\bal, ~bal);
 
 ~renoiseOut = MIDIOut.newByName("Renoise MIDI Input", "Renoise MIDI In Port A");
 ~dirt.soundLibrary.addMIDI(\rmidi, ~renoiseOut);

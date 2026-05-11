@@ -1,10 +1,10 @@
-setcps (125/60/4)
+setcps (155/60/4)
 
 hush
 
 d1 $ slow 1
-  -- $ n "1*4"
-  $ n "1 ~ 1*2 ~ ~ 1 ~ ~ "
+  $ n "1*4"
+  -- $ n "1 ~ 1*2 ~ ~ 1 ~ ~ "
   # s "kick"
   # room 0.7
   # sz 0.6
@@ -22,7 +22,7 @@ do
     # gain 1.1
     # hpf 500
     # hpq 0.2
-    -- # hpf (500 +"^2"*1000)
+    # hpf (500 +"^13"*1000)
     -- # hpq 0.1
 
 
@@ -34,18 +34,35 @@ d4 $ fast 1 $ n "5*8"
   # gain "1.2"
 
 
+hush
+
+setF "leg" "^13"
 
 d5 $ slow 4
   $ degradeBy 0
-  -- $ n (off 0.125 (|+| 7)  "[c*2 <~ a> <d e> ~ , f  e ~ e]")
-  $ n (off 0.125 (|+| 19) "[c [a e]  f*2 ~, ~ f*2 e a]")
+  $ n (off 0.125 (|+| 7)  "[c*2 <~ a> <d e> ~ , f  e ~ e]")
+  -- $ n (off 0.125 (|+| 19) "[c [a e]  f*2 ~, ~ f*2 e a]")
   # s "[acid309, snc]"
-  -- # legato ("^2"+0.2)
-  # lpf 400
+  -- # legato ("^13"-0.2)
+  # lpf ("^13"*1800 + 500)
   # gain 0.9
+  -- # squiz "[^s13]"
   
 
+
+
+
+d1 $ "kick*[^s13]"
+
 d7 silence
+
+
+setF "test" "<8 4>"
+
+setF "test2" ("^test" * 2)
+
+
+d1 $ sound "kick*[^s13]"
 
 
 hush
@@ -57,15 +74,30 @@ d7 $ slow 2
   # s "snc"
   # octave 4
 
-d8 $ n "1*16" |> (irand 8)
-  # s "amencutup"
-  # gain "1" |> (rand)*1.6
-  -- # gain "1*16?0.2"
-  # speed "1 1 1.5 2.5"
+do 
+  let dd = 16
+  d8 $ n |> (irand 8)
+    # s "amencutup"
+    # gain "1" |> (rand)*1.6
+    -- #   gain "1*16?0.2"
+    # speed "1 1 1.5 2.5"
 
 hush
 
 d8 silence
+
+setI "dt" $ (cI 5 "13")
+
+d1 $ s "kick*16"
+  # djf "dt"
+
+
+setI "pulse" $ (cI 5 "13")
+
+setI "step" $ (cI 16 "29")
+
+d1 $ "bd(^pulse, ^step)" 
+
 
 
 d5 $ slow 8

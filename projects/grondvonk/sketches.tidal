@@ -1,9 +1,72 @@
 d4 $ midinote "49 47 49 48 "
-  # s "td3"
+  # s "snc"
+  #midichan 2
 
 d5 $ slow 2 $ n (scale "minPent" (off "0.125" (|+ 12) "[e a e f]  ~ <[f f3] c5> ~ [ <e a> c ] ~ [e d*4] a"))
   # legato 1.3
-  # s "td3"
+  # s "donk"
 
 
 d1 $ "gabba*4"
+
+setcps(135/60/4)
+
+d5 $ slow 2 $ striate "1" $ s "dist:9 dist:6" # unit "c" # speed "<1 1>" 
+  # gain 1
+
+
+once $ s "dist:7"
+
+hush
+
+
+-- 
+
+
+
+d1 $ "4(4,8)"
+  # s "[bd]"
+  -- # speed (range 1 1.5 saw)
+  # room 0.8
+
+
+d2 $ n "0"
+  # s "[kick]"
+
+hush
+
+
+d4 $ slow 4 $ n (scale "minPent"  "1 [2 1] 2 [4 6 1 2]  4 [5 6] 4 7 [5 6] [~] [~ 2] [~]  ")
+  # legato 1.5
+  # s "ultrasaw"
+ 
+
+d5 $ slow 4 $ n "4*16 6*16 2*4 ~"
+  # s "[midi]"  -- surge XT >> Catalina
+  # legato 1.8
+
+
+
+d6 $ slow 4 $ n "4 6 2 ~"
+  # s "acid309"  -- surge XT >> Catalina
+  # legato 1.8
+
+
+
+--  gabba
+
+do
+  d6 $ slow 2 $ n "<a*8>"
+    # legato 0.25
+    # s "[acid309, midi]"
+    #midichan 1
+    #gain 0.8
+  hydramode 8
+
+
+  
+
+
+
+
+--- billionaire barbie
