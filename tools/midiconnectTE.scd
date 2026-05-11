@@ -4,10 +4,10 @@ MIDIClient.init;
 (
 // MIDIClient.init;
 
-// // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
-// ~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
-// ~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
-// // ~midiOut.latency = 0.35;  /// optional latency
+// ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
+~midiOut = MIDIOut.newByName("Midi Through", "Midi Through Port-0");
+~dirt.soundLibrary.addMIDI(\midi, ~midiOut);
+~midiOut.latency = 0.35;  /// optional latency
 
 
 // ~midiOut = MIDIOut.newByName("Axoloti Core", "Axoloti Core Axoloti Core");
