@@ -7,17 +7,17 @@ setcps(111/60/4)
 
 
 d2 $ loopAt 4 $ slow 1
-  $ slice 8 ("1(8,8)" |> (irand 1))
+  $ slice 8 ("1(8,8)" |> (irand 16))
   $ n "<8 2 4 6>" 
   # s "brkcoreloops"
   # gain 1
   # legato 1
-  # room 0.9
+  # room 0.4
   # sz 0.8
 
 
 
-d5 $ n "[3 2 1 1] 0*1 0*4 3" 
+d1 $ n "[3 2 1 1] 0*1 0*4 3" 
   # s "kick"
 
 
