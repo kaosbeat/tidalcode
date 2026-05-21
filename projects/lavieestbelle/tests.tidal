@@ -12,6 +12,7 @@ hush
 
 rects
 
+<<<<<<< HEAD
 stoprot
 
 line3
@@ -28,12 +29,21 @@ stoprot
 cam1
 
 cube3
+=======
+cubes
+>>>>>>> d261d18c1f34cdd121dcec0c601ad63b667147ec
 
 hydramode 0 -- all
 
 hydramode 1 -- noVid
 
+<<<<<<< HEAD
 hydramode 1
+=======
+hydramode 14
+
+
+>>>>>>> d261d18c1f34cdd121dcec0c601ad63b667147ec
 
 cubes
 
@@ -104,7 +114,12 @@ m1 $ slow 1
 
 hydramode 20
 
+<<<<<<< HEAD
 hydramode 19
+=======
+  hydramode 1
+  5
+>>>>>>> d261d18c1f34cdd121dcec0c601ad63b667147ec
 
 
 
@@ -126,7 +141,11 @@ once $ ccn 1 # ccv 2 # s "midi" # midichan 5  -- img plane
 
 imgs
 
+<<<<<<< HEAD
 hydramode 22
+=======
+hydramode 21
+>>>>>>> d261d18c1f34cdd121dcec0c601ad63b667147ec
 
 cube6
 
@@ -159,10 +178,10 @@ d3 $ slow 2 $ n "c a" # s "op1"
 
 
 d5 $ slow 2 
-    $ randslice "1"
+    $ randslice "4"
     $ n "1 7 3*<8 4> 4"
     # s "respect"
-    # gain 0
+    # gain 1.3
     # legato 1
 
 stoprot

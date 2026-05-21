@@ -2,11 +2,59 @@ d1 $ n "0 1"
     # s "indust"
     # gain 0.7
 
-d2 $ n "2" 
-    # s "bytebeats"
-    # gain 1
-    # room 0.7
-    # sz 0.8
 
+setcps(111/60/4)
+
+
+d2 $ loopAt 4 $ slow 1
+  $ slice 8 ("1(8,8)" |> (irand 16))
+  $ n "<8 2 4 6>" 
+  # s "brkcoreloops"
+  # gain 1
+  # legato 1
+  # room 0.4
+  # sz 0.8
+
+
+
+d1 $ n "[3 2 1 1] 0*1 0*4 3" 
+  # s "kick"
+
+
+d4 $ n (off 0.06125 (|+| 7)  "<~ c> <e*4↑> f ~ " )
+  # s "pfm2"
+  # midichan 2
+
+
+d4 silence
 
 hush
+
+
+
+setcps(165/60/4)
+
+panic
+
+
+d1 $ n " 1 2 3 4"
+  # s "[axo, snc]"
+  # midichan 0
+
+
+
+
+d6 $ n " 11 2 5 8"
+  # s "[axo, snc]"
+  # midichan 2
+
+
+d5 $ n (off 0.125 (|+| "<7 12 [12 7] [7 12]>") "c <a c> <f  ~> [e f]")
+  # s "snc"
+  # midichan 2
+
+
+
+d6 $ n "1*4"
+  # "clubkick"
+  # squiz "1"

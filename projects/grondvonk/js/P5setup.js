@@ -59,7 +59,9 @@ function updateCam(p5) {
     p5.cam.camera(p5.cos(p5.frameCount * 0.01) * 500, p5.sin(p5.frameCount * 0.01) * 500, p5.sin(p5.frameCount * 0.0029) * 300, 0, 0, 0, 0, 1, 0);
   } else if (p5.viewportconf.cammode == "bigorbit") {
     p5.cam.camera(p5.cos(p5.frameCount * 0.01) * 1000, p5.sin(p5.frameCount * 0.01) * 1000, p5.sin(p5.frameCount * 0.0029) * 1000, 0, 0, 0, 0, 1, 0);
-  } 
+  } else if (p5.viewportconf.cammode == "fullscreen") {
+    p5.cam.camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
+    }
 }
 
 //////////////

@@ -1,0 +1,178 @@
+<!DOCTYPE patchbay>
+<patchbay name="grondvonk" version="0.9.5">
+ <items>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="ZynReverb" port="ZynReverb:Audio Output 1"/>
+   <input node="REAPER" port="REAPER:in7"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out1"/>
+   <input node="Comet Lake PCH cAVS Headphones" port="Headphones:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_7"/>
+   <input node="REAPER" port="REAPER:in7"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="x42-eq - Parametric Equalizer Stereo" port="x42-eq - Parametric Equalizer Stereo:Out Left"/>
+   <input node="ZynReverb" port="ZynReverb:Audio Input 1"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_5"/>
+   <input node="REAPER" port="REAPER:in5"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out5"/>
+   <input node="Midi-Bridge" port="APC mini mk2:APC mini mk2 Control"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT" port="Surge XT:Audio Out 1"/>
+   <input node="REAPER" port="REAPER:in9"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_4"/>
+   <input node="REAPER" port="REAPER:in4"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_8"/>
+   <input node="REAPER" port="REAPER:in8"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT (3)" port="Surge XT (3):Audio Out 2"/>
+   <input node="REAPER" port="REAPER:in14"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="ZynReverb" port="ZynReverb:Audio Output 2"/>
+   <input node="REAPER" port="REAPER:in8"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_16"/>
+   <input node="REAPER" port="REAPER:in16"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_14"/>
+   <input node="REAPER" port="REAPER:in14"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_9"/>
+   <input node="REAPER" port="REAPER:in9"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_6"/>
+   <input node="REAPER" port="REAPER:in6"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_12"/>
+   <input node="REAPER" port="REAPER:in12"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out2"/>
+   <input node="Comet Lake PCH cAVS Headphones" port="Headphones:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_1"/>
+   <input node="REAPER" port="REAPER:in1"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Comet Lake PCH cAVS Speaker [Monitor]" port="Speaker:monitor_FR"/>
+   <input node="PipeWire ALSA [sonobus]/ALSA Capture [sonobus]" port="ALSA Capture [sonobus]:input_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT" port="Surge XT:Audio Out 2"/>
+   <input node="REAPER" port="REAPER:in10"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT (3)" port="Surge XT (3):Audio Out 1"/>
+   <input node="REAPER" port="REAPER:in13"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_10"/>
+   <input node="REAPER" port="REAPER:in10"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_2"/>
+   <input node="REAPER" port="REAPER:in2"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out1"/>
+   <input node="Audiohub 2x4 Analog Surround 4.0" port="Audiohub 2x4:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT (2)" port="Surge XT (2):Audio Out 1"/>
+   <input node="REAPER" port="REAPER:in11"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_1"/>
+   <input node="Chromium input" port="Chromium input:input_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out0"/>
+   <input node="JC303" port="JC303:events-in"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Surge XT (2)" port="Surge XT (2):Audio Out 2"/>
+   <input node="REAPER" port="REAPER:in12"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_11"/>
+   <input node="REAPER" port="REAPER:in11"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out2"/>
+   <input node="Surge XT (2)" port="Surge XT (2):events-in"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_3"/>
+   <input node="REAPER" port="REAPER:in3"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_13"/>
+   <input node="REAPER" port="REAPER:in13"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out1"/>
+   <input node="Surge XT" port="Surge XT:events-in"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Comet Lake PCH cAVS Speaker [Monitor]" port="Speaker:monitor_FL"/>
+   <input node="PipeWire ALSA [sonobus]/ALSA Capture [sonobus]" port="ALSA Capture [sonobus]:input_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="OP-1:OP-1 MIDI 1"/>
+   <input node="Midi-Bridge" port="Midi Through:Midi Through Port-0"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="x42-eq - Parametric Equalizer Stereo" port="x42-eq - Parametric Equalizer Stereo:Out Right"/>
+   <input node="ZynReverb" port="ZynReverb:Audio Input 2"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_2"/>
+   <input node="Chromium input" port="Chromium input:input_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="SuperCollider" port="SuperCollider:out_15"/>
+   <input node="REAPER" port="REAPER:in15"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out3"/>
+   <input node="Surge XT (3)" port="Surge XT (3):events-in"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="LCXL3 1:LCXL3 1 MIDI In"/>
+   <input node="JC303" port="JC303:events-in"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out4"/>
+   <input node="REAPER" port="REAPER:MIDI Input 5"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-midi">
+   <output node="Midi-Bridge" port="SuperCollider:out4"/>
+   <input node="REAPER" port="REAPER:MIDI Input 7"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="REAPER" port="REAPER:out2"/>
+   <input node="Audiohub 2x4 Analog Surround 4.0" port="Audiohub 2x4:playback_FR"/>
+  </item>
+ </items>
+</patchbay>
+
