@@ -1,0 +1,281 @@
+
+do
+  camview 2
+  codeview 4
+  p5view 4
+  cubes
+  cube3
+  hydramode 2
+
+
+startrot
+
+-- /// ascii renderer
+x1 $ vizscene "signal*64"
+  # vizcommand "cube!8" -- "perspsq!2" -- "cube!4 circles!3 
+  # vizoption "clear*7 clear"
+
+
+hydramode 16
+
+
+cam1
+
+do
+  cubes
+  addlines
+  hydramode 7
+
+  cube5
+
+startrot
+
+cam3
+
+resetrot
+
+m1 $ slow "<0.25 1 4 0.125>"
+    $ n "3 1 2 4" -- |> (irand 16)
+    # s "midi"
+    # midichan 6
+
+vidfull
+
+do
+  vids
+  barbiesmell 
+
+
+hydramode 11
+
+line2
+
+line4 = do
+    once $ ccn 1 # ccv 127 # s "midi" # midichan 4 -- on 127
+    once $ ccn 2 # ccv 1 # s "midi" # midichan 4 -- linemode ortho 0 / random 1
+    once $ ccn 3 # ccv 1 # s "midi" # midichan 4 -- ttl
+    once $ ccn 4 # ccv 82  # s "midi" # midichan 4 -- ttlspeed
+    once $ ccn 5 # ccv 127 # s "midi" # midichan 4 -- strokeweight
+    once $ ccn 6 # ccv 127 # s "midi" # midichan 4 -- size    viz2 = do    --- cubes, geometric, no texture
+        
+
+line4
+
+once $ ccn 3 # ccv 1 # s "midi" # midichan 2 -- ttl
+
+lines
+
+cubes
+
+cube3
+
+
+line3
+
+once $ ccn 2 # ccv 1 # s "midi" # midichan 3 -- ttl
+
+
+
+m1 $ fast 2 $ ccn "2*8" 
+    # ccv "3 1 4 127" 
+    # s "midi" # midichan 0 -- ttl
+
+m2 $ n "1 2 3 4"
+    # s "midi"
+    # midichan 3
+
+
+addlines
+
+
+cube6
+
+
+hydramode 16
+
+
+
+addrects
+
+stoprot
+
+cam1
+
+
+d1 $ n "[2 3] 3 6 4*16 "
+    # s "midi"
+    # midichan 5
+
+
+cube6
+
+hydramode 15
+
+img2
+
+do
+    cubes
+    -- addlines
+    addrects
+
+
+imgs
+
+img1
+
+
+cube4
+
+addlines
+
+
+once $ ccn 2 # ccv 1 # s "midi" # midichan 1 --decay
+
+once $ ccn 3 # ccv 90 # s "midi" # midichan 1 -- decaytime
+
+once $ slow 4 $ ccn "4*8" # ccv "57 70 37 59" # s "midi" # midichan 1 --numcubes
+
+once $ ccn 5 # ccv 120 # s "midi" # midichan 1 --size
+
+once $ ccn 6 # ccv 120 # s "midi" # midichan 1 --margin
+
+
+m4 $ ccn "7*8" # ccv "2 1" # s "midi" # midichan 1 --geom
+
+m1 $ ccn "8*8" # ccv "95 45 29 26" # s "midi" # midichan 1 -- freq
+
+
+m2 $ ccn "10*8" # ccv "4 3 2 4" # s "midi" # midichan 1 -- wire
+
+once $ ccn 11 # ccv 89 # s "midi" # midichan 1 -- fillcolorB
+
+once $ ccn 12 # ccv 127 # s "midi" # midichan 1 -- strokecolor B
+
+once $ ccn 13 # ccv 127 # s "midi" # midichan 1 -- strokeweight of cubes
+
+
+hydramode 19
+
+once $ ccn 2 # ccv 89 # s "midi" # midichan 2 -- fillcolorB
+
+once $ ccn 3 # ccv 8 # s "midi" # midichan 2 -- fillcolorB
+
+
+m3 $ ccn "[2*64]" 
+    # ccv (slow 4 $ range 1 127 $ saw) 
+    # s "midi" # midichan 0
+
+m2 $ ccn "[1*64]" 
+    # ccv (slow 3 $ range 1 127 $ saw) 
+    # s "midi" # midichan 0
+
+d1 $ fast 2 $ n "1 9 9  3"
+    # s "midi"
+    # midichan "[3, 2, 5]"
+
+hydramode 87
+
+
+m3 $ ccn "[4*64]" 
+    # ccv (slow 0.25 $ range 1 127 $ saw) 
+    # s "midi" # midichan 0
+
+
+cube4
+
+addimages
+
+
+vids
+
+cam3
+
+
+addcubes
+
+addlines
+
+cube4
+
+cam1
+
+vidcube
+
+hands2
+
+hush
+
+m2 $ ccn "2*64"  # ccv "[12 50 30 120]*4" # s "midi" # midichan 0 -- quantity
+
+m3 $ ccn "3*4"  # ccv "0 45 90 45" # s "midi" # midichan 2 -- rotation
+
+once $ ccn 4  # ccv 2 # s "midi" # midichan 2 -- random 1 /shift 2
+
+once $ ccn 5  # ccv 1 # s "midi" # midichan 2 -- sqsizeX
+
+once $ ccn 6  # ccv 1 # s "midi" # midichan 2 -- sqsizeY
+
+once $ ccn 7  # ccv 127 # s "midi" # midichan 2    
+
+
+addlines
+
+textparts
+
+addrects
+
+rect2
+
+hush
+
+addrects
+
+line2
+
+
+midihush
+
+stoprot
+
+rects
+
+cam1
+
+
+hydramode 87
+
+addrects
+
+
+
+hush
+
+rects
+
+line2
+
+p5view 2
+
+
+cube6
+
+
+stoprot
+
+do
+  addlines
+  line2
+
+
+rects
+
+rect2
+
+lines
+
+cam1
+
+
+line3
+
+
