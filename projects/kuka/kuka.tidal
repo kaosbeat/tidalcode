@@ -1,0 +1,65 @@
+
+initkuka
+
+
+
+rest
+
+
+wakeup
+
+stretch
+
+
+wander
+
+actionmode
+
+randommode
+
+
+randommodeoff
+
+randommodeon
+
+
+actionmodeon
+
+
+actionmodeoff
+
+wildwander
+
+
+limit1 127
+
+limit2 127
+
+
+limit3 127
+
+
+do
+  let pat n "1 2 3 4"
+  d1 $ slow 4 $ stack [
+    pat # s "bd",
+    ahead 0.65 $ pat # s "[midi]"
+    ]   
+    # midichan 0
+
+
+d1 $ fast 1
+  $ n "1" # s "[midi]"
+  # midichan "[3,4]"
+
+
+
+d2 $ slow 1 $ n "1*8"
+    # s "[midi, kick]"
+    # midichan "[6]"
+
+
+
+hush 
+
+setcps (140/60/4)

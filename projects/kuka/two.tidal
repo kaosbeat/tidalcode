@@ -1,0 +1,158 @@
+
+
+d1 $ slow 2
+  $ n " 2 3 [~ 4 3 7] 2" 
+  # s "bytebeats" 
+  # speed "0.5 2"
+  # legato "1 2"
+  # room 0.4
+  # sz 0.9
+  # lpf 600
+  # lpq 0.3
+  # gain 0.9
+
+
+d2 $ n "1 <[2 4] 5> <2 ~> <~ [2 4]*<4 1>> "
+    # s "kick"
+    # lpf 500
+    # krush 3
+
+
+d4 $ slow 4 
+    $ n "a [c a] ~ c "
+    # s "op3"
+    # octave 3
+
+
+setcps(155/60/4)
+
+
+hush
+
+
+
+
+-- #####  start with a drone
+
+d3 $ slow 4 $ n "a _ a _"  -- surgeXT > leads > Bee
+    # s "md2"
+    # octave 2
+    # amp 0.6
+
+
+d3 silence
+
+m3 $ slow 2 $ ccn "2*64" 
+    -- # ccv (slow 2 $ range 55 75 $ saw) 
+    # ccv "55 75 95 75" 
+    # s "md2" # midichan 0
+
+m3 silence
+
+
+d1 $ n "~ 3!7" 
+    # s "bytebeats"
+    # legato 0.15
+    # lpf "<1200>"
+    # lpq "0.5"
+    # krush "1"
+    # gain 0.7
+
+d2 $ n "2 ~!3"
+    # s "bytebeats"
+    # legato 1
+    # hpf "<1400 2300 1500 200>"
+    # hpq 0.1
+    # room 0.8
+    # sz 0.97
+    # gain 0.9
+
+d4 $ n "1 1 <2 1> 1"
+    # s "kick"
+    # gain 1
+    # lpf 200
+
+
+
+d5 $ slow 2 $ n "~ c ~ f"
+    # s "op3"
+    # octave 3
+    # amp 1.2
+
+d5 silence
+
+
+m1 $ slow 1 $ ccn "13*64" 
+    -- # ccv (slow 2 $ range 55 75 $ saw) 
+    # ccv "15 75 95 75" 
+    # s "op3" # midichan 1
+
+
+d7 $ slow 4 $ n "1 2 5 6"
+    # s "indust"
+    # legato 1
+    # hpf "<1500 2000>"
+    # hpq 0.3
+    # gain 1
+    # room 0.9
+    # sz 0.9
+
+
+d8 $ slow 4 
+    $ n " 1 2 3 4 5 6 7 8" 
+    # s "respect"
+    # lpf 1000
+    # lpq 0.4
+    # gain 0.9
+
+d8 silence
+
+----
+
+
+d5 $ n "5 3 3 <5 [3 2]>"
+    # s "hardkick"
+    # gain 1
+    # lpf 400
+    # lpq "<0.4 0 0 0>"
+    # room 0.5
+
+
+
+d6 $ "[~ 5]*4"
+    # s "snare"
+    # hpf "1500"
+    # hpq "0.2"
+    # speed 0.3
+    # room 0.2
+    # size 0.94
+
+
+
+
+d3 silence
+
+
+d7 $ slow 2 $ n "1 2 8 6"
+    # legato 0.3
+    # s "science"
+    # hpf 1200
+    # room 0.5
+
+
+d2 $ slow 4 
+    $ n (scale "minPent" (off  "0.06125 0.125" (|+| "[5,7,12]") "~ f [d e] c"))
+    # s "plaits"
+    # octave "<4 5>"
+    # pF "timbre" (slow 16 (range 0 0.3 (sine)))
+    # pF "harm" 4
+    # pI "engine" 3
+    # pF "morph" "<0.9 0 0.4 0.1>"
+    # vowel "a e i o"
+    # lpf 1200
+    # room 0.9
+    # gain 0.8
+    # legato 4
+
+
+hush

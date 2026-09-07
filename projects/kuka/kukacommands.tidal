@@ -1,0 +1,26 @@
+-- actions for tidalkuka.py
+let
+  initkuka = do
+    once $ ccn 1 # ccv 1 # s "midi" # midichan 0
+  rest = do
+    once $ ccn 1 # ccv 2 # s "midi" # midichan 0
+  wakeup = do
+    once $ ccn 1 # ccv 3 # s "midi" # midichan 0
+  stretch = do
+    once $ ccn 1 # ccv 4 # s "midi" # midichan 0 
+  wander = do
+    once $ ccn 1 # ccv 5 # s "midi" # midichan 0 
+  wildwander = do
+    once $ ccn 1 # ccv 6 # s "midi" # midichan 0 
+  limit1 p = once $ ccn 20 # ccv p # s "midi" # midichan 0
+  limit2 p = once $ ccn 21 # ccv p # s "midi" # midichan 0
+  limit3 p = once $ ccn 22 # ccv p # s "midi" # midichan 0
+  randommodeon = once $ ccn 30 # ccv 1 # s "midi" # midichan 0
+  randommodeoff = once $ ccn 30 # ccv 2 # s "midi" # midichan 0
+  actionmodeon = once $ ccn 2 # ccv 1 # s "midi" # midichan 0 
+  actionmodeoff = once $ ccn 2 # ccv 0 # s "midi" # midichan 0 
+-- actions for midikuka.py
+  actionmode = once $ ccn 2 # ccv 0 # s "midi" # midichan 0 
+  randommode = once $ ccn 2 # ccv 1 # s "midi" # midichan 0
+  trackmode = once $ ccn 2 # ccv 2 # s "midi" # midichan 0
+

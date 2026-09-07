@@ -22,13 +22,65 @@ hush
 
 -- 
 
+cube1
 
 
-d1 $ "4(4,8)"
-  # s "[bd]"
+rects
+
+lines
+
+textparts
+
+vids
+
+vidfull
+
+barbietalk
+
+
+hydramode 2
+
+imgs 
+
+img1
+
+hush
+
+vids
+
+vidfull
+
+stoprot
+
+resetrot
+
+lines 
+
+line2
+
+cam2
+
+
+codeview 5
+
+camview 5
+
+hydramode 2
+
+cubes
+
+barbieQ
+
+d1 $ slow "<1>" $ n "0 1 2 3"
+  # s "[bd, midi]"
   -- # speed (range 1 1.5 saw)
   # room 0.8
+  # midichan 6
 
+
+
+
+stoprot
 
 d2 $ n "0"
   # s "[kick]"
