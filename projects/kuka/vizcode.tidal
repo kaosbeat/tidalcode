@@ -18,6 +18,7 @@ x1 $ vizscene "signal*64"
 
 hydramode 16
 
+hush
 
 cam1
 
@@ -35,7 +36,7 @@ cam3
 resetrot
 
 m1 $ slow "<0.25 1 4 0.125>"
-    $ n "3 1 2 4" -- |> (irand 16)
+    $ n "3 1 2 4"  |> (irand 16)
     # s "midi"
     # midichan 6
 
@@ -46,7 +47,7 @@ do
   barbiesmell 
 
 
-hydramode 11
+hydramode 6
 
 line2
 
