@@ -2,40 +2,135 @@ do
     let modu1 = slow 6 sine
         modu2 = slow 2 sine
     d1 $ slow 4 $ n "[a, f, c]"
-        # octave 3
+        # octave 2
         # legato 2
         # s "wob"
         # lpf (range (range 200 800 modu2) 1600 modu1)
         # lpq (range 0.1 0.3 modu2)
         # pan (range 0 1 modu1)
-        # gain 0.8    
+        -- # pan 0
+        # gain 1         
 
+
+hush
 
 setcps (95/60/4)
 
-d2 $ slow 2 $ n "2 2 ~ ~"
+d2 $ slow 2 $ echo 8 0.25 0.9 $ n "2 [3 4] ~ ~"
     # s " kick"
-    # lpf 400
+    # lpf 8400
     # room 0.8
     # sz 0.9
 
 
-d3 $ n "1*8" |> (irand 32) 
+d3 $ slow 4 $ n "1*4 1*8 1*16 1*8" |> (irand 32) 
     # s "amencutup"
-    # room 0.99
+    # room 0.9
     # sz 0.97
     # pan (slow 4 (range 0 1 sine))
-    # gain 0.7
+    # gain (slow 5 (range 0.5 1.2 sine))
 
 
+d4 silence
 
 d4 $ slow 4
     $ n "d f a c"
-    # legato 2
+    # legato 4
     # s "ab2"
-    # vowel "a e i f"/2
-    # room 0.5
+    # vowel "a e i f"/4
+    # room 1
     # gain 0.5
 
 
+d4  $ slow 2 $ echo 4 "[0.25 0.125]" 0.8  $ n "<a [a d]> <[f e] e> f ~"      
+    # s "futuresub"
+    # room 0.7
+    # krush (slow 8 (range 1 8 sine))
+    # gain (slow 7 (range 0.5 1.2 sine))
+    
+
+d4 silence
+
+
+d5 $ n "1 3" |> (irand 28)
+    # s "science"
+    # legato 2
+    # gain 1.1
+    # room 0.6
+    # vowel "e u a i"
+    # speed 1
+
+
+d2 $ echo 4 (1/32) 0.8 $ n "<3>(<3 5>,8)"
+    # s "hardkick"
+    # room 0.99
+    # sz 0.9
+
+
+d3 $ n "<<1 1> 2>(<8 <9 15>>,16)" |> (irand 3)
+    # s "snare"
+    # gain 1.3
+    # room 1
+
+
+d5 silence    
+
 hush
+
+
+d1 $ slow 4 $ echo 4 (1/2) 0.85 $ "a e a [c, d]" 
+    # s "ultrasaw"
+    # lpf (slow 4 (range 1600 2600 sine))
+    # lpq 0.2
+    # vowel "<e a i u>"
+    # squiz 2
+    # gain (slow 3 (range 0.5 1.2 sine))
+
+
+
+d1 silence
+
+
+
+
+hush
+
+
+
+----------------------
+
+d1 $ echo 8 (1/16) 0.92 $ n "<1 4 8>*4"
+    # s "hardkick"
+    # room 0.9
+
+
+d2 $ echo 4 (1/32) 0.99 $ n "1*<8 16>" |> (irand 3) 
+    # s "snare"
+    # gain (slow 4 (range 0.6 1.2 sine))
+
+
+d3 $ slow 2 $ n "c d*4 [e, a] ~" # s "ultrasaw"
+    # legato 2
+    # lpf 500
+    # lpq "<0.5 0.2>"
+    # room 0.9
+    # sz 0.8
+    # krush 2
+
+
+d5 $ slow 2 $ echo 2 (1/32) 0.9 $ n (off (1/32) (|+| "[12, 19]") "e <f a> c [a f]")
+    # s "acid309"
+    # octave "[4,6]"
+    # legato 0.25
+    # gain 1.2
+    # lpf 1200
+    # krush 4
+
+hush
+
+d8 $ slow 2 $ n "0 1 2 3 4 5 6 7 " # s "respect"
+    # gain 1.2
+
+
+
+    
