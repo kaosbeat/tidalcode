@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MIDI Visualiser</title>
+<style>
+  :root {
+    --bg: #05060d;
+    --panel: rgba(14, 17, 34, 0.78);
+    --panel-border: rgba(120, 140, 255, 0.28);
+    --text: #dfe6ff;
+    --muted: #8b95b8;
+    --accent: #7cf1d1;
+    --accent2: #b98cff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(1200px 800px at 30% 20%, #10142e 0%, var(--bg) 70%),
+      var(--bg);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--text);
+    -webkit-user-select: none; user-select: none;
+  }
+  #canvas { position: fixed; inset: 0; display: block; }
+  #panel {
+    position: fixed; top: 16px; left: 16px; z-index: 10;
+    width: 300px; max-height: calc(100vh - 32px);
+    overflow-y: auto; overflow-x: hidden;
+    padding: 14px 16px 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    scrollbar-width: thin; scrollbar-color: rgba(124,241,209,0.35) transparent;
+  }
+  #panel::-webkit-scrollbar { width: 8px; }
+  #panel::-webkit-scrollbar-track { background: transparent; }
+  #panel::-webkit-scrollbar-thumb { background: rgba(124,241,209,0.28); border-radius: 999px; }
+  #panel.hidden { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+  h1 { font-size: 15px; letter-spacing: 0.06em; margin: 0 0 4px; font-weight: 600; color: #fff; }
+  .hint { font-size: 10.5px; color: var(--muted); margin: 0 0 10px; line-height: 1.5; }
+  .hint b { color: var(--accent); font-weight: 600; }
+  .hint em { color: var(--muted); font-style: normal; }
+  button, select, input[type="range"] {
+    font: inherit; color: var(--text);
+  }
+  button {
+    width: 100%; padding: 9px 11px; margin: 8px 0 0;
+    background: linear-gradient(135deg, rgba(124,241,209,0.14), rgba(185,140,255,0.14));
+    border: 1px solid var(--panel-border); border-radius: 9px;
+    cursor: pointer; font-size: 12.5px; font-weight: 600; letter-spacing: 0.03em;
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+  button:hover { transform: translateY(-1px); background: linear-gradient(135deg, rgba(124,241,209,0.24), rgba(185,140,255,0.24)); }
+  button:active { transform: translateY(0); }
+  button.ghost {
+    background: transparent; border-color: rgba(120,140,255,0.18); color: var(--muted);
+    font-weight: 500; font-size: 11.5px;
+  }
+  button.small { padding: 6px 10px; font-size: 11px; }
+  .status { font-size: 10.5px; color: var(--muted); margin: 8px 0 2px; min-height: 14px; }
+  .status.ok { color: var(--accent); }
+  .status.warn { color: #ffb45f; }
+  .row { margin: 12px 0 0; }
+  .row-label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 10.5px; color: var(--muted); margin-bottom: 4px; gap: 8px;
+  }
+  .row-label .cc { color: #fff; font-weight: 700; letter-spacing: 0.05em; }
+  .row-label .val { color: var(--accent); font-size: 10.5px; white-space: nowrap; }
+  input[type="range"] {
+    width: 100%; height: 22px; accent-color: var(--accent); cursor: pointer; background: transparent;
+  }
+  select {
+    width: 100%; padding: 7px 9px; font-size: 12px;
+    background: rgba(6,8,18,0.8); color: var(--text);
+    border: 1px solid var(--panel-border); border-radius: 9px;
+    cursor: pointer;
+  }
+  .autoplay {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 12px; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  }
+  .autoplay input { accent-color: var(--accent2); cursor: pointer; }
+  .readout {
+    margin-top: 8px; padding: 6px 9px;
+    background: rgba(0,0,0,0.45); border-radius: 8px;
+    border: 1px solid rgba(120,140,255,0.12);
+    font-size: 11px; color: #b9e8d8; min-height: 28px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  #toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 11;
+    width: auto; padding: 8px 14px; border-radius: 999px;
+    background: var(--panel); border: 1px solid var(--panel-border);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    font-size: 11.5px; color: var(--text); box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  }
+  #live {
+    position: fixed; bottom: 14px; left: 16px; z-index: 10;
+    font-size: 10.5px; color: var(--muted);
+    letter-spacing: 0.03em;
+    padding: 7px 12px; border-radius: 999px;
+    background: rgba(0,0,0,0.45); border: 1px solid rgba(120,140,255,0.12);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  #live .good { color: var(--accent); }
+  @media (max-width: 520px) {
+    #panel { width: calc(100vw - 32px); }
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<div id="panel">
+  <h1>MIDI VISUALISER</h1>
+  <p class="hint">
+    <b>Channel 1</b> — notes &amp; CCs<br/>
+    <em>Channel 2</em> — currently idle<br/>
+    <em>Note ON spawns a square — note OFF starts its decay.</em><br/>
+    <em>Squares drift and tile, wrapping around the screen.</em>
+  </p>
+  <button id="btn-midi" class="ghost small">Enable MIDI</button>
+  <div id="midi-status" class="status">MIDI: not connected</div>
+  <button id="btn-note">&#9889; Simulate a note (on → off)</button>
+
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;7</span> &nbsp;base width — cells</span><span class="val" id="value-width">64</span></div>
+    <input type="range" id="slider-width" min="0" max="127" step="1" value="64"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;14</span> &nbsp;square size — % of screen</span><span class="val" id="value-size">64</span></div>
+    <input type="range" id="slider-size" min="0" max="127" step="1" value="64"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;10</span> &nbsp;drift speed</span><span class="val" id="value-speed">64</span></div>
+    <input type="range" id="slider-speed" min="0" max="127" step="1" value="64"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;11</span> &nbsp;brightness</span><span class="val" id="value-bright">64</span></div>
+    <input type="range" id="slider-bright" min="0" max="127" step="1" value="64"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;15</span> &nbsp;CA offset — cells left</span><span class="val" id="value-offset-x">0</span></div>
+    <input type="range" id="slider-offset-x" min="0" max="127" step="1" value="0"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;16</span> &nbsp;CA offset — cells down</span><span class="val" id="value-offset-y">0</span></div>
+    <input type="range" id="slider-offset-y" min="0" max="127" step="1" value="0"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;17</span> &nbsp;formula — rule number</span><span class="val" id="value-rule">64</span></div>
+    <input type="range" id="slider-rule" min="0" max="127" step="1" value="64"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span><span class="cc">CC&nbsp;18</span> &nbsp;formula — register</span><span class="val" id="value-reg">0</span></div>
+    <input type="range" id="slider-reg" min="0" max="4" step="1" value="0"/>
+  </div>
+  <div class="row">
+    <div class="row-label"><span>Blend mode</span><span class="val" id="blend-value">additive</span></div>
+    <select id="blend">
+      <option value="additive" selected>Additive</option>
+      <option value="normal">Normal</option>
+      <option value="multiply">Multiply (burn-ish)</option>
+      <option value="subtract">Subtract (difference-ish)</option>
+    </select>
+  </div>
+
+  <label class="autoplay"><input type="checkbox" id="autoplay"/> Auto-play (spawn every 0.6s)</label>
+
+  <div id="readout" class="readout">&ndash;</div>
+  <button id="btn-clear" class="ghost small">Clear all squares</button>
+</div>
+
+<button id="toggle">Hide controls</button>
+<div id="live"></div>
+
+<script src="__THREE_BUNDLE__"></script>
+<script src="__APP_BUNDLE__"></script>
+</body>
+</html>
