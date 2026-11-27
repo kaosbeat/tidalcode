@@ -390,3 +390,93 @@ export function ccChannel4AngleSourceIndex(name) {
   const i = CH4_ANGLE_SOURCE_NAMES.indexOf(name);
   return i < 0 ? 0 : i;
 }
+
+/* ---------- channel 5 — words layer ---------- */
+
+export const CH5_CC = {
+  DRIFT: 1,
+  NOISE_AMP: 2,
+  NOISE_SPEED: 3,
+  SCATTER_SPEED: 4,
+  SCATTER_SIZE: 5,
+  SIZE_SPREAD: 6,
+  SIZE_BASE: 7,
+};
+
+export const CH5_CC_DEFAULTS = {
+  [CH5_CC.DRIFT]: 60,
+  [CH5_CC.NOISE_AMP]: 46,
+  [CH5_CC.NOISE_SPEED]: 60,
+  [CH5_CC.SCATTER_SPEED]: 70,
+  [CH5_CC.SCATTER_SIZE]: 70,
+  [CH5_CC.SIZE_SPREAD]: 65,
+  [CH5_CC.SIZE_BASE]: 44,
+};
+
+export const CH5_FONTS = [
+  { id: 'system', label: 'System UI', stack: 'system-ui, -apple-system, sans-serif', css: null },
+  { id: 'space-grotesk', label: 'Space Grotesk', stack: "'Space Grotesk', system-ui, sans-serif", css: 'Space+Grotesk:wght@500;700' },
+  { id: 'jetbrains-mono', label: 'JetBrains Mono', stack: "'JetBrains Mono', monospace", css: 'JetBrains+Mono:wght@500;700' },
+  { id: 'fraunces', label: 'Fraunces', stack: "'Fraunces', Georgia, serif", css: 'Fraunces:wght@600;900' },
+  { id: 'bebas-neue', label: 'Bebas Neue', stack: "'Bebas Neue', sans-serif", css: 'Bebas+Neue' },
+  { id: 'outfit', label: 'Outfit', stack: "'Outfit', sans-serif", css: 'Outfit:wght@500;700' },
+  { id: 'manrope', label: 'Manrope', stack: "'Manrope', sans-serif", css: 'Manrope:wght@500;700' },
+  { id: 'inter', label: 'Inter', stack: "'Inter', sans-serif", css: 'Inter:wght@500;700' },
+  { id: 'press-start-2p', label: 'Press Start 2P', stack: "'Press Start 2P', monospace", css: 'Press+Start+2P', weight: 400 },
+];
+
+export const CH5_WORDS_FALLBACK = [
+  'echo', 'rune', 'pulse', 'lumen', 'ember', 'drift', 'haze', 'spire', 'fern', 'tide',
+  'void', 'glow', 'frost', 'mist', 'spark', 'thorn', 'vale', 'raven', 'hollow', 'ridge',
+  'storm', 'wraith', 'dawn', 'dusk', 'brine', 'cinder', 'petal', 'flare', 'orbit', 'quartz',
+  'riddle', 'shadow', 'tether', 'umbra', 'vault', 'whisper', 'zenith', 'velvet', 'zephyr', 'vortex',
+];
+
+export function ccWordDrift(v) {
+  return 40 + clamp(v, 0, 127) / 127 * 220; // 40 .. 260 px/s
+}
+
+export function ccNoisyAmplitude(v) {
+  return clamp(v, 0, 127) / 127 * 22; // 0 .. 22 px
+}
+
+export function ccNoisySpeed(v) {
+  return 0.5 + clamp(v, 0, 127) / 127 * 4.0; // 0.5 .. 4.5 rad/s
+}
+
+export function ccScatterSpeed(v) {
+  return clamp(v, 0, 127) / 127 * 380; // 0 .. 380 px/s
+}
+
+export function ccScatterSize(v) {
+  return 0.4 + clamp(v, 0, 127) / 127 * 1.8; // 0.4x .. 2.2x
+}
+
+export function ccSizeSpread(v) {
+  return clamp(v, 0, 127) / 127; // 0 .. 1
+}
+
+export function ccSizeBase(v) {
+  return 20 + clamp(v, 0, 127) / 127 * 60; // 20 .. 80 px
+}
+
+export function normalizeWordList(data) {
+  let arr = null;
+  if (Array.isArray(data)) arr = data;
+  else if (data && typeof data === 'object') {
+    if (Array.isArray(data.words)) arr = data.words;
+    else if (Array.isArray(data.list)) arr = data.list;
+    else if (Array.isArray(data.items)) arr = data.items;
+  }
+  if (!arr) return [];
+  const out = [];
+  for (const item of arr) {
+    if (typeof item !== 'string') continue;
+    const s = item.trim().replace(/\s+/g, ' ');
+    if (!s || s.length > 32) continue;
+    if (out.includes(s)) continue;
+    out.push(s);
+    if (out.length >= 500) break;
+  }
+  return out;
+}

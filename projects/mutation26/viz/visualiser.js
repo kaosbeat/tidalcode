@@ -11,6 +11,9 @@ import {
   CH4_CC, CH4_CC_DEFAULTS, CH4_MODE_NAMES, CH4_ANGLE_SOURCE_NAMES,
   ccChannel4Mode, ccChannel4AngleSource, ccChannel4Angle, ccChannel4Size,
   ccChannel4Color, ccChannel4Formula,
+  CH5_CC, CH5_CC_DEFAULTS, CH5_FONTS, CH5_WORDS_FALLBACK,
+  ccWordDrift, ccNoisyAmplitude, ccNoisySpeed, ccScatterSpeed, ccScatterSize,
+  ccSizeSpread, ccSizeBase, normalizeWordList,
 } from './ca.js';
 
 const TEXTURE_HEIGHT = 96;
@@ -51,6 +54,16 @@ const state = {
     enabled: true,
     effects: { direction: true, size: false, color: false, formula: true },
     cc: { ...CH4_CC_DEFAULTS },
+  },
+  ch5: {
+    enabled: true,
+    effects: { noisy: true, fallApart: false, letterSizes: true },
+    cc: { ...CH5_CC_DEFAULTS },
+    font: 'system',
+    words: [...CH5_WORDS_FALLBACK],
+    nextIndex: 0,
+    listSource: 'default',
+    listName: 'embedded default',
   },
 };
 
@@ -265,6 +278,218 @@ function clearSquares() {
   state.copies = [];
 }
 
+/* ---------- words layer (channel 5) ---------- */
+
+const wordsLayer = document.getElementById('words-layer');
+const activeWords = [];
+let ch5WordSeq = 0;
+const fontsLoaded = new Set();
+const CH5_FADE_SECONDS = 2.8;
+const CH5_FADE_START = 0.55;
+const CH5_MAX_WORDS = 14;
+
+function ensureFontLoaded(fontId) {
+  const font = CH5_FONTS.find(f => f.id === fontId);
+  if (!font || !font.css || fontsLoaded.has(font.id)) return;
+  fontsLoaded.add(font.id);
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=' + font.css + '&display=swap';
+  document.head.appendChild(link);
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load((font.weight || 700) + ' 32px "' + font.label + '"').catch(() => {});
+  }
+}
+
+function currentCh5Font() {
+  return CH5_FONTS.find(f => f.id === state.ch5.font) || CH5_FONTS[0];
+}
+
+function spawnWord() {
+  if (!state.ch5.enabled) { setReadout('ch5 disabled'); return null; }
+  const words = state.ch5.words;
+  if (!words || words.length === 0) { setReadout('ch5 — no words in list'); return null; }
+
+  const ch5 = state.ch5;
+  const text = words[ch5.nextIndex % words.length];
+  ch5.nextIndex = (ch5.nextIndex + 1) % words.length;
+
+  const hue = Math.random() * 360;
+  const angle = Math.random() * Math.PI * 2;
+  const dirX = Math.cos(angle);
+  const dirY = Math.sin(angle);
+  const speed = ccWordDrift(ch5.cc[CH5_CC.DRIFT]);
+  const basePx = ccSizeBase(ch5.cc[CH5_CC.SIZE_BASE]);
+  const spread = ccSizeSpread(ch5.cc[CH5_CC.SIZE_SPREAD]);
+  const noisy = ch5.effects.noisy;
+  const fallApart = ch5.effects.fallApart;
+  const letterSizes = ch5.effects.letterSizes;
+  const noisyAmp = ccNoisyAmplitude(ch5.cc[CH5_CC.NOISE_AMP]);
+  const noisySpeed = ccNoisySpeed(ch5.cc[CH5_CC.NOISE_SPEED]);
+  const scatterSpeed = ccScatterSpeed(ch5.cc[CH5_CC.SCATTER_SPEED]);
+  const scatterSize = ccScatterSize(ch5.cc[CH5_CC.SCATTER_SIZE]);
+
+  const font = currentCh5Font();
+  ensureFontLoaded(font.id);
+
+  const x = (Math.random() * 0.6 - 0.3) * width;
+  const y = (Math.random() * 0.6 - 0.3) * height;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'word-token';
+  wrap.style.position = 'absolute';
+  wrap.style.left = (width / 2 + x) + 'px';
+  wrap.style.top = (height / 2 + y) + 'px';
+  wrap.style.fontFamily = font.stack;
+  wrap.style.fontSize = basePx + 'px';
+  wrap.style.color = 'hsl(' + hue + ' 85% 68%)';
+  wrap.style.textShadow = '0 0 22px hsl(' + hue + ' 90% 60% / 0.55)';
+  wrap.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'rad)';
+
+  const letters = [];
+  const chars = [...text];
+  for (let i = 0; i < chars.length; i++) {
+    const span = document.createElement('span');
+    span.className = 'word-letter';
+    span.textContent = chars[i];
+    const v = Math.random();
+    const sizeFactor = letterSizes ? (1 + (v - 0.5) * 2 * spread) : 1;
+    let scatter = null;
+    if (fallApart) {
+      const sAng = Math.random() * Math.PI * 2;
+      const randFactor = 0.5 + Math.random() * 0.9;
+      scatter = { dx: Math.cos(sAng) * randFactor, dy: Math.sin(sAng) * randFactor, scale: scatterSize };
+    }
+    let noise = null;
+    if (noisy) {
+      noise = { amp: noisyAmp, speed: noisySpeed * (0.6 + Math.random() * 0.8), phase: Math.random() * Math.PI * 2 };
+    }
+    span.style.transform = 'scale(' + sizeFactor.toFixed(3) + ')';
+    wrap.appendChild(span);
+    letters.push({ el: span, sizeFactor, scatter, noise, phase: noise ? noise.phase : 0 });
+  }
+
+  wordsLayer.appendChild(wrap);
+
+  while (activeWords.length >= CH5_MAX_WORDS) {
+    const oldest = activeWords.shift();
+    if (oldest && oldest.element && oldest.element.parentNode) oldest.element.parentNode.removeChild(oldest.element);
+  }
+
+  const word = {
+    id: ++ch5WordSeq,
+    text,
+    hue,
+    x,
+    y,
+    dirX,
+    dirY,
+    speed,
+    angle,
+    age: 0,
+    fadeDuration: CH5_FADE_SECONDS,
+    letters,
+    element: wrap,
+  };
+  activeWords.push(word);
+
+  setReadout('ch5: "' + text + '"');
+  return word;
+}
+
+function updateWords(dt) {
+  for (let i = activeWords.length - 1; i >= 0; i--) {
+    const w = activeWords[i];
+    w.age += dt;
+    if (w.age >= w.fadeDuration) {
+      if (w.element && w.element.parentNode) w.element.parentNode.removeChild(w.element);
+      activeWords.splice(i, 1);
+      continue;
+    }
+    const t = w.age;
+    w.x += w.dirX * w.speed * dt;
+    w.y += w.dirY * w.speed * dt;
+
+    const fadeStart = w.fadeDuration * CH5_FADE_START;
+    const opacity = t < fadeStart ? 1 : Math.max(0, 1 - (t - fadeStart) / (w.fadeDuration - fadeStart));
+    w.element.style.left = (width / 2 + w.x) + 'px';
+    w.element.style.top = (height / 2 + w.y) + 'px';
+    w.element.style.opacity = opacity.toFixed(3);
+
+    for (const l of w.letters) {
+      let tx = 0, ty = 0, grow = 1;
+      if (l.scatter) {
+        tx = l.scatter.dx * t * ccScatterSpeed(state.ch5.cc[CH5_CC.SCATTER_SPEED]);
+        ty = l.scatter.dy * t * ccScatterSpeed(state.ch5.cc[CH5_CC.SCATTER_SPEED]);
+        grow = 1 + (l.scatter.scale - 1) * Math.min(1, t / 1.2);
+      }
+      if (l.noise) {
+        ty = ty + Math.sin(t * l.noise.speed + l.phase) * l.noise.amp;
+      }
+      l.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + (l.sizeFactor * grow).toFixed(3) + ')';
+    }
+  }
+}
+
+function clearWords() {
+  for (const w of activeWords) {
+    if (w.element && w.element.parentNode) w.element.parentNode.removeChild(w.element);
+  }
+  activeWords.length = 0;
+}
+
+function ch5WordListSummary() {
+  const w = state.ch5.words;
+  return w.length + ' words · ' + state.ch5.listName;
+}
+
+async function loadCh5WordList() {
+  // If the user uploaded a list earlier, it wins — don't refetch the default.
+  if (state.ch5.listSource === 'uploaded') return;
+  if (location.protocol === 'file:') return; // cannot fetch over file:// — keep embedded default
+  try {
+    const res = await fetch('words.json', { cache: 'no-cache' });
+    if (!res.ok) return; // file:// or offline — keep embedded default
+    const data = await res.json();
+    const norm = normalizeWordList(data);
+    if (norm.length === 0) return;
+    state.ch5.words = norm;
+    state.ch5.listSource = 'json';
+    state.ch5.listName = 'words.json';
+    syncControlsFromState();
+  } catch (e) { /* offline — embedded default stays */ }
+}
+
+function handleCh5WordFile(file) {
+  if (!file) return Promise.resolve();
+  const reader = new FileReader();
+  return new Promise((resolve) => {
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(String(reader.result));
+        const norm = normalizeWordList(data);
+        if (norm.length === 0) {
+          setReadout('ch5 — invalid word list');
+          resolve();
+          return;
+        }
+        state.ch5.words = norm;
+        state.ch5.listSource = 'uploaded';
+        state.ch5.listName = file.name;
+        state.ch5.nextIndex = 0;
+        saveEffectsConfig();
+        syncControlsFromState();
+        setReadout('ch5 — loaded ' + norm.length + ' words from ' + file.name);
+      } catch (e) {
+        setReadout('ch5 — could not parse ' + file.name);
+      }
+      resolve();
+    };
+    reader.onerror = () => { setReadout('ch5 — could not read ' + file.name); resolve(); };
+    reader.readAsText(file);
+  });
+}
+
 /* ---------- animation ---------- */
 function animate(now) {
   requestAnimationFrame(animate);
@@ -385,6 +610,8 @@ function animate(now) {
     c.material.uniforms.uIntensity.value = bright;
   }
 
+  updateWords(dt);
+
   renderer.render(scene, camera);
 }
 
@@ -464,6 +691,20 @@ function onMidiMessage(e) {
         syncControlsFromState();
         saveEffectsConfig();
         setReadout('ch4 CC ' + d1 + ' = ' + val);
+      }
+    }
+    return;
+  }
+  if (channel === 4) { // channel 5: words
+    if (cmd === 0x90 && d2 > 0) {
+      spawnWord();
+    } else if (cmd === 0xB0) {
+      const val = clamp(d2, 0, 127);
+      if (d1 in state.ch5.cc) {
+        state.ch5.cc[d1] = val;
+        syncControlsFromState();
+        saveEffectsConfig();
+        setReadout('ch5 CC ' + d1 + ' = ' + val);
       }
     }
     return;
@@ -754,6 +995,34 @@ function loadEffectsConfig() {
       }
     }
   }
+  if (cfg.ch5 && typeof cfg.ch5 === 'object') {
+    if (typeof cfg.ch5.enabled === 'boolean') state.ch5.enabled = cfg.ch5.enabled;
+    if (cfg.ch5.effects && typeof cfg.ch5.effects === 'object') {
+      for (const k of ['noisy', 'fallApart', 'letterSizes']) {
+        if (typeof cfg.ch5.effects[k] === 'boolean') state.ch5.effects[k] = cfg.ch5.effects[k];
+      }
+    }
+    if (cfg.ch5.cc && typeof cfg.ch5.cc === 'object') {
+      for (const key of Object.keys(cfg.ch5.cc)) {
+        const n = parseInt(key, 10);
+        if (Object.prototype.hasOwnProperty.call(state.ch5.cc, n)) {
+          const v = clamp(Math.round(Number(cfg.ch5.cc[key]) || 0), 0, 127);
+          state.ch5.cc[n] = v;
+        }
+      }
+    }
+    if (typeof cfg.ch5.font === 'string' && CH5_FONTS.some(f => f.id === cfg.ch5.font)) {
+      state.ch5.font = cfg.ch5.font;
+    }
+    if (Array.isArray(cfg.ch5.words)) {
+      const norm = normalizeWordList(cfg.ch5.words);
+      if (norm.length > 0) {
+        state.ch5.words = norm;
+        if (typeof cfg.ch5.listSource === 'string') state.ch5.listSource = cfg.ch5.listSource;
+        if (typeof cfg.ch5.listName === 'string') state.ch5.listName = cfg.ch5.listName;
+      }
+    }
+  }
 }
 
 function saveEffectsConfig() {
@@ -762,6 +1031,15 @@ function saveEffectsConfig() {
       ch2: { enabled: state.ch2.enabled, cc: state.ch2.cc },
       ch3: { enabled: state.ch3.enabled, cc: state.ch3.cc },
       ch4: { enabled: state.ch4.enabled, effects: state.ch4.effects, cc: state.ch4.cc },
+      ch5: {
+        enabled: state.ch5.enabled,
+        effects: { ...state.ch5.effects },
+        cc: { ...state.ch5.cc },
+        font: state.ch5.font,
+        words: [...state.ch5.words],
+        listSource: state.ch5.listSource,
+        listName: state.ch5.listName,
+      },
     }));
   } catch (e) { /* ignore */ }
 }
@@ -809,6 +1087,40 @@ const ui = {
   ch4FormulaRow: document.getElementById('row-ch4-formula'),
   btnCh4Reset: document.getElementById('btn-ch4-reset'),
   btnCh4Test: document.getElementById('btn-ch4-test'),
+  ch5Enabled: document.getElementById('ch5-enabled'),
+  ch5Effects: {
+    noisy: document.getElementById('ch5-fx-noisy'),
+    fallApart: document.getElementById('ch5-fx-fallApart'),
+    letterSizes: document.getElementById('ch5-fx-letterSizes'),
+  },
+  ch5Drift: document.getElementById('ch5-1'),
+  ch5DriftValue: document.getElementById('val-ch5-1'),
+  ch5NoisyAmpRow: document.getElementById('row-ch5-noisy-amp'),
+  ch5NoisyAmp: document.getElementById('ch5-2'),
+  ch5NoisyAmpValue: document.getElementById('val-ch5-2'),
+  ch5NoisySpeedRow: document.getElementById('row-ch5-noisy-speed'),
+  ch5NoisySpeed: document.getElementById('ch5-3'),
+  ch5NoisySpeedValue: document.getElementById('val-ch5-3'),
+  ch5ScatterSpeedRow: document.getElementById('row-ch5-scatter-speed'),
+  ch5ScatterSpeed: document.getElementById('ch5-4'),
+  ch5ScatterSpeedValue: document.getElementById('val-ch5-4'),
+  ch5ScatterSizeRow: document.getElementById('row-ch5-scatter-size'),
+  ch5ScatterSize: document.getElementById('ch5-5'),
+  ch5ScatterSizeValue: document.getElementById('val-ch5-5'),
+  ch5SizeSpreadRow: document.getElementById('row-ch5-size-spread'),
+  ch5SizeSpread: document.getElementById('ch5-6'),
+  ch5SizeSpreadValue: document.getElementById('val-ch5-6'),
+  ch5SizeBaseRow: document.getElementById('row-ch5-size-base'),
+  ch5SizeBase: document.getElementById('ch5-7'),
+  ch5SizeBaseValue: document.getElementById('val-ch5-7'),
+  ch5Font: document.getElementById('ch5-font'),
+  ch5FontValue: document.getElementById('val-ch5-font'),
+  ch5ListStatus: document.getElementById('val-ch5-list'),
+  btnCh5WordsFile: document.getElementById('btn-ch5-words-file'),
+  ch5WordsFile: document.getElementById('ch5-words-file'),
+  btnCh5WordsRestore: document.getElementById('btn-ch5-words-restore'),
+  btnCh5Test: document.getElementById('btn-ch5-test'),
+  btnCh5Reset: document.getElementById('btn-ch5-reset'),
   btnClear: document.getElementById('btn-clear'),
   autoplay: document.getElementById('autoplay'),
   blend: document.getElementById('blend'),
@@ -999,6 +1311,16 @@ const CH3_ROWS = [
   { id: CH3_CC.SCALE, fmt: v => '\u00d7 ' + ccHatsScaleFactor(v).toFixed(2) },
 ];
 
+const CH5_ROWS = [
+  { id: CH5_CC.DRIFT, fmt: v => ccWordDrift(v).toFixed(0) + ' px/s', input: 'ch5Drift', label: 'ch5DriftValue', row: null },
+  { id: CH5_CC.NOISE_AMP, fmt: v => ccNoisyAmplitude(v).toFixed(1) + ' px', input: 'ch5NoisyAmp', label: 'ch5NoisyAmpValue', row: 'ch5NoisyAmpRow' },
+  { id: CH5_CC.NOISE_SPEED, fmt: v => ccNoisySpeed(v).toFixed(2) + ' rad/s', input: 'ch5NoisySpeed', label: 'ch5NoisySpeedValue', row: 'ch5NoisySpeedRow' },
+  { id: CH5_CC.SCATTER_SPEED, fmt: v => ccScatterSpeed(v).toFixed(0) + ' px/s', input: 'ch5ScatterSpeed', label: 'ch5ScatterSpeedValue', row: 'ch5ScatterSpeedRow' },
+  { id: CH5_CC.SCATTER_SIZE, fmt: v => '\u00d7 ' + ccScatterSize(v).toFixed(2), input: 'ch5ScatterSize', label: 'ch5ScatterSizeValue', row: 'ch5ScatterSizeRow' },
+  { id: CH5_CC.SIZE_SPREAD, fmt: v => '+\u2212' + (ccSizeSpread(v) * 100).toFixed(0) + '%', input: 'ch5SizeSpread', label: 'ch5SizeSpreadValue', row: 'ch5SizeSpreadRow' },
+  { id: CH5_CC.SIZE_BASE, fmt: v => ccSizeBase(v).toFixed(0) + ' px', input: 'ch5SizeBase', label: 'ch5SizeBaseValue', row: 'ch5SizeBaseRow' },
+];
+
 function syncChEffects() {
   ui.ch2Enabled.checked = state.ch2.enabled;
   for (const row of CH2_ROWS) {
@@ -1052,6 +1374,31 @@ function syncChEffects() {
   ui.ch4ColorRow.hidden = !state.ch4.effects.color;
   ui.ch4FormulaRow.hidden = !state.ch4.effects.formula;
   for (const r of document.querySelectorAll('#page-ch4 .row')) r.classList.toggle('disabled', !state.ch4.enabled);
+
+  // channel 5
+  ui.ch5Enabled.checked = state.ch5.enabled;
+  for (const [key, checkbox] of Object.entries(ui.ch5Effects)) {
+    checkbox.checked = state.ch5.effects[key];
+  }
+  for (const row of CH5_ROWS) {
+    const input = ui[row.input];
+    const label = ui[row.label];
+    if (!input || !label) continue;
+    const v = state.ch5.cc[row.id];
+    input.value = v;
+    label.textContent = row.fmt(v);
+  }
+  ui.ch5NoisyAmpRow.hidden = !state.ch5.effects.noisy;
+  ui.ch5NoisySpeedRow.hidden = !state.ch5.effects.noisy;
+  ui.ch5ScatterSpeedRow.hidden = !state.ch5.effects.fallApart;
+  ui.ch5ScatterSizeRow.hidden = !state.ch5.effects.fallApart;
+  ui.ch5SizeSpreadRow.hidden = !state.ch5.effects.letterSizes;
+  ui.ch5SizeBaseRow.hidden = !state.ch5.effects.letterSizes;
+  const font = currentCh5Font();
+  ui.ch5Font.value = font.id;
+  ui.ch5FontValue.textContent = font.label;
+  ui.ch5ListStatus.textContent = ch5WordListSummary();
+  for (const r of document.querySelectorAll('#page-ch5 .row')) r.classList.toggle('disabled', !state.ch5.enabled);
 }
 
 function wireSettingsTabs() {
@@ -1195,10 +1542,73 @@ function wireCh4Controls() {
   ui.btnCh4Test.addEventListener('click', () => applyChannel4Effect());
 }
 
+function wireCh5Controls() {
+  ui.ch5Enabled.addEventListener('change', () => {
+    state.ch5.enabled = ui.ch5Enabled.checked;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout(state.ch5.enabled ? 'ch5 enabled' : 'ch5 disabled');
+  });
+  for (const [key, checkbox] of Object.entries(ui.ch5Effects)) {
+    checkbox.addEventListener('change', () => {
+      state.ch5.effects[key] = checkbox.checked;
+      syncChEffects();
+      saveEffectsConfig();
+      setReadout('ch5 ' + key + (checkbox.checked ? ' on' : ' off'));
+    });
+  }
+  for (const row of CH5_ROWS) {
+    const input = ui[row.input];
+    const label = ui[row.label];
+    if (!input || !label) continue;
+    input.addEventListener('input', () => {
+      const v = clamp(parseInt(input.value, 10) || 0, 0, 127);
+      state.ch5.cc[row.id] = v;
+      label.textContent = row.fmt(v);
+      saveEffectsConfig();
+    });
+  }
+  ui.ch5Font.addEventListener('change', () => {
+    state.ch5.font = ui.ch5Font.value;
+    const font = currentCh5Font();
+    ensureFontLoaded(font.id);
+    ui.ch5FontValue.textContent = font.label;
+    saveEffectsConfig();
+    setReadout('ch5 font: ' + font.label);
+  });
+  ui.btnCh5WordsFile.addEventListener('click', () => ui.ch5WordsFile.click());
+  ui.ch5WordsFile.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) handleCh5WordFile(file).finally(() => { e.target.value = ''; });
+  });
+  ui.btnCh5WordsRestore.addEventListener('click', () => {
+    state.ch5.words = [...CH5_WORDS_FALLBACK];
+    state.ch5.listSource = 'default';
+    state.ch5.listName = 'embedded default';
+    state.ch5.nextIndex = 0;
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('ch5 — restored default word list');
+  });
+  ui.btnCh5Test.addEventListener('click', () => spawnWord());
+  ui.btnCh5Reset.addEventListener('click', () => {
+    state.ch5.enabled = true;
+    state.ch5.effects = { noisy: true, fallApart: false, letterSizes: true };
+    state.ch5.cc = { ...CH5_CC_DEFAULTS };
+    state.ch5.font = 'system';
+    state.ch5.nextIndex = 0;
+    clearWords();
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('ch5 defaults reset');
+  });
+}
+
 wireSettingsTabs();
 wireCh2Controls();
 wireCh3Controls();
 wireCh4Controls();
+wireCh5Controls();
 syncChEffects();
 
 window.addEventListener('resize', onResize);
@@ -1218,6 +1628,8 @@ window.__viz = {
   applyChannel4Effect,
   spawnCopies,
   spawnNote,
+  spawnWord,
+  clearWords,
   clearSquares,
   saveEffectsConfig,
 };
@@ -1226,4 +1638,5 @@ window.addEventListener('load', async () => {
   syncControlsFromState();
   requestAnimationFrame(animate);
   connectMidi();
+  loadCh5WordList();
 });

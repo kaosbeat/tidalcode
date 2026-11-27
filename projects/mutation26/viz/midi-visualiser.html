@@ -25,6 +25,19 @@
     -webkit-user-select: none; user-select: none;
   }
   #canvas { position: fixed; inset: 0; display: block; }
+  #words-layer {
+    position: fixed; inset: 0; z-index: 1;
+    overflow: hidden; pointer-events: none;
+  }
+  .word-token {
+    position: absolute; white-space: pre;
+    pointer-events: none; will-change: transform, opacity, left, top;
+    font-weight: 700; line-height: 1.1; user-select: none;
+  }
+  .word-letter {
+    display: inline-block; will-change: transform;
+    transform-origin: center; white-space: pre;
+  }
   #panel {
     position: fixed; top: 16px; left: 16px; z-index: 10;
     width: 300px; max-height: calc(100vh - 32px);
@@ -149,11 +162,12 @@
 </head>
 <body>
 <canvas id="canvas"></canvas>
+<div id="words-layer" aria-hidden="true"></div>
 
 <div id="panel">
   <h1>MIDI VISUALISER</h1>
   <p class="hint">
-    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies · <b>Ch&nbsp;4</b> square effects<br/>
+    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies · <b>Ch&nbsp;4</b> square effects · <b>Ch&nbsp;5</b> words<br/>
     <em>Note ON spawns a square — note OFF starts its decay.</em>
   </p>
   <button id="btn-midi" class="ghost small">Enable MIDI</button>
@@ -164,6 +178,7 @@
     <button type="button" class="tab" data-tab="ch2" role="tab" aria-selected="false">Kick · ch2</button>
     <button type="button" class="tab" data-tab="ch3" role="tab" aria-selected="false">Hats · ch3</button>
     <button type="button" class="tab" data-tab="ch4" role="tab" aria-selected="false">FX · ch4</button>
+    <button type="button" class="tab" data-tab="ch5" role="tab" aria-selected="false">Words · ch5</button>
   </div>
 
   <div class="panel-page" id="page-ch1" role="tabpanel">
@@ -333,6 +348,73 @@
 
   <button id="btn-ch4-reset" class="ghost small">Reset ch4 defaults</button>
   <button id="btn-ch4-test">&#9889; Apply ch4 effects now</button>
+  </div>
+
+  <div class="panel-page" id="page-ch5" role="tabpanel" hidden>
+  <label class="ch-toggle"><input type="checkbox" id="ch5-enabled" checked/> Enable words effect</label>
+
+  <div class="row" id="row-ch5-fx">
+    <div class="row-label"><span>Effects — combinable</span></div>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" id="ch5-fx-noisy" checked/> Noisy letters</label>
+      <label class="chip"><input type="checkbox" id="ch5-fx-fallApart"/> Fall apart</label>
+      <label class="chip"><input type="checkbox" id="ch5-fx-letterSizes" checked/> Letter sizes</label>
+    </div>
+  </div>
+
+  <div class="row" id="row-ch5-drift">
+    <div class="row-label"><span><span class="cc">CC&nbsp;1</span> &nbsp;drift speed</span><span class="val" id="val-ch5-1">—</span></div>
+    <input type="range" id="ch5-1" min="0" max="127" step="1" value="60"/>
+  </div>
+  <div class="row" id="row-ch5-noisy-amp">
+    <div class="row-label"><span><span class="cc">CC&nbsp;2</span> &nbsp;noisy amplitude</span><span class="val" id="val-ch5-2">—</span></div>
+    <input type="range" id="ch5-2" min="0" max="127" step="1" value="46"/>
+  </div>
+  <div class="row" id="row-ch5-noisy-speed">
+    <div class="row-label"><span><span class="cc">CC&nbsp;3</span> &nbsp;noisy speed</span><span class="val" id="val-ch5-3">—</span></div>
+    <input type="range" id="ch5-3" min="0" max="127" step="1" value="60"/>
+  </div>
+  <div class="row" id="row-ch5-scatter-speed">
+    <div class="row-label"><span><span class="cc">CC&nbsp;4</span> &nbsp;scatter speed</span><span class="val" id="val-ch5-4">—</span></div>
+    <input type="range" id="ch5-4" min="0" max="127" step="1" value="70"/>
+  </div>
+  <div class="row" id="row-ch5-scatter-size">
+    <div class="row-label"><span><span class="cc">CC&nbsp;5</span> &nbsp;scatter size</span><span class="val" id="val-ch5-5">—</span></div>
+    <input type="range" id="ch5-5" min="0" max="127" step="1" value="70"/>
+  </div>
+  <div class="row" id="row-ch5-size-spread">
+    <div class="row-label"><span><span class="cc">CC&nbsp;6</span> &nbsp;letter size spread</span><span class="val" id="val-ch5-6">—</span></div>
+    <input type="range" id="ch5-6" min="0" max="127" step="1" value="65"/>
+  </div>
+  <div class="row" id="row-ch5-size-base">
+    <div class="row-label"><span><span class="cc">CC&nbsp;7</span> &nbsp;base letter size</span><span class="val" id="val-ch5-7">—</span></div>
+    <input type="range" id="ch5-7" min="0" max="127" step="1" value="44"/>
+  </div>
+
+  <div class="row" id="row-ch5-font">
+    <div class="row-label"><span>Font</span><span class="val" id="val-ch5-font">System UI</span></div>
+    <select id="ch5-font">
+      <option value="system" selected>System UI</option>
+      <option value="space-grotesk">Space Grotesk</option>
+      <option value="jetbrains-mono">JetBrains Mono</option>
+      <option value="fraunces">Fraunces</option>
+      <option value="bebas-neue">Bebas Neue</option>
+      <option value="outfit">Outfit</option>
+      <option value="manrope">Manrope</option>
+      <option value="inter">Inter</option>
+      <option value="press-start-2p">Press Start 2P</option>
+    </select>
+  </div>
+
+  <div class="row" id="row-ch5-list">
+    <div class="row-label"><span>Word list</span><span class="val" id="val-ch5-list">—</span></div>
+    <button id="btn-ch5-words-file">&#128193; Upload word list .json</button>
+    <input type="file" id="ch5-words-file" accept=".json,application/json" hidden/>
+    <button id="btn-ch5-words-restore" class="ghost small">Restore embedded default</button>
+  </div>
+
+  <button id="btn-ch5-test">&#9889; Speak a word</button>
+  <button id="btn-ch5-reset" class="ghost small">Reset ch5 defaults</button>
   </div>
 
   <div id="readout" class="readout">&ndash;</div>
@@ -32192,6 +32274,96 @@ function ccChannel4AngleSourceIndex(name) {
   return i < 0 ? 0 : i;
 }
 
+/* ---------- channel 5 — words layer ---------- */
+
+const CH5_CC = {
+  DRIFT: 1,
+  NOISE_AMP: 2,
+  NOISE_SPEED: 3,
+  SCATTER_SPEED: 4,
+  SCATTER_SIZE: 5,
+  SIZE_SPREAD: 6,
+  SIZE_BASE: 7,
+};
+
+const CH5_CC_DEFAULTS = {
+  [CH5_CC.DRIFT]: 60,
+  [CH5_CC.NOISE_AMP]: 46,
+  [CH5_CC.NOISE_SPEED]: 60,
+  [CH5_CC.SCATTER_SPEED]: 70,
+  [CH5_CC.SCATTER_SIZE]: 70,
+  [CH5_CC.SIZE_SPREAD]: 65,
+  [CH5_CC.SIZE_BASE]: 44,
+};
+
+const CH5_FONTS = [
+  { id: 'system', label: 'System UI', stack: 'system-ui, -apple-system, sans-serif', css: null },
+  { id: 'space-grotesk', label: 'Space Grotesk', stack: "'Space Grotesk', system-ui, sans-serif", css: 'Space+Grotesk:wght@500;700' },
+  { id: 'jetbrains-mono', label: 'JetBrains Mono', stack: "'JetBrains Mono', monospace", css: 'JetBrains+Mono:wght@500;700' },
+  { id: 'fraunces', label: 'Fraunces', stack: "'Fraunces', Georgia, serif", css: 'Fraunces:wght@600;900' },
+  { id: 'bebas-neue', label: 'Bebas Neue', stack: "'Bebas Neue', sans-serif", css: 'Bebas+Neue' },
+  { id: 'outfit', label: 'Outfit', stack: "'Outfit', sans-serif", css: 'Outfit:wght@500;700' },
+  { id: 'manrope', label: 'Manrope', stack: "'Manrope', sans-serif", css: 'Manrope:wght@500;700' },
+  { id: 'inter', label: 'Inter', stack: "'Inter', sans-serif", css: 'Inter:wght@500;700' },
+  { id: 'press-start-2p', label: 'Press Start 2P', stack: "'Press Start 2P', monospace", css: 'Press+Start+2P', weight: 400 },
+];
+
+const CH5_WORDS_FALLBACK = [
+  'echo', 'rune', 'pulse', 'lumen', 'ember', 'drift', 'haze', 'spire', 'fern', 'tide',
+  'void', 'glow', 'frost', 'mist', 'spark', 'thorn', 'vale', 'raven', 'hollow', 'ridge',
+  'storm', 'wraith', 'dawn', 'dusk', 'brine', 'cinder', 'petal', 'flare', 'orbit', 'quartz',
+  'riddle', 'shadow', 'tether', 'umbra', 'vault', 'whisper', 'zenith', 'velvet', 'zephyr', 'vortex',
+];
+
+function ccWordDrift(v) {
+  return 40 + clamp(v, 0, 127) / 127 * 220; // 40 .. 260 px/s
+}
+
+function ccNoisyAmplitude(v) {
+  return clamp(v, 0, 127) / 127 * 22; // 0 .. 22 px
+}
+
+function ccNoisySpeed(v) {
+  return 0.5 + clamp(v, 0, 127) / 127 * 4.0; // 0.5 .. 4.5 rad/s
+}
+
+function ccScatterSpeed(v) {
+  return clamp(v, 0, 127) / 127 * 380; // 0 .. 380 px/s
+}
+
+function ccScatterSize(v) {
+  return 0.4 + clamp(v, 0, 127) / 127 * 1.8; // 0.4x .. 2.2x
+}
+
+function ccSizeSpread(v) {
+  return clamp(v, 0, 127) / 127; // 0 .. 1
+}
+
+function ccSizeBase(v) {
+  return 20 + clamp(v, 0, 127) / 127 * 60; // 20 .. 80 px
+}
+
+function normalizeWordList(data) {
+  let arr = null;
+  if (Array.isArray(data)) arr = data;
+  else if (data && typeof data === 'object') {
+    if (Array.isArray(data.words)) arr = data.words;
+    else if (Array.isArray(data.list)) arr = data.list;
+    else if (Array.isArray(data.items)) arr = data.items;
+  }
+  if (!arr) return [];
+  const out = [];
+  for (const item of arr) {
+    if (typeof item !== 'string') continue;
+    const s = item.trim().replace(/\s+/g, ' ');
+    if (!s || s.length > 32) continue;
+    if (out.includes(s)) continue;
+    out.push(s);
+    if (out.length >= 500) break;
+  }
+  return out;
+}
+
 
 
 const TEXTURE_HEIGHT = 96;
@@ -32232,6 +32404,16 @@ const state = {
     enabled: true,
     effects: { direction: true, size: false, color: false, formula: true },
     cc: { ...CH4_CC_DEFAULTS },
+  },
+  ch5: {
+    enabled: true,
+    effects: { noisy: true, fallApart: false, letterSizes: true },
+    cc: { ...CH5_CC_DEFAULTS },
+    font: 'system',
+    words: [...CH5_WORDS_FALLBACK],
+    nextIndex: 0,
+    listSource: 'default',
+    listName: 'embedded default',
   },
 };
 
@@ -32446,6 +32628,218 @@ function clearSquares() {
   state.copies = [];
 }
 
+/* ---------- words layer (channel 5) ---------- */
+
+const wordsLayer = document.getElementById('words-layer');
+const activeWords = [];
+let ch5WordSeq = 0;
+const fontsLoaded = new Set();
+const CH5_FADE_SECONDS = 2.8;
+const CH5_FADE_START = 0.55;
+const CH5_MAX_WORDS = 14;
+
+function ensureFontLoaded(fontId) {
+  const font = CH5_FONTS.find(f => f.id === fontId);
+  if (!font || !font.css || fontsLoaded.has(font.id)) return;
+  fontsLoaded.add(font.id);
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=' + font.css + '&display=swap';
+  document.head.appendChild(link);
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load((font.weight || 700) + ' 32px "' + font.label + '"').catch(() => {});
+  }
+}
+
+function currentCh5Font() {
+  return CH5_FONTS.find(f => f.id === state.ch5.font) || CH5_FONTS[0];
+}
+
+function spawnWord() {
+  if (!state.ch5.enabled) { setReadout('ch5 disabled'); return null; }
+  const words = state.ch5.words;
+  if (!words || words.length === 0) { setReadout('ch5 — no words in list'); return null; }
+
+  const ch5 = state.ch5;
+  const text = words[ch5.nextIndex % words.length];
+  ch5.nextIndex = (ch5.nextIndex + 1) % words.length;
+
+  const hue = Math.random() * 360;
+  const angle = Math.random() * Math.PI * 2;
+  const dirX = Math.cos(angle);
+  const dirY = Math.sin(angle);
+  const speed = ccWordDrift(ch5.cc[CH5_CC.DRIFT]);
+  const basePx = ccSizeBase(ch5.cc[CH5_CC.SIZE_BASE]);
+  const spread = ccSizeSpread(ch5.cc[CH5_CC.SIZE_SPREAD]);
+  const noisy = ch5.effects.noisy;
+  const fallApart = ch5.effects.fallApart;
+  const letterSizes = ch5.effects.letterSizes;
+  const noisyAmp = ccNoisyAmplitude(ch5.cc[CH5_CC.NOISE_AMP]);
+  const noisySpeed = ccNoisySpeed(ch5.cc[CH5_CC.NOISE_SPEED]);
+  const scatterSpeed = ccScatterSpeed(ch5.cc[CH5_CC.SCATTER_SPEED]);
+  const scatterSize = ccScatterSize(ch5.cc[CH5_CC.SCATTER_SIZE]);
+
+  const font = currentCh5Font();
+  ensureFontLoaded(font.id);
+
+  const x = (Math.random() * 0.6 - 0.3) * width;
+  const y = (Math.random() * 0.6 - 0.3) * height;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'word-token';
+  wrap.style.position = 'absolute';
+  wrap.style.left = (width / 2 + x) + 'px';
+  wrap.style.top = (height / 2 + y) + 'px';
+  wrap.style.fontFamily = font.stack;
+  wrap.style.fontSize = basePx + 'px';
+  wrap.style.color = 'hsl(' + hue + ' 85% 68%)';
+  wrap.style.textShadow = '0 0 22px hsl(' + hue + ' 90% 60% / 0.55)';
+  wrap.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'rad)';
+
+  const letters = [];
+  const chars = [...text];
+  for (let i = 0; i < chars.length; i++) {
+    const span = document.createElement('span');
+    span.className = 'word-letter';
+    span.textContent = chars[i];
+    const v = Math.random();
+    const sizeFactor = letterSizes ? (1 + (v - 0.5) * 2 * spread) : 1;
+    let scatter = null;
+    if (fallApart) {
+      const sAng = Math.random() * Math.PI * 2;
+      const randFactor = 0.5 + Math.random() * 0.9;
+      scatter = { dx: Math.cos(sAng) * randFactor, dy: Math.sin(sAng) * randFactor, scale: scatterSize };
+    }
+    let noise = null;
+    if (noisy) {
+      noise = { amp: noisyAmp, speed: noisySpeed * (0.6 + Math.random() * 0.8), phase: Math.random() * Math.PI * 2 };
+    }
+    span.style.transform = 'scale(' + sizeFactor.toFixed(3) + ')';
+    wrap.appendChild(span);
+    letters.push({ el: span, sizeFactor, scatter, noise, phase: noise ? noise.phase : 0 });
+  }
+
+  wordsLayer.appendChild(wrap);
+
+  while (activeWords.length >= CH5_MAX_WORDS) {
+    const oldest = activeWords.shift();
+    if (oldest && oldest.element && oldest.element.parentNode) oldest.element.parentNode.removeChild(oldest.element);
+  }
+
+  const word = {
+    id: ++ch5WordSeq,
+    text,
+    hue,
+    x,
+    y,
+    dirX,
+    dirY,
+    speed,
+    angle,
+    age: 0,
+    fadeDuration: CH5_FADE_SECONDS,
+    letters,
+    element: wrap,
+  };
+  activeWords.push(word);
+
+  setReadout('ch5: "' + text + '"');
+  return word;
+}
+
+function updateWords(dt) {
+  for (let i = activeWords.length - 1; i >= 0; i--) {
+    const w = activeWords[i];
+    w.age += dt;
+    if (w.age >= w.fadeDuration) {
+      if (w.element && w.element.parentNode) w.element.parentNode.removeChild(w.element);
+      activeWords.splice(i, 1);
+      continue;
+    }
+    const t = w.age;
+    w.x += w.dirX * w.speed * dt;
+    w.y += w.dirY * w.speed * dt;
+
+    const fadeStart = w.fadeDuration * CH5_FADE_START;
+    const opacity = t < fadeStart ? 1 : Math.max(0, 1 - (t - fadeStart) / (w.fadeDuration - fadeStart));
+    w.element.style.left = (width / 2 + w.x) + 'px';
+    w.element.style.top = (height / 2 + w.y) + 'px';
+    w.element.style.opacity = opacity.toFixed(3);
+
+    for (const l of w.letters) {
+      let tx = 0, ty = 0, grow = 1;
+      if (l.scatter) {
+        tx = l.scatter.dx * t * ccScatterSpeed(state.ch5.cc[CH5_CC.SCATTER_SPEED]);
+        ty = l.scatter.dy * t * ccScatterSpeed(state.ch5.cc[CH5_CC.SCATTER_SPEED]);
+        grow = 1 + (l.scatter.scale - 1) * Math.min(1, t / 1.2);
+      }
+      if (l.noise) {
+        ty = ty + Math.sin(t * l.noise.speed + l.phase) * l.noise.amp;
+      }
+      l.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + (l.sizeFactor * grow).toFixed(3) + ')';
+    }
+  }
+}
+
+function clearWords() {
+  for (const w of activeWords) {
+    if (w.element && w.element.parentNode) w.element.parentNode.removeChild(w.element);
+  }
+  activeWords.length = 0;
+}
+
+function ch5WordListSummary() {
+  const w = state.ch5.words;
+  return w.length + ' words · ' + state.ch5.listName;
+}
+
+async function loadCh5WordList() {
+  // If the user uploaded a list earlier, it wins — don't refetch the default.
+  if (state.ch5.listSource === 'uploaded') return;
+  if (location.protocol === 'file:') return; // cannot fetch over file:// — keep embedded default
+  try {
+    const res = await fetch('words.json', { cache: 'no-cache' });
+    if (!res.ok) return; // file:// or offline — keep embedded default
+    const data = await res.json();
+    const norm = normalizeWordList(data);
+    if (norm.length === 0) return;
+    state.ch5.words = norm;
+    state.ch5.listSource = 'json';
+    state.ch5.listName = 'words.json';
+    syncControlsFromState();
+  } catch (e) { /* offline — embedded default stays */ }
+}
+
+function handleCh5WordFile(file) {
+  if (!file) return Promise.resolve();
+  const reader = new FileReader();
+  return new Promise((resolve) => {
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(String(reader.result));
+        const norm = normalizeWordList(data);
+        if (norm.length === 0) {
+          setReadout('ch5 — invalid word list');
+          resolve();
+          return;
+        }
+        state.ch5.words = norm;
+        state.ch5.listSource = 'uploaded';
+        state.ch5.listName = file.name;
+        state.ch5.nextIndex = 0;
+        saveEffectsConfig();
+        syncControlsFromState();
+        setReadout('ch5 — loaded ' + norm.length + ' words from ' + file.name);
+      } catch (e) {
+        setReadout('ch5 — could not parse ' + file.name);
+      }
+      resolve();
+    };
+    reader.onerror = () => { setReadout('ch5 — could not read ' + file.name); resolve(); };
+    reader.readAsText(file);
+  });
+}
+
 /* ---------- animation ---------- */
 function animate(now) {
   requestAnimationFrame(animate);
@@ -32566,6 +32960,8 @@ function animate(now) {
     c.material.uniforms.uIntensity.value = bright;
   }
 
+  updateWords(dt);
+
   renderer.render(scene, camera);
 }
 
@@ -32645,6 +33041,20 @@ function onMidiMessage(e) {
         syncControlsFromState();
         saveEffectsConfig();
         setReadout('ch4 CC ' + d1 + ' = ' + val);
+      }
+    }
+    return;
+  }
+  if (channel === 4) { // channel 5: words
+    if (cmd === 0x90 && d2 > 0) {
+      spawnWord();
+    } else if (cmd === 0xB0) {
+      const val = clamp(d2, 0, 127);
+      if (d1 in state.ch5.cc) {
+        state.ch5.cc[d1] = val;
+        syncControlsFromState();
+        saveEffectsConfig();
+        setReadout('ch5 CC ' + d1 + ' = ' + val);
       }
     }
     return;
@@ -32935,6 +33345,34 @@ function loadEffectsConfig() {
       }
     }
   }
+  if (cfg.ch5 && typeof cfg.ch5 === 'object') {
+    if (typeof cfg.ch5.enabled === 'boolean') state.ch5.enabled = cfg.ch5.enabled;
+    if (cfg.ch5.effects && typeof cfg.ch5.effects === 'object') {
+      for (const k of ['noisy', 'fallApart', 'letterSizes']) {
+        if (typeof cfg.ch5.effects[k] === 'boolean') state.ch5.effects[k] = cfg.ch5.effects[k];
+      }
+    }
+    if (cfg.ch5.cc && typeof cfg.ch5.cc === 'object') {
+      for (const key of Object.keys(cfg.ch5.cc)) {
+        const n = parseInt(key, 10);
+        if (Object.prototype.hasOwnProperty.call(state.ch5.cc, n)) {
+          const v = clamp(Math.round(Number(cfg.ch5.cc[key]) || 0), 0, 127);
+          state.ch5.cc[n] = v;
+        }
+      }
+    }
+    if (typeof cfg.ch5.font === 'string' && CH5_FONTS.some(f => f.id === cfg.ch5.font)) {
+      state.ch5.font = cfg.ch5.font;
+    }
+    if (Array.isArray(cfg.ch5.words)) {
+      const norm = normalizeWordList(cfg.ch5.words);
+      if (norm.length > 0) {
+        state.ch5.words = norm;
+        if (typeof cfg.ch5.listSource === 'string') state.ch5.listSource = cfg.ch5.listSource;
+        if (typeof cfg.ch5.listName === 'string') state.ch5.listName = cfg.ch5.listName;
+      }
+    }
+  }
 }
 
 function saveEffectsConfig() {
@@ -32943,6 +33381,15 @@ function saveEffectsConfig() {
       ch2: { enabled: state.ch2.enabled, cc: state.ch2.cc },
       ch3: { enabled: state.ch3.enabled, cc: state.ch3.cc },
       ch4: { enabled: state.ch4.enabled, effects: state.ch4.effects, cc: state.ch4.cc },
+      ch5: {
+        enabled: state.ch5.enabled,
+        effects: { ...state.ch5.effects },
+        cc: { ...state.ch5.cc },
+        font: state.ch5.font,
+        words: [...state.ch5.words],
+        listSource: state.ch5.listSource,
+        listName: state.ch5.listName,
+      },
     }));
   } catch (e) { /* ignore */ }
 }
@@ -32990,6 +33437,40 @@ const ui = {
   ch4FormulaRow: document.getElementById('row-ch4-formula'),
   btnCh4Reset: document.getElementById('btn-ch4-reset'),
   btnCh4Test: document.getElementById('btn-ch4-test'),
+  ch5Enabled: document.getElementById('ch5-enabled'),
+  ch5Effects: {
+    noisy: document.getElementById('ch5-fx-noisy'),
+    fallApart: document.getElementById('ch5-fx-fallApart'),
+    letterSizes: document.getElementById('ch5-fx-letterSizes'),
+  },
+  ch5Drift: document.getElementById('ch5-1'),
+  ch5DriftValue: document.getElementById('val-ch5-1'),
+  ch5NoisyAmpRow: document.getElementById('row-ch5-noisy-amp'),
+  ch5NoisyAmp: document.getElementById('ch5-2'),
+  ch5NoisyAmpValue: document.getElementById('val-ch5-2'),
+  ch5NoisySpeedRow: document.getElementById('row-ch5-noisy-speed'),
+  ch5NoisySpeed: document.getElementById('ch5-3'),
+  ch5NoisySpeedValue: document.getElementById('val-ch5-3'),
+  ch5ScatterSpeedRow: document.getElementById('row-ch5-scatter-speed'),
+  ch5ScatterSpeed: document.getElementById('ch5-4'),
+  ch5ScatterSpeedValue: document.getElementById('val-ch5-4'),
+  ch5ScatterSizeRow: document.getElementById('row-ch5-scatter-size'),
+  ch5ScatterSize: document.getElementById('ch5-5'),
+  ch5ScatterSizeValue: document.getElementById('val-ch5-5'),
+  ch5SizeSpreadRow: document.getElementById('row-ch5-size-spread'),
+  ch5SizeSpread: document.getElementById('ch5-6'),
+  ch5SizeSpreadValue: document.getElementById('val-ch5-6'),
+  ch5SizeBaseRow: document.getElementById('row-ch5-size-base'),
+  ch5SizeBase: document.getElementById('ch5-7'),
+  ch5SizeBaseValue: document.getElementById('val-ch5-7'),
+  ch5Font: document.getElementById('ch5-font'),
+  ch5FontValue: document.getElementById('val-ch5-font'),
+  ch5ListStatus: document.getElementById('val-ch5-list'),
+  btnCh5WordsFile: document.getElementById('btn-ch5-words-file'),
+  ch5WordsFile: document.getElementById('ch5-words-file'),
+  btnCh5WordsRestore: document.getElementById('btn-ch5-words-restore'),
+  btnCh5Test: document.getElementById('btn-ch5-test'),
+  btnCh5Reset: document.getElementById('btn-ch5-reset'),
   btnClear: document.getElementById('btn-clear'),
   autoplay: document.getElementById('autoplay'),
   blend: document.getElementById('blend'),
@@ -33180,6 +33661,16 @@ const CH3_ROWS = [
   { id: CH3_CC.SCALE, fmt: v => '\u00d7 ' + ccHatsScaleFactor(v).toFixed(2) },
 ];
 
+const CH5_ROWS = [
+  { id: CH5_CC.DRIFT, fmt: v => ccWordDrift(v).toFixed(0) + ' px/s', input: 'ch5Drift', label: 'ch5DriftValue', row: null },
+  { id: CH5_CC.NOISE_AMP, fmt: v => ccNoisyAmplitude(v).toFixed(1) + ' px', input: 'ch5NoisyAmp', label: 'ch5NoisyAmpValue', row: 'ch5NoisyAmpRow' },
+  { id: CH5_CC.NOISE_SPEED, fmt: v => ccNoisySpeed(v).toFixed(2) + ' rad/s', input: 'ch5NoisySpeed', label: 'ch5NoisySpeedValue', row: 'ch5NoisySpeedRow' },
+  { id: CH5_CC.SCATTER_SPEED, fmt: v => ccScatterSpeed(v).toFixed(0) + ' px/s', input: 'ch5ScatterSpeed', label: 'ch5ScatterSpeedValue', row: 'ch5ScatterSpeedRow' },
+  { id: CH5_CC.SCATTER_SIZE, fmt: v => '\u00d7 ' + ccScatterSize(v).toFixed(2), input: 'ch5ScatterSize', label: 'ch5ScatterSizeValue', row: 'ch5ScatterSizeRow' },
+  { id: CH5_CC.SIZE_SPREAD, fmt: v => '+\u2212' + (ccSizeSpread(v) * 100).toFixed(0) + '%', input: 'ch5SizeSpread', label: 'ch5SizeSpreadValue', row: 'ch5SizeSpreadRow' },
+  { id: CH5_CC.SIZE_BASE, fmt: v => ccSizeBase(v).toFixed(0) + ' px', input: 'ch5SizeBase', label: 'ch5SizeBaseValue', row: 'ch5SizeBaseRow' },
+];
+
 function syncChEffects() {
   ui.ch2Enabled.checked = state.ch2.enabled;
   for (const row of CH2_ROWS) {
@@ -33233,6 +33724,31 @@ function syncChEffects() {
   ui.ch4ColorRow.hidden = !state.ch4.effects.color;
   ui.ch4FormulaRow.hidden = !state.ch4.effects.formula;
   for (const r of document.querySelectorAll('#page-ch4 .row')) r.classList.toggle('disabled', !state.ch4.enabled);
+
+  // channel 5
+  ui.ch5Enabled.checked = state.ch5.enabled;
+  for (const [key, checkbox] of Object.entries(ui.ch5Effects)) {
+    checkbox.checked = state.ch5.effects[key];
+  }
+  for (const row of CH5_ROWS) {
+    const input = ui[row.input];
+    const label = ui[row.label];
+    if (!input || !label) continue;
+    const v = state.ch5.cc[row.id];
+    input.value = v;
+    label.textContent = row.fmt(v);
+  }
+  ui.ch5NoisyAmpRow.hidden = !state.ch5.effects.noisy;
+  ui.ch5NoisySpeedRow.hidden = !state.ch5.effects.noisy;
+  ui.ch5ScatterSpeedRow.hidden = !state.ch5.effects.fallApart;
+  ui.ch5ScatterSizeRow.hidden = !state.ch5.effects.fallApart;
+  ui.ch5SizeSpreadRow.hidden = !state.ch5.effects.letterSizes;
+  ui.ch5SizeBaseRow.hidden = !state.ch5.effects.letterSizes;
+  const font = currentCh5Font();
+  ui.ch5Font.value = font.id;
+  ui.ch5FontValue.textContent = font.label;
+  ui.ch5ListStatus.textContent = ch5WordListSummary();
+  for (const r of document.querySelectorAll('#page-ch5 .row')) r.classList.toggle('disabled', !state.ch5.enabled);
 }
 
 function wireSettingsTabs() {
@@ -33376,10 +33892,73 @@ function wireCh4Controls() {
   ui.btnCh4Test.addEventListener('click', () => applyChannel4Effect());
 }
 
+function wireCh5Controls() {
+  ui.ch5Enabled.addEventListener('change', () => {
+    state.ch5.enabled = ui.ch5Enabled.checked;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout(state.ch5.enabled ? 'ch5 enabled' : 'ch5 disabled');
+  });
+  for (const [key, checkbox] of Object.entries(ui.ch5Effects)) {
+    checkbox.addEventListener('change', () => {
+      state.ch5.effects[key] = checkbox.checked;
+      syncChEffects();
+      saveEffectsConfig();
+      setReadout('ch5 ' + key + (checkbox.checked ? ' on' : ' off'));
+    });
+  }
+  for (const row of CH5_ROWS) {
+    const input = ui[row.input];
+    const label = ui[row.label];
+    if (!input || !label) continue;
+    input.addEventListener('input', () => {
+      const v = clamp(parseInt(input.value, 10) || 0, 0, 127);
+      state.ch5.cc[row.id] = v;
+      label.textContent = row.fmt(v);
+      saveEffectsConfig();
+    });
+  }
+  ui.ch5Font.addEventListener('change', () => {
+    state.ch5.font = ui.ch5Font.value;
+    const font = currentCh5Font();
+    ensureFontLoaded(font.id);
+    ui.ch5FontValue.textContent = font.label;
+    saveEffectsConfig();
+    setReadout('ch5 font: ' + font.label);
+  });
+  ui.btnCh5WordsFile.addEventListener('click', () => ui.ch5WordsFile.click());
+  ui.ch5WordsFile.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) handleCh5WordFile(file).finally(() => { e.target.value = ''; });
+  });
+  ui.btnCh5WordsRestore.addEventListener('click', () => {
+    state.ch5.words = [...CH5_WORDS_FALLBACK];
+    state.ch5.listSource = 'default';
+    state.ch5.listName = 'embedded default';
+    state.ch5.nextIndex = 0;
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('ch5 — restored default word list');
+  });
+  ui.btnCh5Test.addEventListener('click', () => spawnWord());
+  ui.btnCh5Reset.addEventListener('click', () => {
+    state.ch5.enabled = true;
+    state.ch5.effects = { noisy: true, fallApart: false, letterSizes: true };
+    state.ch5.cc = { ...CH5_CC_DEFAULTS };
+    state.ch5.font = 'system';
+    state.ch5.nextIndex = 0;
+    clearWords();
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('ch5 defaults reset');
+  });
+}
+
 wireSettingsTabs();
 wireCh2Controls();
 wireCh3Controls();
 wireCh4Controls();
+wireCh5Controls();
 syncChEffects();
 
 window.addEventListener('resize', onResize);
@@ -33399,6 +33978,8 @@ window.__viz = {
   applyChannel4Effect,
   spawnCopies,
   spawnNote,
+  spawnWord,
+  clearWords,
   clearSquares,
   saveEffectsConfig,
 };
@@ -33407,6 +33988,7 @@ window.addEventListener('load', async () => {
   syncControlsFromState();
   requestAnimationFrame(animate);
   connectMidi();
+  loadCh5WordList();
 });
 
 })();

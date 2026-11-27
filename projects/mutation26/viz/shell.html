@@ -25,6 +25,19 @@
     -webkit-user-select: none; user-select: none;
   }
   #canvas { position: fixed; inset: 0; display: block; }
+  #words-layer {
+    position: fixed; inset: 0; z-index: 1;
+    overflow: hidden; pointer-events: none;
+  }
+  .word-token {
+    position: absolute; white-space: pre;
+    pointer-events: none; will-change: transform, opacity, left, top;
+    font-weight: 700; line-height: 1.1; user-select: none;
+  }
+  .word-letter {
+    display: inline-block; will-change: transform;
+    transform-origin: center; white-space: pre;
+  }
   #panel {
     position: fixed; top: 16px; left: 16px; z-index: 10;
     width: 300px; max-height: calc(100vh - 32px);
@@ -149,11 +162,12 @@
 </head>
 <body>
 <canvas id="canvas"></canvas>
+<div id="words-layer" aria-hidden="true"></div>
 
 <div id="panel">
   <h1>MIDI VISUALISER</h1>
   <p class="hint">
-    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies · <b>Ch&nbsp;4</b> square effects<br/>
+    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies · <b>Ch&nbsp;4</b> square effects · <b>Ch&nbsp;5</b> words<br/>
     <em>Note ON spawns a square — note OFF starts its decay.</em>
   </p>
   <button id="btn-midi" class="ghost small">Enable MIDI</button>
@@ -164,6 +178,7 @@
     <button type="button" class="tab" data-tab="ch2" role="tab" aria-selected="false">Kick · ch2</button>
     <button type="button" class="tab" data-tab="ch3" role="tab" aria-selected="false">Hats · ch3</button>
     <button type="button" class="tab" data-tab="ch4" role="tab" aria-selected="false">FX · ch4</button>
+    <button type="button" class="tab" data-tab="ch5" role="tab" aria-selected="false">Words · ch5</button>
   </div>
 
   <div class="panel-page" id="page-ch1" role="tabpanel">
@@ -333,6 +348,73 @@
 
   <button id="btn-ch4-reset" class="ghost small">Reset ch4 defaults</button>
   <button id="btn-ch4-test">&#9889; Apply ch4 effects now</button>
+  </div>
+
+  <div class="panel-page" id="page-ch5" role="tabpanel" hidden>
+  <label class="ch-toggle"><input type="checkbox" id="ch5-enabled" checked/> Enable words effect</label>
+
+  <div class="row" id="row-ch5-fx">
+    <div class="row-label"><span>Effects — combinable</span></div>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" id="ch5-fx-noisy" checked/> Noisy letters</label>
+      <label class="chip"><input type="checkbox" id="ch5-fx-fallApart"/> Fall apart</label>
+      <label class="chip"><input type="checkbox" id="ch5-fx-letterSizes" checked/> Letter sizes</label>
+    </div>
+  </div>
+
+  <div class="row" id="row-ch5-drift">
+    <div class="row-label"><span><span class="cc">CC&nbsp;1</span> &nbsp;drift speed</span><span class="val" id="val-ch5-1">—</span></div>
+    <input type="range" id="ch5-1" min="0" max="127" step="1" value="60"/>
+  </div>
+  <div class="row" id="row-ch5-noisy-amp">
+    <div class="row-label"><span><span class="cc">CC&nbsp;2</span> &nbsp;noisy amplitude</span><span class="val" id="val-ch5-2">—</span></div>
+    <input type="range" id="ch5-2" min="0" max="127" step="1" value="46"/>
+  </div>
+  <div class="row" id="row-ch5-noisy-speed">
+    <div class="row-label"><span><span class="cc">CC&nbsp;3</span> &nbsp;noisy speed</span><span class="val" id="val-ch5-3">—</span></div>
+    <input type="range" id="ch5-3" min="0" max="127" step="1" value="60"/>
+  </div>
+  <div class="row" id="row-ch5-scatter-speed">
+    <div class="row-label"><span><span class="cc">CC&nbsp;4</span> &nbsp;scatter speed</span><span class="val" id="val-ch5-4">—</span></div>
+    <input type="range" id="ch5-4" min="0" max="127" step="1" value="70"/>
+  </div>
+  <div class="row" id="row-ch5-scatter-size">
+    <div class="row-label"><span><span class="cc">CC&nbsp;5</span> &nbsp;scatter size</span><span class="val" id="val-ch5-5">—</span></div>
+    <input type="range" id="ch5-5" min="0" max="127" step="1" value="70"/>
+  </div>
+  <div class="row" id="row-ch5-size-spread">
+    <div class="row-label"><span><span class="cc">CC&nbsp;6</span> &nbsp;letter size spread</span><span class="val" id="val-ch5-6">—</span></div>
+    <input type="range" id="ch5-6" min="0" max="127" step="1" value="65"/>
+  </div>
+  <div class="row" id="row-ch5-size-base">
+    <div class="row-label"><span><span class="cc">CC&nbsp;7</span> &nbsp;base letter size</span><span class="val" id="val-ch5-7">—</span></div>
+    <input type="range" id="ch5-7" min="0" max="127" step="1" value="44"/>
+  </div>
+
+  <div class="row" id="row-ch5-font">
+    <div class="row-label"><span>Font</span><span class="val" id="val-ch5-font">System UI</span></div>
+    <select id="ch5-font">
+      <option value="system" selected>System UI</option>
+      <option value="space-grotesk">Space Grotesk</option>
+      <option value="jetbrains-mono">JetBrains Mono</option>
+      <option value="fraunces">Fraunces</option>
+      <option value="bebas-neue">Bebas Neue</option>
+      <option value="outfit">Outfit</option>
+      <option value="manrope">Manrope</option>
+      <option value="inter">Inter</option>
+      <option value="press-start-2p">Press Start 2P</option>
+    </select>
+  </div>
+
+  <div class="row" id="row-ch5-list">
+    <div class="row-label"><span>Word list</span><span class="val" id="val-ch5-list">—</span></div>
+    <button id="btn-ch5-words-file">&#128193; Upload word list .json</button>
+    <input type="file" id="ch5-words-file" accept=".json,application/json" hidden/>
+    <button id="btn-ch5-words-restore" class="ghost small">Restore embedded default</button>
+  </div>
+
+  <button id="btn-ch5-test">&#9889; Speak a word</button>
+  <button id="btn-ch5-reset" class="ghost small">Reset ch5 defaults</button>
   </div>
 
   <div id="readout" class="readout">&ndash;</div>
