@@ -46,6 +46,25 @@
   .hint { font-size: 10.5px; color: var(--muted); margin: 0 0 10px; line-height: 1.5; }
   .hint b { color: var(--accent); font-weight: 600; }
   .hint em { color: var(--muted); font-style: normal; }
+  .tabs { display: flex; gap: 6px; margin: 12px 0 0; }
+  .tabs .tab {
+    width: auto; margin: 0; flex: 1;
+    padding: 7px 4px; font-size: 10.5px; font-weight: 600;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(120,140,255,0.18);
+    border-radius: 8px; color: var(--muted); letter-spacing: 0.02em;
+  }
+  .tabs .tab:hover { transform: none; background: rgba(255,255,255,0.1); }
+  .tabs .tab.active {
+    background: linear-gradient(135deg, rgba(124,241,209,0.18), rgba(185,140,255,0.18));
+    color: #fff; border-color: rgba(124,241,209,0.45);
+  }
+  .panel-page[hidden] { display: none; }
+  .ch-toggle {
+    display: flex; align-items: center; gap: 8px;
+    margin: 12px 0 0; font-size: 12px; font-weight: 600; color: var(--text); cursor: pointer;
+  }
+  .ch-toggle input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+  .row.disabled { opacity: 0.4; pointer-events: none; }
   button, select, input[type="range"] {
     font: inherit; color: var(--text);
   }
@@ -121,13 +140,19 @@
 <div id="panel">
   <h1>MIDI VISUALISER</h1>
   <p class="hint">
-    <b>Channel 1</b> — notes &amp; CCs<br/>
-    <em>Channel 2</em> — currently idle<br/>
-    <em>Note ON spawns a square — note OFF starts its decay.</em><br/>
-    <em>Squares drift and tile, wrapping around the screen.</em>
+    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies<br/>
+    <em>Note ON spawns a square — note OFF starts its decay.</em>
   </p>
   <button id="btn-midi" class="ghost small">Enable MIDI</button>
   <div id="midi-status" class="status">MIDI: not connected</div>
+
+  <div class="tabs" role="tablist" aria-label="Settings sections">
+    <button type="button" class="tab active" data-tab="ch1" role="tab" aria-selected="true">Channel 1</button>
+    <button type="button" class="tab" data-tab="ch2" role="tab" aria-selected="false">Kick · ch2</button>
+    <button type="button" class="tab" data-tab="ch3" role="tab" aria-selected="false">Hats · ch3</button>
+  </div>
+
+  <div class="panel-page" id="page-ch1" role="tabpanel">
   <button id="btn-note">&#9889; Simulate a note (on → off)</button>
 
   <div class="row">
@@ -173,9 +198,76 @@
   </div>
 
   <label class="autoplay"><input type="checkbox" id="autoplay"/> Auto-play (spawn every 0.6s)</label>
+  <button id="btn-clear" class="ghost small">Clear all squares</button>
+  </div>
+
+  <div class="panel-page" id="page-ch2" role="tabpanel" hidden>
+  <label class="ch-toggle"><input type="checkbox" id="ch2-enabled" checked/> Enable kick effect</label>
+
+  <div class="row" id="ch2-row-1">
+    <div class="row-label"><span><span class="cc">CC&nbsp;1</span> &nbsp;Y amplitude</span><span class="val" id="val-ch2-1">—</span></div>
+    <input type="range" id="ch2-1" min="0" max="127" step="1" value="55"/>
+  </div>
+  <div class="row" id="ch2-row-2">
+    <div class="row-label"><span><span class="cc">CC&nbsp;2</span> &nbsp;X amplitude</span><span class="val" id="val-ch2-2">—</span></div>
+    <input type="range" id="ch2-2" min="0" max="127" step="1" value="45"/>
+  </div>
+  <div class="row" id="ch2-row-3">
+    <div class="row-label"><span><span class="cc">CC&nbsp;3</span> &nbsp;scale bump</span><span class="val" id="val-ch2-3">—</span></div>
+    <input type="range" id="ch2-3" min="0" max="127" step="1" value="40"/>
+  </div>
+  <div class="row" id="ch2-row-4">
+    <div class="row-label"><span><span class="cc">CC&nbsp;4</span> &nbsp;blur</span><span class="val" id="val-ch2-4">—</span></div>
+    <input type="range" id="ch2-4" min="0" max="127" step="1" value="40"/>
+  </div>
+  <div class="row" id="ch2-row-5">
+    <div class="row-label"><span><span class="cc">CC&nbsp;5</span> &nbsp;rotation</span><span class="val" id="val-ch2-5">—</span></div>
+    <input type="range" id="ch2-5" min="0" max="127" step="1" value="40"/>
+  </div>
+  <div class="row" id="ch2-row-6">
+    <div class="row-label"><span><span class="cc">CC&nbsp;6</span> &nbsp;formula steps</span><span class="val" id="val-ch2-6">—</span></div>
+    <input type="range" id="ch2-6" min="0" max="127" step="1" value="22"/>
+  </div>
+  <div class="row" id="ch2-row-7">
+    <div class="row-label"><span><span class="cc">CC&nbsp;7</span> &nbsp;color hue</span><span class="val" id="val-ch2-7">—</span></div>
+    <input type="range" id="ch2-7" min="0" max="127" step="1" value="30"/>
+  </div>
+  <div class="row" id="ch2-row-8">
+    <div class="row-label"><span><span class="cc">CC&nbsp;8</span> &nbsp;decay time</span><span class="val" id="val-ch2-8">—</span></div>
+    <input type="range" id="ch2-8" min="0" max="127" step="1" value="62"/>
+  </div>
+  <button id="btn-ch2-reset" class="ghost small">Reset kick defaults</button>
+  <button id="btn-kick">&#9889; Kick — shake + decay</button>
+  </div>
+
+  <div class="panel-page" id="page-ch3" role="tabpanel" hidden>
+  <label class="ch-toggle"><input type="checkbox" id="ch3-enabled" checked/> Enable square-copy effect</label>
+
+  <div class="row" id="ch3-row-decay">
+    <div class="row-label"><span><span class="cc">DECAY</span> &nbsp;copy decay time</span><span class="val" id="val-ch3-decay">—</span></div>
+    <input type="range" id="ch3-decay" min="0.05" max="0.6" step="0.01" value="0.25"/>
+  </div>
+  <div class="row" id="ch3-row-copies">
+    <div class="row-label"><span><span class="cc">COPIES</span> &nbsp;copy count</span><span class="val" id="val-ch3-copies">—</span></div>
+    <input type="range" id="ch3-copies" min="1" max="12" step="1" value="6"/>
+  </div>
+  <div class="row" id="ch3-row-scaleFactor">
+    <div class="row-label"><span><span class="cc">SCALE</span> &nbsp;copy end scale</span><span class="val" id="val-ch3-scaleFactor">—</span></div>
+    <input type="range" id="ch3-scaleFactor" min="0.5" max="0.99" step="0.01" value="0.75"/>
+  </div>
+  <div class="row" id="ch3-dir-row">
+    <div class="row-label"><span><span class="cc">DIR</span> &nbsp;drift direction</span></div>
+    <select id="ch3-direction">
+      <option value="random" selected>Random angle</option>
+      <option value="inverse">Inverse (toward spawning square)</option>
+      <option value="same">Same direction as drifting square</option>
+    </select>
+  </div>
+  <button id="btn-ch3-reset" class="ghost small">Reset hats defaults</button>
+  <button id="btn-hats">&#10024; Hats — spawn copies</button>
+  </div>
 
   <div id="readout" class="readout">&ndash;</div>
-  <button id="btn-clear" class="ghost small">Clear all squares</button>
 </div>
 
 <button id="toggle">Hide controls</button>

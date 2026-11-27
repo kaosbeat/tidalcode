@@ -218,3 +218,72 @@ export function registerName(register) {
   const reg = ruleRegister(register);
   return RULE_REG_LABELS[reg] ?? 'unknown';
 }
+
+/* ---------- channel 2 (kick) — effect mappings ----------
+   The 8 effect CCs (1..8) on MIDI channel 2. Values are linearized onto
+   effect parameters. The "shake" is envelope-driven: it peaks at the kick
+   and decays linearly over the decay time. */
+
+export const CH2_CC = {
+  Y: 1,          // noise amplitude on the Y axis
+  X: 2,          // decaying noise amplitude on the X axis
+  SCALE: 3,      // extra scale bump
+  BLUR: 4,       // texture blur (in texels)
+  ROTATION: 5,   // extra rotation amplitude (radians, oscillating)
+  FORMULA: 6,    // rule advance on kick
+  COLOR: 7,      // hue shift per kick
+  DECAY: 8,      // shake decay time
+};
+
+export const CH2_CC_DEFAULTS = {
+  [CH2_CC.Y]: 55,      // ~0.26 of the square side
+  [CH2_CC.X]: 45,      // ~0.21
+  [CH2_CC.SCALE]: 40,  // ~1.19x
+  [CH2_CC.BLUR]: 40,   // ~3.8 texels
+  [CH2_CC.ROTATION]: 40, // ~0.38 rad
+  [CH2_CC.FORMULA]: 22,  // 1 step
+  [CH2_CC.COLOR]: 30,    // ~0.12 hue
+  [CH2_CC.DECAY]: 62,    // ~1.55 s (long decay)
+};
+
+export function ccKickShake(v) {
+  return clamp(v, 0, 127) / 127 * 0.6;
+}
+
+export function ccKickScale(v) {
+  return 1 + clamp(v, 0, 127) / 127 * 0.6;
+}
+
+export function ccKickBlur(v) {
+  return clamp(v, 0, 127) / 127 * 12;
+}
+
+export function ccKickRotation(v) {
+  return clamp(v, 0, 127) / 127 * 1.2;
+}
+
+export function ccKickFormula(v) {
+  return Math.round(clamp(v, 0, 127) / 127 * 8);
+}
+
+export function ccKickColor(v) {
+  return clamp(v, 0, 127) / 127 * 0.5;
+}
+
+export function ccKickDecay(v) {
+  return 0.4 + clamp(v, 0, 127) / 127 * 2.6;
+}
+
+/* Resolve the rule after a kick: advance the current formula by `steps`
+   respecting the active register. RANDOM picks a fresh rule. */
+export function advanceRule(rule, register, steps) {
+  const n = Math.round(steps);
+  const reg = ruleRegister(register);
+  const r = clamp(Math.round(rule), 0, 255);
+  if (reg === RULE_REG.RANDOM) return randomRule();
+  if (reg === RULE_REG.RANGE_LOW) return ((r + n) % 128 + 128) % 128;
+  if (reg === RULE_REG.RANGE_HIGH) return 128 + ((((r - 128) + n) % 128 + 128) % 128);
+  if (reg === RULE_REG.EVEN) return (r + 2 * n) % 256;
+  if (reg === RULE_REG.ODD) return (r + 2 * n) % 256;
+  return r;
+}

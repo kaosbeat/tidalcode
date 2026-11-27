@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#111}canvas{display:block}</style></head>
+<body>
+<canvas id="c"></canvas>
+<script src="three.iife.js"></script>
+<script>
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+renderer.setSize(400, 400);
+const scene = new THREE.Scene();
+const cam = new THREE.OrthographicCamera(-200, 200, 200, -200, 0.1, 10);
+cam.position.set(0, 0, 5);
+const tex = new THREE.DataTexture(new Uint8Array([255, 0, 0, 255]), 1, 1, THREE.RGBAFormat);
+tex.needsUpdate = true;
+const mat = new THREE.ShaderMaterial({
+  transparent: true,
+  uniforms: { uTex: { value: tex } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: 'varying vec2 vUv; uniform sampler2D uTex; void main(){ gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0); }',
+});
+const mesh = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), mat);
+scene.add(mesh);
+renderer.render(scene, cam);
+window.__done = true;
+</script>
+</body></html>

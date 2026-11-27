@@ -3,6 +3,9 @@ import {
   makePatternData, ccWidthCells, ccSpeedMultiplier, ccBrightness, ccSizePercent,
   ccOffsetCells, registerName, randomRule, selectRule, ruleRegister,
   pitchToHue, clamp, randomSquare, scaleSize, heldFadeIn, decayAlpha,
+  CH2_CC, CH2_CC_DEFAULTS,
+  ccKickShake, ccKickScale, ccKickBlur, ccKickRotation, ccKickFormula,
+  ccKickColor, ccKickDecay, advanceRule,
 } from './ca.js';
 
 const TEXTURE_HEIGHT = 96;
@@ -35,7 +38,10 @@ const state = {
   lastSpawnAt: 0,
   lastTime: performance.now(),
   squares: [],
+  copies: [],
   dirtyTextures: false,
+  ch2: { enabled: true, cc: { ...CH2_CC_DEFAULTS } },
+  ch3: { enabled: true, decay: 0.25, copies: 6, scaleFactor: 0.75, direction: 'random' },
 };
 
 /* ---------- materials ---------- */
@@ -51,6 +57,8 @@ function makeSquareMaterial(hue) {
       uFade: { value: 1 },
       uIntensity: { value: 1 },
       uMode: { value: 0 },
+      uBlur: { value: 0 },
+      uTexel: { value: new THREE.Vector2(1, 1) },
     },
     vertexShader: `
       varying vec2 vUv;
@@ -65,9 +73,23 @@ function makeSquareMaterial(hue) {
       uniform float uFade;
       uniform float uIntensity;
       uniform float uMode;
+      uniform float uBlur;
+      uniform vec2 uTexel;
       void main() {
-        vec4 p = texture2D(uPattern, vUv);
-        float a = p.a * uFade * uIntensity;
+        float a;
+        if (uBlur < 0.1) {
+          a = texture2D(uPattern, vUv).a;
+        } else {
+          // horizontal box blur (9 taps), one tap spans uBlur/4 texels per side
+          float sum = 0.0;
+          for (int i = -4; i <= 4; i++) {
+            float off = (float(i) / 4.0) * uBlur * uTexel.x;
+            vec2 uv2 = vec2(clamp(vUv.x + off, 0.0, 1.0), vUv.y);
+            sum += texture2D(uPattern, uv2).a;
+          }
+          a = sum / 9.0;
+        }
+        a = a * uFade * uIntensity;
         vec3 rgb;
         if (uMode > 1.5) {
           rgb = mix(vec3(1.0), uColor, clamp(a, 0.0, 1.0));
@@ -113,6 +135,7 @@ function applyBlendingTo(m, mode) {
 
 function applyBlending(mode) {
   for (const s of state.squares) applyBlendingTo(s.material, mode);
+  for (const c of state.copies) applyBlendingTo(c.material, mode);
 }
 
 /* ---------- square lifecycle ---------- */
@@ -146,16 +169,15 @@ function createSquare({ note, velocity }) {
   material.uniforms.uPattern.value = tex;
   material.uniforms.uFade.value = 0;
   material.uniforms.uIntensity.value = ccBrightness(state.cc[CC.BRIGHTNESS]);
+  material.uniforms.uTexel.value.set(1 / w, 1 / TEXTURE_HEIGHT);
   applyBlendingTo(material, state.blendMode);
 
   const mesh = new THREE.Mesh(planeGeo, material);
   const initialSide = Math.min(100, ccSizePercent(state.cc[CC.SIZE]) * sizeFactor) / 100 * Math.min(width, height);
   mesh.scale.set(initialSide, initialSide, 1);
-  mesh.position.set(
-    (Math.random() * 0.8 - 0.4) * width,
-    (Math.random() * 0.8 - 0.4) * height,
-    0
-  );
+  const posX = (Math.random() * 0.8 - 0.4) * width;
+  const posY = (Math.random() * 0.8 - 0.4) * height;
+  mesh.position.set(posX, posY, 0);
   mesh.rotation.z = cfg.horizontal ? 0 : Math.PI / 2;
   mesh.renderOrder = 1;
   mesh.frustumCulled = false;
@@ -169,12 +191,15 @@ function createSquare({ note, velocity }) {
     note, held: true, decayingAt: null,
     offsetX: offX, offsetY: offY,
     hue: hues, widthCells: w,
+    logicalX: posX, logicalY: posY,
+    baseRotationZ: mesh.rotation.z,
     spawnedAt: performance.now(),
+    kick: null,
   };
   state.squares.push(square);
   if (state.squares.length > MAX_SQUARES) {
     const oldest = state.squares.shift();
-    destroySquare(oldest);
+    destroyMaster(oldest);
   }
   return square;
 }
@@ -183,6 +208,19 @@ function destroySquare(s) {
   scene.remove(s.mesh);
   s.texture.dispose();
   s.material.dispose();
+}
+
+// Remove a master square and every copy tied to it (they share its texture).
+function destroyMaster(s) {
+  for (let i = state.copies.length - 1; i >= 0; i--) {
+    const c = state.copies[i];
+    if (c.master === s) {
+      scene.remove(c.mesh);
+      c.material.dispose();
+      state.copies.splice(i, 1);
+    }
+  }
+  destroySquare(s);
 }
 
 function refreshTextures() {
@@ -194,8 +232,13 @@ function refreshTextures() {
   for (const s of state.squares) {
     if (rule !== null) s.rule = rule; // in random mode each square keeps its own rule
     const oldTex = s.texture;
-    s.texture = makePatternFor(s.rule, w, { offsetX: offX, offsetY: offY });
-    s.material.uniforms.uPattern.value = s.texture;
+    const newTex = makePatternFor(s.rule, w, { offsetX: offX, offsetY: offY });
+    s.texture = newTex;
+    s.material.uniforms.uPattern.value = newTex;
+    s.material.uniforms.uTexel.value.set(1 / w, 1 / TEXTURE_HEIGHT);
+    for (const c of state.copies) {
+      if (c.texture === oldTex) c.texture = newTex;
+    }
     s.widthCells = w;
     s.offsetX = offX;
     s.offsetY = offY;
@@ -204,8 +247,10 @@ function refreshTextures() {
 }
 
 function clearSquares() {
-  for (const s of state.squares) destroySquare(s);
+  for (const s of [...state.squares]) destroyMaster(s);
   state.squares = [];
+  for (const c of state.copies) { scene.remove(c.mesh); c.material.dispose(); }
+  state.copies = [];
 }
 
 /* ---------- animation ---------- */
@@ -237,20 +282,50 @@ function animate(now) {
     // size: percent of the screen's smaller dimension (100% = as big as the screen)
     const pct = Math.min(100, sizePct * s.sizeFactor);
     const sz = pct / 100 * minDim;
-    s.mesh.scale.set(sz, sz, 1);
+    let scaleMult = 1;
+    let rotDelta = 0;
+    let blur = 0;
+    let shakeX = 0;
+    let shakeY = 0;
+
+    if (s.kick) {
+      const k = s.kick;
+      const ageMs = now - k.t0;
+      if (ageMs >= k.decay * 1000) {
+        s.kick = null;
+        s.material.uniforms.uBlur.value = 0;
+        s.mesh.rotation.z = s.baseRotationZ;
+        blur = 0;
+      } else {
+        const age = ageMs / 1000;
+        const alpha = 1 - ageMs / (k.decay * 1000);
+        const tSec = age;
+        shakeX = Math.sin(tSec * 9 + k.phase) * k.ampX * sz * alpha;
+        shakeY = Math.sin(tSec * 7.3 + k.phase * 1.3) * k.ampY * sz * alpha;
+        scaleMult = 1 + k.scaleAmt * alpha;
+        rotDelta = alpha * k.rotAmt * Math.sin(tSec * 5 + k.phase);
+        blur = k.blurAmt * alpha;
+      }
+    }
+
+    s.mesh.scale.set(sz * scaleMult, sz * scaleMult, 1);
 
     // drift + tile: a square exiting one side re-enters from the opposite side
     const half = sz / 2;
     const v = s.baseVelocity * speed;
     if (s.horizontal) {
-      s.mesh.position.x += s.sign * v * dt;
-      if (s.sign > 0 && s.mesh.position.x - half > width / 2) s.mesh.position.x = -width / 2 - half;
-      else if (s.sign < 0 && s.mesh.position.x + half < -width / 2) s.mesh.position.x = width / 2 + half;
+      s.logicalX += s.sign * v * dt;
+      if (s.sign > 0 && s.logicalX - half > width / 2) s.logicalX = -width / 2 - half;
+      else if (s.sign < 0 && s.logicalX + half < -width / 2) s.logicalX = width / 2 + half;
     } else {
-      s.mesh.position.y += s.sign * v * dt;
-      if (s.sign > 0 && s.mesh.position.y - half > height / 2) s.mesh.position.y = -height / 2 - half;
-      else if (s.sign < 0 && s.mesh.position.y + half < -height / 2) s.mesh.position.y = height / 2 + half;
+      s.logicalY += s.sign * v * dt;
+      if (s.sign > 0 && s.logicalY - half > height / 2) s.logicalY = -height / 2 - half;
+      else if (s.sign < 0 && s.logicalY + half < -height / 2) s.logicalY = height / 2 + half;
     }
+
+    s.mesh.position.set(s.logicalX + shakeX, s.logicalY + shakeY, 0);
+    s.mesh.rotation.z = s.baseRotationZ + rotDelta;
+    s.material.uniforms.uBlur.value = blur;
 
     // fade in while held, fade out once note-off arrives
     let alpha;
@@ -260,7 +335,7 @@ function animate(now) {
       const tOff = (now - s.decayingAt) / 1000;
       alpha = decayAlpha(tOff);
       if (tOff >= 1.3) {
-        destroySquare(s);
+        destroyMaster(s);
         state.squares.splice(i, 1);
         continue;
       }
@@ -268,6 +343,36 @@ function animate(now) {
 
     s.material.uniforms.uFade.value = alpha;
     s.material.uniforms.uIntensity.value = bright;
+  }
+
+  // channel 3 (hats): drifting copies of the master square
+  for (let i = state.copies.length - 1; i >= 0; i--) {
+    const c = state.copies[i];
+    if (!state.squares.includes(c.master)) {
+      scene.remove(c.mesh);
+      c.material.dispose();
+      state.copies.splice(i, 1);
+      continue;
+    }
+    const age = (now - c.t0) / 1000;
+    const t = age / c.decay;
+    if (t >= 1) {
+      scene.remove(c.mesh);
+      c.material.dispose();
+      state.copies.splice(i, 1);
+      continue;
+    }
+    const eased = 1 - Math.pow(1 - t, 2); // ease-out: fast drift, slow tail
+    const alpha = 1 - t;
+    const scale = c.startScale * (1 + (c.endScaleFactor - 1) * eased);
+    c.mesh.scale.set(scale, scale, 1);
+    c.mesh.position.set(
+      c.startPosX + c.dirX * c.speed * age,
+      c.startPosY + c.dirY * c.speed * age,
+      0
+    );
+    c.material.uniforms.uFade.value = Math.max(0, 0.95 * alpha);
+    c.material.uniforms.uIntensity.value = bright;
   }
 
   renderer.render(scene, camera);
@@ -312,8 +417,23 @@ function onMidiMessage(e) {
   const cmd = status & 0xf0;
   const channel = status & 0x0f;
 
-  if (channel === 1) { // channel 2: intentionally idle for now
-    setReadout('channel 2 event (idle)');
+  if (channel === 1) { // channel 2: kick (shake)
+    if (cmd === 0x90 && d2 > 0) { // note on
+      applyKick();
+    } else if (cmd === 0xB0) { // control change
+      const val = clamp(d2, 0, 127);
+      if (d1 in state.ch2.cc) {
+        state.ch2.cc[d1] = val;
+        saveEffectsConfig();
+        setReadout('ch2 CC ' + d1 + ' = ' + val);
+      }
+    }
+    return;
+  }
+  if (channel === 2) { // channel 3: hihats (square copies)
+    if (cmd === 0x90 && d2 > 0) {
+      spawnCopies();
+    }
     return;
   }
   if (channel !== 0) return;
@@ -363,12 +483,163 @@ function decayNote(note) {
   }
 }
 
+/* ---------- channel 2 (kick): shake effect ---------- */
+function applyKick() {
+  if (!state.ch2.enabled) return;
+  const visible = state.squares.filter(s => s.mesh.visible !== false && s.material.uniforms.uFade.value > 0.01);
+  if (visible.length === 0) { setReadout('kick — no visible square'); return; }
+  const now = performance.now();
+  const ampY = ccKickShake(state.ch2.cc[CH2_CC.Y]);
+  const ampX = ccKickShake(state.ch2.cc[CH2_CC.X]);
+  const scaleAmt = ccKickScale(state.ch2.cc[CH2_CC.SCALE]) - 1;
+  const blurAmt = ccKickBlur(state.ch2.cc[CH2_CC.BLUR]);
+  const rotAmt = ccKickRotation(state.ch2.cc[CH2_CC.ROTATION]);
+  const formulaSteps = ccKickFormula(state.ch2.cc[CH2_CC.FORMULA]);
+  const hueShift = ccKickColor(state.ch2.cc[CH2_CC.COLOR]);
+  const decay = ccKickDecay(state.ch2.cc[CH2_CC.DECAY]);
+  const reg = ruleRegister(state.cc[CC.RULE_REG]);
+  const w = ccWidthCells(state.cc[CC.WIDTH]);
+  const offX = ccOffsetCells(state.cc[CC.OFFSET_LEFT], w);
+  const offY = ccOffsetCells(state.cc[CC.OFFSET_DOWN], TEXTURE_HEIGHT);
+
+  for (const s of visible) {
+    s.kick = { t0: now, decay, ampY, ampX, scaleAmt, blurAmt, rotAmt, phase: Math.random() * Math.PI * 2 };
+    if (hueShift > 0) {
+      s.hue = (s.hue + hueShift) % 1;
+      s.material.uniforms.uColor.value = new THREE.Color().setHSL(s.hue, 0.85, 0.62);
+    }
+    if (formulaSteps > 0) {
+      s.rule = advanceRule(s.rule, reg, formulaSteps);
+      const oldTex = s.texture;
+      const newTex = makePatternFor(s.rule, w, { offsetX: offX, offsetY: offY });
+      s.texture = newTex;
+      s.material.uniforms.uPattern.value = newTex;
+      s.material.uniforms.uTexel.value.set(1 / w, 1 / TEXTURE_HEIGHT);
+      for (const c of state.copies) {
+        if (c.texture === oldTex) c.texture = newTex;
+      }
+      s.widthCells = w;
+      s.offsetX = offX;
+      s.offsetY = offY;
+      oldTex.dispose();
+    }
+  }
+  saveEffectsConfig();
+  setReadout('kick — ' + visible.length + ' square' + (visible.length === 1 ? '' : 's'));
+}
+
+/* ---------- channel 3 (hats): square copies ---------- */
+function spawnCopies() {
+  if (!state.ch3.enabled) return;
+  const master = state.squares[state.squares.length - 1];
+  if (!master) { setReadout('hats — no visible square'); return; }
+  const now = performance.now();
+  const count = Math.max(1, Math.min(12, Math.round(state.ch3.copies)));
+  const decay = Math.min(0.6, Math.max(0.05, state.ch3.decay));
+  const scaleFactor = Math.min(0.99, Math.max(0.5, state.ch3.scaleFactor));
+  const direction = state.ch3.direction;
+  const speedMul = ccSpeedMultiplier(state.cc[CC.SPEED]);
+  const minDim = Math.min(width, height);
+  const pct = Math.min(100, ccSizePercent(state.cc[CC.SIZE]) * master.sizeFactor);
+  const startScale = pct / 100 * minDim;
+
+  for (let i = 0; i < count; i++) {
+    const material = makeSquareMaterial(master.hue);
+    material.uniforms.uPattern.value = master.texture; // shared, not disposed
+    material.uniforms.uFade.value = 1;
+    material.uniforms.uIntensity.value = ccBrightness(state.cc[CC.BRIGHTNESS]);
+    material.uniforms.uTexel.value.copy(master.material.uniforms.uTexel.value);
+    applyBlendingTo(material, state.blendMode);
+
+    const mesh = new THREE.Mesh(planeGeo, material);
+    let dirX, dirY;
+    if (direction === 'same') {
+      if (master.horizontal) { dirX = master.sign; dirY = 0; }
+      else { dirX = 0; dirY = master.sign; }
+    } else if (direction === 'inverse') {
+      if (master.horizontal) { dirX = -master.sign; dirY = 0; }
+      else { dirX = 0; dirY = -master.sign; }
+    } else {
+      const angle = Math.random() * Math.PI * 2;
+      dirX = Math.cos(angle);
+      dirY = Math.sin(angle);
+    }
+    const speed = master.baseVelocity * 2.4 * speedMul * (0.8 + Math.random() * 0.4);
+    // drift direction follows the master's movement axis for "same"/"inverse";
+    // it must be normalized to a unit vector for the random case
+    const mag = Math.hypot(dirX, dirY) || 1;
+    dirX /= mag; dirY /= mag;
+
+    mesh.scale.set(startScale, startScale, 1);
+    mesh.position.set(master.mesh.position.x, master.mesh.position.y, 0);
+    mesh.rotation.z = master.mesh.rotation.z;
+    mesh.renderOrder = 1;
+    mesh.frustumCulled = false;
+    scene.add(mesh);
+
+    state.copies.push({
+      mesh, material, texture: master.texture, master,
+      dirX, dirY, speed,
+      t0: now, decay,
+      startScale, endScaleFactor: scaleFactor,
+      startPosX: master.mesh.position.x,
+      startPosY: master.mesh.position.y,
+    });
+  }
+  setReadout('hats — ' + count + ' copies');
+}
+
+/* ---------- effects config (localStorage) ---------- */
+const CONFIG_KEY = 'visualiser-effects-config';
+
+function loadEffectsConfig() {
+  let cfg = null;
+  try { cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || 'null'); } catch (e) { cfg = null; }
+  if (!cfg || typeof cfg !== 'object') return;
+  if (cfg.ch2 && typeof cfg.ch2 === 'object') {
+    if (typeof cfg.ch2.enabled === 'boolean') state.ch2.enabled = cfg.ch2.enabled;
+    if (cfg.ch2.cc && typeof cfg.ch2.cc === 'object') {
+      for (const key of Object.keys(cfg.ch2.cc)) {
+        const n = parseInt(key, 10);
+        if (Object.prototype.hasOwnProperty.call(state.ch2.cc, n)) {
+          const v = clamp(Math.round(Number(cfg.ch2.cc[key]) || 0), 0, 127);
+          state.ch2.cc[n] = v;
+        }
+      }
+    }
+  }
+  if (cfg.ch3 && typeof cfg.ch3 === 'object') {
+    if (typeof cfg.ch3.enabled === 'boolean') state.ch3.enabled = cfg.ch3.enabled;
+    if (typeof cfg.ch3.decay === 'number') state.ch3.decay = Math.min(0.6, Math.max(0.05, cfg.ch3.decay));
+    if (typeof cfg.ch3.copies === 'number') state.ch3.copies = Math.min(12, Math.max(1, Math.round(cfg.ch3.copies)));
+    if (typeof cfg.ch3.scaleFactor === 'number') state.ch3.scaleFactor = Math.min(0.99, Math.max(0.5, cfg.ch3.scaleFactor));
+    if (typeof cfg.ch3.direction === 'string' && ['random', 'inverse', 'same'].includes(cfg.ch3.direction)) state.ch3.direction = cfg.ch3.direction;
+  }
+}
+
+function saveEffectsConfig() {
+  try {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify({
+      ch2: { enabled: state.ch2.enabled, cc: state.ch2.cc },
+      ch3: state.ch3,
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+loadEffectsConfig();
+window.addEventListener('storage', (e) => {
+  if (e.key !== CONFIG_KEY) return;
+  loadEffectsConfig();
+});
+
 /* ---------- UI ---------- */
 const ui = {
   panel: document.getElementById('panel'),
   toggle: document.getElementById('toggle'),
   btnMidi: document.getElementById('btn-midi'),
   btnNote: document.getElementById('btn-note'),
+  btnKick: document.getElementById('btn-kick'),
+  btnHats: document.getElementById('btn-hats'),
   btnClear: document.getElementById('btn-clear'),
   autoplay: document.getElementById('autoplay'),
   blend: document.getElementById('blend'),
@@ -477,6 +748,8 @@ ui.btnNote.addEventListener('click', () => {
   const sq = spawnNote(pickRandomNote(), 90 + Math.floor(Math.random() * 38));
   if (sq) setTimeout(() => decaySquare(sq), 800);
 });
+if (ui.btnKick) ui.btnKick.addEventListener('click', () => applyKick());
+if (ui.btnHats) ui.btnHats.addEventListener('click', () => spawnCopies());
 ui.btnClear.addEventListener('click', () => { clearSquares(); setReadout('cleared'); });
 ui.btnMidi.addEventListener('click', () => { connectMidi(); setReadout('connecting…'); });
 ui.autoplay.addEventListener('change', () => { state.autoplay = ui.autoplay.checked; });
@@ -503,6 +776,27 @@ function onResize() {
 }
 
 /* ---------- boot ---------- */
+window.__viz = {
+  getState: () => state,
+  applyKick,
+  spawnCopies,
+  spawnNote,
+  clearSquares,
+  saveEffectsConfig,
+  _debug: () => ({
+    renderer, scene, camera,
+    info: renderer.info,
+    squares: state.squares.map(s => ({
+      visible: s.mesh.visible, scale: [s.mesh.scale.x, s.mesh.scale.y], pos: [s.mesh.position.x, s.mesh.position.y],
+      fade: s.material.uniforms.uFade.value, intensity: s.material.uniforms.uIntensity.value,
+      color: s.material.uniforms.uColor.value.toArray(),
+      texImg: s.texture.image, texImageWidth: s.texture.image ? s.texture.image.width : null,
+    })),
+    copies: state.copies.length,
+  }),
+  renderNow: () => { renderer.render(scene, camera); },
+};
+
 window.addEventListener('load', async () => {
   syncControlsFromState();
   requestAnimationFrame(animate);
