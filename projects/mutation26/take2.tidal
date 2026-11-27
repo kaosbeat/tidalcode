@@ -1,0 +1,51 @@
+d1 $ slow 4 $ n "[a, <e d c>]"
+    # octave "[3 ]" 
+    # legato 2
+    # s "supersaw"
+    # vowel "a e i u"
+    # gain 0.7
+
+d2 silence
+
+d2 $ slow 4 $ echo 1 (1/8) 0.9 $ n "[2,5](<3 5 7>,8)"
+    # s "[kick, snare]"
+    # lpf "400"
+    # room 0.9
+    -- # sz 0.9
+    # gain 0.9
+
+
+d3 $ slow "<8>" $ "1*4 1*8" |> (irand 32)
+    # s "amencutup"
+    -- # room 0.9
+    -- # sz 0.9
+    # pan (slow 5 (range 0 1 sine))
+    # gain (slow 4 (range 0.7 1.2 sine))
+
+
+d4 silence
+
+d4 $ slow 8 $ n "d"
+    # legato 1
+    # octave "[4]"
+    # s "op1"
+
+
+m4 $ slow 8
+    $ ccn "12*128"
+    # ccv (range 10 127 sine)
+    # s "op1"
+
+m4 silence
+
+d5 $ slow 4 $ degradeBy 0.9 $ striate 4 $ chop 4 $ n "1 2" |> (irand 32)
+    # s "science"
+    # legato 2
+    # speed "<0.7 1>"
+    # gain 1
+    -- # room 0.9
+    # sz 0.9
+    # vowel "a e u a"
+
+
+hush
