@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const FILE = new URL('./_minimal.html', import.meta.url).href;
+const browser = await chromium.launch({ args: ['--enable-unsafe-swiftshader', '--use-gl=angle', '--use-angle=swiftshader'] });
+const page = await browser.newPage({ viewport: { width: 500, height: 500 } });
+page.on('pageerror', e => console.log('[pageerror]', String(e)));
+page.on('console', m => console.log('[console]', m.type(), m.text()));
+await page.goto(FILE);
+await page.waitForTimeout(500);
+const done = await page.evaluate(() => window.__done);
+console.log('inline script done:', done);
+await page.screenshot({ path: '_minimal.png' });
+await browser.close();
+console.log('saved _minimal.png');
