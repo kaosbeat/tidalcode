@@ -6,6 +6,11 @@ import {
   CH2_CC, CH2_CC_DEFAULTS,
   ccKickShake, ccKickScale, ccKickBlur, ccKickRotation, ccKickFormula,
   ccKickColor, ccKickDecay, advanceRule,
+  CH3_CC, CH3_CC_DEFAULTS, CH3_DIRECTION_NAMES,
+  ccHatsDecay, ccHatsCopies, ccHatsScaleFactor, ccHatsDirection,
+  CH4_CC, CH4_CC_DEFAULTS, CH4_MODE_NAMES, CH4_ANGLE_SOURCE_NAMES,
+  ccChannel4Mode, ccChannel4AngleSource, ccChannel4Angle, ccChannel4Size,
+  ccChannel4Color, ccChannel4Formula,
 } from './ca.js';
 
 const TEXTURE_HEIGHT = 96;
@@ -41,7 +46,12 @@ const state = {
   copies: [],
   dirtyTextures: false,
   ch2: { enabled: true, cc: { ...CH2_CC_DEFAULTS } },
-  ch3: { enabled: true, decay: 0.25, copies: 6, scaleFactor: 0.75, direction: 'random' },
+  ch3: { enabled: true, cc: { ...CH3_CC_DEFAULTS } },
+  ch4: {
+    enabled: true,
+    effects: { direction: true, size: false, color: false, formula: true },
+    cc: { ...CH4_CC_DEFAULTS },
+  },
 };
 
 /* ---------- materials ---------- */
@@ -187,6 +197,8 @@ function createSquare({ note, velocity }) {
   const square = {
     mesh, material, texture: tex,
     axis: cfg.axis, sign: cfg.sign, horizontal: cfg.horizontal,
+    dirX: cfg.horizontal ? cfg.sign : 0,
+    dirY: cfg.horizontal ? 0 : cfg.sign,
     sizeFactor, baseVelocity: speedBase, rule: cfg.rule,
     note, held: true, decayingAt: null,
     offsetX: offX, offsetY: offY,
@@ -310,18 +322,16 @@ function animate(now) {
 
     s.mesh.scale.set(sz * scaleMult, sz * scaleMult, 1);
 
-    // drift + tile: a square exiting one side re-enters from the opposite side
+    // drift + tile: a square exiting one side re-enters from the opposite side.
+    // Movement follows the square's current unit direction (dirX, dirY).
     const half = sz / 2;
     const v = s.baseVelocity * speed;
-    if (s.horizontal) {
-      s.logicalX += s.sign * v * dt;
-      if (s.sign > 0 && s.logicalX - half > width / 2) s.logicalX = -width / 2 - half;
-      else if (s.sign < 0 && s.logicalX + half < -width / 2) s.logicalX = width / 2 + half;
-    } else {
-      s.logicalY += s.sign * v * dt;
-      if (s.sign > 0 && s.logicalY - half > height / 2) s.logicalY = -height / 2 - half;
-      else if (s.sign < 0 && s.logicalY + half < -height / 2) s.logicalY = height / 2 + half;
-    }
+    s.logicalX += s.dirX * v * dt;
+    s.logicalY += s.dirY * v * dt;
+    if (s.dirX > 1e-4 && s.logicalX - half > width / 2) s.logicalX = -width / 2 - half;
+    else if (s.dirX < -1e-4 && s.logicalX + half < -width / 2) s.logicalX = width / 2 + half;
+    if (s.dirY > 1e-4 && s.logicalY - half > height / 2) s.logicalY = -height / 2 - half;
+    else if (s.dirY < -1e-4 && s.logicalY + half < -height / 2) s.logicalY = height / 2 + half;
 
     s.mesh.position.set(s.logicalX + shakeX, s.logicalY + shakeY, 0);
     s.mesh.rotation.z = s.baseRotationZ + rotDelta;
@@ -433,6 +443,28 @@ function onMidiMessage(e) {
   if (channel === 2) { // channel 3: hihats (square copies)
     if (cmd === 0x90 && d2 > 0) {
       spawnCopies();
+    } else if (cmd === 0xB0) {
+      const val = clamp(d2, 0, 127);
+      if (d1 in state.ch3.cc) {
+        state.ch3.cc[d1] = val;
+        syncControlsFromState();
+        saveEffectsConfig();
+        setReadout('ch3 CC ' + d1 + ' = ' + val);
+      }
+    }
+    return;
+  }
+  if (channel === 3) { // channel 4: square transform
+    if (cmd === 0x90 && d2 > 0) {
+      applyChannel4Effect();
+    } else if (cmd === 0xB0) {
+      const val = clamp(d2, 0, 127);
+      if (d1 in state.ch4.cc) {
+        state.ch4.cc[d1] = val;
+        syncControlsFromState();
+        saveEffectsConfig();
+        setReadout('ch4 CC ' + d1 + ' = ' + val);
+      }
     }
     return;
   }
@@ -528,16 +560,94 @@ function applyKick() {
   setReadout('kick — ' + visible.length + ' square' + (visible.length === 1 ? '' : 's'));
 }
 
+/* ---------- channel 4 (motion): square transform effect ---------- */
+function setSquareDirection(s, dirX, dirY) {
+  const mag = Math.hypot(dirX, dirY);
+  if (mag < 1e-6) return;
+  s.dirX = dirX / mag;
+  s.dirY = dirY / mag;
+  s.horizontal = Math.abs(s.dirX) >= Math.abs(s.dirY);
+  s.sign = s.horizontal ? (s.dirX > 0 ? 1 : -1) : (s.dirY > 0 ? 1 : -1);
+  s.axis = s.horizontal ? 'x' : 'y';
+  s.baseRotationZ = Math.atan2(s.dirY, s.dirX);
+}
+
+function rotate90Clockwise(s) {
+  // screen-space rotation by +90deg (right -> down, down -> left, left -> up, up -> right)
+  setSquareDirection(s, s.dirY, -s.dirX);
+}
+
+function applyChannel4Effect() {
+  if (!state.ch4.enabled) return;
+  const eff = state.ch4.effects;
+  const active = ['direction', 'size', 'color', 'formula'].filter(k => eff[k]);
+  if (active.length === 0) { setReadout('ch4 — no effects selected'); return; }
+  let applied = 0;
+  const w = ccWidthCells(state.cc[CC.WIDTH]);
+  const offX = ccOffsetCells(state.cc[CC.OFFSET_LEFT], w);
+  const offY = ccOffsetCells(state.cc[CC.OFFSET_DOWN], TEXTURE_HEIGHT);
+  const reg = ruleRegister(state.cc[CC.RULE_REG]);
+
+  for (const s of state.squares) {
+    if (s.mesh.visible === false) continue;
+    if (eff.direction) {
+      const mode = ccChannel4Mode(state.ch4.cc[CH4_CC.MODE]);
+      const src = ccChannel4AngleSource(state.ch4.cc[CH4_CC.ANGLE_SOURCE]);
+      if (mode === 'same') {
+        const deg = src === 'fixed' ? ccChannel4Angle(state.ch4.cc[CH4_CC.ANGLE]) : Math.random() * 360;
+        const rad = deg * Math.PI / 180;
+        setSquareDirection(s, Math.cos(rad), Math.sin(rad));
+      } else if (mode === 'different') {
+        const rad = Math.random() * Math.PI * 2;
+        setSquareDirection(s, Math.cos(rad), Math.sin(rad));
+      } else {
+        rotate90Clockwise(s);
+      }
+    }
+    if (eff.size) {
+      s.sizeFactor = Math.min(4, Math.max(0.5, s.sizeFactor * ccChannel4Size(state.ch4.cc[CH4_CC.SIZE])));
+    }
+    if (eff.color) {
+      const hueShift = ccChannel4Color(state.ch4.cc[CH4_CC.COLOR]);
+      if (hueShift > 0) {
+        s.hue = (s.hue + hueShift) % 1;
+        s.material.uniforms.uColor.value = new THREE.Color().setHSL(s.hue, 0.85, 0.62);
+      }
+    }
+    if (eff.formula) {
+      const steps = ccChannel4Formula(state.ch4.cc[CH4_CC.FORMULA]);
+      if (steps > 0) {
+        s.rule = advanceRule(s.rule, reg, steps);
+        const oldTex = s.texture;
+        const newTex = makePatternFor(s.rule, w, { offsetX: offX, offsetY: offY });
+        s.texture = newTex;
+        s.material.uniforms.uPattern.value = newTex;
+        s.material.uniforms.uTexel.value.set(1 / w, 1 / TEXTURE_HEIGHT);
+        for (const c of state.copies) {
+          if (c.texture === oldTex) c.texture = newTex;
+        }
+        s.widthCells = w;
+        s.offsetX = offX;
+        s.offsetY = offY;
+        oldTex.dispose();
+      }
+    }
+    applied++;
+  }
+  saveEffectsConfig();
+  setReadout('ch4 — ' + active.join('+') + ' on ' + applied + ' square' + (applied === 1 ? '' : 's'));
+}
+
 /* ---------- channel 3 (hats): square copies ---------- */
 function spawnCopies() {
   if (!state.ch3.enabled) return;
   const master = state.squares[state.squares.length - 1];
   if (!master) { setReadout('hats — no visible square'); return; }
   const now = performance.now();
-  const count = Math.max(1, Math.min(12, Math.round(state.ch3.copies)));
-  const decay = Math.min(0.6, Math.max(0.05, state.ch3.decay));
-  const scaleFactor = Math.min(0.99, Math.max(0.5, state.ch3.scaleFactor));
-  const direction = state.ch3.direction;
+  const count = ccHatsCopies(state.ch3.cc[CH3_CC.COPIES]);
+  const decay = ccHatsDecay(state.ch3.cc[CH3_CC.DECAY]);
+  const scaleFactor = ccHatsScaleFactor(state.ch3.cc[CH3_CC.SCALE]);
+  const direction = ccHatsDirection(state.ch3.cc[CH3_CC.DIRECTION]);
   const speedMul = ccSpeedMultiplier(state.cc[CC.SPEED]);
   const minDim = Math.min(width, height);
   const pct = Math.min(100, ccSizePercent(state.cc[CC.SIZE]) * master.sizeFactor);
@@ -554,11 +664,9 @@ function spawnCopies() {
     const mesh = new THREE.Mesh(planeGeo, material);
     let dirX, dirY;
     if (direction === 'same') {
-      if (master.horizontal) { dirX = master.sign; dirY = 0; }
-      else { dirX = 0; dirY = master.sign; }
+      dirX = master.dirX; dirY = master.dirY;
     } else if (direction === 'inverse') {
-      if (master.horizontal) { dirX = -master.sign; dirY = 0; }
-      else { dirX = 0; dirY = -master.sign; }
+      dirX = -master.dirX; dirY = -master.dirY;
     } else {
       const angle = Math.random() * Math.PI * 2;
       dirX = Math.cos(angle);
@@ -610,10 +718,41 @@ function loadEffectsConfig() {
   }
   if (cfg.ch3 && typeof cfg.ch3 === 'object') {
     if (typeof cfg.ch3.enabled === 'boolean') state.ch3.enabled = cfg.ch3.enabled;
-    if (typeof cfg.ch3.decay === 'number') state.ch3.decay = Math.min(0.6, Math.max(0.05, cfg.ch3.decay));
-    if (typeof cfg.ch3.copies === 'number') state.ch3.copies = Math.min(12, Math.max(1, Math.round(cfg.ch3.copies)));
-    if (typeof cfg.ch3.scaleFactor === 'number') state.ch3.scaleFactor = Math.min(0.99, Math.max(0.5, cfg.ch3.scaleFactor));
-    if (typeof cfg.ch3.direction === 'string' && ['random', 'inverse', 'same'].includes(cfg.ch3.direction)) state.ch3.direction = cfg.ch3.direction;
+    if (cfg.ch3.cc && typeof cfg.ch3.cc === 'object') {
+      for (const key of Object.keys(cfg.ch3.cc)) {
+        const n = parseInt(key, 10);
+        if (Object.prototype.hasOwnProperty.call(state.ch3.cc, n)) {
+          const v = clamp(Math.round(Number(cfg.ch3.cc[key]) || 0), 0, 127);
+          state.ch3.cc[n] = v;
+        }
+      }
+    } else {
+      // legacy raw-value shape — inverse-map onto CC values
+      if (typeof cfg.ch3.decay === 'number') state.ch3.cc[CH3_CC.DECAY] = clamp(Math.round((cfg.ch3.decay - 0.05) / 0.55 * 127), 0, 127);
+      if (typeof cfg.ch3.copies === 'number') state.ch3.cc[CH3_CC.COPIES] = clamp(Math.round((clamp(cfg.ch3.copies, 1, 12) - 1) / 11 * 127), 0, 127);
+      if (typeof cfg.ch3.scaleFactor === 'number') state.ch3.cc[CH3_CC.SCALE] = clamp(Math.round((clamp(cfg.ch3.scaleFactor, 0.5, 0.99) - 0.5) / 0.49 * 127), 0, 127);
+      if (typeof cfg.ch3.direction === 'string') {
+        const i = CH3_DIRECTION_NAMES.indexOf(cfg.ch3.direction);
+        if (i >= 0) state.ch3.cc[CH3_CC.DIRECTION] = clamp(Math.round(i / (CH3_DIRECTION_NAMES.length - 1) * 127), 0, 127);
+      }
+    }
+  }
+  if (cfg.ch4 && typeof cfg.ch4 === 'object') {
+    if (typeof cfg.ch4.enabled === 'boolean') state.ch4.enabled = cfg.ch4.enabled;
+    if (cfg.ch4.effects && typeof cfg.ch4.effects === 'object') {
+      for (const k of ['direction', 'size', 'color', 'formula']) {
+        if (typeof cfg.ch4.effects[k] === 'boolean') state.ch4.effects[k] = cfg.ch4.effects[k];
+      }
+    }
+    if (cfg.ch4.cc && typeof cfg.ch4.cc === 'object') {
+      for (const key of Object.keys(cfg.ch4.cc)) {
+        const n = parseInt(key, 10);
+        if (Object.prototype.hasOwnProperty.call(state.ch4.cc, n)) {
+          const v = clamp(Math.round(Number(cfg.ch4.cc[key]) || 0), 0, 127);
+          state.ch4.cc[n] = v;
+        }
+      }
+    }
   }
 }
 
@@ -621,16 +760,13 @@ function saveEffectsConfig() {
   try {
     localStorage.setItem(CONFIG_KEY, JSON.stringify({
       ch2: { enabled: state.ch2.enabled, cc: state.ch2.cc },
-      ch3: state.ch3,
+      ch3: { enabled: state.ch3.enabled, cc: state.ch3.cc },
+      ch4: { enabled: state.ch4.enabled, effects: state.ch4.effects, cc: state.ch4.cc },
     }));
   } catch (e) { /* ignore */ }
 }
 
 loadEffectsConfig();
-window.addEventListener('storage', (e) => {
-  if (e.key !== CONFIG_KEY) return;
-  loadEffectsConfig();
-});
 
 /* ---------- UI ---------- */
 const ui = {
@@ -640,6 +776,39 @@ const ui = {
   btnNote: document.getElementById('btn-note'),
   btnKick: document.getElementById('btn-kick'),
   btnHats: document.getElementById('btn-hats'),
+  btnKickReset: document.getElementById('btn-ch2-reset'),
+  btnHatsReset: document.getElementById('btn-ch3-reset'),
+  ch2Enabled: document.getElementById('ch2-enabled'),
+  ch3Enabled: document.getElementById('ch3-enabled'),
+  ch3Direction: document.getElementById('ch3-direction'),
+  ch3DirectionValue: document.getElementById('val-ch3-4'),
+  ch4Enabled: document.getElementById('ch4-enabled'),
+  ch4Mode: document.getElementById('ch4-mode'),
+  ch4AngleSource: document.getElementById('ch4-angle-source'),
+  ch4Size: document.getElementById('ch4-size'),
+  ch4Color: document.getElementById('ch4-color'),
+  ch4Formula: document.getElementById('ch4-formula'),
+  ch4Angle: document.getElementById('ch4-angle'),
+  ch4SizeValue: document.getElementById('val-ch4-size'),
+  ch4ColorValue: document.getElementById('val-ch4-color'),
+  ch4FormulaValue: document.getElementById('val-ch4-formula'),
+  ch4AngleValue: document.getElementById('val-ch4-angle'),
+  ch4ModeValue: document.getElementById('val-ch4-mode'),
+  ch4AngleSourceValue: document.getElementById('val-ch4-angle-source'),
+  ch4Effects: {
+    direction: document.getElementById('ch4-fx-direction'),
+    size: document.getElementById('ch4-fx-size'),
+    color: document.getElementById('ch4-fx-color'),
+    formula: document.getElementById('ch4-fx-formula'),
+  },
+  ch4ModeRow: document.getElementById('row-ch4-mode'),
+  ch4AngleRow: document.getElementById('row-ch4-angle'),
+  ch4AngleSourceRow: document.getElementById('row-ch4-angle-source'),
+  ch4SizeRow: document.getElementById('row-ch4-size'),
+  ch4ColorRow: document.getElementById('row-ch4-color'),
+  ch4FormulaRow: document.getElementById('row-ch4-formula'),
+  btnCh4Reset: document.getElementById('btn-ch4-reset'),
+  btnCh4Test: document.getElementById('btn-ch4-test'),
   btnClear: document.getElementById('btn-clear'),
   autoplay: document.getElementById('autoplay'),
   blend: document.getElementById('blend'),
@@ -712,6 +881,7 @@ function syncControlsFromState() {
   ui.ruleValue.textContent = state.cc[CC.RULE_LOW] + ' (' + formulaMapped(state.cc[CC.RULE_LOW], reg) + ')';
   ui.regValue.textContent = reg + ' (' + registerName(reg) + ')';
   updateLiveReadout();
+  syncChEffects();
 }
 
 function formulaMapped(low, reg) {
@@ -760,10 +930,276 @@ ui.blend.addEventListener('change', () => {
   setReadout('blend: ' + state.blendMode);
 });
 
+let hideTimer = null;
+
+function setFloatHidden(hidden) {
+  ui.live.classList.toggle('float-hidden', hidden);
+  ui.toggle.classList.toggle('float-hidden', hidden);
+}
+
+function armHideTimer() {
+  window.clearTimeout(hideTimer);
+  hideTimer = window.setTimeout(() => {
+    if (ui.panel.classList.contains('hidden')) setFloatHidden(true);
+  }, 2500);
+}
+
+function cancelHideTimer() {
+  window.clearTimeout(hideTimer);
+  hideTimer = null;
+  setFloatHidden(false);
+}
+
+function updateToggleText() {
+  const hidden = ui.panel.classList.contains('hidden');
+  ui.toggle.textContent = hidden ? '◀ Show controls' : 'Hide controls';
+}
+
 ui.toggle.addEventListener('click', () => {
   const hidden = ui.panel.classList.toggle('hidden');
-  ui.toggle.textContent = hidden ? '◀ Show controls' : 'Hide controls';
+  updateToggleText();
+  if (hidden) {
+    setFloatHidden(true);
+  } else {
+    cancelHideTimer();
+  }
 });
+
+document.addEventListener('mousemove', () => {
+  if (!ui.panel.classList.contains('hidden')) return;
+  if (ui.toggle.matches(':hover') || ui.live.matches(':hover')) {
+    cancelHideTimer();
+    return;
+  }
+  setFloatHidden(false);
+  armHideTimer();
+});
+
+ui.toggle.addEventListener('mouseenter', () => { window.clearTimeout(hideTimer); setFloatHidden(false); });
+ui.toggle.addEventListener('mouseleave', () => { if (ui.panel.classList.contains('hidden')) armHideTimer(); });
+ui.live.addEventListener('mouseenter', () => { window.clearTimeout(hideTimer); setFloatHidden(false); });
+ui.live.addEventListener('mouseleave', () => { if (ui.panel.classList.contains('hidden')) armHideTimer(); });
+
+
+/* ---------- tabbed settings: ch1 / ch2 / ch3 / ch4 ---------- */
+const CH2_ROWS = [
+  { id: 1, fmt: v => ccKickShake(v).toFixed(2) + ' \u00d7 side' },
+  { id: 2, fmt: v => ccKickShake(v).toFixed(2) + ' \u00d7 side' },
+  { id: 3, fmt: v => '\u00d7 ' + ccKickScale(v).toFixed(2) },
+  { id: 4, fmt: v => ccKickBlur(v).toFixed(1) + ' texels' },
+  { id: 5, fmt: v => ccKickRotation(v).toFixed(2) + ' rad' },
+  { id: 6, fmt: v => { const s = ccKickFormula(v); return s + ' step' + (s === 1 ? '' : 's'); } },
+  { id: 7, fmt: v => ccKickColor(v).toFixed(2) + ' hue' },
+  { id: 8, fmt: v => ccKickDecay(v).toFixed(2) + ' s' },
+];
+
+const CH3_ROWS = [
+  { id: CH3_CC.DECAY, fmt: v => ccHatsDecay(v).toFixed(2) + ' s' },
+  { id: CH3_CC.COPIES, fmt: v => String(ccHatsCopies(v)) },
+  { id: CH3_CC.SCALE, fmt: v => '\u00d7 ' + ccHatsScaleFactor(v).toFixed(2) },
+];
+
+function syncChEffects() {
+  ui.ch2Enabled.checked = state.ch2.enabled;
+  for (const row of CH2_ROWS) {
+    const input = document.getElementById('ch2-' + row.id);
+    const label = document.getElementById('val-ch2-' + row.id);
+    if (!input || !label) continue;
+    const v = state.ch2.cc[row.id];
+    input.value = v;
+    label.textContent = row.fmt(v);
+  }
+  for (const r of document.querySelectorAll('#page-ch2 .row')) r.classList.toggle('disabled', !state.ch2.enabled);
+
+  ui.ch3Enabled.checked = state.ch3.enabled;
+  for (const row of CH3_ROWS) {
+    const input = document.getElementById('ch3-' + row.id);
+    const label = document.getElementById('val-ch3-' + row.id);
+    if (!input || !label) continue;
+    const v = state.ch3.cc[row.id];
+    input.value = v;
+    label.textContent = row.fmt(v);
+  }
+  const ch3Dir = ccHatsDirection(state.ch3.cc[CH3_CC.DIRECTION]);
+  ui.ch3Direction.value = ch3Dir;
+  if (ui.ch3DirectionValue) ui.ch3DirectionValue.textContent = ch3Dir;
+  for (const r of document.querySelectorAll('#page-ch3 .row')) r.classList.toggle('disabled', !state.ch3.enabled);
+
+  // channel 4
+  ui.ch4Enabled.checked = state.ch4.enabled;
+  for (const [key, checkbox] of Object.entries(ui.ch4Effects)) {
+    checkbox.checked = state.ch4.effects[key];
+  }
+  const mode = ccChannel4Mode(state.ch4.cc[CH4_CC.MODE]);
+  const angleSrc = ccChannel4AngleSource(state.ch4.cc[CH4_CC.ANGLE_SOURCE]);
+  ui.ch4Mode.value = mode;
+  ui.ch4AngleSource.value = angleSrc;
+  ui.ch4Angle.value = state.ch4.cc[CH4_CC.ANGLE];
+  ui.ch4AngleValue.textContent = Math.round(ccChannel4Angle(state.ch4.cc[CH4_CC.ANGLE])) + '\u00b0';
+  ui.ch4Size.value = state.ch4.cc[CH4_CC.SIZE];
+  ui.ch4SizeValue.textContent = '\u00d7 ' + ccChannel4Size(state.ch4.cc[CH4_CC.SIZE]).toFixed(2);
+  ui.ch4Color.value = state.ch4.cc[CH4_CC.COLOR];
+  ui.ch4ColorValue.textContent = ccChannel4Color(state.ch4.cc[CH4_CC.COLOR]).toFixed(2) + ' hue';
+  ui.ch4Formula.value = state.ch4.cc[CH4_CC.FORMULA];
+  ui.ch4FormulaValue.textContent = ccChannel4Formula(state.ch4.cc[CH4_CC.FORMULA]) + ' step' + (ccChannel4Formula(state.ch4.cc[CH4_CC.FORMULA]) === 1 ? '' : 's');
+  ui.ch4ModeValue.textContent = mode;
+  ui.ch4AngleSourceValue.textContent = angleSrc;
+  const dirOn = state.ch4.effects.direction;
+  ui.ch4ModeRow.hidden = !dirOn;
+  ui.ch4AngleSourceRow.hidden = !(dirOn && mode === 'same');
+  ui.ch4AngleRow.hidden = !(dirOn && mode === 'same' && angleSrc === 'fixed');
+  ui.ch4SizeRow.hidden = !state.ch4.effects.size;
+  ui.ch4ColorRow.hidden = !state.ch4.effects.color;
+  ui.ch4FormulaRow.hidden = !state.ch4.effects.formula;
+  for (const r of document.querySelectorAll('#page-ch4 .row')) r.classList.toggle('disabled', !state.ch4.enabled);
+}
+
+function wireSettingsTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  const pages = document.querySelectorAll('.panel-page');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        const active = t === tab;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      pages.forEach(p => { p.hidden = p.id !== 'page-' + tab.dataset.tab; });
+    });
+  });
+}
+
+function wireCh2Controls() {
+  for (const row of CH2_ROWS) {
+    const input = document.getElementById('ch2-' + row.id);
+    const label = document.getElementById('val-ch2-' + row.id);
+    if (!input || !label) continue;
+    input.addEventListener('input', () => {
+      const v = clamp(parseInt(input.value, 10) || 0, 0, 127);
+      state.ch2.cc[row.id] = v;
+      label.textContent = row.fmt(v);
+      saveEffectsConfig();
+    });
+  }
+  ui.ch2Enabled.addEventListener('change', () => {
+    state.ch2.enabled = ui.ch2Enabled.checked;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout(state.ch2.enabled ? 'ch2 enabled' : 'ch2 disabled');
+  });
+  ui.btnKickReset.addEventListener('click', () => {
+    state.ch2.enabled = true;
+    state.ch2.cc = { ...CH2_CC_DEFAULTS };
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('kick defaults reset');
+  });
+}
+
+function wireCh3Controls() {
+  for (const row of CH3_ROWS) {
+    const input = document.getElementById('ch3-' + row.id);
+    const label = document.getElementById('val-ch3-' + row.id);
+    if (!input || !label) continue;
+    input.addEventListener('input', () => {
+      const v = clamp(parseInt(input.value, 10) || 0, 0, 127);
+      state.ch3.cc[row.id] = v;
+      label.textContent = row.fmt(v);
+      saveEffectsConfig();
+    });
+  }
+  ui.ch3Direction.addEventListener('change', () => {
+    const i = CH3_DIRECTION_NAMES.indexOf(ui.ch3Direction.value);
+    state.ch3.cc[CH3_CC.DIRECTION] = i >= 0 ? clamp(Math.round(i / (CH3_DIRECTION_NAMES.length - 1) * 127), 0, 127) : 0;
+    if (ui.ch3DirectionValue) ui.ch3DirectionValue.textContent = ui.ch3Direction.value;
+    saveEffectsConfig();
+    setReadout('hats direction: ' + ui.ch3Direction.value);
+  });
+  ui.ch3Enabled.addEventListener('change', () => {
+    state.ch3.enabled = ui.ch3Enabled.checked;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout(state.ch3.enabled ? 'ch3 enabled' : 'ch3 disabled');
+  });
+  ui.btnHatsReset.addEventListener('click', () => {
+    state.ch3.enabled = true;
+    state.ch3.cc = { ...CH3_CC_DEFAULTS };
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('hats defaults reset');
+  });
+}
+
+function wireCh4Controls() {
+  ui.ch4Enabled.addEventListener('change', () => {
+    state.ch4.enabled = ui.ch4Enabled.checked;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout(state.ch4.enabled ? 'ch4 enabled' : 'ch4 disabled');
+  });
+  for (const [key, checkbox] of Object.entries(ui.ch4Effects)) {
+    checkbox.addEventListener('change', () => {
+      state.ch4.effects[key] = checkbox.checked;
+      syncChEffects();
+      saveEffectsConfig();
+      setReadout('ch4 ' + key + (checkbox.checked ? ' on' : ' off'));
+    });
+  }
+  ui.ch4Mode.addEventListener('change', () => {
+    const i = CH4_MODE_NAMES.indexOf(ui.ch4Mode.value);
+    state.ch4.cc[CH4_CC.MODE] = i >= 0 ? clamp(Math.round(i / (CH4_MODE_NAMES.length - 1) * 127), 0, 127) : 0;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout('ch4 mode: ' + ui.ch4Mode.value);
+  });
+  ui.ch4AngleSource.addEventListener('change', () => {
+    const i = CH4_ANGLE_SOURCE_NAMES.indexOf(ui.ch4AngleSource.value);
+    state.ch4.cc[CH4_CC.ANGLE_SOURCE] = i >= 0 ? clamp(Math.round(i / (CH4_ANGLE_SOURCE_NAMES.length - 1) * 127), 0, 127) : 0;
+    syncChEffects();
+    saveEffectsConfig();
+    setReadout('ch4 angle source: ' + ui.ch4AngleSource.value);
+  });
+  ui.ch4Angle.addEventListener('input', () => {
+    const v = clamp(parseInt(ui.ch4Angle.value, 10) || 0, 0, 127);
+    state.ch4.cc[CH4_CC.ANGLE] = v;
+    ui.ch4AngleValue.textContent = Math.round(ccChannel4Angle(v)) + '\u00b0';
+    saveEffectsConfig();
+  });
+  ui.ch4Size.addEventListener('input', () => {
+    const v = clamp(parseInt(ui.ch4Size.value, 10) || 0, 0, 127);
+    state.ch4.cc[CH4_CC.SIZE] = v;
+    ui.ch4SizeValue.textContent = '\u00d7 ' + ccChannel4Size(v).toFixed(2);
+    saveEffectsConfig();
+  });
+  ui.ch4Color.addEventListener('input', () => {
+    const v = clamp(parseInt(ui.ch4Color.value, 10) || 0, 0, 127);
+    state.ch4.cc[CH4_CC.COLOR] = v;
+    ui.ch4ColorValue.textContent = ccChannel4Color(v).toFixed(2) + ' hue';
+    saveEffectsConfig();
+  });
+  ui.ch4Formula.addEventListener('input', () => {
+    const v = clamp(parseInt(ui.ch4Formula.value, 10) || 0, 0, 127);
+    state.ch4.cc[CH4_CC.FORMULA] = v;
+    const steps = ccChannel4Formula(v);
+    ui.ch4FormulaValue.textContent = steps + ' step' + (steps === 1 ? '' : 's');
+    saveEffectsConfig();
+  });
+  ui.btnCh4Reset.addEventListener('click', () => {
+    state.ch4.enabled = true;
+    state.ch4.effects = { direction: true, size: false, color: false, formula: true };
+    state.ch4.cc = { ...CH4_CC_DEFAULTS };
+    saveEffectsConfig();
+    syncChEffects();
+    setReadout('ch4 defaults reset');
+  });
+  ui.btnCh4Test.addEventListener('click', () => applyChannel4Effect());
+}
+
+wireSettingsTabs();
+wireCh2Controls();
+wireCh3Controls();
+wireCh4Controls();
+syncChEffects();
 
 window.addEventListener('resize', onResize);
 function onResize() {
@@ -779,22 +1215,11 @@ function onResize() {
 window.__viz = {
   getState: () => state,
   applyKick,
+  applyChannel4Effect,
   spawnCopies,
   spawnNote,
   clearSquares,
   saveEffectsConfig,
-  _debug: () => ({
-    renderer, scene, camera,
-    info: renderer.info,
-    squares: state.squares.map(s => ({
-      visible: s.mesh.visible, scale: [s.mesh.scale.x, s.mesh.scale.y], pos: [s.mesh.position.x, s.mesh.position.y],
-      fade: s.material.uniforms.uFade.value, intensity: s.material.uniforms.uIntensity.value,
-      color: s.material.uniforms.uColor.value.toArray(),
-      texImg: s.texture.image, texImageWidth: s.texture.image ? s.texture.image.width : null,
-    })),
-    copies: state.copies.length,
-  }),
-  renderNow: () => { renderer.render(scene, camera); },
 };
 
 window.addEventListener('load', async () => {

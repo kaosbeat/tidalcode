@@ -129,6 +129,19 @@
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
   #live .good { color: var(--accent); }
+  [hidden] { display: none !important; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; padding: 4px 9px;
+    border: 1px solid rgba(120,140,255,0.22); border-radius: 999px;
+    color: var(--muted); cursor: pointer; user-select: none;
+  }
+  .chip input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; }
+  .chip:has(input:checked) { color: #fff; border-color: rgba(124,241,209,0.5); background: rgba(124,241,209,0.12); }
+  #toggle, #live { transition: opacity 0.45s ease; }
+  #toggle.float-hidden, #live.float-hidden { opacity: 0; pointer-events: none; }
+
   @media (max-width: 520px) {
     #panel { width: calc(100vw - 32px); }
   }
@@ -140,7 +153,7 @@
 <div id="panel">
   <h1>MIDI VISUALISER</h1>
   <p class="hint">
-    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies<br/>
+    <b>Ch&nbsp;1</b> notes &amp; CCs · <b>Ch&nbsp;2</b> kick &amp; shake · <b>Ch&nbsp;3</b> hihats &amp; square copies · <b>Ch&nbsp;4</b> square effects<br/>
     <em>Note ON spawns a square — note OFF starts its decay.</em>
   </p>
   <button id="btn-midi" class="ghost small">Enable MIDI</button>
@@ -150,6 +163,7 @@
     <button type="button" class="tab active" data-tab="ch1" role="tab" aria-selected="true">Channel 1</button>
     <button type="button" class="tab" data-tab="ch2" role="tab" aria-selected="false">Kick · ch2</button>
     <button type="button" class="tab" data-tab="ch3" role="tab" aria-selected="false">Hats · ch3</button>
+    <button type="button" class="tab" data-tab="ch4" role="tab" aria-selected="false">FX · ch4</button>
   </div>
 
   <div class="panel-page" id="page-ch1" role="tabpanel">
@@ -180,8 +194,8 @@
     <input type="range" id="slider-offset-y" min="0" max="127" step="1" value="0"/>
   </div>
   <div class="row">
-    <div class="row-label"><span><span class="cc">CC&nbsp;17</span> &nbsp;formula — rule number</span><span class="val" id="value-rule">64</span></div>
-    <input type="range" id="slider-rule" min="0" max="127" step="1" value="64"/>
+    <div class="row-label"><span><span class="cc">CC&nbsp;17</span> &nbsp;formula — rule number</span><span class="val" id="value-rule">5</span></div>
+    <input type="range" id="slider-rule" min="0" max="127" step="1" value="5"/>
   </div>
   <div class="row">
     <div class="row-label"><span><span class="cc">CC&nbsp;18</span> &nbsp;formula — register</span><span class="val" id="value-reg">0</span></div>
@@ -243,20 +257,20 @@
   <div class="panel-page" id="page-ch3" role="tabpanel" hidden>
   <label class="ch-toggle"><input type="checkbox" id="ch3-enabled" checked/> Enable square-copy effect</label>
 
-  <div class="row" id="ch3-row-decay">
-    <div class="row-label"><span><span class="cc">DECAY</span> &nbsp;copy decay time</span><span class="val" id="val-ch3-decay">—</span></div>
-    <input type="range" id="ch3-decay" min="0.05" max="0.6" step="0.01" value="0.25"/>
+  <div class="row" id="row-ch3-decay">
+    <div class="row-label"><span><span class="cc">CC&nbsp;1</span> &nbsp;copy decay time</span><span class="val" id="val-ch3-1">—</span></div>
+    <input type="range" id="ch3-1" min="0" max="127" step="1" value="46"/>
   </div>
-  <div class="row" id="ch3-row-copies">
-    <div class="row-label"><span><span class="cc">COPIES</span> &nbsp;copy count</span><span class="val" id="val-ch3-copies">—</span></div>
-    <input type="range" id="ch3-copies" min="1" max="12" step="1" value="6"/>
+  <div class="row" id="row-ch3-copies">
+    <div class="row-label"><span><span class="cc">CC&nbsp;2</span> &nbsp;copy count</span><span class="val" id="val-ch3-2">—</span></div>
+    <input type="range" id="ch3-2" min="0" max="127" step="1" value="58"/>
   </div>
-  <div class="row" id="ch3-row-scaleFactor">
-    <div class="row-label"><span><span class="cc">SCALE</span> &nbsp;copy end scale</span><span class="val" id="val-ch3-scaleFactor">—</span></div>
-    <input type="range" id="ch3-scaleFactor" min="0.5" max="0.99" step="0.01" value="0.75"/>
+  <div class="row" id="row-ch3-scale">
+    <div class="row-label"><span><span class="cc">CC&nbsp;3</span> &nbsp;copy end scale</span><span class="val" id="val-ch3-3">—</span></div>
+    <input type="range" id="ch3-3" min="0" max="127" step="1" value="65"/>
   </div>
-  <div class="row" id="ch3-dir-row">
-    <div class="row-label"><span><span class="cc">DIR</span> &nbsp;drift direction</span></div>
+  <div class="row" id="row-ch3-direction">
+    <div class="row-label"><span><span class="cc">CC&nbsp;4</span> &nbsp;drift direction</span><span class="val" id="val-ch3-4">random</span></div>
     <select id="ch3-direction">
       <option value="random" selected>Random angle</option>
       <option value="inverse">Inverse (toward spawning square)</option>
@@ -265,6 +279,60 @@
   </div>
   <button id="btn-ch3-reset" class="ghost small">Reset hats defaults</button>
   <button id="btn-hats">&#10024; Hats — spawn copies</button>
+  </div>
+
+  <div class="panel-page" id="page-ch4" role="tabpanel" hidden>
+  <label class="ch-toggle"><input type="checkbox" id="ch4-enabled" checked/> Enable square effect</label>
+
+  <div class="row" id="row-ch4-fx">
+    <div class="row-label"><span>Effects — combinable</span></div>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" id="ch4-fx-direction" checked/> Direction</label>
+      <label class="chip"><input type="checkbox" id="ch4-fx-size"/> Size</label>
+      <label class="chip"><input type="checkbox" id="ch4-fx-color"/> Color</label>
+      <label class="chip"><input type="checkbox" id="ch4-fx-formula" checked/> Formula</label>
+    </div>
+  </div>
+
+  <div class="row" id="row-ch4-mode">
+    <div class="row-label"><span><span class="cc">CC&nbsp;1</span> &nbsp;direction mode</span><span class="val" id="val-ch4-mode">same</span></div>
+    <select id="ch4-mode">
+      <option value="same" selected>Same — all squares</option>
+      <option value="different">Different — random each</option>
+      <option value="plus90">+90° — rotate each clockwise</option>
+    </select>
+  </div>
+
+  <div class="row" id="row-ch4-angle-source">
+    <div class="row-label"><span><span class="cc">CC&nbsp;2</span> &nbsp;angle source</span><span class="val" id="val-ch4-angle-source">random</span></div>
+    <select id="ch4-angle-source">
+      <option value="random" selected>Random (per screen)</option>
+      <option value="fixed">Fixed angle (panel value)</option>
+    </select>
+  </div>
+
+  <div class="row" id="row-ch4-angle">
+    <div class="row-label"><span><span class="cc">CC&nbsp;3</span> &nbsp;fixed angle</span><span class="val" id="val-ch4-angle">—</span></div>
+    <input type="range" id="ch4-angle" min="0" max="127" step="1" value="16"/>
+  </div>
+
+  <div class="row" id="row-ch4-size">
+    <div class="row-label"><span><span class="cc">CC&nbsp;4</span> &nbsp;size multiplier</span><span class="val" id="val-ch4-size">—</span></div>
+    <input type="range" id="ch4-size" min="0" max="127" step="1" value="64"/>
+  </div>
+
+  <div class="row" id="row-ch4-color">
+    <div class="row-label"><span><span class="cc">CC&nbsp;5</span> &nbsp;color hue shift</span><span class="val" id="val-ch4-color">—</span></div>
+    <input type="range" id="ch4-color" min="0" max="127" step="1" value="30"/>
+  </div>
+
+  <div class="row" id="row-ch4-formula">
+    <div class="row-label"><span><span class="cc">CC&nbsp;6</span> &nbsp;formula steps</span><span class="val" id="val-ch4-formula">—</span></div>
+    <input type="range" id="ch4-formula" min="0" max="127" step="1" value="32"/>
+  </div>
+
+  <button id="btn-ch4-reset" class="ghost small">Reset ch4 defaults</button>
+  <button id="btn-ch4-test">&#9889; Apply ch4 effects now</button>
   </div>
 
   <div id="readout" class="readout">&ndash;</div>
